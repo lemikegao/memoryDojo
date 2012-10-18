@@ -1,9 +1,8 @@
 //
 //  AppDelegate.h
-//  cocos2d-2.x-ARC-iOS
+//  memoryDojo
 //
-//  Created by Steffen Itterheim on 27.04.12.
-//  Copyright __MyCompanyName__ 2012. All rights reserved.
+//  Created by Michael Gao on 10/18/12.
 //
 
 //#import <UIKit/UIKit.h>

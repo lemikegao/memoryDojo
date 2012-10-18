@@ -263,6 +263,8 @@
 
 /* Begin PBXFileReference section */
 		C460C12216308B9A00E8C0D2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		C4BFF9861630C5AE00ED84D9 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		C4BFF9871630C5E600ED84D9 /* CommonProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonProtocols.h; sourceTree = "<group>"; };
 		DC0864B515BD8CE60044A820 /* CCNode+Debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCNode+Debug.h"; sourceTree = "<group>"; };
 		DC0864B615BD8CE60044A820 /* CCNode+Debug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CCNode+Debug.m"; sourceTree = "<group>"; };
 		DC0864B715BD8CE60044A820 /* ccCArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ccCArray.m; sourceTree = "<group>"; };
@@ -554,6 +556,66 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C4BFF97D1630C4D800ED84D9 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				C4BFF9861630C5AE00ED84D9 /* Constants.h */,
+				C4BFF9871630C5E600ED84D9 /* CommonProtocols.h */,
+			);
+			name = Constants;
+			sourceTree = "<group>";
+		};
+		C4BFF9801630C4E700ED84D9 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Scenes;
+			sourceTree = "<group>";
+		};
+		C4BFF9811630C4EB00ED84D9 /* Layers */ = {
+			isa = PBXGroup;
+			children = (
+				DC0C4B7B154AB4DF00B4B727 /* HelloWorldLayer.h */,
+				DC0C4B7C154AB4DF00B4B727 /* HelloWorldLayer.m */,
+			);
+			name = Layers;
+			sourceTree = "<group>";
+		};
+		C4BFF9821630C4EE00ED84D9 /* GameObjects */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = GameObjects;
+			sourceTree = "<group>";
+		};
+		C4BFF9831630C4F200ED84D9 /* Singletons */ = {
+			isa = PBXGroup;
+			children = (
+				DC0C4B78154AB4DF00B4B727 /* AppDelegate.h */,
+				DC0C4B79154AB4DF00B4B727 /* AppDelegate.m */,
+			);
+			name = Singletons;
+			sourceTree = "<group>";
+		};
+		C4BFF9841630C51000ED84D9 /* Plists */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Plists;
+			sourceTree = "<group>";
+		};
+		C4BFF9851630C52600ED84D9 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				C4BFF9801630C4E700ED84D9 /* Scenes */,
+				C4BFF9811630C4EB00ED84D9 /* Layers */,
+				C4BFF9821630C4EE00ED84D9 /* GameObjects */,
+				C4BFF97D1630C4D800ED84D9 /* Constants */,
+				C4BFF9831630C4F200ED84D9 /* Singletons */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
 		DC0C49E6154AB4DD00B4B727 = {
 			isa = PBXGroup;
 			children = (
@@ -591,15 +653,13 @@
 		DC0C4A07154AB4DD00B4B727 /* memoryDojo */ = {
 			isa = PBXGroup;
 			children = (
-				DC0C4B78154AB4DF00B4B727 /* AppDelegate.h */,
-				DC0C4B79154AB4DF00B4B727 /* AppDelegate.m */,
-				DC0C4B7B154AB4DF00B4B727 /* HelloWorldLayer.h */,
-				DC0C4B7C154AB4DF00B4B727 /* HelloWorldLayer.m */,
+				C4BFF9851630C52600ED84D9 /* Classes */,
+				C4BFF9841630C51000ED84D9 /* Plists */,
 				DC0C4A08154AB4DD00B4B727 /* Resources */,
 				DC0C4B93154AB59800B4B727 /* libs */,
 				DC0C4B74154AB4DF00B4B727 /* Supporting Files */,
 			);
-			path = "memoryDojo";
+			path = memoryDojo;
 			sourceTree = "<group>";
 		};
 		DC0C4A08154AB4DD00B4B727 /* Resources */ = {
@@ -1117,7 +1177,7 @@
 			dependencies = (
 			);
 			name = memoryDojo;
-			productName = "memoryDojo";
+			productName = memoryDojo;
 			productReference = DC0C49F1154AB4DD00B4B727 /* memoryDojo.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -1355,9 +1415,9 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "memoryDojo/Prefix.pch";
+				GCC_PREFIX_HEADER = memoryDojo/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"memoryDojo/libs/kazmath/include\"";
-				INFOPLIST_FILE = "memoryDojo/Resources/Info.plist";
+				INFOPLIST_FILE = memoryDojo/Resources/Info.plist;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-ObjC",
@@ -1374,9 +1434,9 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "memoryDojo/Prefix.pch";
+				GCC_PREFIX_HEADER = memoryDojo/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"memoryDojo/libs/kazmath/include\"";
-				INFOPLIST_FILE = "memoryDojo/Resources/Info.plist";
+				INFOPLIST_FILE = memoryDojo/Resources/Info.plist;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-ObjC",
