@@ -10,12 +10,12 @@
 #define memoryDojo_CommonProtocols_h
 
 typedef enum {
-    kStateIdle = 0
+    kCharacterStateIdle = 0
 } CharacterStates;
 
 typedef enum {
-    kObjectTypeNone = 0,
-    kNinjaType
+    kGameObjectTypeNone = 0,
+    kGameObjectTypeNinja
 } GameObjectType;
 
 @protocol GameplayLayerDelegate

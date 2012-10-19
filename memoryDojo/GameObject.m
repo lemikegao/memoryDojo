@@ -19,7 +19,7 @@
         CCLOG(@"GameObject init");
         _screenSize = [CCDirector sharedDirector].winSize;
         _isActive = TRUE;
-        _gameObjectType = kObjectTypeNone;
+        _gameObjectType = kGameObjectTypeNone;
     }
     
     return self;

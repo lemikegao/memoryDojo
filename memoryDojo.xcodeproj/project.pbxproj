@@ -621,6 +621,13 @@
 			name = Classes;
 			sourceTree = "<group>";
 		};
+		C4F6B57B1630F0E4007C5C63 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
 		DC0C49E6154AB4DD00B4B727 = {
 			isa = PBXGroup;
 			children = (
@@ -660,6 +667,7 @@
 			children = (
 				C4BFF9851630C52600ED84D9 /* Classes */,
 				C4BFF9841630C51000ED84D9 /* Plists */,
+				C4F6B57B1630F0E4007C5C63 /* Images */,
 				DC0C4A08154AB4DD00B4B727 /* Resources */,
 				DC0C4B93154AB59800B4B727 /* libs */,
 				DC0C4B74154AB4DF00B4B727 /* Supporting Files */,
