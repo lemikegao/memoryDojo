@@ -13,7 +13,7 @@ typedef enum {
     kStateIdle = 0
 } CharacterStates;
 
-typdef enum {
+typedef enum {
     kObjectTypeNone = 0,
     kNinjaType
 } GameObjectType;
