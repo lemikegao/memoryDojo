@@ -9,6 +9,8 @@
 #ifndef memoryDojo_Constants_h
 #define memoryDojo_Constants_h
 
+#define kMainMenuTagValue 1
+
 typedef enum {
     kSceneTypeNone = 0,
     kSceneTypeMainMenu,

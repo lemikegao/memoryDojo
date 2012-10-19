@@ -7,7 +7,7 @@
 //
 
 #import "GameManager.h"
-//#import "MainMenuScene.h"
+#import "MainMenuScene.h"
 //#import "GameScene.h"
 //#import "GameOverScene.h"
 
@@ -65,7 +65,7 @@ static GameManager *_sharedGameManager = nil;   // singleton
     id sceneToRun = nil;
     switch (sceneID) {
         case kSceneTypeMainMenu:
-//            sceneToRun = [MainMenuScene node];
+            sceneToRun = [MainMenuScene node];
             break;
         case kSceneTypeGame:
 //            sceneToRun = [GameScene node];
