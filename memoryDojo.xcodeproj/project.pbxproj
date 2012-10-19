@@ -18,6 +18,12 @@
 		C4F6B59A1631289C007C5C63 /* louie_dribble.png in Resources */ = {isa = PBXBuildFile; fileRef = C4F6B5991631289C007C5C63 /* louie_dribble.png */; };
 		C4F6B59D16312BC4007C5C63 /* BuyBookButtonNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = C4F6B59B16312BC4007C5C63 /* BuyBookButtonNormal.png */; };
 		C4F6B59E16312BC4007C5C63 /* BuyBookButtonSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = C4F6B59C16312BC4007C5C63 /* BuyBookButtonSelected.png */; };
+		C4F6B5A1163133D9007C5C63 /* GameLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C4F6B5A0163133D9007C5C63 /* GameLayer.m */; };
+		C4F6B5A4163133E2007C5C63 /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = C4F6B5A3163133E2007C5C63 /* GameScene.m */; };
+		C4F6B75516313C64007C5C63 /* VikingSpeechFont64.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C4F6B75116313C64007C5C63 /* VikingSpeechFont64.fnt */; };
+		C4F6B75616313C64007C5C63 /* VikingSpeechFont64.png in Resources */ = {isa = PBXBuildFile; fileRef = C4F6B75216313C64007C5C63 /* VikingSpeechFont64.png */; };
+		C4F6B75716313C64007C5C63 /* SpaceVikingFont.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C4F6B75316313C64007C5C63 /* SpaceVikingFont.fnt */; };
+		C4F6B75816313C64007C5C63 /* SpaceVikingFont.png in Resources */ = {isa = PBXBuildFile; fileRef = C4F6B75416313C64007C5C63 /* SpaceVikingFont.png */; };
 		DC0864B815BD8CE60044A820 /* CCNode+Debug.h in Headers */ = {isa = PBXBuildFile; fileRef = DC0864B515BD8CE60044A820 /* CCNode+Debug.h */; };
 		DC0864B915BD8CE60044A820 /* CCNode+Debug.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0864B615BD8CE60044A820 /* CCNode+Debug.m */; };
 		DC0864BA15BD8CE60044A820 /* ccCArray.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0864B715BD8CE60044A820 /* ccCArray.m */; };
@@ -288,6 +294,14 @@
 		C4F6B5991631289C007C5C63 /* louie_dribble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = louie_dribble.png; sourceTree = "<group>"; };
 		C4F6B59B16312BC4007C5C63 /* BuyBookButtonNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BuyBookButtonNormal.png; sourceTree = "<group>"; };
 		C4F6B59C16312BC4007C5C63 /* BuyBookButtonSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BuyBookButtonSelected.png; sourceTree = "<group>"; };
+		C4F6B59F163133D9007C5C63 /* GameLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameLayer.h; sourceTree = "<group>"; };
+		C4F6B5A0163133D9007C5C63 /* GameLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameLayer.m; sourceTree = "<group>"; };
+		C4F6B5A2163133E2007C5C63 /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
+		C4F6B5A3163133E2007C5C63 /* GameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameScene.m; sourceTree = "<group>"; };
+		C4F6B75116313C64007C5C63 /* VikingSpeechFont64.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VikingSpeechFont64.fnt; sourceTree = "<group>"; };
+		C4F6B75216313C64007C5C63 /* VikingSpeechFont64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = VikingSpeechFont64.png; sourceTree = "<group>"; };
+		C4F6B75316313C64007C5C63 /* SpaceVikingFont.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SpaceVikingFont.fnt; sourceTree = "<group>"; };
+		C4F6B75416313C64007C5C63 /* SpaceVikingFont.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SpaceVikingFont.png; sourceTree = "<group>"; };
 		DC0864B515BD8CE60044A820 /* CCNode+Debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCNode+Debug.h"; sourceTree = "<group>"; };
 		DC0864B615BD8CE60044A820 /* CCNode+Debug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CCNode+Debug.m"; sourceTree = "<group>"; };
 		DC0864B715BD8CE60044A820 /* ccCArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ccCArray.m; sourceTree = "<group>"; };
@@ -656,6 +670,10 @@
 		C4F6B58116311527007C5C63 /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				C4F6B5A2163133E2007C5C63 /* GameScene.h */,
+				C4F6B5A3163133E2007C5C63 /* GameScene.m */,
+				C4F6B59F163133D9007C5C63 /* GameLayer.h */,
+				C4F6B5A0163133D9007C5C63 /* GameLayer.m */,
 			);
 			name = Game;
 			sourceTree = "<group>";
@@ -684,8 +702,19 @@
 		C4F6B58816311642007C5C63 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				C4F6B75116313C64007C5C63 /* VikingSpeechFont64.fnt */,
+				C4F6B75216313C64007C5C63 /* VikingSpeechFont64.png */,
+				C4F6B75316313C64007C5C63 /* SpaceVikingFont.fnt */,
+				C4F6B75416313C64007C5C63 /* SpaceVikingFont.png */,
 			);
 			name = Fonts;
+			sourceTree = "<group>";
+		};
+		C4F6B5A916313622007C5C63 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Game;
 			sourceTree = "<group>";
 		};
 		DC0C49E6154AB4DD00B4B727 = {
@@ -739,6 +768,7 @@
 			children = (
 				C4F6B58816311642007C5C63 /* Fonts */,
 				C4F6B58316311595007C5C63 /* MainMenu */,
+				C4F6B5A916313622007C5C63 /* Game */,
 				DC0C4A09154AB4DD00B4B727 /* Default.png */,
 				C460C12216308B9A00E8C0D2 /* Default-568h@2x.png */,
 				DC0C4A0B154AB4DD00B4B727 /* fps_images.png */,
@@ -1321,6 +1351,10 @@
 				C4F6B59A1631289C007C5C63 /* louie_dribble.png in Resources */,
 				C4F6B59D16312BC4007C5C63 /* BuyBookButtonNormal.png in Resources */,
 				C4F6B59E16312BC4007C5C63 /* BuyBookButtonSelected.png in Resources */,
+				C4F6B75516313C64007C5C63 /* VikingSpeechFont64.fnt in Resources */,
+				C4F6B75616313C64007C5C63 /* VikingSpeechFont64.png in Resources */,
+				C4F6B75716313C64007C5C63 /* SpaceVikingFont.fnt in Resources */,
+				C4F6B75816313C64007C5C63 /* SpaceVikingFont.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1337,6 +1371,8 @@
 				C4F6B57F16310958007C5C63 /* GameManager.m in Sources */,
 				C4F6B58F163118FC007C5C63 /* MainMenuScene.m in Sources */,
 				C4F6B59216311913007C5C63 /* MainMenuLayer.m in Sources */,
+				C4F6B5A1163133D9007C5C63 /* GameLayer.m in Sources */,
+				C4F6B5A4163133E2007C5C63 /* GameScene.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
