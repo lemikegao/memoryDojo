@@ -16,6 +16,8 @@
 		C4F6B59216311913007C5C63 /* MainMenuLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C4F6B59116311913007C5C63 /* MainMenuLayer.m */; };
 		C4F6B594163125B3007C5C63 /* MainMenuBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = C4F6B593163125B3007C5C63 /* MainMenuBackground.png */; };
 		C4F6B59A1631289C007C5C63 /* louie_dribble.png in Resources */ = {isa = PBXBuildFile; fileRef = C4F6B5991631289C007C5C63 /* louie_dribble.png */; };
+		C4F6B59D16312BC4007C5C63 /* BuyBookButtonNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = C4F6B59B16312BC4007C5C63 /* BuyBookButtonNormal.png */; };
+		C4F6B59E16312BC4007C5C63 /* BuyBookButtonSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = C4F6B59C16312BC4007C5C63 /* BuyBookButtonSelected.png */; };
 		DC0864B815BD8CE60044A820 /* CCNode+Debug.h in Headers */ = {isa = PBXBuildFile; fileRef = DC0864B515BD8CE60044A820 /* CCNode+Debug.h */; };
 		DC0864B915BD8CE60044A820 /* CCNode+Debug.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0864B615BD8CE60044A820 /* CCNode+Debug.m */; };
 		DC0864BA15BD8CE60044A820 /* ccCArray.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0864B715BD8CE60044A820 /* ccCArray.m */; };
@@ -284,6 +286,8 @@
 		C4F6B59116311913007C5C63 /* MainMenuLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuLayer.m; sourceTree = "<group>"; };
 		C4F6B593163125B3007C5C63 /* MainMenuBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MainMenuBackground.png; sourceTree = "<group>"; };
 		C4F6B5991631289C007C5C63 /* louie_dribble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = louie_dribble.png; sourceTree = "<group>"; };
+		C4F6B59B16312BC4007C5C63 /* BuyBookButtonNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BuyBookButtonNormal.png; sourceTree = "<group>"; };
+		C4F6B59C16312BC4007C5C63 /* BuyBookButtonSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BuyBookButtonSelected.png; sourceTree = "<group>"; };
 		DC0864B515BD8CE60044A820 /* CCNode+Debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCNode+Debug.h"; sourceTree = "<group>"; };
 		DC0864B615BD8CE60044A820 /* CCNode+Debug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CCNode+Debug.m"; sourceTree = "<group>"; };
 		DC0864B715BD8CE60044A820 /* ccCArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ccCArray.m; sourceTree = "<group>"; };
@@ -670,6 +674,8 @@
 				C4F6B593163125B3007C5C63 /* MainMenuBackground.png */,
 				C4F6B584163115C9007C5C63 /* PlayGameButtonNormal.png */,
 				C4F6B585163115C9007C5C63 /* PlayGameButtonSelected.png */,
+				C4F6B59B16312BC4007C5C63 /* BuyBookButtonNormal.png */,
+				C4F6B59C16312BC4007C5C63 /* BuyBookButtonSelected.png */,
 			);
 			name = MainMenu;
 			path = ..;
@@ -1313,6 +1319,8 @@
 				C4F6B587163115C9007C5C63 /* PlayGameButtonSelected.png in Resources */,
 				C4F6B594163125B3007C5C63 /* MainMenuBackground.png in Resources */,
 				C4F6B59A1631289C007C5C63 /* louie_dribble.png in Resources */,
+				C4F6B59D16312BC4007C5C63 /* BuyBookButtonNormal.png in Resources */,
+				C4F6B59E16312BC4007C5C63 /* BuyBookButtonSelected.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

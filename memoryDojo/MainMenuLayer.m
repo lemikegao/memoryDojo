@@ -14,6 +14,7 @@
 
 @property (nonatomic, strong) CCMenu *mainMenu;
 -(void)playGameScene;
+-(void)showAboutUs;
 -(void)displayMainMenu;
 
 @end
@@ -43,13 +44,20 @@
     [[GameManager sharedGameManager] runSceneWithID:kSceneTypeGame];
 }
 
+-(void)showAboutUs {
+    // placeholder
+}
+
 -(void)displayMainMenu {
     CGSize screenSize = [CCDirector sharedDirector].winSize;
     
     // selector needs to run GameScene
     CCMenuItemImage *playGameButton = [CCMenuItemImage itemWithNormalImage:@"PlayGameButtonNormal.png" selectedImage:@"PlayGameButtonSelected.png" disabledImage:nil target:self selector:@selector(playGameScene)];
     
-    self.mainMenu = [CCMenu menuWithItems:playGameButton, nil];
+    CCMenuItemImage *aboutUsButton = [CCMenuItemImage itemWithNormalImage:@"BuyBookButtonNormal.png" selectedImage:@"BuyBookButtonSelected.png" disabledImage:nil target:self selector:@selector(showAboutUs)];
+    
+    self.mainMenu = [CCMenu menuWithItems:playGameButton, aboutUsButton, nil];
+    [self.mainMenu alignItemsVerticallyWithPadding:screenSize.height * 0.02f];
     self.mainMenu.position = ccp(screenSize.width/2, screenSize.height * 0.15f);
     
     [self addChild:self.mainMenu z:0 tag:kMainMenuTagValue];
