@@ -11,6 +11,7 @@
 
 @interface GameLayer()
 
+@property (nonatomic, strong) CCProgressTimer *timer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeLeftRecognizer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeDownRecognizer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeRightRecognizer;
@@ -24,7 +25,12 @@
 
 @implementation GameLayer
 
+@synthesize timer = _timer;
 @synthesize swipeLeftRecognizer = _swipeLeftRecognizer;
+@synthesize swipeDownRecognizer = _swipeDownRecognizer;
+@synthesize swipeRightRecognizer = _swipeRightRecognizer;
+@synthesize swipeUpRecognizer = _swipeUpRecognizer;
+
 
 -(id)init {
     self = [super init];
@@ -33,6 +39,15 @@
         CCSprite *background = [CCSprite spriteWithFile:@"MainMenuBackground.png"];
         background.position = ccp(screenSize.width/2, screenSize.height/2);
         [self addChild:background];
+        
+        _timer = [CCProgressTimer progressWithSprite:[CCSprite spriteWithFile:@"funding_bar_hd.png"]];
+        _timer.type = kCCProgressTimerTypeBar;
+        _timer.midpoint = ccp(0, 0.5f);
+        _timer.barChangeRate = ccp(1, 0);
+        _timer.percentage = 100;
+        _timer.position = ccp(screenSize.width/2, screenSize.height * .90f);
+        _timer.scaleX = 0.50f;  // temporary because of HD size
+        [self addChild:_timer z:kProgressZValue tag:kProgressTimerTagValue];
         
         // comes before labelAction, otherwise action doesn't run
         [self scheduleUpdate];
@@ -79,6 +94,7 @@
 
 -(void)handleLeftSwipe {
     CCLOG(@"Left Swipe Detected!");
+    self.timer.percentage = 100;
 }
 
 -(void)handleDownSwipe {
@@ -95,6 +111,7 @@
 
 -(void)update:(ccTime)deltaTime {
     // placeholder -- scheduleUpdate is indeed working
+    self.timer.percentage -= deltaTime*20;
 }
 
 @end

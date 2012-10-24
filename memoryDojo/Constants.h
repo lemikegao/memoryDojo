@@ -10,6 +10,10 @@
 #define memoryDojo_Constants_h
 
 #define kMainMenuTagValue 1
+#define kProgressTimerTagValue 2
+
+#define kProgressZValue 100
+#define kInitialTimer 4.0f
 
 typedef enum {
     kSceneTypeNone = 0,

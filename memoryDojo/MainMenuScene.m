@@ -9,21 +9,13 @@
 #import "MainMenuScene.h"
 #import "MainMenuLayer.h"
 
-@interface MainMenuScene()
-
-@property (nonatomic, strong) MainMenuLayer *mainMenuLayer;
-
-@end
-
 @implementation MainMenuScene
-
-@synthesize mainMenuLayer = _mainMenuLayer;
 
 -(id)init {
     self = [super init];
     if (self != nil) {
-        _mainMenuLayer = [MainMenuLayer node];
-        [self addChild:_mainMenuLayer];
+        MainMenuLayer *mainMenuLayer = [MainMenuLayer node];
+        [self addChild:mainMenuLayer];
     }
     
     return self;
