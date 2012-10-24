@@ -9,7 +9,7 @@
 #import "GameManager.h"
 #import "MainMenuScene.h"
 #import "GameScene.h"
-//#import "GameOverScene.h"
+#import "GameOverScene.h"
 
 @interface GameManager()
 
@@ -71,7 +71,7 @@ static GameManager *_sharedGameManager = nil;   // singleton
             sceneToRun = [GameScene node];
             break;
         case kSceneTypeGameOver:
-//            sceneToRun = [GameOverScene node];
+            sceneToRun = [GameOverScene node];
             break;
         default:
             CCLOG(@"Unknown sceneID, cannot run scene");

@@ -8,6 +8,7 @@
 
 #import "GameLayer.h"
 #import "Constants.h"
+#import "GameManager.h"
 
 @interface GameLayer()
 
@@ -20,6 +21,7 @@
 -(void)handleDownSwipe;
 -(void)handleRightSwipe;
 -(void)handleUpSwipe;
+-(void)playGameOverScene;
 
 @end
 
@@ -103,10 +105,17 @@
 
 -(void)handleRightSwipe {
     CCLOG(@"Right Swipe Detected!");
+    
+    // temp placeholder to end game
+    [self playGameOverScene];
 }
 
 -(void)handleUpSwipe {
     CCLOG(@"Up Swipe Detected!");
+}
+
+-(void)playGameOverScene {
+    [[GameManager sharedGameManager] runSceneWithID:kSceneTypeGameOver];
 }
 
 -(void)update:(ccTime)deltaTime {
