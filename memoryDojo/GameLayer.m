@@ -13,6 +13,7 @@
 @interface GameLayer()
 
 @property (nonatomic, strong) NSMutableArray *sequence;
+@property (nonatomic, strong) NSMutableArray *sequenceSprites;
 @property (nonatomic) int currentSequencePosition;
 @property (nonatomic) int currentDisplaySequencePosition;
 @property (nonatomic) BOOL enableGestures;
@@ -29,6 +30,7 @@
 -(void)handleRightSwipe;
 -(void)handleUpSwipe;
 -(void)checkIfSwipeIsCorrect:(DirectionTypes)direction;
+-(void)startNewRound;
 -(void)playGameOverScene;
 
 @end
@@ -47,6 +49,7 @@
         self.currentSequencePosition = 0;
         self.currentDisplaySequencePosition = 0;
         self.sequence = [[NSMutableArray alloc] initWithCapacity:100];
+        self.sequenceSprites = [[NSMutableArray alloc] initWithCapacity:100];
         for (int i=0; i<4; i++) {
             self.sequence[i] = [NSNumber numberWithInt:arc4random_uniform(4) + 1];
             NSLog(@"sequence at %i: %@", i, self.sequence[i]);
@@ -112,13 +115,19 @@
 }
 
 -(void)startGameplaySelector {
+    // hide the sequence of arrows
+#warning -- doesn't hide the sprites simultaneously -- use CCSpawn action?
+    for (CCSprite *arrowSprite in self.sequenceSprites) {
+        arrowSprite.visible = NO;
+    }
+    
     self.enableGestures = YES;
     [self scheduleUpdate];
 }
 
 -(void)displaySequence:(ccTime)deltaTime {
     // display sequence, one arrow at a time
-#pragma todo - reuse sprites from a batch
+#warning - reuse sprites from a batch
     CCSprite *arrow;
     switch ([self.sequence[self.currentDisplaySequencePosition] intValue]) {
         case kDirectionTypeLeft:
@@ -142,6 +151,8 @@
     CGSize screenSize = [CCDirector sharedDirector].winSize;
     arrow.position = ccp(screenSize.width*(self.currentDisplaySequencePosition+1)/5, screenSize.height*3/4);
     [self addChild:arrow];
+    
+    [self.sequenceSprites addObject:arrow];     
     
     self.currentDisplaySequencePosition++;
     
@@ -182,10 +193,22 @@
         
         // check if sequence is complete
         if ([self.sequence count] == (self.currentSequencePosition)) {
-            CCLOG(@"You win!");
-            [self playGameOverScene];
+            [self startNewRound];
         }
     }
+}
+
+-(void)startNewRound {
+    self.enableGestures = NO;
+    [self unscheduleUpdate];
+    self.timer.percentage = 100;
+    
+    CGSize screenSize = [CCDirector sharedDirector].winSize;
+    CCLabelBMFont *newRoundLabel = [CCLabelBMFont labelWithString:@"Nice!" fntFile:@"SpaceVikingFont.fnt"];
+    newRoundLabel.position = ccp(screenSize.width/2, screenSize.height/2);
+    [self addChild:newRoundLabel];
+    id labelAction = [CCSpawn actions:[CCScaleBy actionWithDuration:1.0f scale:4], [CCFadeOut actionWithDuration:1.0f], nil];
+    [newRoundLabel runAction:labelAction];
 }
 
 -(void)playGameOverScene {
