@@ -15,12 +15,14 @@
 @property (nonatomic, strong) NSMutableArray *sequence;
 @property (nonatomic) int currentSequencePosition;
 @property (nonatomic) int currentDisplaySequencePosition;
+@property (nonatomic) BOOL enableGestures;
 @property (nonatomic, strong) CCProgressTimer *timer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeLeftRecognizer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeDownRecognizer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeRightRecognizer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeUpRecognizer;
 -(void)startDisplaySequenceSelector;
+-(void)startGameplaySelector;
 -(void)displaySequence:(ccTime)deltaTime;
 -(void)handleLeftSwipe;
 -(void)handleDownSwipe;
@@ -32,16 +34,6 @@
 @end
 
 @implementation GameLayer
-
-@synthesize sequence = _sequence;
-@synthesize currentSequencePosition = _currentSequencePosition;
-@synthesize currentDisplaySequencePosition = _currentDisplaySequencePosition;
-@synthesize timer = _timer;
-@synthesize swipeLeftRecognizer = _swipeLeftRecognizer;
-@synthesize swipeDownRecognizer = _swipeDownRecognizer;
-@synthesize swipeRightRecognizer = _swipeRightRecognizer;
-@synthesize swipeUpRecognizer = _swipeUpRecognizer;
-
 
 -(id)init {
     self = [super init];
@@ -69,14 +61,14 @@
         self.timer.scaleX = 0.50f;  // temporary because of HD size
         [self addChild:self.timer z:kProgressZValue tag:kProgressTimerTagValue];
         
-        // comes before labelAction, otherwise action doesn't run
-        [self scheduleUpdate];
+        self.enableGestures = NO;
         
         CCLabelBMFont *gameBeginLabel = [CCLabelBMFont labelWithString:@"Game Start" fntFile:@"SpaceVikingFont.fnt"];
         gameBeginLabel.position = ccp(screenSize.width/2, screenSize.height/2);
         [self addChild:gameBeginLabel];
         id labelAction = [CCSpawn actions:[CCScaleBy actionWithDuration:2.0f scale:4], [CCFadeOut actionWithDuration:2.0f], nil];
         
+        // display arrows after label disappears
         id action = [CCSequence actions:labelAction, [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
         
         [gameBeginLabel runAction:action];
@@ -116,7 +108,12 @@
 }
 
 -(void)startDisplaySequenceSelector {
-    [self schedule:@selector(displaySequence:) interval:0.5];
+    [self schedule:@selector(displaySequence:) interval:0.4];
+}
+
+-(void)startGameplaySelector {
+    self.enableGestures = YES;
+    [self scheduleUpdate];
 }
 
 -(void)displaySequence:(ccTime)deltaTime {
@@ -151,6 +148,9 @@
     if ([self.sequence count] == self.currentDisplaySequencePosition) {
         // no more sequence to display
         [self unschedule:@selector(displaySequence:)];
+        
+        id action = [CCSequence actions:[CCDelayTime actionWithDuration:2.0f], [CCCallFunc actionWithTarget:self selector:@selector(startGameplaySelector)], nil];
+        [self runAction:action];
     }
 }
 
@@ -171,18 +171,20 @@
 }
 
 -(void)checkIfSwipeIsCorrect:(DirectionTypes)direction {
-    if ([self.sequence[self.currentSequencePosition] intValue] == direction) {
-        self.currentSequencePosition++;
-        CCLOG(@"Correct swipe detected: %i", direction);
-    } else {
-        CCLOG(@"You lose!");
-        [self playGameOverScene];
-    }
-    
-    // check if sequence is complete
-    if ([self.sequence count] == (self.currentSequencePosition)) {
-        CCLOG(@"You win!");
-        [self playGameOverScene];
+    if (self.enableGestures) {
+        if ([self.sequence[self.currentSequencePosition] intValue] == direction) {
+            self.currentSequencePosition++;
+            CCLOG(@"Correct swipe detected: %i", direction);
+        } else {
+            CCLOG(@"You lose!");
+            [self playGameOverScene];
+        }
+        
+        // check if sequence is complete
+        if ([self.sequence count] == (self.currentSequencePosition)) {
+            CCLOG(@"You win!");
+            [self playGameOverScene];
+        }
     }
 }
 
@@ -192,7 +194,10 @@
 
 -(void)update:(ccTime)deltaTime {
     // placeholder -- scheduleUpdate is indeed working
-    self.timer.percentage -= deltaTime*20;
+    self.timer.percentage -= deltaTime*10;
+    if (self.timer.percentage <= 0) {
+        [self playGameOverScene];
+    }
 }
 
 @end
