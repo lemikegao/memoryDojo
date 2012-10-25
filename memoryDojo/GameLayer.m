@@ -76,10 +76,10 @@
         gameBeginLabel.position = ccp(screenSize.width/2, screenSize.height/2);
         [self addChild:gameBeginLabel];
         id labelAction = [CCSpawn actions:[CCScaleBy actionWithDuration:2.0f scale:4], [CCFadeOut actionWithDuration:2.0f], nil];
-        [gameBeginLabel runAction:labelAction];
         
-        // start sequence display
-        [self startDisplaySequenceSelector];
+        id action = [CCSequence actions:labelAction, [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
+        
+        [gameBeginLabel runAction:action];
     }
     
     return self;
