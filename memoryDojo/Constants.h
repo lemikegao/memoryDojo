@@ -26,4 +26,12 @@ typedef enum {
     kLinkTypeTwitter = 1
 } LinkTypes;
 
+typedef enum {
+    kDirectionTypeNone = 0,
+    kDirectionTypeLeft,
+    kDirectionTypeDown,
+    kDirectionTypeRight,
+    kDirectionTypeUp
+} DirectionTypes;
+
 #endif

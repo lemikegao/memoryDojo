@@ -12,21 +12,27 @@
 
 @interface GameLayer()
 
+@property (nonatomic, strong) NSMutableArray *sequence;
+@property (nonatomic) int currentSequencePosition;
 @property (nonatomic, strong) CCProgressTimer *timer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeLeftRecognizer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeDownRecognizer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeRightRecognizer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeUpRecognizer;
+-(void)displaySequence;
 -(void)handleLeftSwipe;
 -(void)handleDownSwipe;
 -(void)handleRightSwipe;
 -(void)handleUpSwipe;
+-(void)checkIfSwipeIsCorrect:(DirectionTypes)direction;
 -(void)playGameOverScene;
 
 @end
 
 @implementation GameLayer
 
+@synthesize sequence = _sequence;
+@synthesize currentSequencePosition = _currentSequencePosition;
 @synthesize timer = _timer;
 @synthesize swipeLeftRecognizer = _swipeLeftRecognizer;
 @synthesize swipeDownRecognizer = _swipeDownRecognizer;
@@ -42,14 +48,22 @@
         background.position = ccp(screenSize.width/2, screenSize.height/2);
         [self addChild:background];
         
-        _timer = [CCProgressTimer progressWithSprite:[CCSprite spriteWithFile:@"funding_bar_hd.png"]];
-        _timer.type = kCCProgressTimerTypeBar;
-        _timer.midpoint = ccp(0, 0.5f);
-        _timer.barChangeRate = ccp(1, 0);
-        _timer.percentage = 100;
-        _timer.position = ccp(screenSize.width/2, screenSize.height * .90f);
-        _timer.scaleX = 0.50f;  // temporary because of HD size
-        [self addChild:_timer z:kProgressZValue tag:kProgressTimerTagValue];
+        // initialize sequence
+        self.currentSequencePosition = 0;
+        self.sequence = [[NSMutableArray alloc] initWithCapacity:100];
+        for (int i=0; i<4; i++) {
+            self.sequence[i] = [NSNumber numberWithInt:arc4random_uniform(4) + 1];
+            NSLog(@"sequence at %i: %@", i, self.sequence[i]);
+        }
+        
+        self.timer = [CCProgressTimer progressWithSprite:[CCSprite spriteWithFile:@"funding_bar_hd.png"]];
+        self.timer.type = kCCProgressTimerTypeBar;
+        self.timer.midpoint = ccp(0, 0.5f);
+        self.timer.barChangeRate = ccp(1, 0);
+        self.timer.percentage = 100;
+        self.timer.position = ccp(screenSize.width/2, screenSize.height * .90f);
+        self.timer.scaleX = 0.50f;  // temporary because of HD size
+        [self addChild:self.timer z:kProgressZValue tag:kProgressTimerTagValue];
         
         // comes before labelAction, otherwise action doesn't run
         [self scheduleUpdate];
@@ -94,24 +108,40 @@
     [[CCDirector sharedDirector].view removeGestureRecognizer:self.swipeUpRecognizer];
 }
 
+-(void)displaySequence {
+    
+}
+
 -(void)handleLeftSwipe {
-    CCLOG(@"Left Swipe Detected!");
-    self.timer.percentage = 100;
+    [self checkIfSwipeIsCorrect:kDirectionTypeLeft];
 }
 
 -(void)handleDownSwipe {
-    CCLOG(@"Down Swipe Detected!");
+    [self checkIfSwipeIsCorrect:kDirectionTypeDown];
 }
 
 -(void)handleRightSwipe {
-    CCLOG(@"Right Swipe Detected!");
-    
-    // temp placeholder to end game
-    [self playGameOverScene];
+    [self checkIfSwipeIsCorrect:kDirectionTypeRight];
 }
 
 -(void)handleUpSwipe {
-    CCLOG(@"Up Swipe Detected!");
+    [self checkIfSwipeIsCorrect:kDirectionTypeUp];
+}
+
+-(void)checkIfSwipeIsCorrect:(DirectionTypes)direction {
+    if ([self.sequence[self.currentSequencePosition] intValue] == direction) {
+        self.currentSequencePosition++;
+        CCLOG(@"Correct swipe detected: %i", direction);
+    } else {
+        CCLOG(@"You lose!");
+        [self playGameOverScene];
+    }
+    
+    // check if sequence is complete
+    if ([self.sequence count] == (self.currentSequencePosition)) {
+        CCLOG(@"You win!");
+        [self playGameOverScene];
+    }
 }
 
 -(void)playGameOverScene {
