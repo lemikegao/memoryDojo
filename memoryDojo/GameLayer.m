@@ -69,7 +69,7 @@
         CCLabelBMFont *gameBeginLabel = [CCLabelBMFont labelWithString:@"Game Start" fntFile:@"SpaceVikingFont.fnt"];
         gameBeginLabel.position = ccp(screenSize.width/2, screenSize.height/2);
         [self addChild:gameBeginLabel];
-        id labelAction = [CCSpawn actions:[CCScaleBy actionWithDuration:2.0f scale:4], [CCFadeOut actionWithDuration:2.0f], nil];
+        id labelAction = [CCSpawn actions:[CCScaleBy actionWithDuration:1.0f scale:4], [CCFadeOut actionWithDuration:1.0f], nil];
         
         // display arrows after label disappears
         id action = [CCSequence actions:labelAction, [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
@@ -127,32 +127,43 @@
 
 -(void)displaySequence:(ccTime)deltaTime {
     // display sequence, one arrow at a time
+    if (self.currentDisplaySequencePosition < [self.sequenceSprites count]) {
+        [self.sequenceSprites[self.currentDisplaySequencePosition] setVisible:YES];
+    } else {
 #warning - reuse sprites from a batch
-    CCSprite *arrow;
-    switch ([self.sequence[self.currentDisplaySequencePosition] intValue]) {
-        case kDirectionTypeLeft:
-            arrow = [CCSprite spriteWithFile:@"left_arrow.png"];
-            break;
-        case kDirectionTypeDown:
-            arrow = [CCSprite spriteWithFile:@"down_arrow.png"];
-            break;
-        case kDirectionTypeRight:
-            arrow = [CCSprite spriteWithFile:@"right_arrow.png"];
-            break;
-        case kDirectionTypeUp:
-            arrow = [CCSprite spriteWithFile:@"up_arrow.png"];
-            break;
-        default:
-            CCLOG(@"Not a valid sequence direction to display");
-            return;
-            break;
+        CCSprite *arrow;
+        switch ([self.sequence[self.currentDisplaySequencePosition] intValue]) {
+            case kDirectionTypeLeft:
+                arrow = [CCSprite spriteWithFile:@"left_arrow.png"];
+                break;
+            case kDirectionTypeDown:
+                arrow = [CCSprite spriteWithFile:@"down_arrow.png"];
+                break;
+            case kDirectionTypeRight:
+                arrow = [CCSprite spriteWithFile:@"right_arrow.png"];
+                break;
+            case kDirectionTypeUp:
+                arrow = [CCSprite spriteWithFile:@"up_arrow.png"];
+                break;
+            default:
+                CCLOG(@"Not a valid sequence direction to display");
+                return;
+                break;
+        }
+        
+        CGSize screenSize = [CCDirector sharedDirector].winSize;
+        float heightMultiplier = 0.0;
+        if ([self.sequenceSprites count] >= 8) {
+            heightMultiplier = 2.0;
+        } else if ([self.sequenceSprites count] >= 4) {
+            heightMultiplier = 1.0;
+        }
+        
+        arrow.position = ccp(screenSize.width*((self.currentDisplaySequencePosition%4)+1)/5, screenSize.height*(3.0/4.0 - heightMultiplier/4.0));
+        [self addChild:arrow];
+        
+        [self.sequenceSprites addObject:arrow];
     }
-    
-    CGSize screenSize = [CCDirector sharedDirector].winSize;
-    arrow.position = ccp(screenSize.width*(self.currentDisplaySequencePosition+1)/5, screenSize.height*3/4);
-    [self addChild:arrow];
-    
-    [self.sequenceSprites addObject:arrow];     
     
     self.currentDisplaySequencePosition++;
     
@@ -202,13 +213,24 @@
     self.enableGestures = NO;
     [self unscheduleUpdate];
     self.timer.percentage = 100;
+    self.currentSequencePosition = 0;
+    self.currentDisplaySequencePosition = 0;
     
+    for (int i=0; i<2; i++) {
+        self.sequence[[self.sequenceSprites count] + i] = [NSNumber numberWithInt:arc4random_uniform(4) + 1];
+        NSLog(@"sequence at %i: %@", [self.sequenceSprites count] + i, self.sequence[[self.sequenceSprites count] + i]);
+    }
+
     CGSize screenSize = [CCDirector sharedDirector].winSize;
     CCLabelBMFont *newRoundLabel = [CCLabelBMFont labelWithString:@"Nice!" fntFile:@"SpaceVikingFont.fnt"];
     newRoundLabel.position = ccp(screenSize.width/2, screenSize.height/2);
     [self addChild:newRoundLabel];
     id labelAction = [CCSpawn actions:[CCScaleBy actionWithDuration:1.0f scale:4], [CCFadeOut actionWithDuration:1.0f], nil];
-    [newRoundLabel runAction:labelAction];
+    
+    // display arrows after label disappears
+    id action = [CCSequence actions:labelAction, [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
+    
+    [newRoundLabel runAction:action];
 }
 
 -(void)playGameOverScene {
