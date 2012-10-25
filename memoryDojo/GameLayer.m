@@ -14,12 +14,14 @@
 
 @property (nonatomic, strong) NSMutableArray *sequence;
 @property (nonatomic) int currentSequencePosition;
+@property (nonatomic) int currentDisplaySequencePosition;
 @property (nonatomic, strong) CCProgressTimer *timer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeLeftRecognizer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeDownRecognizer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeRightRecognizer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeUpRecognizer;
--(void)displaySequence;
+-(void)startDisplaySequenceSelector;
+-(void)displaySequence:(ccTime)deltaTime;
 -(void)handleLeftSwipe;
 -(void)handleDownSwipe;
 -(void)handleRightSwipe;
@@ -33,6 +35,7 @@
 
 @synthesize sequence = _sequence;
 @synthesize currentSequencePosition = _currentSequencePosition;
+@synthesize currentDisplaySequencePosition = _currentDisplaySequencePosition;
 @synthesize timer = _timer;
 @synthesize swipeLeftRecognizer = _swipeLeftRecognizer;
 @synthesize swipeDownRecognizer = _swipeDownRecognizer;
@@ -50,6 +53,7 @@
         
         // initialize sequence
         self.currentSequencePosition = 0;
+        self.currentDisplaySequencePosition = 0;
         self.sequence = [[NSMutableArray alloc] initWithCapacity:100];
         for (int i=0; i<4; i++) {
             self.sequence[i] = [NSNumber numberWithInt:arc4random_uniform(4) + 1];
@@ -73,6 +77,9 @@
         [self addChild:gameBeginLabel];
         id labelAction = [CCSpawn actions:[CCScaleBy actionWithDuration:2.0f scale:4], [CCFadeOut actionWithDuration:2.0f], nil];
         [gameBeginLabel runAction:labelAction];
+        
+        // start sequence display
+        [self startDisplaySequenceSelector];
     }
     
     return self;
@@ -108,8 +115,43 @@
     [[CCDirector sharedDirector].view removeGestureRecognizer:self.swipeUpRecognizer];
 }
 
--(void)displaySequence {
+-(void)startDisplaySequenceSelector {
+    [self schedule:@selector(displaySequence:) interval:0.5];
+}
+
+-(void)displaySequence:(ccTime)deltaTime {
+    // display sequence, one arrow at a time
+#pragma todo - reuse sprites from a batch
+    CCSprite *arrow;
+    switch ([self.sequence[self.currentDisplaySequencePosition] intValue]) {
+        case kDirectionTypeLeft:
+            arrow = [CCSprite spriteWithFile:@"left_arrow.png"];
+            break;
+        case kDirectionTypeDown:
+            arrow = [CCSprite spriteWithFile:@"down_arrow.png"];
+            break;
+        case kDirectionTypeRight:
+            arrow = [CCSprite spriteWithFile:@"right_arrow.png"];
+            break;
+        case kDirectionTypeUp:
+            arrow = [CCSprite spriteWithFile:@"up_arrow.png"];
+            break;
+        default:
+            CCLOG(@"Not a valid sequence direction to display");
+            return;
+            break;
+    }
     
+    CGSize screenSize = [CCDirector sharedDirector].winSize;
+    arrow.position = ccp(screenSize.width*(self.currentDisplaySequencePosition+1)/5, screenSize.height*3/4);
+    [self addChild:arrow];
+    
+    self.currentDisplaySequencePosition++;
+    
+    if ([self.sequence count] == self.currentDisplaySequencePosition) {
+        // no more sequence to display
+        [self unschedule:@selector(displaySequence:)];
+    }
 }
 
 -(void)handleLeftSwipe {
