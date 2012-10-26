@@ -24,7 +24,8 @@
         CGSize screenSize = [CCDirector sharedDirector].winSize;
         
         // add text for game over
-        CCLabelBMFont *gameOverLabel = [CCLabelBMFont labelWithString:@"Game over!" fntFile:@"VikingSpeechFont64.fnt"];
+        NSString *gameoverString = [NSString stringWithFormat:@"Game over! Score: %i", [GameManager sharedGameManager].score];
+        CCLabelBMFont *gameOverLabel = [CCLabelBMFont labelWithString:gameoverString fntFile:@"SpaceVikingFont.fnt"];
         gameOverLabel.position = ccp(screenSize.width/2, screenSize.height/2);
         [self addChild:gameOverLabel];
     }

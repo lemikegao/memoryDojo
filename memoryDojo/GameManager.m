@@ -54,6 +54,7 @@ static GameManager *_sharedGameManager = nil;   // singleton
         _isSoundEffectsOn = YES;
         _hasPlayerDied = NO;
         _currentScene = kSceneTypeNone;
+        _score = 0;
     }
     
     return self;

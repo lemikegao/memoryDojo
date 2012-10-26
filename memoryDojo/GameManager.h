@@ -14,6 +14,7 @@
 @property (nonatomic) BOOL isMusicOn;
 @property (nonatomic) BOOL isSoundEffectsOn;
 @property (nonatomic) BOOL hasPlayerDied;
+@property (nonatomic) int score;
 
 +(GameManager*)sharedGameManager;
 -(void)runSceneWithID:(SceneTypes)sceneID;

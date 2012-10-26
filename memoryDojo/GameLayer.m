@@ -40,6 +40,7 @@
 -(id)init {
     self = [super init];
     if (self != nil) {
+        [GameManager sharedGameManager].score = 0;
         CGSize screenSize = [CCDirector sharedDirector].winSize;
         CCSprite *background = [CCSprite spriteWithFile:@"MainMenuBackground.png"];
         background.position = ccp(screenSize.width/2, screenSize.height/2);
@@ -130,7 +131,7 @@
     if (self.currentDisplaySequencePosition < [self.sequenceSprites count]) {
         [self.sequenceSprites[self.currentDisplaySequencePosition] setVisible:YES];
     } else {
-#warning - reuse sprites from a batch
+#warning -- reuse sprites from a batch
         CCSprite *arrow;
         switch ([self.sequence[self.currentDisplaySequencePosition] intValue]) {
             case kDirectionTypeLeft:
@@ -215,6 +216,7 @@
     self.timer.percentage = 100;
     self.currentSequencePosition = 0;
     self.currentDisplaySequencePosition = 0;
+    [GameManager sharedGameManager].score = [self.sequence count];
     
     for (int i=0; i<2; i++) {
         self.sequence[[self.sequenceSprites count] + i] = [NSNumber numberWithInt:arc4random_uniform(4) + 1];
