@@ -14,6 +14,7 @@
 		C460C12316308B9A00E8C0D2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C460C12216308B9A00E8C0D2 /* Default-568h@2x.png */; };
 		C4610EC8163871B800EB1006 /* GameOverScene.m in Sources */ = {isa = PBXBuildFile; fileRef = C4610EC7163871B800EB1006 /* GameOverScene.m */; };
 		C4610ECC163871C400EB1006 /* GameOverLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C4610ECB163871C400EB1006 /* GameOverLayer.m */; };
+		C46C58AB163E0BB000C33010 /* SoundEffects.plist in Resources */ = {isa = PBXBuildFile; fileRef = C46C58AA163E0BB000C33010 /* SoundEffects.plist */; };
 		C4BFF98A1630CEF600ED84D9 /* GameObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BFF9891630CEF600ED84D9 /* GameObject.m */; };
 		C4E03FBC1632615700A8CA42 /* funding_bar_hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C4E03FBB1632615700A8CA42 /* funding_bar_hd.png */; };
 		C4F6B57F16310958007C5C63 /* GameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C4F6B57E16310958007C5C63 /* GameManager.m */; };
@@ -284,6 +285,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C4114718163E184500FC2BE8 /* gong.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = gong.caf; sourceTree = "<group>"; };
 		C41C8C921638C40100B6564F /* right_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = right_arrow.png; sourceTree = "<group>"; };
 		C41C8C931638C40100B6564F /* left_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left_arrow.png; sourceTree = "<group>"; };
 		C41C8C951638C40100B6564F /* up_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = up_arrow.png; sourceTree = "<group>"; };
@@ -293,6 +295,7 @@
 		C4610EC7163871B800EB1006 /* GameOverScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverScene.m; sourceTree = "<group>"; };
 		C4610ECA163871C400EB1006 /* GameOverLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverLayer.h; sourceTree = "<group>"; };
 		C4610ECB163871C400EB1006 /* GameOverLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverLayer.m; sourceTree = "<group>"; };
+		C46C58AA163E0BB000C33010 /* SoundEffects.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SoundEffects.plist; sourceTree = "<group>"; };
 		C4BFF9861630C5AE00ED84D9 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		C4BFF9871630C5E600ED84D9 /* CommonProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonProtocols.h; sourceTree = "<group>"; };
 		C4BFF9881630CEF600ED84D9 /* GameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObject.h; sourceTree = "<group>"; };
@@ -607,6 +610,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C46C58A5163E06A800C33010 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				C46C58A7163E06B200C33010 /* SFX */,
+			);
+			name = Sounds;
+			sourceTree = "<group>";
+		};
+		C46C58A7163E06B200C33010 /* SFX */ = {
+			isa = PBXGroup;
+			children = (
+				C4114718163E184500FC2BE8 /* gong.caf */,
+			);
+			name = SFX;
+			sourceTree = "<group>";
+		};
 		C4BFF97D1630C4D800ED84D9 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
@@ -656,6 +675,7 @@
 		C4BFF9841630C51000ED84D9 /* Plists */ = {
 			isa = PBXGroup;
 			children = (
+				C46C58AA163E0BB000C33010 /* SoundEffects.plist */,
 			);
 			name = Plists;
 			sourceTree = "<group>";
@@ -791,6 +811,7 @@
 		DC0C4A08154AB4DD00B4B727 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C46C58A5163E06A800C33010 /* Sounds */,
 				C4F6B58816311642007C5C63 /* Fonts */,
 				C4F6B58316311595007C5C63 /* MainMenu */,
 				C4F6B5A916313622007C5C63 /* Game */,
@@ -1385,6 +1406,7 @@
 				C41C8C971638C40100B6564F /* left_arrow.png in Resources */,
 				C41C8C991638C40100B6564F /* up_arrow.png in Resources */,
 				C41C8C9C1638C41300B6564F /* down_arrow.png in Resources */,
+				C46C58AB163E0BB000C33010 /* SoundEffects.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
