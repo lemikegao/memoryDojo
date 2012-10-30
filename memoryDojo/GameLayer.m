@@ -112,6 +112,8 @@
 }
 
 -(void)startDisplaySequenceSelector {
+    PLAYSOUNDEFFECT(GONG);
+    PLAYSOUNDEFFECT(TEST);
     [self schedule:@selector(displaySequence:) interval:0.4];
 }
 

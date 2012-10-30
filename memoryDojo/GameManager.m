@@ -97,6 +97,7 @@ static GameManager *_sharedGameManager = nil;   // singleton
     if (self.managerSoundState == kAudioManagerReady) {
         NSNumber *isSFXLoaded = [self.soundEffectsState objectForKey:soundEffectKey];
         if ([isSFXLoaded boolValue] == SFX_LOADED) {
+            CCLOG(@"GameMgr: Playing SoundEffect: %@", soundEffectKey);
             soundID = [self.soundEngine playEffect:[self.listOfSoundEffectFiles objectForKey:soundEffectKey]];
         } else {
             CCLOG(@"GameMgr: SoundEffect %@ is not loaded, cannot play.",soundEffectKey);
