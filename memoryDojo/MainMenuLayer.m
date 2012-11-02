@@ -24,7 +24,7 @@
     self = [super init];
     if (self != nil) {
         // load texture atlas
-        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"mainmenu_artv2.plist"];
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"mainmenu_art.plist"];
         
         CGSize screenSize = [CCDirector sharedDirector].winSize;
         CCSprite *background = [CCSprite spriteWithSpriteFrameName:@"mainmenu_bg.png"];

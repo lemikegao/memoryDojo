@@ -7,16 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C402781E164328A8005832CD /* mainmenu_artv2-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = C402781A164328A8005832CD /* mainmenu_artv2-hd.plist */; };
-		C402781F164328A8005832CD /* mainmenu_artv2-hd.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = C402781B164328A8005832CD /* mainmenu_artv2-hd.pvr.ccz */; };
-		C4027820164328A8005832CD /* mainmenu_artv2.plist in Resources */ = {isa = PBXBuildFile; fileRef = C402781C164328A8005832CD /* mainmenu_artv2.plist */; };
-		C4027821164328A8005832CD /* mainmenu_artv2.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = C402781D164328A8005832CD /* mainmenu_artv2.pvr.ccz */; };
-		C4027828164328C0005832CD /* mainmenu_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = C4027822164328C0005832CD /* mainmenu_bg.png */; };
-		C4027829164328C0005832CD /* mainmenu_button_settings.png in Resources */ = {isa = PBXBuildFile; fileRef = C4027823164328C0005832CD /* mainmenu_button_settings.png */; };
-		C402782A164328C0005832CD /* mainmenu_button_start.png in Resources */ = {isa = PBXBuildFile; fileRef = C4027824164328C0005832CD /* mainmenu_button_start.png */; };
-		C402782B164328C0005832CD /* mainmenu_game_title.png in Resources */ = {isa = PBXBuildFile; fileRef = C4027825164328C0005832CD /* mainmenu_game_title.png */; };
-		C402782C164328C0005832CD /* mainmenu_ninja_star.png in Resources */ = {isa = PBXBuildFile; fileRef = C4027826164328C0005832CD /* mainmenu_ninja_star.png */; };
-		C402782D164328C0005832CD /* mainmenu_ninja.png in Resources */ = {isa = PBXBuildFile; fileRef = C4027827164328C0005832CD /* mainmenu_ninja.png */; };
 		C41C8C961638C40100B6564F /* right_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = C41C8C921638C40100B6564F /* right_arrow.png */; };
 		C41C8C971638C40100B6564F /* left_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = C41C8C931638C40100B6564F /* left_arrow.png */; };
 		C41C8C991638C40100B6564F /* up_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = C41C8C951638C40100B6564F /* up_arrow.png */; };
@@ -26,6 +16,17 @@
 		C4610EC8163871B800EB1006 /* GameOverScene.m in Sources */ = {isa = PBXBuildFile; fileRef = C4610EC7163871B800EB1006 /* GameOverScene.m */; };
 		C4610ECC163871C400EB1006 /* GameOverLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C4610ECB163871C400EB1006 /* GameOverLayer.m */; };
 		C46C58AB163E0BB000C33010 /* SoundEffects.plist in Resources */ = {isa = PBXBuildFile; fileRef = C46C58AA163E0BB000C33010 /* SoundEffects.plist */; };
+		C46ECA8E16438F3A00AFC151 /* mainmenu_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = C46ECA8816438F3A00AFC151 /* mainmenu_bg.png */; };
+		C46ECA8F16438F3A00AFC151 /* mainmenu_button_settings.png in Resources */ = {isa = PBXBuildFile; fileRef = C46ECA8916438F3A00AFC151 /* mainmenu_button_settings.png */; };
+		C46ECA9016438F3A00AFC151 /* mainmenu_button_start.png in Resources */ = {isa = PBXBuildFile; fileRef = C46ECA8A16438F3A00AFC151 /* mainmenu_button_start.png */; };
+		C46ECA9116438F3A00AFC151 /* mainmenu_game_title.png in Resources */ = {isa = PBXBuildFile; fileRef = C46ECA8B16438F3A00AFC151 /* mainmenu_game_title.png */; };
+		C46ECA9316438F3A00AFC151 /* mainmenu_ninja_star.png in Resources */ = {isa = PBXBuildFile; fileRef = C46ECA8D16438F3A00AFC151 /* mainmenu_ninja_star.png */; };
+		C46ECA981643921400AFC151 /* TP-update.sh in Resources */ = {isa = PBXBuildFile; fileRef = C46ECA971643921400AFC151 /* TP-update.sh */; };
+		C46ECA9E1643928C00AFC151 /* mainmenu_art-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = C46ECA9A1643928C00AFC151 /* mainmenu_art-hd.plist */; };
+		C46ECA9F1643928C00AFC151 /* mainmenu_art-hd.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = C46ECA9B1643928C00AFC151 /* mainmenu_art-hd.pvr.ccz */; };
+		C46ECAA01643928C00AFC151 /* mainmenu_art.plist in Resources */ = {isa = PBXBuildFile; fileRef = C46ECA9C1643928C00AFC151 /* mainmenu_art.plist */; };
+		C46ECAA11643928C00AFC151 /* mainmenu_art.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = C46ECA9D1643928C00AFC151 /* mainmenu_art.pvr.ccz */; };
+		C46ECAA51643935900AFC151 /* mainmenu_ninja.png in Resources */ = {isa = PBXBuildFile; fileRef = C46ECAA41643935900AFC151 /* mainmenu_ninja.png */; };
 		C4BFF98A1630CEF600ED84D9 /* GameObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BFF9891630CEF600ED84D9 /* GameObject.m */; };
 		C4E03FBC1632615700A8CA42 /* funding_bar_hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C4E03FBB1632615700A8CA42 /* funding_bar_hd.png */; };
 		C4F6B57F16310958007C5C63 /* GameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C4F6B57E16310958007C5C63 /* GameManager.m */; };
@@ -289,17 +290,17 @@
 		DC0C4D62154AB59800B4B727 /* vec4.c in Sources */ = {isa = PBXBuildFile; fileRef = DC0C4C80154AB59800B4B727 /* vec4.c */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		C46ECA9416438F6000AFC151 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DC0C49E8154AB4DD00B4B727 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C46ECA8316438EF000AFC151;
+			remoteInfo = SpriteSheet;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
-		C402781A164328A8005832CD /* mainmenu_artv2-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "mainmenu_artv2-hd.plist"; path = "Resources/mainmenu_artv2-hd.plist"; sourceTree = "<group>"; };
-		C402781B164328A8005832CD /* mainmenu_artv2-hd.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; name = "mainmenu_artv2-hd.pvr.ccz"; path = "Resources/mainmenu_artv2-hd.pvr.ccz"; sourceTree = "<group>"; };
-		C402781C164328A8005832CD /* mainmenu_artv2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = mainmenu_artv2.plist; path = Resources/mainmenu_artv2.plist; sourceTree = "<group>"; };
-		C402781D164328A8005832CD /* mainmenu_artv2.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; name = mainmenu_artv2.pvr.ccz; path = Resources/mainmenu_artv2.pvr.ccz; sourceTree = "<group>"; };
-		C4027822164328C0005832CD /* mainmenu_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainmenu_bg.png; sourceTree = "<group>"; };
-		C4027823164328C0005832CD /* mainmenu_button_settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainmenu_button_settings.png; sourceTree = "<group>"; };
-		C4027824164328C0005832CD /* mainmenu_button_start.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainmenu_button_start.png; sourceTree = "<group>"; };
-		C4027825164328C0005832CD /* mainmenu_game_title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainmenu_game_title.png; sourceTree = "<group>"; };
-		C4027826164328C0005832CD /* mainmenu_ninja_star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainmenu_ninja_star.png; sourceTree = "<group>"; };
-		C4027827164328C0005832CD /* mainmenu_ninja.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainmenu_ninja.png; sourceTree = "<group>"; };
 		C4114718163E184500FC2BE8 /* gong.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = gong.caf; sourceTree = "<group>"; };
 		C41C8C921638C40100B6564F /* right_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = right_arrow.png; sourceTree = "<group>"; };
 		C41C8C931638C40100B6564F /* left_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left_arrow.png; sourceTree = "<group>"; };
@@ -311,6 +312,17 @@
 		C4610ECA163871C400EB1006 /* GameOverLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverLayer.h; sourceTree = "<group>"; };
 		C4610ECB163871C400EB1006 /* GameOverLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverLayer.m; sourceTree = "<group>"; };
 		C46C58AA163E0BB000C33010 /* SoundEffects.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SoundEffects.plist; sourceTree = "<group>"; };
+		C46ECA8816438F3A00AFC151 /* mainmenu_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainmenu_bg.png; sourceTree = "<group>"; };
+		C46ECA8916438F3A00AFC151 /* mainmenu_button_settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainmenu_button_settings.png; sourceTree = "<group>"; };
+		C46ECA8A16438F3A00AFC151 /* mainmenu_button_start.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainmenu_button_start.png; sourceTree = "<group>"; };
+		C46ECA8B16438F3A00AFC151 /* mainmenu_game_title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainmenu_game_title.png; sourceTree = "<group>"; };
+		C46ECA8D16438F3A00AFC151 /* mainmenu_ninja_star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainmenu_ninja_star.png; sourceTree = "<group>"; };
+		C46ECA971643921400AFC151 /* TP-update.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "TP-update.sh"; sourceTree = "<group>"; };
+		C46ECA9A1643928C00AFC151 /* mainmenu_art-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "mainmenu_art-hd.plist"; sourceTree = "<group>"; };
+		C46ECA9B1643928C00AFC151 /* mainmenu_art-hd.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "mainmenu_art-hd.pvr.ccz"; sourceTree = "<group>"; };
+		C46ECA9C1643928C00AFC151 /* mainmenu_art.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = mainmenu_art.plist; sourceTree = "<group>"; };
+		C46ECA9D1643928C00AFC151 /* mainmenu_art.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = mainmenu_art.pvr.ccz; sourceTree = "<group>"; };
+		C46ECAA41643935900AFC151 /* mainmenu_ninja.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainmenu_ninja.png; sourceTree = "<group>"; };
 		C4BFF9861630C5AE00ED84D9 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		C4BFF9871630C5E600ED84D9 /* CommonProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonProtocols.h; sourceTree = "<group>"; };
 		C4BFF9881630CEF600ED84D9 /* GameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObject.h; sourceTree = "<group>"; };
@@ -635,6 +647,48 @@
 			name = SFX;
 			sourceTree = "<group>";
 		};
+		C46ECA7F16438B6F00AFC151 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				C46ECA8716438F3A00AFC151 /* mainmenu_art */,
+			);
+			name = Assets;
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		C46ECA8716438F3A00AFC151 /* mainmenu_art */ = {
+			isa = PBXGroup;
+			children = (
+				C46ECAA41643935900AFC151 /* mainmenu_ninja.png */,
+				C46ECA8816438F3A00AFC151 /* mainmenu_bg.png */,
+				C46ECA8916438F3A00AFC151 /* mainmenu_button_settings.png */,
+				C46ECA8A16438F3A00AFC151 /* mainmenu_button_start.png */,
+				C46ECA8B16438F3A00AFC151 /* mainmenu_game_title.png */,
+				C46ECA8D16438F3A00AFC151 /* mainmenu_ninja_star.png */,
+			);
+			name = mainmenu_art;
+			path = memoryDojo/Assets/mainmenu_art;
+			sourceTree = SOURCE_ROOT;
+		};
+		C46ECA961643921400AFC151 /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				C46ECA971643921400AFC151 /* TP-update.sh */,
+			);
+			path = Scripts;
+			sourceTree = "<group>";
+		};
+		C46ECA991643928C00AFC151 /* SpriteSheets */ = {
+			isa = PBXGroup;
+			children = (
+				C46ECA9A1643928C00AFC151 /* mainmenu_art-hd.plist */,
+				C46ECA9B1643928C00AFC151 /* mainmenu_art-hd.pvr.ccz */,
+				C46ECA9C1643928C00AFC151 /* mainmenu_art.plist */,
+				C46ECA9D1643928C00AFC151 /* mainmenu_art.pvr.ccz */,
+			);
+			path = SpriteSheets;
+			sourceTree = "<group>";
+		};
 		C4BFF97D1630C4D800ED84D9 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
@@ -737,16 +791,6 @@
 		C4F6B58316311595007C5C63 /* MainMenu */ = {
 			isa = PBXGroup;
 			children = (
-				C4027822164328C0005832CD /* mainmenu_bg.png */,
-				C4027823164328C0005832CD /* mainmenu_button_settings.png */,
-				C4027824164328C0005832CD /* mainmenu_button_start.png */,
-				C4027825164328C0005832CD /* mainmenu_game_title.png */,
-				C4027826164328C0005832CD /* mainmenu_ninja_star.png */,
-				C4027827164328C0005832CD /* mainmenu_ninja.png */,
-				C402781A164328A8005832CD /* mainmenu_artv2-hd.plist */,
-				C402781B164328A8005832CD /* mainmenu_artv2-hd.pvr.ccz */,
-				C402781C164328A8005832CD /* mainmenu_artv2.plist */,
-				C402781D164328A8005832CD /* mainmenu_artv2.pvr.ccz */,
 			);
 			name = MainMenu;
 			path = ..;
@@ -814,9 +858,12 @@
 			children = (
 				C4BFF9851630C52600ED84D9 /* Classes */,
 				C4BFF9841630C51000ED84D9 /* Plists */,
+				C46ECA991643928C00AFC151 /* SpriteSheets */,
 				DC0C4A08154AB4DD00B4B727 /* Resources */,
+				C46ECA7F16438B6F00AFC151 /* Assets */,
 				DC0C4B93154AB59800B4B727 /* libs */,
 				DC0C4B74154AB4DF00B4B727 /* Supporting Files */,
+				C46ECA961643921400AFC151 /* Scripts */,
 			);
 			path = memoryDojo;
 			sourceTree = "<group>";
@@ -1326,6 +1373,23 @@
 		};
 /* End PBXHeadersBuildPhase section */
 
+/* Begin PBXLegacyTarget section */
+		C46ECA8316438EF000AFC151 /* SpriteSheet */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(SRCROOT)/memoryDojo/Scripts/TP-update.sh";
+			buildConfigurationList = C46ECA8416438EF000AFC151 /* Build configuration list for PBXLegacyTarget "SpriteSheet" */;
+			buildPhases = (
+			);
+			buildToolPath = /bin/bash;
+			buildWorkingDirectory = "${SRCROOT}/memoryDojo/Assets";
+			dependencies = (
+			);
+			name = SpriteSheet;
+			passBuildSettingsInEnvironment = 1;
+			productName = SpriteSheet;
+		};
+/* End PBXLegacyTarget section */
+
 /* Begin PBXNativeTarget section */
 		DC0C49F0154AB4DD00B4B727 /* memoryDojo */ = {
 			isa = PBXNativeTarget;
@@ -1338,6 +1402,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				C46ECA9516438F6000AFC151 /* PBXTargetDependency */,
 			);
 			name = memoryDojo;
 			productName = memoryDojo;
@@ -1383,6 +1448,7 @@
 			targets = (
 				DC0C49F0154AB4DD00B4B727 /* memoryDojo */,
 				DC0C4B86154AB55A00B4B727 /* cocos2d-library */,
+				C46ECA8316438EF000AFC151 /* SpriteSheet */,
 			);
 		};
 /* End PBXProject section */
@@ -1415,16 +1481,17 @@
 				C41C8C9C1638C41300B6564F /* down_arrow.png in Resources */,
 				C46C58AB163E0BB000C33010 /* SoundEffects.plist in Resources */,
 				C425993A163F6CB900A72BCB /* gong.caf in Resources */,
-				C402781E164328A8005832CD /* mainmenu_artv2-hd.plist in Resources */,
-				C402781F164328A8005832CD /* mainmenu_artv2-hd.pvr.ccz in Resources */,
-				C4027820164328A8005832CD /* mainmenu_artv2.plist in Resources */,
-				C4027821164328A8005832CD /* mainmenu_artv2.pvr.ccz in Resources */,
-				C4027828164328C0005832CD /* mainmenu_bg.png in Resources */,
-				C4027829164328C0005832CD /* mainmenu_button_settings.png in Resources */,
-				C402782A164328C0005832CD /* mainmenu_button_start.png in Resources */,
-				C402782B164328C0005832CD /* mainmenu_game_title.png in Resources */,
-				C402782C164328C0005832CD /* mainmenu_ninja_star.png in Resources */,
-				C402782D164328C0005832CD /* mainmenu_ninja.png in Resources */,
+				C46ECA8E16438F3A00AFC151 /* mainmenu_bg.png in Resources */,
+				C46ECA8F16438F3A00AFC151 /* mainmenu_button_settings.png in Resources */,
+				C46ECA9016438F3A00AFC151 /* mainmenu_button_start.png in Resources */,
+				C46ECA9116438F3A00AFC151 /* mainmenu_game_title.png in Resources */,
+				C46ECA9316438F3A00AFC151 /* mainmenu_ninja_star.png in Resources */,
+				C46ECA981643921400AFC151 /* TP-update.sh in Resources */,
+				C46ECA9E1643928C00AFC151 /* mainmenu_art-hd.plist in Resources */,
+				C46ECA9F1643928C00AFC151 /* mainmenu_art-hd.pvr.ccz in Resources */,
+				C46ECAA01643928C00AFC151 /* mainmenu_art.plist in Resources */,
+				C46ECAA11643928C00AFC151 /* mainmenu_art.pvr.ccz in Resources */,
+				C46ECAA51643935900AFC151 /* mainmenu_ninja.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1557,7 +1624,67 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		C46ECA9516438F6000AFC151 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C46ECA8316438EF000AFC151 /* SpriteSheet */;
+			targetProxy = C46ECA9416438F6000AFC151 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		C46ECA8516438EF000AFC151 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		C46ECA8616438EF000AFC151 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 		DC0C4B7E154AB4DF00B4B727 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1677,6 +1804,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		C46ECA8416438EF000AFC151 /* Build configuration list for PBXLegacyTarget "SpriteSheet" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C46ECA8516438EF000AFC151 /* Debug */,
+				C46ECA8616438EF000AFC151 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		DC0C49EB154AB4DD00B4B727 /* Build configuration list for PBXProject "memoryDojo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
