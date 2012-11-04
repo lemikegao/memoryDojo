@@ -33,11 +33,6 @@
 //    CCLOG(@"GameObject->updateStateWithDeltaTime method should be overridden");
 }
 
--(CGRect)adjustedBoundingBox {
-//    CCLOG(@"GameObject->adjustedBoundingBox should be overridden");
-    return [self boundingBox];
-}
-
 -(CCAnimation*)loadPlistForAnimationWithName:(NSString *)animationName andClassName:(NSString *)className {
     CCAnimation *animationToReturn = nil;
     NSString *fullFileName = [NSString stringWithFormat:@"%@.plist",className];

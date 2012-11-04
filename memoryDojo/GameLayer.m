@@ -40,11 +40,39 @@
 -(id)init {
     self = [super init];
     if (self != nil) {
+        // load texture atlas
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"game_art.plist"];
+
         [GameManager sharedGameManager].score = 0;
         CGSize screenSize = [CCDirector sharedDirector].winSize;
-        CCSprite *background = [CCSprite spriteWithFile:@"MainMenuBackground.png"];
-        background.position = ccp(screenSize.width/2, screenSize.height/2);
-        [self addChild:background];
+        
+        // create topBar sprite for height; position screen separator in the middle below the top bar
+        CCSprite *topBar = [CCSprite spriteWithSpriteFrameName:@"game_top_bar.png"];
+//        topBar.anchorPoint = ccp(0, 1);
+//        topBar.position = ccp(0, screenSize.height);
+//        [self addChild:topBar z:-1];
+        
+        // add game screen separator
+        CCSprite *screenSeparator = [CCSprite spriteWithSpriteFrameName:@"game_screen_separator.png"];
+        screenSeparator.position = ccp(screenSize.width/2, (screenSize.height - topBar.boundingBox.size.height)/2);
+        [self addChild:screenSeparator z:1];
+        
+        // add top background half
+        CCSprite *backgroundTop = [CCSprite spriteWithSpriteFrameName:@"game_bg_top.png"];
+        backgroundTop.anchorPoint = ccp(0, 0);
+        backgroundTop.position = ccp(0, screenSeparator.position.y + screenSeparator.boundingBox.size.height/2);
+        [self addChild:backgroundTop z:-1];
+        
+        // add top bar on top of background half
+        topBar.anchorPoint = ccp(0, 0);
+        topBar.position = ccp(0, screenSeparator.position.y + screenSeparator.boundingBox.size.height/2 + backgroundTop.boundingBox.size.height);
+        [self addChild:topBar z:-1];
+        
+        // add bottom background half below separator
+        CCSprite *backgroundBottom = [CCSprite spriteWithSpriteFrameName:@"game_bg_bottom.png"];
+        backgroundBottom.anchorPoint = ccp(0, 1);
+        backgroundBottom.position = ccp(0, screenSeparator.position.y - screenSeparator.boundingBox.size.height/2);
+        [self addChild:backgroundBottom z:-1];
         
         // initialize sequence
         self.currentSequencePosition = 0;
@@ -56,26 +84,26 @@
             NSLog(@"sequence at %i: %@", i, self.sequence[i]);
         }
         
-        self.timer = [CCProgressTimer progressWithSprite:[CCSprite spriteWithFile:@"funding_bar_hd.png"]];
-        self.timer.type = kCCProgressTimerTypeBar;
-        self.timer.midpoint = ccp(0, 0.5f);
-        self.timer.barChangeRate = ccp(1, 0);
-        self.timer.percentage = 100;
-        self.timer.position = ccp(screenSize.width/2, screenSize.height * .90f);
-        self.timer.scaleX = 0.50f;  // temporary because of HD size
-        [self addChild:self.timer z:kProgressZValue tag:kProgressTimerTagValue];
+//        self.timer = [CCProgressTimer progressWithSprite:[CCSprite spriteWithFile:@"funding_bar_hd.png"]];
+//        self.timer.type = kCCProgressTimerTypeBar;
+//        self.timer.midpoint = ccp(0, 0.5f);
+//        self.timer.barChangeRate = ccp(1, 0);
+//        self.timer.percentage = 100;
+//        self.timer.position = ccp(screenSize.width/2, screenSize.height * .90f);
+//        self.timer.scaleX = 0.50f;  // temporary because of HD size
+//        [self addChild:self.timer z:kProgressZValue tag:kProgressTimerTagValue];
         
         self.enableGestures = NO;
         
-        CCLabelBMFont *gameBeginLabel = [CCLabelBMFont labelWithString:@"Game Start" fntFile:@"SpaceVikingFont.fnt"];
-        gameBeginLabel.position = ccp(screenSize.width/2, screenSize.height/2);
-        [self addChild:gameBeginLabel];
-        id labelAction = [CCSpawn actions:[CCScaleBy actionWithDuration:1.0f scale:4], [CCFadeOut actionWithDuration:1.0f], nil];
+//        CCLabelBMFont *gameBeginLabel = [CCLabelBMFont labelWithString:@"Game Start" fntFile:@"SpaceVikingFont.fnt"];
+//        gameBeginLabel.position = ccp(screenSize.width/2, screenSize.height/2);
+//        [self addChild:gameBeginLabel];
+//        id labelAction = [CCSpawn actions:[CCScaleBy actionWithDuration:1.0f scale:4], [CCFadeOut actionWithDuration:1.0f], nil];
         
         // display arrows after label disappears
-        id action = [CCSequence actions:labelAction, [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
+//        id action = [CCSequence actions:labelAction, [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
         
-        [gameBeginLabel runAction:action];
+//        [gameBeginLabel runAction:action];
     }
     
     return self;
