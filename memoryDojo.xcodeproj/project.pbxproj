@@ -31,8 +31,6 @@
 		C4AC2BDB1646436E00002EE3 /* game_bg_top.png in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BCD1646436E00002EE3 /* game_bg_top.png */; };
 		C4AC2BDC1646436E00002EE3 /* game_instructions.png in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BCE1646436E00002EE3 /* game_instructions.png */; };
 		C4AC2BDD1646436E00002EE3 /* game_ninja_down.png in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BCF1646436E00002EE3 /* game_ninja_down.png */; };
-		C4AC2BDE1646436E00002EE3 /* game_ninja_eyes_closed.png in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BD01646436E00002EE3 /* game_ninja_eyes_closed.png */; };
-		C4AC2BDF1646436E00002EE3 /* game_ninja_eyes_opened.png in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BD11646436E00002EE3 /* game_ninja_eyes_opened.png */; };
 		C4AC2BE01646436E00002EE3 /* game_ninja_left.png in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BD21646436E00002EE3 /* game_ninja_left.png */; };
 		C4AC2BE11646436E00002EE3 /* game_ninja_right.png in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BD31646436E00002EE3 /* game_ninja_right.png */; };
 		C4AC2BE21646436E00002EE3 /* game_ninja_up.png in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BD41646436E00002EE3 /* game_ninja_up.png */; };
@@ -45,6 +43,11 @@
 		C4AC2BED164643A600002EE3 /* game_art-hd.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BE9164643A600002EE3 /* game_art-hd.pvr.ccz */; };
 		C4AC2BEE164643A600002EE3 /* game_art.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BEA164643A600002EE3 /* game_art.plist */; };
 		C4AC2BEF164643A600002EE3 /* game_art.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BEB164643A600002EE3 /* game_art.pvr.ccz */; };
+		C4AC2BF216466BA900002EE3 /* Ninja.m in Sources */ = {isa = PBXBuildFile; fileRef = C4AC2BF116466BA900002EE3 /* Ninja.m */; };
+		C4AC2BF416466D9D00002EE3 /* Ninja.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BF316466D9D00002EE3 /* Ninja.plist */; };
+		C4AC2BF716466E6700002EE3 /* game_ninja_eyes_1.png in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BF516466E6700002EE3 /* game_ninja_eyes_1.png */; };
+		C4AC2BF816466E6700002EE3 /* game_ninja_eyes_2.png in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BF616466E6700002EE3 /* game_ninja_eyes_2.png */; };
+		C4AC2BFA1646745100002EE3 /* game_ninja_neutral.png in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BF91646745100002EE3 /* game_ninja_neutral.png */; };
 		C4BFF98A1630CEF600ED84D9 /* GameObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BFF9891630CEF600ED84D9 /* GameObject.m */; };
 		C4E03FBC1632615700A8CA42 /* funding_bar_hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C4E03FBB1632615700A8CA42 /* funding_bar_hd.png */; };
 		C4F6B57F16310958007C5C63 /* GameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C4F6B57E16310958007C5C63 /* GameManager.m */; };
@@ -335,8 +338,6 @@
 		C4AC2BCD1646436E00002EE3 /* game_bg_top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_bg_top.png; sourceTree = "<group>"; };
 		C4AC2BCE1646436E00002EE3 /* game_instructions.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_instructions.png; sourceTree = "<group>"; };
 		C4AC2BCF1646436E00002EE3 /* game_ninja_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_ninja_down.png; sourceTree = "<group>"; };
-		C4AC2BD01646436E00002EE3 /* game_ninja_eyes_closed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_ninja_eyes_closed.png; sourceTree = "<group>"; };
-		C4AC2BD11646436E00002EE3 /* game_ninja_eyes_opened.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_ninja_eyes_opened.png; sourceTree = "<group>"; };
 		C4AC2BD21646436E00002EE3 /* game_ninja_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_ninja_left.png; sourceTree = "<group>"; };
 		C4AC2BD31646436E00002EE3 /* game_ninja_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_ninja_right.png; sourceTree = "<group>"; };
 		C4AC2BD41646436E00002EE3 /* game_ninja_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_ninja_up.png; sourceTree = "<group>"; };
@@ -349,6 +350,12 @@
 		C4AC2BE9164643A600002EE3 /* game_art-hd.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "game_art-hd.pvr.ccz"; sourceTree = "<group>"; };
 		C4AC2BEA164643A600002EE3 /* game_art.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = game_art.plist; sourceTree = "<group>"; };
 		C4AC2BEB164643A600002EE3 /* game_art.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = game_art.pvr.ccz; sourceTree = "<group>"; };
+		C4AC2BF016466BA900002EE3 /* Ninja.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ninja.h; sourceTree = "<group>"; };
+		C4AC2BF116466BA900002EE3 /* Ninja.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Ninja.m; sourceTree = "<group>"; };
+		C4AC2BF316466D9D00002EE3 /* Ninja.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Ninja.plist; sourceTree = "<group>"; };
+		C4AC2BF516466E6700002EE3 /* game_ninja_eyes_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_ninja_eyes_1.png; sourceTree = "<group>"; };
+		C4AC2BF616466E6700002EE3 /* game_ninja_eyes_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_ninja_eyes_2.png; sourceTree = "<group>"; };
+		C4AC2BF91646745100002EE3 /* game_ninja_neutral.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_ninja_neutral.png; sourceTree = "<group>"; };
 		C4BFF9861630C5AE00ED84D9 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		C4BFF9871630C5E600ED84D9 /* CommonProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonProtocols.h; sourceTree = "<group>"; };
 		C4BFF9881630CEF600ED84D9 /* GameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObject.h; sourceTree = "<group>"; };
@@ -723,12 +730,13 @@
 		C4AC2BCB1646436E00002EE3 /* game_art */ = {
 			isa = PBXGroup;
 			children = (
+				C4AC2BF91646745100002EE3 /* game_ninja_neutral.png */,
+				C4AC2BF516466E6700002EE3 /* game_ninja_eyes_1.png */,
+				C4AC2BF616466E6700002EE3 /* game_ninja_eyes_2.png */,
 				C4AC2BCC1646436E00002EE3 /* game_bg_bottom.png */,
 				C4AC2BCD1646436E00002EE3 /* game_bg_top.png */,
 				C4AC2BCE1646436E00002EE3 /* game_instructions.png */,
 				C4AC2BCF1646436E00002EE3 /* game_ninja_down.png */,
-				C4AC2BD01646436E00002EE3 /* game_ninja_eyes_closed.png */,
-				C4AC2BD11646436E00002EE3 /* game_ninja_eyes_opened.png */,
 				C4AC2BD21646436E00002EE3 /* game_ninja_left.png */,
 				C4AC2BD31646436E00002EE3 /* game_ninja_right.png */,
 				C4AC2BD41646436E00002EE3 /* game_ninja_up.png */,
@@ -773,6 +781,8 @@
 			children = (
 				C4BFF9881630CEF600ED84D9 /* GameObject.h */,
 				C4BFF9891630CEF600ED84D9 /* GameObject.m */,
+				C4AC2BF016466BA900002EE3 /* Ninja.h */,
+				C4AC2BF116466BA900002EE3 /* Ninja.m */,
 			);
 			name = GameObjects;
 			sourceTree = "<group>";
@@ -792,6 +802,7 @@
 			isa = PBXGroup;
 			children = (
 				C46C58AA163E0BB000C33010 /* SoundEffects.plist */,
+				C4AC2BF316466D9D00002EE3 /* Ninja.plist */,
 			);
 			name = Plists;
 			sourceTree = "<group>";
@@ -1530,8 +1541,6 @@
 				C4AC2BDB1646436E00002EE3 /* game_bg_top.png in Resources */,
 				C4AC2BDC1646436E00002EE3 /* game_instructions.png in Resources */,
 				C4AC2BDD1646436E00002EE3 /* game_ninja_down.png in Resources */,
-				C4AC2BDE1646436E00002EE3 /* game_ninja_eyes_closed.png in Resources */,
-				C4AC2BDF1646436E00002EE3 /* game_ninja_eyes_opened.png in Resources */,
 				C4AC2BE01646436E00002EE3 /* game_ninja_left.png in Resources */,
 				C4AC2BE11646436E00002EE3 /* game_ninja_right.png in Resources */,
 				C4AC2BE21646436E00002EE3 /* game_ninja_up.png in Resources */,
@@ -1544,6 +1553,10 @@
 				C4AC2BED164643A600002EE3 /* game_art-hd.pvr.ccz in Resources */,
 				C4AC2BEE164643A600002EE3 /* game_art.plist in Resources */,
 				C4AC2BEF164643A600002EE3 /* game_art.pvr.ccz in Resources */,
+				C4AC2BF416466D9D00002EE3 /* Ninja.plist in Resources */,
+				C4AC2BF716466E6700002EE3 /* game_ninja_eyes_1.png in Resources */,
+				C4AC2BF816466E6700002EE3 /* game_ninja_eyes_2.png in Resources */,
+				C4AC2BFA1646745100002EE3 /* game_ninja_neutral.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1564,6 +1577,7 @@
 				C4F6B5A4163133E2007C5C63 /* GameScene.m in Sources */,
 				C4610EC8163871B800EB1006 /* GameOverScene.m in Sources */,
 				C4610ECC163871C400EB1006 /* GameOverLayer.m in Sources */,
+				C4AC2BF216466BA900002EE3 /* Ninja.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

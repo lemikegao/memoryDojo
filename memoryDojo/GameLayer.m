@@ -9,9 +9,11 @@
 #import "GameLayer.h"
 #import "Constants.h"
 #import "GameManager.h"
+#import "Ninja.h"
 
 @interface GameLayer()
 
+@property (nonatomic, strong) Ninja *ninja;
 @property (nonatomic, strong) NSMutableArray *sequence;
 @property (nonatomic, strong) NSMutableArray *sequenceSprites;
 @property (nonatomic) int currentSequencePosition;
@@ -73,6 +75,11 @@
         backgroundBottom.anchorPoint = ccp(0, 1);
         backgroundBottom.position = ccp(0, screenSeparator.position.y - screenSeparator.boundingBox.size.height/2);
         [self addChild:backgroundBottom z:-1];
+        
+        // initialize ninja
+        _ninja = [[Ninja alloc] init];
+        _ninja.position = ccp(screenSize.width/2, screenSize.height * 0.27f);
+        [self addChild:_ninja z:10];
         
         // initialize sequence
         self.currentSequencePosition = 0;
@@ -208,18 +215,22 @@
 
 -(void)handleLeftSwipe {
     [self checkIfSwipeIsCorrect:kDirectionTypeLeft];
+    [self.ninja changeState:kCharacterStateLeft];
 }
 
 -(void)handleDownSwipe {
     [self checkIfSwipeIsCorrect:kDirectionTypeDown];
+    [self.ninja changeState:kCharacterStateDown];
 }
 
 -(void)handleRightSwipe {
     [self checkIfSwipeIsCorrect:kDirectionTypeRight];
+    [self.ninja changeState:kCharacterStateRight];
 }
 
 -(void)handleUpSwipe {
     [self checkIfSwipeIsCorrect:kDirectionTypeUp];
+    [self.ninja changeState:kCharacterStateUp];
 }
 
 -(void)checkIfSwipeIsCorrect:(DirectionTypes)direction {

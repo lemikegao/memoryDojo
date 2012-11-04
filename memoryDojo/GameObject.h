@@ -15,6 +15,7 @@
 @property (nonatomic) BOOL isActive;
 @property (nonatomic) CGSize screenSize;
 @property (nonatomic) GameObjectType gameObjectType;
+@property (nonatomic) CharacterStates characterState;
 
 -(void)changeState:(CharacterStates)newState;
 -(void)updateStateWithDeltaTime:(ccTime)deltaTime andListOfGameObjects:(CCArray*)listOfGameObjects;

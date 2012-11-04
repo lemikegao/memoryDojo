@@ -10,7 +10,11 @@
 #define memoryDojo_CommonProtocols_h
 
 typedef enum {
-    kCharacterStateIdle = 0
+    kCharacterStateIdle = 0,
+    kCharacterStateLeft,
+    kCharacterStateDown,
+    kCharacterStateRight,
+    kCharacterStateUp
 } CharacterStates;
 
 typedef enum {
