@@ -13,6 +13,7 @@
 
 @interface GameLayer()
 
+@property (nonatomic) BOOL isGamePaused;
 @property (nonatomic, strong) Ninja *ninja;
 @property (nonatomic, strong) NSMutableArray *sequence;
 @property (nonatomic, strong) NSMutableArray *sequenceSprites;
@@ -33,6 +34,14 @@
 -(void)handleUpSwipe;
 -(void)checkIfSwipeIsCorrect:(DirectionTypes)direction;
 -(void)startNewRound;
+-(void)pauseGame;
+-(void)pauseAllSchedulerAndActions:(CCNode*)node;
+-(void)resumeGame;
+-(void)resumeAllSchedulerAndActions:(CCNode*)node;
+-(void)confirmRestartGame;
+-(void)restartGame;
+-(void)confirmQuitGame;
+-(void)quitGame;
 -(void)playGameOverScene;
 
 @end
@@ -44,6 +53,12 @@
     if (self != nil) {
         // load texture atlas
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"game_art.plist"];
+        
+        // do not allow swipe input until sensei performs the sequence
+        self.enableGestures = NO;
+        
+        // game is not paused
+        self.isGamePaused = NO;
 
         [GameManager sharedGameManager].score = 0;
         CGSize screenSize = [CCDirector sharedDirector].winSize;
@@ -68,26 +83,26 @@
         // add top bar on top of background half
         topBar.anchorPoint = ccp(0, 0);
         topBar.position = ccp(0, screenSeparator.position.y + screenSeparator.boundingBox.size.height/2 + backgroundTop.boundingBox.size.height);
-        [self addChild:topBar z:-1];
+        [self addChild:topBar z:5];
         
         // add score to top bar
         CCSprite *scoreLabel = [CCSprite spriteWithSpriteFrameName:@"game_top_score.png"];
         scoreLabel.anchorPoint = ccp(0, 1);
         scoreLabel.position = ccp(topBarWidth * 0.05f, topBarHeight * 0.90f);
-        [topBar addChild:scoreLabel z:1];
+        [topBar addChild:scoreLabel z:10];
         
         // reset score to 0
         [GameManager sharedGameManager].score = 0;
         CCLabelBMFont *score = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].score] fntFile:@"Score.fnt"];
         score.anchorPoint = ccp(0, 1);
         score.position = ccp(topBarWidth * 0.05f, topBarHeight * 0.58f);
-        [topBar addChild:score z:1];
+        [topBar addChild:score z:10];
         
         // add time to top bar
         CCSprite *timeLabel = [CCSprite spriteWithSpriteFrameName:@"game_top_time.png"];
         timeLabel.anchorPoint = ccp(0, 1);
         timeLabel.position = ccp(topBarWidth * 0.30f, topBarHeight * 0.90f);
-        [topBar addChild:timeLabel z:1];
+        [topBar addChild:timeLabel z:10];
         
         self.timer = [CCProgressTimer progressWithSprite:[CCSprite spriteWithSpriteFrameName:@"game_top_time_active.png"]];
         self.timer.type = kCCProgressTimerTypeBar;
@@ -96,7 +111,17 @@
         self.timer.barChangeRate = ccp(1, 0);
         self.timer.percentage = 100;
         self.timer.position = ccp(topBarWidth * 0.30f, topBarHeight * 0.58f);
-        [topBar addChild:self.timer z:1];
+        [topBar addChild:self.timer z:10];
+        
+        // add pause button to top bar
+        CCMenuItemImage *pauseGameButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_top_button_pause.png"] selectedSprite:nil target:self selector:@selector(pauseGame)];
+        pauseGameButton.anchorPoint = ccp(1, 0.5);
+        pauseGameButton.position = ccp(topBarWidth * 0.95f, topBarHeight * 0.50f);
+        
+        CCMenu *pauseMenu = [CCMenu menuWithItems:pauseGameButton, nil];
+        pauseMenu.anchorPoint = ccp(0, 0);
+        pauseMenu.position = CGPointZero;
+        [topBar addChild:pauseMenu z:10];
         
         // add bottom background half below separator
         CCSprite *backgroundBottom = [CCSprite spriteWithSpriteFrameName:@"game_bg_bottom.png"];
@@ -119,19 +144,20 @@
             NSLog(@"sequence at %i: %@", i, self.sequence[i]);
         }
         
-        self.enableGestures = NO;
+        // display the rules then start the game!
+        CCSprite *gameInstructions = [CCSprite spriteWithSpriteFrameName:@"game_instructions.png"];
+        gameInstructions.anchorPoint = ccp(0.5f, 0);
+        gameInstructions.position = ccp(screenSize.width/2, topBar.position.y);
+        [self addChild:gameInstructions z:1 tag:kGameInstructionsTagValue];
         
-//        CCLabelBMFont *gameBeginLabel = [CCLabelBMFont labelWithString:@"Game Start" fntFile:@"SpaceVikingFont.fnt"];
-//        gameBeginLabel.position = ccp(screenSize.width/2, screenSize.height/2);
-//        [self addChild:gameBeginLabel];
-//        id labelAction = [CCSpawn actions:[CCScaleBy actionWithDuration:1.0f scale:4], [CCFadeOut actionWithDuration:1.0f], nil];
+        // display sequence after label disappears
+        id moveGameInstructionsDown = [CCMoveTo actionWithDuration:1.5f position:ccp(screenSize.width/2, screenSize.height * 0.70f)];
+        id pauseGameInstructions = [CCDelayTime actionWithDuration:2.0f];
+        id moveGameInstructionsUp = [CCMoveTo actionWithDuration:1.5f position:ccp(screenSize.width/2, topBar.position.y)];
+        id callStartDisplaySequenceSelector = [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)];
         
-        // display arrows after label disappears
-//        id action = [CCSequence actions:labelAction, [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
-        
-//        [gameBeginLabel runAction:action];
-        
-        [self scheduleUpdate];
+        id action = [CCSequence actions:moveGameInstructionsDown, pauseGameInstructions, moveGameInstructionsUp, callStartDisplaySequenceSelector, nil];
+        [gameInstructions runAction:action];
     }
     
     return self;
@@ -168,8 +194,11 @@
 }
 
 -(void)startDisplaySequenceSelector {
+    // remove instructions
+    [self removeChildByTag:kGameInstructionsTagValue cleanup:YES];
     PLAYSOUNDEFFECT(GONG);
-    [self schedule:@selector(displaySequence:) interval:0.4];
+    [self scheduleUpdate];  // temp
+//    [self schedule:@selector(displaySequence:) interval:0.4]; // uncomment for real game
 }
 
 -(void)startGameplaySelector {
@@ -235,39 +264,45 @@
 }
 
 -(void)handleLeftSwipe {
-    [self checkIfSwipeIsCorrect:kDirectionTypeLeft];
-    [self.ninja changeState:kCharacterStateLeft];
+    if (self.enableGestures && !self.isGamePaused) {
+        [self checkIfSwipeIsCorrect:kDirectionTypeLeft];
+        [self.ninja changeState:kCharacterStateLeft];
+    }
 }
 
 -(void)handleDownSwipe {
-    [self checkIfSwipeIsCorrect:kDirectionTypeDown];
-    [self.ninja changeState:kCharacterStateDown];
+    if (self.enableGestures && !self.isGamePaused) {
+        [self checkIfSwipeIsCorrect:kDirectionTypeDown];
+        [self.ninja changeState:kCharacterStateDown];
+    }
 }
 
 -(void)handleRightSwipe {
-    [self checkIfSwipeIsCorrect:kDirectionTypeRight];
-    [self.ninja changeState:kCharacterStateRight];
+    if (self.enableGestures && !self.isGamePaused) {
+        [self checkIfSwipeIsCorrect:kDirectionTypeRight];
+        [self.ninja changeState:kCharacterStateRight];
+    }
 }
 
 -(void)handleUpSwipe {
-    [self checkIfSwipeIsCorrect:kDirectionTypeUp];
-    [self.ninja changeState:kCharacterStateUp];
+    if (self.enableGestures && !self.isGamePaused) {
+        [self checkIfSwipeIsCorrect:kDirectionTypeUp];
+        [self.ninja changeState:kCharacterStateUp];
+    }
 }
 
 -(void)checkIfSwipeIsCorrect:(DirectionTypes)direction {
-    if (self.enableGestures) {
-        if ([self.sequence[self.currentSequencePosition] intValue] == direction) {
-            self.currentSequencePosition++;
-            CCLOG(@"Correct swipe detected: %i", direction);
-        } else {
-            CCLOG(@"You lose!");
-            [self playGameOverScene];
-        }
-        
-        // check if sequence is complete
-        if ([self.sequence count] == (self.currentSequencePosition)) {
-            [self startNewRound];
-        }
+    if ([self.sequence[self.currentSequencePosition] intValue] == direction) {
+        self.currentSequencePosition++;
+        CCLOG(@"Correct swipe detected: %i", direction);
+    } else {
+        CCLOG(@"You lose!");
+        [self playGameOverScene];
+    }
+    
+    // check if sequence is complete
+    if ([self.sequence count] == (self.currentSequencePosition)) {
+        [self startNewRound];
     }
 }
 
@@ -294,6 +329,104 @@
     id action = [CCSequence actions:labelAction, [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
     
     [newRoundLabel runAction:action];
+}
+
+-(void)pauseGame {
+    if (self.isGamePaused == NO) {
+        self.isGamePaused = YES;
+        [self pauseSchedulerAndActions];
+        for (CCNode *node in [self children]) {
+            [self pauseAllSchedulerAndActions:node];
+        }
+        
+        // show paused menu
+        CGSize screenSize = [CCDirector sharedDirector].winSize;
+        CCSprite *pausedBg = [CCSprite spriteWithSpriteFrameName:@"game_paused_bg.png"];
+        pausedBg.position = ccp(screenSize.width/2, screenSize.height/2);
+        [self addChild:pausedBg z:100 tag:kGamePausedBgTagValue];
+        
+        CGFloat pausedBgHeight = pausedBg.boundingBox.size.height;
+        CGFloat pausedBgWidth = pausedBg.boundingBox.size.width;
+        
+        // add game paused label
+        CCSprite *pausedText = [CCSprite spriteWithSpriteFrameName:@"game_paused_text.png"];
+        pausedText.position = ccp(pausedBgWidth/2, pausedBgHeight * 0.88f);
+        [pausedBg addChild:pausedText];
+        
+        // add game paused separator
+        CCSprite *pausedSeparator = [CCSprite spriteWithSpriteFrameName:@"game_paused_line.png"];
+        pausedSeparator.position = ccp(pausedBgWidth * 0.55f, pausedBgHeight * 0.77f);
+        [pausedBg addChild:pausedSeparator];
+        
+        // create game paused resume button
+        CCMenuItemImage *pausedResumeButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_resume.png"] selectedSprite:nil target:self selector:@selector(resumeGame)];
+        pausedResumeButton.anchorPoint = ccp(0, 0.5f);
+//        pausedResumeButton.position = ccp(pausedBgWidth * 0.53f, pausedBgHeight * 0.60f);
+        
+        // create game paused restart button
+        CCMenuItemImage *pausedRestartButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_restart.png"] selectedSprite:nil target:self selector:@selector(confirmRestartGame)];
+        pausedRestartButton.anchorPoint = ccp(0, 0.5f);
+        
+        CCMenuItemImage *pausedQuitButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_quit.png"] selectedSprite:nil target:self selector:@selector(confirmQuitGame)];
+        pausedQuitButton.anchorPoint = ccp(0, 0.5f);
+        
+        CCMenu *pausedMenu = [CCMenu menuWithItems:pausedResumeButton, pausedRestartButton, pausedQuitButton, nil];
+        [pausedMenu alignItemsVerticallyWithPadding:pausedBgHeight * 0.085f];
+        pausedMenu.anchorPoint = ccp(0, 0.5);
+        pausedMenu.position = ccp(pausedBgWidth * 0.23f, pausedBgHeight * 0.44f);
+        [pausedBg addChild:pausedMenu z:10];
+    }
+}
+
+-(void)pauseAllSchedulerAndActions:(CCNode*)node {
+    [node pauseSchedulerAndActions];
+    for (CCNode *nodeChild in [node children]) {
+        if (nodeChild.children) {
+            [self pauseAllSchedulerAndActions:nodeChild];
+        } else {
+            [nodeChild pauseSchedulerAndActions];
+        }
+    }
+}
+
+-(void)resumeGame {
+    if (self.isGamePaused == YES) {
+        self.isGamePaused = NO;
+        [self resumeSchedulerAndActions];
+        for (CCNode *node in [self children]) {
+            [self resumeAllSchedulerAndActions:node];
+        }
+    }
+    
+    // remove paused menu from self
+    [self removeChildByTag:kGamePausedBgTagValue cleanup:YES];
+}
+
+-(void)resumeAllSchedulerAndActions:(CCNode*)node {
+    [node resumeSchedulerAndActions];
+    for (CCNode *nodeChild in [node children]) {
+        if (nodeChild.children) {
+            [self resumeAllSchedulerAndActions:nodeChild];
+        } else {
+            [nodeChild resumeSchedulerAndActions];
+        }
+    }
+}
+
+-(void)confirmRestartGame {
+    
+}
+
+-(void)restartGame {
+    
+}
+
+-(void)confirmQuitGame {
+    
+}
+
+-(void)quitGame {
+    
 }
 
 -(void)playGameOverScene {

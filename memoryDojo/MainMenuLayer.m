@@ -70,7 +70,7 @@
     
     CCMenu *mainMenu = [CCMenu menuWithItems:playGameButton, settingsButton, nil];
 
-    // set menu anchor point at 0,0 so menu items can be set with a normal offset
+    // set menu position at 0,0 so menu items can be set with a normal offset
     mainMenu.position = CGPointZero;
     
     [self addChild:mainMenu];
