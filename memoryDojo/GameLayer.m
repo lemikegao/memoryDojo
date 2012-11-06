@@ -36,10 +36,12 @@
 -(void)startNewRound;
 -(void)pauseGame;
 -(void)pauseAllSchedulerAndActions:(CCNode*)node;
+-(void)addPausedMenuItems;
 -(void)resumeGame;
 -(void)resumeAllSchedulerAndActions:(CCNode*)node;
 -(void)confirmRestartGame;
 -(void)restartGame;
+-(void)goBackToPausedMenu;
 -(void)confirmQuitGame;
 -(void)quitGame;
 -(void)playGameOverScene;
@@ -344,37 +346,7 @@
         CCSprite *pausedBg = [CCSprite spriteWithSpriteFrameName:@"game_paused_bg.png"];
         pausedBg.position = ccp(screenSize.width/2, screenSize.height/2);
         [self addChild:pausedBg z:100 tag:kGamePausedBgTagValue];
-        
-        CGFloat pausedBgHeight = pausedBg.boundingBox.size.height;
-        CGFloat pausedBgWidth = pausedBg.boundingBox.size.width;
-        
-        // add game paused label
-        CCSprite *pausedText = [CCSprite spriteWithSpriteFrameName:@"game_paused_text.png"];
-        pausedText.position = ccp(pausedBgWidth/2, pausedBgHeight * 0.88f);
-        [pausedBg addChild:pausedText];
-        
-        // add game paused separator
-        CCSprite *pausedSeparator = [CCSprite spriteWithSpriteFrameName:@"game_paused_line.png"];
-        pausedSeparator.position = ccp(pausedBgWidth * 0.55f, pausedBgHeight * 0.77f);
-        [pausedBg addChild:pausedSeparator];
-        
-        // create game paused resume button
-        CCMenuItemImage *pausedResumeButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_resume.png"] selectedSprite:nil target:self selector:@selector(resumeGame)];
-        pausedResumeButton.anchorPoint = ccp(0, 0.5f);
-//        pausedResumeButton.position = ccp(pausedBgWidth * 0.53f, pausedBgHeight * 0.60f);
-        
-        // create game paused restart button
-        CCMenuItemImage *pausedRestartButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_restart.png"] selectedSprite:nil target:self selector:@selector(confirmRestartGame)];
-        pausedRestartButton.anchorPoint = ccp(0, 0.5f);
-        
-        CCMenuItemImage *pausedQuitButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_quit.png"] selectedSprite:nil target:self selector:@selector(confirmQuitGame)];
-        pausedQuitButton.anchorPoint = ccp(0, 0.5f);
-        
-        CCMenu *pausedMenu = [CCMenu menuWithItems:pausedResumeButton, pausedRestartButton, pausedQuitButton, nil];
-        [pausedMenu alignItemsVerticallyWithPadding:pausedBgHeight * 0.085f];
-        pausedMenu.anchorPoint = ccp(0, 0.5);
-        pausedMenu.position = ccp(pausedBgWidth * 0.23f, pausedBgHeight * 0.44f);
-        [pausedBg addChild:pausedMenu z:10];
+        [self addPausedMenuItems];
     }
 }
 
@@ -387,6 +359,40 @@
             [nodeChild pauseSchedulerAndActions];
         }
     }
+}
+
+-(void)addPausedMenuItems {
+    CCSprite *pausedBg = (CCSprite*)[self getChildByTag:kGamePausedBgTagValue];
+    
+    CGFloat pausedBgHeight = pausedBg.boundingBox.size.height;
+    CGFloat pausedBgWidth = pausedBg.boundingBox.size.width;
+    
+    // add game paused label
+    CCSprite *pausedText = [CCSprite spriteWithSpriteFrameName:@"game_paused_text.png"];
+    pausedText.position = ccp(pausedBgWidth/2, pausedBgHeight * 0.88f);
+    [pausedBg addChild:pausedText];
+    
+    // add game paused separator
+    CCSprite *pausedSeparator = [CCSprite spriteWithSpriteFrameName:@"game_paused_line.png"];
+    pausedSeparator.position = ccp(pausedBgWidth * 0.55f, pausedBgHeight * 0.77f);
+    [pausedBg addChild:pausedSeparator];
+    
+    // create game paused resume button
+    CCMenuItemImage *pausedResumeButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_resume.png"] selectedSprite:nil target:self selector:@selector(resumeGame)];
+    pausedResumeButton.anchorPoint = ccp(0, 0.5f);
+    
+    // create game paused restart button
+    CCMenuItemImage *pausedRestartButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_restart.png"] selectedSprite:nil target:self selector:@selector(confirmRestartGame)];
+    pausedRestartButton.anchorPoint = ccp(0, 0.5f);
+    
+    CCMenuItemImage *pausedQuitButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_quit.png"] selectedSprite:nil target:self selector:@selector(confirmQuitGame)];
+    pausedQuitButton.anchorPoint = ccp(0, 0.5f);
+    
+    CCMenu *pausedMenu = [CCMenu menuWithItems:pausedResumeButton, pausedRestartButton, pausedQuitButton, nil];
+    [pausedMenu alignItemsVerticallyWithPadding:pausedBgHeight * 0.085f];
+    pausedMenu.anchorPoint = ccp(0, 0.5);
+    pausedMenu.position = ccp(pausedBgWidth * 0.23f, pausedBgHeight * 0.44f);
+    [pausedBg addChild:pausedMenu z:10];
 }
 
 -(void)resumeGame {
@@ -414,10 +420,37 @@
 }
 
 -(void)confirmRestartGame {
+    CCSprite *pausedBg = (CCSprite*)[self getChildByTag:kGamePausedBgTagValue];
+    CGFloat pausedBgWidth = pausedBg.boundingBox.size.width;
+    CGFloat pausedBgHeight = pausedBg.boundingBox.size.height;
     
+    // remove all children from pausedBg first
+    [pausedBg removeAllChildrenWithCleanup:YES];
+    
+    // add restart confirmation text
+    CCSprite *pausedRestartConfirmation = [CCSprite spriteWithSpriteFrameName:@"game_paused_restartconfirmation_text.png"];
+    pausedRestartConfirmation.position = ccp(pausedBgWidth/2, pausedBgHeight * 0.73f);
+    [pausedBg addChild:pausedRestartConfirmation];
+    
+    // add no or yes options
+    CCMenuItemImage *pausedButtonNo = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_no.png"] selectedSprite:nil target:self selector:@selector(goBackToPausedMenu)];
+    pausedButtonNo.anchorPoint = ccp(0.5f, 0);
+    
+    CCMenuItemImage *pausedButtonYes = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_yes.png"] selectedSprite:nil target:self selector:@selector(restartGame)];
+    pausedButtonYes.anchorPoint = ccp(0.5f, 0);
+    
+    CCMenu *pausedMenuRestartConfirmation = [CCMenu menuWithItems:pausedButtonNo, pausedButtonYes, nil];
+    [pausedMenuRestartConfirmation alignItemsHorizontallyWithPadding:pausedBgWidth * 0.2f];
+    pausedMenuRestartConfirmation.anchorPoint = ccp(0.5f, 0);
+    pausedMenuRestartConfirmation.position = ccp(pausedBgWidth * 0.5f, pausedBgHeight * 0.30f);
+    [pausedBg addChild:pausedMenuRestartConfirmation z:10];
 }
 
 -(void)restartGame {
+    
+}
+
+-(void)goBackToPausedMenu {
     
 }
 
