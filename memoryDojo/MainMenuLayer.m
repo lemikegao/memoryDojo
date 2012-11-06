@@ -9,6 +9,7 @@
 #import "MainMenuLayer.h"
 #import "Constants.h"
 #import "GameManager.h"
+#import "MainMenuNinja.h"
 
 @interface MainMenuLayer()
 
@@ -35,9 +36,9 @@
         [self addChild:gameTitle];
         gameTitle.position = ccp(screenSize.width * 0.77f, screenSize.height * 0.85f);
         
-        CCSprite *ninja = [CCSprite spriteWithSpriteFrameName:@"mainmenu_ninja.png"];
-        [self addChild:ninja];
+        MainMenuNinja *ninja = [[MainMenuNinja alloc] init];
         ninja.position = ccp(screenSize.width * 0.612f, screenSize.height * 0.468f);
+        [self addChild:ninja];
         
         [self displayMainMenu];
     }
