@@ -378,14 +378,14 @@
     [pausedBg addChild:pausedSeparator];
     
     // create game paused resume button
-    CCMenuItemImage *pausedResumeButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_resume.png"] selectedSprite:nil target:self selector:@selector(resumeGame)];
+    CCMenuItemImage *pausedResumeButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_resume.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_resume_pressed.png"] target:self selector:@selector(resumeGame)];
     pausedResumeButton.anchorPoint = ccp(0, 0.5f);
     
     // create game paused restart button
-    CCMenuItemImage *pausedRestartButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_restart.png"] selectedSprite:nil target:self selector:@selector(confirmRestartGame)];
+    CCMenuItemImage *pausedRestartButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_restart.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_restart_pressed.png"] target:self selector:@selector(confirmRestartGame)];
     pausedRestartButton.anchorPoint = ccp(0, 0.5f);
     
-    CCMenuItemImage *pausedQuitButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_quit.png"] selectedSprite:nil target:self selector:@selector(confirmQuitGame)];
+    CCMenuItemImage *pausedQuitButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_quit.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_quit_pressed.png"] target:self selector:@selector(confirmQuitGame)];
     pausedQuitButton.anchorPoint = ccp(0, 0.5f);
     
     CCMenu *pausedMenu = [CCMenu menuWithItems:pausedResumeButton, pausedRestartButton, pausedQuitButton, nil];
@@ -433,10 +433,10 @@
     [pausedBg addChild:pausedRestartConfirmation];
     
     // add no or yes options
-    CCMenuItemImage *pausedButtonNo = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_no.png"] selectedSprite:nil target:self selector:@selector(goBackToPausedMenu)];
+    CCMenuItemImage *pausedButtonNo = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_no.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_no_pressed.png"] target:self selector:@selector(goBackToPausedMenu)];
     pausedButtonNo.anchorPoint = ccp(0.5f, 0);
     
-    CCMenuItemImage *pausedButtonYes = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_yes.png"] selectedSprite:nil target:self selector:@selector(restartGame)];
+    CCMenuItemImage *pausedButtonYes = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_yes.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_yes_pressed.png"] target:self selector:@selector(restartGame)];
     pausedButtonYes.anchorPoint = ccp(0.5f, 0);
     
     CCMenu *pausedMenuRestartConfirmation = [CCMenu menuWithItems:pausedButtonNo, pausedButtonYes, nil];
