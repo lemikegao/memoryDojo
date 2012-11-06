@@ -50,9 +50,9 @@
         
         // create topBar sprite for height; position screen separator in the middle below the top bar
         CCSprite *topBar = [CCSprite spriteWithSpriteFrameName:@"game_top_bar.png"];
-//        topBar.anchorPoint = ccp(0, 1);
-//        topBar.position = ccp(0, screenSize.height);
-//        [self addChild:topBar z:-1];
+        // save topBar width and height
+        CGFloat topBarWidth = topBar.boundingBox.size.width;
+        CGFloat topBarHeight = topBar.boundingBox.size.height;
         
         // add game screen separator
         CCSprite *screenSeparator = [CCSprite spriteWithSpriteFrameName:@"game_screen_separator.png"];
@@ -69,6 +69,34 @@
         topBar.anchorPoint = ccp(0, 0);
         topBar.position = ccp(0, screenSeparator.position.y + screenSeparator.boundingBox.size.height/2 + backgroundTop.boundingBox.size.height);
         [self addChild:topBar z:-1];
+        
+        // add score to top bar
+        CCSprite *scoreLabel = [CCSprite spriteWithSpriteFrameName:@"game_top_score.png"];
+        scoreLabel.anchorPoint = ccp(0, 1);
+        scoreLabel.position = ccp(topBarWidth * 0.05f, topBarHeight * 0.90f);
+        [topBar addChild:scoreLabel z:1];
+        
+        // reset score to 0
+        [GameManager sharedGameManager].score = 0;
+        CCLabelBMFont *score = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].score] fntFile:@"Score.fnt"];
+        score.anchorPoint = ccp(0, 1);
+        score.position = ccp(topBarWidth * 0.05f, topBarHeight * 0.58f);
+        [topBar addChild:score z:1];
+        
+        // add time to top bar
+        CCSprite *timeLabel = [CCSprite spriteWithSpriteFrameName:@"game_top_time.png"];
+        timeLabel.anchorPoint = ccp(0, 1);
+        timeLabel.position = ccp(topBarWidth * 0.30f, topBarHeight * 0.90f);
+        [topBar addChild:timeLabel z:1];
+        
+        self.timer = [CCProgressTimer progressWithSprite:[CCSprite spriteWithSpriteFrameName:@"game_top_time_active.png"]];
+        self.timer.type = kCCProgressTimerTypeBar;
+        self.timer.anchorPoint = ccp(0, 1);
+        self.timer.midpoint = ccp(0, 0.5f);
+        self.timer.barChangeRate = ccp(1, 0);
+        self.timer.percentage = 100;
+        self.timer.position = ccp(topBarWidth * 0.30f, topBarHeight * 0.58f);
+        [topBar addChild:self.timer z:1];
         
         // add bottom background half below separator
         CCSprite *backgroundBottom = [CCSprite spriteWithSpriteFrameName:@"game_bg_bottom.png"];
@@ -91,15 +119,6 @@
             NSLog(@"sequence at %i: %@", i, self.sequence[i]);
         }
         
-//        self.timer = [CCProgressTimer progressWithSprite:[CCSprite spriteWithFile:@"funding_bar_hd.png"]];
-//        self.timer.type = kCCProgressTimerTypeBar;
-//        self.timer.midpoint = ccp(0, 0.5f);
-//        self.timer.barChangeRate = ccp(1, 0);
-//        self.timer.percentage = 100;
-//        self.timer.position = ccp(screenSize.width/2, screenSize.height * .90f);
-//        self.timer.scaleX = 0.50f;  // temporary because of HD size
-//        [self addChild:self.timer z:kProgressZValue tag:kProgressTimerTagValue];
-        
         self.enableGestures = NO;
         
 //        CCLabelBMFont *gameBeginLabel = [CCLabelBMFont labelWithString:@"Game Start" fntFile:@"SpaceVikingFont.fnt"];
@@ -111,6 +130,8 @@
 //        id action = [CCSequence actions:labelAction, [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
         
 //        [gameBeginLabel runAction:action];
+        
+        [self scheduleUpdate];
     }
     
     return self;
