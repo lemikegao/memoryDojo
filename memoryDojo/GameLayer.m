@@ -10,11 +10,13 @@
 #import "Constants.h"
 #import "GameManager.h"
 #import "Ninja.h"
+#import "Sensei.h"
 
 @interface GameLayer()
 
 @property (nonatomic) BOOL isGamePaused;
 @property (nonatomic, strong) Ninja *ninja;
+@property (nonatomic, strong) Sensei *sensei;
 @property (nonatomic, strong) NSMutableArray *sequence;
 @property (nonatomic, strong) NSMutableArray *sequenceSprites;
 @property (nonatomic) int currentSequencePosition;
@@ -25,6 +27,7 @@
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeDownRecognizer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeRightRecognizer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeUpRecognizer;
+-(void)initializeGame;
 -(void)startDisplaySequenceSelector;
 -(void)startGameplaySelector;
 -(void)displaySequence:(ccTime)deltaTime;
@@ -40,8 +43,8 @@
 -(void)resumeGame;
 -(void)resumeAllSchedulerAndActions:(CCNode*)node;
 -(void)confirmRestartGame;
--(void)restartGame;
 -(void)goBackToPausedMenu;
+-(void)restartGame;
 -(void)confirmQuitGame;
 -(void)quitGame;
 -(void)playGameOverScene;
@@ -55,114 +58,122 @@
     if (self != nil) {
         // load texture atlas
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"game_art.plist"];
-        
-        // do not allow swipe input until sensei performs the sequence
-        self.enableGestures = NO;
-        
-        // game is not paused
-        self.isGamePaused = NO;
-
-        [GameManager sharedGameManager].score = 0;
-        CGSize screenSize = [CCDirector sharedDirector].winSize;
-        
-        // create topBar sprite for height; position screen separator in the middle below the top bar
-        CCSprite *topBar = [CCSprite spriteWithSpriteFrameName:@"game_top_bar.png"];
-        // save topBar width and height
-        CGFloat topBarWidth = topBar.boundingBox.size.width;
-        CGFloat topBarHeight = topBar.boundingBox.size.height;
-        
-        // add game screen separator
-        CCSprite *screenSeparator = [CCSprite spriteWithSpriteFrameName:@"game_screen_separator.png"];
-        screenSeparator.position = ccp(screenSize.width/2, (screenSize.height - topBar.boundingBox.size.height)/2);
-        [self addChild:screenSeparator z:1];
-        
-        // add top background half
-        CCSprite *backgroundTop = [CCSprite spriteWithSpriteFrameName:@"game_bg_top.png"];
-        backgroundTop.anchorPoint = ccp(0, 0);
-        backgroundTop.position = ccp(0, screenSeparator.position.y + screenSeparator.boundingBox.size.height/2);
-        [self addChild:backgroundTop z:-1];
-        
-        // add top bar on top of background half
-        topBar.anchorPoint = ccp(0, 0);
-        topBar.position = ccp(0, screenSeparator.position.y + screenSeparator.boundingBox.size.height/2 + backgroundTop.boundingBox.size.height);
-        [self addChild:topBar z:5];
-        
-        // add score to top bar
-        CCSprite *scoreLabel = [CCSprite spriteWithSpriteFrameName:@"game_top_score.png"];
-        scoreLabel.anchorPoint = ccp(0, 1);
-        scoreLabel.position = ccp(topBarWidth * 0.05f, topBarHeight * 0.90f);
-        [topBar addChild:scoreLabel z:10];
-        
-        // reset score to 0
-        [GameManager sharedGameManager].score = 0;
-        CCLabelBMFont *score = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].score] fntFile:@"Score.fnt"];
-        score.anchorPoint = ccp(0, 1);
-        score.position = ccp(topBarWidth * 0.05f, topBarHeight * 0.58f);
-        [topBar addChild:score z:10];
-        
-        // add time to top bar
-        CCSprite *timeLabel = [CCSprite spriteWithSpriteFrameName:@"game_top_time.png"];
-        timeLabel.anchorPoint = ccp(0, 1);
-        timeLabel.position = ccp(topBarWidth * 0.30f, topBarHeight * 0.90f);
-        [topBar addChild:timeLabel z:10];
-        
-        self.timer = [CCProgressTimer progressWithSprite:[CCSprite spriteWithSpriteFrameName:@"game_top_time_active.png"]];
-        self.timer.type = kCCProgressTimerTypeBar;
-        self.timer.anchorPoint = ccp(0, 1);
-        self.timer.midpoint = ccp(0, 0.5f);
-        self.timer.barChangeRate = ccp(1, 0);
-        self.timer.percentage = 100;
-        self.timer.position = ccp(topBarWidth * 0.30f, topBarHeight * 0.58f);
-        [topBar addChild:self.timer z:10];
-        
-        // add pause button to top bar
-        CCMenuItemImage *pauseGameButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_top_button_pause.png"] selectedSprite:nil target:self selector:@selector(pauseGame)];
-        pauseGameButton.anchorPoint = ccp(1, 0.5);
-        pauseGameButton.position = ccp(topBarWidth * 0.95f, topBarHeight * 0.50f);
-        
-        CCMenu *pauseMenu = [CCMenu menuWithItems:pauseGameButton, nil];
-        pauseMenu.anchorPoint = ccp(0, 0);
-        pauseMenu.position = CGPointZero;
-        [topBar addChild:pauseMenu z:10];
-        
-        // add bottom background half below separator
-        CCSprite *backgroundBottom = [CCSprite spriteWithSpriteFrameName:@"game_bg_bottom.png"];
-        backgroundBottom.anchorPoint = ccp(0, 1);
-        backgroundBottom.position = ccp(0, screenSeparator.position.y - screenSeparator.boundingBox.size.height/2);
-        [self addChild:backgroundBottom z:-1];
-        
-        // initialize ninja
-        _ninja = [[Ninja alloc] init];
-        _ninja.position = ccp(screenSize.width/2, screenSize.height * 0.27f);
-        [self addChild:_ninja z:10];
-        
-        // initialize sequence
-        self.currentSequencePosition = 0;
-        self.currentDisplaySequencePosition = 0;
-        self.sequence = [[NSMutableArray alloc] initWithCapacity:100];
-        self.sequenceSprites = [[NSMutableArray alloc] initWithCapacity:100];
-        for (int i=0; i<4; i++) {
-            self.sequence[i] = [NSNumber numberWithInt:arc4random_uniform(4) + 1];
-            NSLog(@"sequence at %i: %@", i, self.sequence[i]);
-        }
-        
-        // display the rules then start the game!
-        CCSprite *gameInstructions = [CCSprite spriteWithSpriteFrameName:@"game_instructions.png"];
-        gameInstructions.anchorPoint = ccp(0.5f, 0);
-        gameInstructions.position = ccp(screenSize.width/2, topBar.position.y);
-        [self addChild:gameInstructions z:1 tag:kGameInstructionsTagValue];
-        
-        // display sequence after label disappears
-        id moveGameInstructionsDown = [CCMoveTo actionWithDuration:1.5f position:ccp(screenSize.width/2, screenSize.height * 0.70f)];
-        id pauseGameInstructions = [CCDelayTime actionWithDuration:2.0f];
-        id moveGameInstructionsUp = [CCMoveTo actionWithDuration:1.5f position:ccp(screenSize.width/2, topBar.position.y)];
-        id callStartDisplaySequenceSelector = [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)];
-        
-        id action = [CCSequence actions:moveGameInstructionsDown, pauseGameInstructions, moveGameInstructionsUp, callStartDisplaySequenceSelector, nil];
-        [gameInstructions runAction:action];
+        [self initializeGame];
     }
     
     return self;
+}
+
+-(void)initializeGame {
+    // do not allow swipe input until sensei performs the sequence
+    self.enableGestures = NO;
+    
+    // game is not paused
+    self.isGamePaused = NO;
+    
+    [GameManager sharedGameManager].score = 0;
+    CGSize screenSize = [CCDirector sharedDirector].winSize;
+    
+    // create topBar sprite for height; position screen separator in the middle below the top bar
+    CCSprite *topBar = [CCSprite spriteWithSpriteFrameName:@"game_top_bar.png"];
+    // save topBar width and height
+    CGFloat topBarWidth = topBar.boundingBox.size.width;
+    CGFloat topBarHeight = topBar.boundingBox.size.height;
+    
+    // add game screen separator
+    CCSprite *screenSeparator = [CCSprite spriteWithSpriteFrameName:@"game_screen_separator.png"];
+    screenSeparator.position = ccp(screenSize.width/2, (screenSize.height - topBar.boundingBox.size.height)/2);
+    [self addChild:screenSeparator z:1];
+    
+    // add top background half
+    CCSprite *backgroundTop = [CCSprite spriteWithSpriteFrameName:@"game_bg_top.png"];
+    backgroundTop.anchorPoint = ccp(0, 0);
+    backgroundTop.position = ccp(0, screenSeparator.position.y + screenSeparator.boundingBox.size.height/2);
+    [self addChild:backgroundTop z:-1];
+    
+    // add top bar on top of background half
+    topBar.anchorPoint = ccp(0, 0);
+    topBar.position = ccp(0, screenSeparator.position.y + screenSeparator.boundingBox.size.height/2 + backgroundTop.boundingBox.size.height);
+    [self addChild:topBar z:5];
+    
+    // add score to top bar
+    CCSprite *scoreLabel = [CCSprite spriteWithSpriteFrameName:@"game_top_score.png"];
+    scoreLabel.anchorPoint = ccp(0, 1);
+    scoreLabel.position = ccp(topBarWidth * 0.05f, topBarHeight * 0.90f);
+    [topBar addChild:scoreLabel z:10];
+    
+    // reset score to 0
+    [GameManager sharedGameManager].score = 0;
+    CCLabelBMFont *score = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].score] fntFile:@"Score.fnt"];
+    score.anchorPoint = ccp(0, 1);
+    score.position = ccp(topBarWidth * 0.05f, topBarHeight * 0.58f);
+    [topBar addChild:score z:10];
+    
+    // add time to top bar
+    CCSprite *timeLabel = [CCSprite spriteWithSpriteFrameName:@"game_top_time.png"];
+    timeLabel.anchorPoint = ccp(0, 1);
+    timeLabel.position = ccp(topBarWidth * 0.30f, topBarHeight * 0.90f);
+    [topBar addChild:timeLabel z:10];
+    
+    self.timer = [CCProgressTimer progressWithSprite:[CCSprite spriteWithSpriteFrameName:@"game_top_time_active.png"]];
+    self.timer.type = kCCProgressTimerTypeBar;
+    self.timer.anchorPoint = ccp(0, 1);
+    self.timer.midpoint = ccp(0, 0.5f);
+    self.timer.barChangeRate = ccp(1, 0);
+    self.timer.percentage = 100;
+    self.timer.position = ccp(topBarWidth * 0.30f, topBarHeight * 0.58f);
+    [topBar addChild:self.timer z:10];
+    
+    // add pause button to top bar
+    CCMenuItemImage *pauseGameButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_top_button_pause.png"] selectedSprite:nil target:self selector:@selector(pauseGame)];
+    pauseGameButton.anchorPoint = ccp(1, 0.5);
+    pauseGameButton.position = ccp(topBarWidth * 0.95f, topBarHeight * 0.50f);
+    
+    CCMenu *pauseMenu = [CCMenu menuWithItems:pauseGameButton, nil];
+    pauseMenu.anchorPoint = ccp(0, 0);
+    pauseMenu.position = CGPointZero;
+    [topBar addChild:pauseMenu z:10];
+    
+    // add bottom background half below separator
+    CCSprite *backgroundBottom = [CCSprite spriteWithSpriteFrameName:@"game_bg_bottom.png"];
+    backgroundBottom.anchorPoint = ccp(0, 1);
+    backgroundBottom.position = ccp(0, screenSeparator.position.y - screenSeparator.boundingBox.size.height/2);
+    [self addChild:backgroundBottom z:-1];
+    
+    // initialize ninja
+    self.ninja = [[Ninja alloc] init];
+    self.ninja.position = ccp(screenSize.width/2, screenSize.height * 0.27f);
+    [self addChild:self.ninja z:1];
+    
+    // initialize sensei
+    self.sensei = [[Sensei alloc] init];
+    self.sensei.position = ccp(screenSize.width/2, screenSize.height * 0.66f);
+    [self addChild:self.sensei z:1];
+    
+    // initialize sequence
+    self.currentSequencePosition = 0;
+    self.currentDisplaySequencePosition = 0;
+    self.sequence = [[NSMutableArray alloc] initWithCapacity:100];
+    self.sequenceSprites = [[NSMutableArray alloc] initWithCapacity:100];
+    for (int i=0; i<4; i++) {
+        self.sequence[i] = [NSNumber numberWithInt:arc4random_uniform(4) + 1];
+        NSLog(@"sequence at %i: %@", i, self.sequence[i]);
+    }
+    
+    // display the rules then start the game!
+    CCSprite *gameInstructions = [CCSprite spriteWithSpriteFrameName:@"game_instructions.png"];
+    gameInstructions.anchorPoint = ccp(0.5f, 0);
+    gameInstructions.position = ccp(screenSize.width/2, topBar.position.y);
+    [self addChild:gameInstructions z:2 tag:kGameInstructionsTagValue];
+    
+    // display sequence after label disappears
+    id moveGameInstructionsDown = [CCMoveTo actionWithDuration:1.5f position:ccp(screenSize.width/2, screenSize.height * 0.70f)];
+    id pauseGameInstructions = [CCDelayTime actionWithDuration:2.0f];
+    id moveGameInstructionsUp = [CCMoveTo actionWithDuration:1.5f position:ccp(screenSize.width/2, topBar.position.y)];
+    id callStartDisplaySequenceSelector = [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)];
+    
+    id action = [CCSequence actions:moveGameInstructionsDown, pauseGameInstructions, moveGameInstructionsUp, callStartDisplaySequenceSelector, nil];
+    [gameInstructions runAction:action];
 }
 
 -(void)onEnter {
@@ -446,20 +457,48 @@
     [pausedBg addChild:pausedMenuRestartConfirmation z:10];
 }
 
--(void)restartGame {
+-(void)goBackToPausedMenu {
+    CCSprite *pausedBg = (CCSprite*)[self getChildByTag:kGamePausedBgTagValue];
+    [pausedBg removeAllChildrenWithCleanup:YES];
     
+    [self addPausedMenuItems];
 }
 
--(void)goBackToPausedMenu {
-    
+-(void)restartGame {
+    [self removeAllChildrenWithCleanup:YES];
+    [self initializeGame];
 }
 
 -(void)confirmQuitGame {
+    CCSprite *pausedBg = (CCSprite*)[self getChildByTag:kGamePausedBgTagValue];
+    CGFloat pausedBgWidth = pausedBg.boundingBox.size.width;
+    CGFloat pausedBgHeight = pausedBg.boundingBox.size.height;
     
+    // remove all children from pausedBg first
+    [pausedBg removeAllChildrenWithCleanup:YES];
+    
+    // add restart confirmation text
+    CCSprite *pausedQuitConfirmation = [CCSprite spriteWithSpriteFrameName:@"game_paused_quitconfirmation_text.png"];
+    pausedQuitConfirmation.position = ccp(pausedBgWidth/2, pausedBgHeight * 0.73f);
+    [pausedBg addChild:pausedQuitConfirmation];
+    
+    // add no or yes options
+    CCMenuItemImage *pausedButtonNo = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_no.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_no_pressed.png"] target:self selector:@selector(goBackToPausedMenu)];
+    pausedButtonNo.anchorPoint = ccp(0.5f, 0);
+    
+    CCMenuItemImage *pausedButtonYes = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_yes.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_yes_pressed.png"] target:self selector:@selector(quitGame)];
+    pausedButtonYes.anchorPoint = ccp(0.5f, 0);
+    
+    CCMenu *pausedMenuRestartConfirmation = [CCMenu menuWithItems:pausedButtonNo, pausedButtonYes, nil];
+    [pausedMenuRestartConfirmation alignItemsHorizontallyWithPadding:pausedBgWidth * 0.2f];
+    pausedMenuRestartConfirmation.anchorPoint = ccp(0.5f, 0);
+    pausedMenuRestartConfirmation.position = ccp(pausedBgWidth * 0.5f, pausedBgHeight * 0.30f);
+    [pausedBg addChild:pausedMenuRestartConfirmation z:10];
 }
 
 -(void)quitGame {
-    
+    // go back to main menu
+    [[GameManager sharedGameManager] runSceneWithID:kSceneTypeMainMenu];
 }
 
 -(void)playGameOverScene {

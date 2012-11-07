@@ -67,6 +67,8 @@
 		C49CAD3B1649C60300B13370 /* game_top_time_active.png in Resources */ = {isa = PBXBuildFile; fileRef = C49CAD171649C60300B13370 /* game_top_time_active.png */; };
 		C49CAD3C1649C60300B13370 /* game_top_time.png in Resources */ = {isa = PBXBuildFile; fileRef = C49CAD181649C60300B13370 /* game_top_time.png */; };
 		C49CAD3E1649C71000B13370 /* game_paused_button_yes_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = C49CAD3D1649C71000B13370 /* game_paused_button_yes_pressed.png */; };
+		C49CAD411649E05F00B13370 /* Sensei.m in Sources */ = {isa = PBXBuildFile; fileRef = C49CAD401649E05F00B13370 /* Sensei.m */; };
+		C49CAD431649E11600B13370 /* Sensei.plist in Resources */ = {isa = PBXBuildFile; fileRef = C49CAD421649E11600B13370 /* Sensei.plist */; };
 		C4AC2BEC164643A600002EE3 /* game_art-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BE8164643A600002EE3 /* game_art-hd.plist */; };
 		C4AC2BED164643A600002EE3 /* game_art-hd.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BE9164643A600002EE3 /* game_art-hd.pvr.ccz */; };
 		C4AC2BEE164643A600002EE3 /* game_art.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BEA164643A600002EE3 /* game_art.plist */; };
@@ -399,6 +401,9 @@
 		C49CAD171649C60300B13370 /* game_top_time_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_top_time_active.png; sourceTree = "<group>"; };
 		C49CAD181649C60300B13370 /* game_top_time.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_top_time.png; sourceTree = "<group>"; };
 		C49CAD3D1649C71000B13370 /* game_paused_button_yes_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_paused_button_yes_pressed.png; sourceTree = "<group>"; };
+		C49CAD3F1649E05F00B13370 /* Sensei.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sensei.h; sourceTree = "<group>"; };
+		C49CAD401649E05F00B13370 /* Sensei.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sensei.m; sourceTree = "<group>"; };
+		C49CAD421649E11600B13370 /* Sensei.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Sensei.plist; sourceTree = "<group>"; };
 		C4AC2BE8164643A600002EE3 /* game_art-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "game_art-hd.plist"; sourceTree = "<group>"; };
 		C4AC2BE9164643A600002EE3 /* game_art-hd.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "game_art-hd.pvr.ccz"; sourceTree = "<group>"; };
 		C4AC2BEA164643A600002EE3 /* game_art.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = game_art.plist; sourceTree = "<group>"; };
@@ -861,6 +866,8 @@
 				C49CACED1649C39F00B13370 /* MainMenuNinja.m */,
 				C4AC2BF016466BA900002EE3 /* Ninja.h */,
 				C4AC2BF116466BA900002EE3 /* Ninja.m */,
+				C49CAD3F1649E05F00B13370 /* Sensei.h */,
+				C49CAD401649E05F00B13370 /* Sensei.m */,
 			);
 			name = GameObjects;
 			sourceTree = "<group>";
@@ -882,6 +889,7 @@
 				C46C58AA163E0BB000C33010 /* SoundEffects.plist */,
 				C4AC2BF316466D9D00002EE3 /* Ninja.plist */,
 				C49CACEF1649C3B100B13370 /* MainMenuNinja.plist */,
+				C49CAD421649E11600B13370 /* Sensei.plist */,
 			);
 			name = Plists;
 			sourceTree = "<group>";
@@ -1637,6 +1645,7 @@
 				C49CAD3B1649C60300B13370 /* game_top_time_active.png in Resources */,
 				C49CAD3C1649C60300B13370 /* game_top_time.png in Resources */,
 				C49CAD3E1649C71000B13370 /* game_paused_button_yes_pressed.png in Resources */,
+				C49CAD431649E11600B13370 /* Sensei.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1659,6 +1668,7 @@
 				C4610ECC163871C400EB1006 /* GameOverLayer.m in Sources */,
 				C4AC2BF216466BA900002EE3 /* Ninja.m in Sources */,
 				C49CACEE1649C39F00B13370 /* MainMenuNinja.m in Sources */,
+				C49CAD411649E05F00B13370 /* Sensei.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

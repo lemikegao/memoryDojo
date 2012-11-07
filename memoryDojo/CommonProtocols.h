@@ -19,7 +19,8 @@ typedef enum {
 
 typedef enum {
     kGameObjectTypeNone = 0,
-    kGameObjectTypeNinja
+    kGameObjectTypeNinja,
+    kGameObjectTypeSensei
 } GameObjectType;
 
 @protocol GameplayLayerDelegate
