@@ -19,7 +19,7 @@
 @implementation Sensei
 
 -(id)init {
-    self = [super initWithSpriteFrameName:@"game_sensei_neutral.png"];
+    self = [super initWithSpriteFrameName:@"game_sensei_up_repeat.png"];
     if (self != nil) {
         [self initAnimations];
         self.gameObjectType = kGameObjectTypeSensei;
@@ -48,6 +48,7 @@
 -(void)changeState:(CharacterStates)newState {
     [self stopAllActions];
     id action = nil;
+    CharacterStates oldState = self.characterState;
     self.characterState = newState;
     
     // adjust sensei eyes
@@ -59,23 +60,60 @@
     
     switch (newState) {
         case kCharacterStateIdle:
-            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_neutral.png"];
+            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_up_repeat.png"];
             break;
             
         case kCharacterStateLeft:
-            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_left.png"];
+            // perform repeat action
+            if (oldState == newState) {
+                NSArray *repeatFrames = [NSArray arrayWithObjects:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_left_repeat.png"], [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_left.png"], nil];
+                CCAnimation *repeatAnimation = [CCAnimation animationWithSpriteFrames:repeatFrames delay:0.1f];
+                repeatAnimation.loops = 1;
+                
+                action = [CCAnimate actionWithAnimation:repeatAnimation];
+            } else {
+                self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_left.png"];
+            }
             break;
             
         case kCharacterStateDown:
-            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_down.png"];
+            // perform repeat action
+            if (oldState == newState) {
+                NSArray *repeatFrames = [NSArray arrayWithObjects:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_down_repeat.png"], [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_down.png"], nil];
+                CCAnimation *repeatAnimation = [CCAnimation animationWithSpriteFrames:repeatFrames delay:0.08f];
+                repeatAnimation.loops = 1;
+            
+                id moveEyesAction = [CCSequence actions:[CCCallFunc actionWithTarget:self selector:@selector(moveEyesDownRepeat)], [CCDelayTime actionWithDuration:0.08f], [CCCallFunc actionWithTarget:self selector:@selector(moveEyesDown)], nil];
+                action = [CCSpawn actions:moveEyesAction, [CCAnimate actionWithAnimation:repeatAnimation], nil];
+            } else {
+                self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_down.png"];
+            }
             break;
             
         case kCharacterStateRight:
-            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_right.png"];
+            // perform repeat action
+            if (oldState == newState) {
+                NSArray *repeatFrames = [NSArray arrayWithObjects:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_right_repeat.png"], [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_right.png"], nil];
+                CCAnimation *repeatAnimation = [CCAnimation animationWithSpriteFrames:repeatFrames delay:0.1f];
+                repeatAnimation.loops = 1;
+                
+                action = [CCAnimate actionWithAnimation:repeatAnimation];
+            } else {
+                self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_right.png"];
+            }
             break;
             
         case kCharacterStateUp:
-            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_up.png"];
+            // perform repeat action
+            if (oldState == newState) {
+                NSArray *repeatFrames = [NSArray arrayWithObjects:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_up_repeat.png"], [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_up.png"], nil];
+                CCAnimation *repeatAnimation = [CCAnimation animationWithSpriteFrames:repeatFrames delay:0.1f];
+                repeatAnimation.loops = 1;
+                
+                action = [CCAnimate actionWithAnimation:repeatAnimation];
+            } else {
+                self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_up.png"];
+            }
             break;
             
         default:
@@ -86,6 +124,14 @@
     if (action != nil) {
         [self runAction:action];
     }
+}
+
+-(void)moveEyesDownRepeat {
+    self.senseiOpenEyes.position = ccp(self.boundingBox.size.width * 0.51f, self.boundingBox.size.height * 0.63f);
+}
+
+-(void)moveEyesDown {
+    self.senseiOpenEyes.position = ccp(self.boundingBox.size.width * 0.51f, self.boundingBox.size.height * 0.605f);
 }
 
 @end

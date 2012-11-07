@@ -165,7 +165,7 @@
     [self addChild:gameInstructions z:2 tag:kGameInstructionsTagValue];
     
     // display sequence after label disappears
-    id moveGameInstructionsDown = [CCMoveTo actionWithDuration:0.5f position:ccp(screenSize.width/2, screenSize.height * 0.70f)];
+    id moveGameInstructionsDown = [CCMoveTo actionWithDuration:0.5f position:ccp(screenSize.width/2, screenSize.height * 0.60f)];
     id pauseGameInstructions = [CCDelayTime actionWithDuration:3.0f];
     id moveGameInstructionsUp = [CCMoveTo actionWithDuration:0.5f position:ccp(screenSize.width/2, topBar.position.y)];
     id removeInstructions = [CCCallFunc actionWithTarget:self selector:@selector(removeInstructions)];

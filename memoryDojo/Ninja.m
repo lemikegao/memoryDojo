@@ -19,7 +19,7 @@
 @implementation Ninja
 
 -(id)init {
-    self = [super initWithSpriteFrameName:@"game_ninja_neutral.png"];
+    self = [super initWithSpriteFrameName:@"game_ninja_up_repeat.png"];
     if (self != nil) {
         [self initAnimations];
         self.gameObjectType = kGameObjectTypeNinja;
@@ -59,7 +59,7 @@
 
     switch (newState) {
         case kCharacterStateIdle:
-            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_neutral"];
+            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_up_repeat.png"];
             break;
             
         case kCharacterStateLeft:

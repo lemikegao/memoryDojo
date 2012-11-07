@@ -30,7 +30,6 @@
 		C43DD716164A53CF000207C3 /* game_paused_button_restart.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD6EB164A53CF000207C3 /* game_paused_button_restart.png */; };
 		C43DD717164A53CF000207C3 /* game_paused_button_resume_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD6EC164A53CF000207C3 /* game_paused_button_resume_pressed.png */; };
 		C43DD718164A53CF000207C3 /* game_paused_button_resume.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD6ED164A53CF000207C3 /* game_paused_button_resume.png */; };
-		C43DD719164A53CF000207C3 /* game_paused_button_yes_prssed.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD6EE164A53CF000207C3 /* game_paused_button_yes_prssed.png */; };
 		C43DD71A164A53CF000207C3 /* game_paused_button_yes.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD6EF164A53CF000207C3 /* game_paused_button_yes.png */; };
 		C43DD71B164A53CF000207C3 /* game_paused_line.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD6F0164A53CF000207C3 /* game_paused_line.png */; };
 		C43DD71C164A53CF000207C3 /* game_paused_quitconfirmation_text.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD6F1164A53CF000207C3 /* game_paused_quitconfirmation_text.png */; };
@@ -51,6 +50,7 @@
 		C43DD72B164A53CF000207C3 /* game_top_score.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD700164A53CF000207C3 /* game_top_score.png */; };
 		C43DD72C164A53CF000207C3 /* game_top_time_active.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD701164A53CF000207C3 /* game_top_time_active.png */; };
 		C43DD72D164A53CF000207C3 /* game_top_time.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD702164A53CF000207C3 /* game_top_time.png */; };
+		C43DD72F164A5BBB000207C3 /* game_paused_button_yes_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD72E164A5BBB000207C3 /* game_paused_button_yes_pressed.png */; };
 		C460C12316308B9A00E8C0D2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C460C12216308B9A00E8C0D2 /* Default-568h@2x.png */; };
 		C4610EC8163871B800EB1006 /* GameOverScene.m in Sources */ = {isa = PBXBuildFile; fileRef = C4610EC7163871B800EB1006 /* GameOverScene.m */; };
 		C4610ECC163871C400EB1006 /* GameOverLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C4610ECB163871C400EB1006 /* GameOverLayer.m */; };
@@ -368,7 +368,6 @@
 		C43DD6EB164A53CF000207C3 /* game_paused_button_restart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_paused_button_restart.png; sourceTree = "<group>"; };
 		C43DD6EC164A53CF000207C3 /* game_paused_button_resume_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_paused_button_resume_pressed.png; sourceTree = "<group>"; };
 		C43DD6ED164A53CF000207C3 /* game_paused_button_resume.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_paused_button_resume.png; sourceTree = "<group>"; };
-		C43DD6EE164A53CF000207C3 /* game_paused_button_yes_prssed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_paused_button_yes_prssed.png; sourceTree = "<group>"; };
 		C43DD6EF164A53CF000207C3 /* game_paused_button_yes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_paused_button_yes.png; sourceTree = "<group>"; };
 		C43DD6F0164A53CF000207C3 /* game_paused_line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_paused_line.png; sourceTree = "<group>"; };
 		C43DD6F1164A53CF000207C3 /* game_paused_quitconfirmation_text.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_paused_quitconfirmation_text.png; sourceTree = "<group>"; };
@@ -389,6 +388,7 @@
 		C43DD700164A53CF000207C3 /* game_top_score.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_top_score.png; sourceTree = "<group>"; };
 		C43DD701164A53CF000207C3 /* game_top_time_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_top_time_active.png; sourceTree = "<group>"; };
 		C43DD702164A53CF000207C3 /* game_top_time.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_top_time.png; sourceTree = "<group>"; };
+		C43DD72E164A5BBB000207C3 /* game_paused_button_yes_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_paused_button_yes_pressed.png; sourceTree = "<group>"; };
 		C460C12216308B9A00E8C0D2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		C4610EC6163871B800EB1006 /* GameOverScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverScene.h; sourceTree = "<group>"; };
 		C4610EC7163871B800EB1006 /* GameOverScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverScene.m; sourceTree = "<group>"; };
@@ -826,7 +826,7 @@
 				C43DD6EB164A53CF000207C3 /* game_paused_button_restart.png */,
 				C43DD6EC164A53CF000207C3 /* game_paused_button_resume_pressed.png */,
 				C43DD6ED164A53CF000207C3 /* game_paused_button_resume.png */,
-				C43DD6EE164A53CF000207C3 /* game_paused_button_yes_prssed.png */,
+				C43DD72E164A5BBB000207C3 /* game_paused_button_yes_pressed.png */,
 				C43DD6EF164A53CF000207C3 /* game_paused_button_yes.png */,
 				C43DD6F0164A53CF000207C3 /* game_paused_line.png */,
 				C43DD6F1164A53CF000207C3 /* game_paused_quitconfirmation_text.png */,
@@ -1653,7 +1653,6 @@
 				C43DD716164A53CF000207C3 /* game_paused_button_restart.png in Resources */,
 				C43DD717164A53CF000207C3 /* game_paused_button_resume_pressed.png in Resources */,
 				C43DD718164A53CF000207C3 /* game_paused_button_resume.png in Resources */,
-				C43DD719164A53CF000207C3 /* game_paused_button_yes_prssed.png in Resources */,
 				C43DD71A164A53CF000207C3 /* game_paused_button_yes.png in Resources */,
 				C43DD71B164A53CF000207C3 /* game_paused_line.png in Resources */,
 				C43DD71C164A53CF000207C3 /* game_paused_quitconfirmation_text.png in Resources */,
@@ -1674,6 +1673,7 @@
 				C43DD72B164A53CF000207C3 /* game_top_score.png in Resources */,
 				C43DD72C164A53CF000207C3 /* game_top_time_active.png in Resources */,
 				C43DD72D164A53CF000207C3 /* game_top_time.png in Resources */,
+				C43DD72F164A5BBB000207C3 /* game_paused_button_yes_pressed.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
