@@ -17,8 +17,8 @@
 @property (nonatomic) BOOL isGamePaused;
 @property (nonatomic, strong) Ninja *ninja;
 @property (nonatomic, strong) Sensei *sensei;
+@property (nonatomic, strong) CCLabelBMFont *scoreLabel;
 @property (nonatomic, strong) NSMutableArray *sequence;
-@property (nonatomic, strong) NSMutableArray *sequenceSprites;
 @property (nonatomic) int currentSequencePosition;
 @property (nonatomic) int currentDisplaySequencePosition;
 @property (nonatomic) BOOL enableGestures;
@@ -28,8 +28,7 @@
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeRightRecognizer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeUpRecognizer;
 -(void)initializeGame;
--(void)startDisplaySequenceSelector;
--(void)startGameplaySelector;
+-(void)removeInstructions;
 -(void)displaySequence:(ccTime)deltaTime;
 -(void)handleLeftSwipe;
 -(void)handleDownSwipe;
@@ -97,17 +96,17 @@
     [self addChild:topBar z:5];
     
     // add score to top bar
-    CCSprite *scoreLabel = [CCSprite spriteWithSpriteFrameName:@"game_top_score.png"];
-    scoreLabel.anchorPoint = ccp(0, 1);
-    scoreLabel.position = ccp(topBarWidth * 0.05f, topBarHeight * 0.90f);
-    [topBar addChild:scoreLabel z:10];
+    CCSprite *scoreText = [CCSprite spriteWithSpriteFrameName:@"game_top_score.png"];
+    scoreText.anchorPoint = ccp(0, 1);
+    scoreText.position = ccp(topBarWidth * 0.05f, topBarHeight * 0.90f);
+    [topBar addChild:scoreText z:10];
     
     // reset score to 0
     [GameManager sharedGameManager].score = 0;
-    CCLabelBMFont *score = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].score] fntFile:@"Score.fnt"];
-    score.anchorPoint = ccp(0, 1);
-    score.position = ccp(topBarWidth * 0.05f, topBarHeight * 0.58f);
-    [topBar addChild:score z:10];
+    self.scoreLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].score] fntFile:@"Score.fnt"];
+    self.scoreLabel.anchorPoint = ccp(0, 1);
+    self.scoreLabel.position = ccp(topBarWidth * 0.05f, topBarHeight * 0.58f);
+    [topBar addChild:self.scoreLabel z:10];
     
     // add time to top bar
     CCSprite *timeLabel = [CCSprite spriteWithSpriteFrameName:@"game_top_time.png"];
@@ -125,7 +124,7 @@
     [topBar addChild:self.timer z:10];
     
     // add pause button to top bar
-    CCMenuItemImage *pauseGameButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_top_button_pause.png"] selectedSprite:nil target:self selector:@selector(pauseGame)];
+    CCMenuItemImage *pauseGameButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_top_button_pause.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"game_top_button_pause_pressed.png"] target:self selector:@selector(pauseGame)];
     pauseGameButton.anchorPoint = ccp(1, 0.5);
     pauseGameButton.position = ccp(topBarWidth * 0.95f, topBarHeight * 0.50f);
     
@@ -154,7 +153,6 @@
     self.currentSequencePosition = 0;
     self.currentDisplaySequencePosition = 0;
     self.sequence = [[NSMutableArray alloc] initWithCapacity:100];
-    self.sequenceSprites = [[NSMutableArray alloc] initWithCapacity:100];
     for (int i=0; i<4; i++) {
         self.sequence[i] = [NSNumber numberWithInt:arc4random_uniform(4) + 1];
         NSLog(@"sequence at %i: %@", i, self.sequence[i]);
@@ -167,12 +165,13 @@
     [self addChild:gameInstructions z:2 tag:kGameInstructionsTagValue];
     
     // display sequence after label disappears
-    id moveGameInstructionsDown = [CCMoveTo actionWithDuration:1.5f position:ccp(screenSize.width/2, screenSize.height * 0.70f)];
-    id pauseGameInstructions = [CCDelayTime actionWithDuration:2.0f];
-    id moveGameInstructionsUp = [CCMoveTo actionWithDuration:1.5f position:ccp(screenSize.width/2, topBar.position.y)];
+    id moveGameInstructionsDown = [CCMoveTo actionWithDuration:0.5f position:ccp(screenSize.width/2, screenSize.height * 0.70f)];
+    id pauseGameInstructions = [CCDelayTime actionWithDuration:3.0f];
+    id moveGameInstructionsUp = [CCMoveTo actionWithDuration:0.5f position:ccp(screenSize.width/2, topBar.position.y)];
+    id removeInstructions = [CCCallFunc actionWithTarget:self selector:@selector(removeInstructions)];
     id callStartDisplaySequenceSelector = [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)];
     
-    id action = [CCSequence actions:moveGameInstructionsDown, pauseGameInstructions, moveGameInstructionsUp, callStartDisplaySequenceSelector, nil];
+    id action = [CCSequence actions:moveGameInstructionsDown, pauseGameInstructions, moveGameInstructionsUp, removeInstructions, callStartDisplaySequenceSelector, nil];
     [gameInstructions runAction:action];
 }
 
@@ -206,63 +205,33 @@
     [[CCDirector sharedDirector].view removeGestureRecognizer:self.swipeUpRecognizer];
 }
 
--(void)startDisplaySequenceSelector {
-    // remove instructions
+-(void)removeInstructions {
     [self removeChildByTag:kGameInstructionsTagValue cleanup:YES];
-    PLAYSOUNDEFFECT(GONG);
-    [self scheduleUpdate];  // temp
-//    [self schedule:@selector(displaySequence:) interval:0.4]; // uncomment for real game
 }
 
--(void)startGameplaySelector {
-    // hide the sequence of arrows
-#warning -- doesn't hide the sprites simultaneously -- use CCSpawn action?
-    for (CCSprite *arrowSprite in self.sequenceSprites) {
-        arrowSprite.visible = NO;
-    }
-    
-    self.enableGestures = YES;
-    [self scheduleUpdate];
+-(void)startDisplaySequenceSelector {
+//    PLAYSOUNDEFFECT(GONG);
+    [self schedule:@selector(displaySequence:) interval:0.8];
 }
 
 -(void)displaySequence:(ccTime)deltaTime {
-    // display sequence, one arrow at a time
-    if (self.currentDisplaySequencePosition < [self.sequenceSprites count]) {
-        [self.sequenceSprites[self.currentDisplaySequencePosition] setVisible:YES];
-    } else {
-#warning -- reuse sprites from a batch
-        CCSprite *arrow;
-        switch ([self.sequence[self.currentDisplaySequencePosition] intValue]) {
-            case kDirectionTypeLeft:
-                arrow = [CCSprite spriteWithFile:@"left_arrow.png"];
-                break;
-            case kDirectionTypeDown:
-                arrow = [CCSprite spriteWithFile:@"down_arrow.png"];
-                break;
-            case kDirectionTypeRight:
-                arrow = [CCSprite spriteWithFile:@"right_arrow.png"];
-                break;
-            case kDirectionTypeUp:
-                arrow = [CCSprite spriteWithFile:@"up_arrow.png"];
-                break;
-            default:
-                CCLOG(@"Not a valid sequence direction to display");
-                return;
-                break;
-        }
-        
-        CGSize screenSize = [CCDirector sharedDirector].winSize;
-        float heightMultiplier = 0.0;
-        if ([self.sequenceSprites count] >= 8) {
-            heightMultiplier = 2.0;
-        } else if ([self.sequenceSprites count] >= 4) {
-            heightMultiplier = 1.0;
-        }
-        
-        arrow.position = ccp(screenSize.width*((self.currentDisplaySequencePosition%4)+1)/5, screenSize.height*(3.0/4.0 - heightMultiplier/4.0));
-        [self addChild:arrow];
-        
-        [self.sequenceSprites addObject:arrow];
+    switch ([self.sequence[self.currentDisplaySequencePosition] intValue]) {
+        case kDirectionTypeLeft:
+            [self.sensei changeState:kCharacterStateLeft];
+            break;
+        case kDirectionTypeDown:
+            [self.sensei changeState:kCharacterStateDown];
+            break;
+        case kDirectionTypeRight:
+            [self.sensei changeState:kCharacterStateRight];
+            break;
+        case kDirectionTypeUp:
+            [self.sensei changeState:kCharacterStateUp];
+            break;
+        default:
+            CCLOG(@"Not a valid sequence direction to display");
+            return;
+            break;
     }
     
     self.currentDisplaySequencePosition++;
@@ -271,36 +240,38 @@
         // no more sequence to display
         [self unschedule:@selector(displaySequence:)];
         
-        id action = [CCSequence actions:[CCDelayTime actionWithDuration:2.0f], [CCCallFunc actionWithTarget:self selector:@selector(startGameplaySelector)], nil];
-        [self runAction:action];
+        // start gameplay
+        
+        self.enableGestures = YES;
+        [self scheduleUpdate];
     }
 }
 
 -(void)handleLeftSwipe {
     if (self.enableGestures && !self.isGamePaused) {
-        [self checkIfSwipeIsCorrect:kDirectionTypeLeft];
         [self.ninja changeState:kCharacterStateLeft];
+        [self checkIfSwipeIsCorrect:kDirectionTypeLeft];
     }
 }
 
 -(void)handleDownSwipe {
     if (self.enableGestures && !self.isGamePaused) {
-        [self checkIfSwipeIsCorrect:kDirectionTypeDown];
         [self.ninja changeState:kCharacterStateDown];
+        [self checkIfSwipeIsCorrect:kDirectionTypeDown];
     }
 }
 
 -(void)handleRightSwipe {
     if (self.enableGestures && !self.isGamePaused) {
-        [self checkIfSwipeIsCorrect:kDirectionTypeRight];
         [self.ninja changeState:kCharacterStateRight];
+        [self checkIfSwipeIsCorrect:kDirectionTypeRight];
     }
 }
 
 -(void)handleUpSwipe {
     if (self.enableGestures && !self.isGamePaused) {
-        [self checkIfSwipeIsCorrect:kDirectionTypeUp];
         [self.ninja changeState:kCharacterStateUp];
+        [self checkIfSwipeIsCorrect:kDirectionTypeUp];
     }
 }
 
@@ -308,6 +279,8 @@
     if ([self.sequence[self.currentSequencePosition] intValue] == direction) {
         self.currentSequencePosition++;
         CCLOG(@"Correct swipe detected: %i", direction);
+        [GameManager sharedGameManager].score++;
+        self.scoreLabel.string = [NSString stringWithFormat:@"%i", [GameManager sharedGameManager].score];
     } else {
         CCLOG(@"You lose!");
         [self playGameOverScene];
@@ -325,11 +298,11 @@
     self.timer.percentage = 100;
     self.currentSequencePosition = 0;
     self.currentDisplaySequencePosition = 0;
-    [GameManager sharedGameManager].score = [self.sequence count];
     
+    int currentSequenceLength = [self.sequence count];
     for (int i=0; i<2; i++) {
-        self.sequence[[self.sequenceSprites count] + i] = [NSNumber numberWithInt:arc4random_uniform(4) + 1];
-        NSLog(@"sequence at %i: %@", [self.sequenceSprites count] + i, self.sequence[[self.sequenceSprites count] + i]);
+        self.sequence[currentSequenceLength + i] = [NSNumber numberWithInt:arc4random_uniform(4) + 1];
+        NSLog(@"sequence at %i: %@", currentSequenceLength + i, self.sequence[currentSequenceLength + i]);
     }
 
     CGSize screenSize = [CCDirector sharedDirector].winSize;
@@ -338,7 +311,7 @@
     [self addChild:newRoundLabel];
     id labelAction = [CCSpawn actions:[CCScaleBy actionWithDuration:1.0f scale:4], [CCFadeOut actionWithDuration:1.0f], nil];
     
-    // display arrows after label disappears
+    // have sensei perform new sequence
     id action = [CCSequence actions:labelAction, [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
     
     [newRoundLabel runAction:action];
@@ -465,6 +438,7 @@
 }
 
 -(void)restartGame {
+    [self unscheduleAllSelectors];
     [self removeAllChildrenWithCleanup:YES];
     [self initializeGame];
 }
