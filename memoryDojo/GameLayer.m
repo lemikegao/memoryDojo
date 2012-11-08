@@ -480,7 +480,9 @@
 }
 
 -(void)update:(ccTime)deltaTime {
-    // placeholder -- scheduleUpdate is indeed working
+    [self.ninja updateStateWithDeltaTime:deltaTime andListOfGameObjects:nil];
+    [self.sensei updateStateWithDeltaTime:deltaTime andListOfGameObjects:nil];
+    
     self.timer.percentage -= deltaTime*10;
     if (self.timer.percentage <= 0) {
         [self playGameOverScene];

@@ -12,7 +12,11 @@
 
 @property (nonatomic, strong) CCSprite *senseiOpenEyes;
 @property (nonatomic, strong) CCAnimation *blinkingAnim;
+@property (nonatomic) float secondsStayingIdle;
+@property (nonatomic) BOOL isSenseiBlinking;
 -(void)initAnimations;
+-(void)blink;
+-(void)stopBlinking;
 
 @end
 
@@ -31,10 +35,8 @@
         [self addChild:self.senseiOpenEyes z:100];
         
         // initialize blinking
-#warning -- change blinking so that the timer begins if player is IDLE (blink after 1 sec of idleness)
-        
-        id blinkAction = [CCRepeatForever actionWithAction:[CCSequence actions:[CCAnimate actionWithAnimation:self.blinkingAnim], [CCDelayTime actionWithDuration:2.0f], nil]];
-        [self.senseiOpenEyes runAction:blinkAction];
+        self.secondsStayingIdle = 0;
+        self.isSenseiBlinking = NO;
     }
     
     return self;
@@ -45,11 +47,22 @@
     self.blinkingAnim.restoreOriginalFrame = YES;
 }
 
+-(void)blink {
+    self.isSenseiBlinking = YES;
+    id blinkAction = [CCSequence actions:[CCAnimate actionWithAnimation:self.blinkingAnim], [CCDelayTime actionWithDuration:2.0f], [CCCallFunc actionWithTarget:self selector:@selector(stopBlinking)], nil];
+    [self.senseiOpenEyes runAction:blinkAction];
+}
+
+-(void)stopBlinking {
+    self.isSenseiBlinking = NO;
+}
+
 -(void)changeState:(CharacterStates)newState {
     [self stopAllActions];
     id action = nil;
     CharacterStates oldState = self.characterState;
     self.characterState = newState;
+    self.secondsStayingIdle = 0;
     
     // adjust sensei eyes
     if (newState == kCharacterStateDown) {
@@ -132,6 +145,14 @@
 
 -(void)moveEyesDown {
     self.senseiOpenEyes.position = ccp(self.boundingBox.size.width * 0.51f, self.boundingBox.size.height * 0.605f);
+}
+
+-(void)updateStateWithDeltaTime:(ccTime)deltaTime andListOfGameObjects:(CCArray *)listOfGameObjects {
+    // blink every 2 seconds when idle
+    self.secondsStayingIdle = self.secondsStayingIdle + deltaTime;
+    if (self.secondsStayingIdle > 3.0f && self.isSenseiBlinking == NO) {
+        [self blink];
+    }
 }
 
 @end

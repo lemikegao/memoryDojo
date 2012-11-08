@@ -12,7 +12,11 @@
 
 @property (nonatomic, strong) CCSprite *ninjaOpenEyes;
 @property (nonatomic, strong) CCAnimation *blinkingAnim;
+@property (nonatomic) float secondsStayingIdle;
+@property (nonatomic) BOOL isNinjaBlinking;
 -(void)initAnimations;
+-(void)blink;
+-(void)stopBlinking;
 
 @end
 
@@ -31,10 +35,8 @@
         [self addChild:self.ninjaOpenEyes z:100];
         
         // initialize blinking
-#warning -- change blinking so that the timer begins if player is IDLE (blink after 1 sec of idleness)
-        
-        id blinkAction = [CCRepeatForever actionWithAction:[CCSequence actions:[CCAnimate actionWithAnimation:self.blinkingAnim], [CCDelayTime actionWithDuration:2.0f], nil]];
-        [self.ninjaOpenEyes runAction:blinkAction];
+        self.secondsStayingIdle = 0;
+        self.isNinjaBlinking = NO;
     }
     
     return self;
@@ -45,10 +47,22 @@
     self.blinkingAnim.restoreOriginalFrame = YES;
 }
 
+-(void)blink {
+    self.isNinjaBlinking = YES;
+    id blinkAction = [CCSequence actions:[CCAnimate actionWithAnimation:self.blinkingAnim], [CCDelayTime actionWithDuration:2.0f], [CCCallFunc actionWithTarget:self selector:@selector(stopBlinking)], nil];
+    [self.ninjaOpenEyes runAction:blinkAction];
+}
+
+-(void)stopBlinking {
+    self.isNinjaBlinking = NO;
+}
+
 -(void)changeState:(CharacterStates)newState {
     [self stopAllActions];
     id action = nil;
+    CharacterStates oldState = self.characterState;
     self.characterState = newState;
+    self.secondsStayingIdle = 0;
     
     // adjust ninja eyes
     if (newState == kCharacterStateDown) {
@@ -63,19 +77,56 @@
             break;
             
         case kCharacterStateLeft:
-            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_left.png"];
+            // perform repeat action
+            if (oldState == newState) {
+                NSArray *repeatFrames = [NSArray arrayWithObjects:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_left_repeat.png"], [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_left.png"], nil];
+                CCAnimation *repeatAnimation = [CCAnimation animationWithSpriteFrames:repeatFrames delay:0.1f];
+                repeatAnimation.loops = 1;
+                
+                action = [CCAnimate actionWithAnimation:repeatAnimation];
+            } else {
+                self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_left.png"];
+            }
             break;
             
         case kCharacterStateDown:
-            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_down.png"];
+            // perform repeat action
+            if (oldState == newState) {
+                NSArray *repeatFrames = [NSArray arrayWithObjects:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_down_repeat.png"], [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_down.png"], nil];
+                CCAnimation *repeatAnimation = [CCAnimation animationWithSpriteFrames:repeatFrames delay:0.08f];
+                repeatAnimation.loops = 1;
+                
+                id moveEyesAction = [CCSequence actions:[CCCallFunc actionWithTarget:self selector:@selector(moveEyesDownRepeat)], [CCDelayTime actionWithDuration:0.08f], [CCCallFunc actionWithTarget:self selector:@selector(moveEyesDown)], nil];
+                action = [CCSpawn actions:moveEyesAction, [CCAnimate actionWithAnimation:repeatAnimation], nil];
+            } else {
+                self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_down.png"];
+            }
             break;
             
         case kCharacterStateRight:
-            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_right.png"];
+            // perform repeat action
+            if (oldState == newState) {
+                NSArray *repeatFrames = [NSArray arrayWithObjects:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_right_repeat.png"], [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_right.png"], nil];
+                CCAnimation *repeatAnimation = [CCAnimation animationWithSpriteFrames:repeatFrames delay:0.1f];
+                repeatAnimation.loops = 1;
+                
+                action = [CCAnimate actionWithAnimation:repeatAnimation];
+            } else {
+                self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_right.png"];
+            }
             break;
             
         case kCharacterStateUp:
-            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_up.png"];
+            // perform repeat action
+            if (oldState == newState) {
+                NSArray *repeatFrames = [NSArray arrayWithObjects:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_up_repeat.png"], [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_up.png"], nil];
+                CCAnimation *repeatAnimation = [CCAnimation animationWithSpriteFrames:repeatFrames delay:0.1f];
+                repeatAnimation.loops = 1;
+                
+                action = [CCAnimate actionWithAnimation:repeatAnimation];
+            } else {
+                self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_up.png"];
+            }
             break;
             
         default:
@@ -85,6 +136,22 @@
     
     if (action != nil) {
         [self runAction:action];
+    }
+}
+
+-(void)moveEyesDownRepeat {
+    self.ninjaOpenEyes.position = ccp(self.boundingBox.size.width * 0.455f, self.boundingBox.size.height * 0.6);
+}
+
+-(void)moveEyesDown {
+    self.ninjaOpenEyes.position = ccp(self.boundingBox.size.width * 0.455f, self.boundingBox.size.height * 0.574);
+}
+
+-(void)updateStateWithDeltaTime:(ccTime)deltaTime andListOfGameObjects:(CCArray *)listOfGameObjects {
+    // blink every 2 seconds when idle
+    self.secondsStayingIdle = self.secondsStayingIdle + deltaTime;
+    if (self.secondsStayingIdle > 3.0f && self.isNinjaBlinking == NO) {
+        [self blink];
     }
 }
 
