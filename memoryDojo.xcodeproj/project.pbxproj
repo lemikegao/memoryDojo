@@ -83,6 +83,7 @@
 		C4AC2BF216466BA900002EE3 /* Ninja.m in Sources */ = {isa = PBXBuildFile; fileRef = C4AC2BF116466BA900002EE3 /* Ninja.m */; };
 		C4AC2BF416466D9D00002EE3 /* Ninja.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BF316466D9D00002EE3 /* Ninja.plist */; };
 		C4BFF98A1630CEF600ED84D9 /* GameObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BFF9891630CEF600ED84D9 /* GameObject.m */; };
+		C4CEED5A164CADB30036BE79 /* game_rounds_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = C4CEED59164CADB30036BE79 /* game_rounds_bg.png */; };
 		C4EA539D1647310000AA26D1 /* Score-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C4EA539B1647310000AA26D1 /* Score-hd.png */; };
 		C4EA539E1647310000AA26D1 /* Score-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C4EA539C1647310000AA26D1 /* Score-hd.fnt */; };
 		C4EA53A21647311600AA26D1 /* Score.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C4EA53A01647311600AA26D1 /* Score.fnt */; };
@@ -429,6 +430,7 @@
 		C4BFF9871630C5E600ED84D9 /* CommonProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonProtocols.h; sourceTree = "<group>"; };
 		C4BFF9881630CEF600ED84D9 /* GameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObject.h; sourceTree = "<group>"; };
 		C4BFF9891630CEF600ED84D9 /* GameObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObject.m; sourceTree = "<group>"; };
+		C4CEED59164CADB30036BE79 /* game_rounds_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_rounds_bg.png; sourceTree = "<group>"; };
 		C4EA539B1647310000AA26D1 /* Score-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Score-hd.png"; sourceTree = "<group>"; };
 		C4EA539C1647310000AA26D1 /* Score-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Score-hd.fnt"; sourceTree = "<group>"; };
 		C4EA53A01647311600AA26D1 /* Score.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Score.fnt; sourceTree = "<group>"; };
@@ -832,6 +834,7 @@
 				C43DD6F1164A53CF000207C3 /* game_paused_quitconfirmation_text.png */,
 				C43DD6F2164A53CF000207C3 /* game_paused_restartconfirmation_text.png */,
 				C43DD6F3164A53CF000207C3 /* game_paused_text.png */,
+				C4CEED59164CADB30036BE79 /* game_rounds_bg.png */,
 				C43DD6F4164A53CF000207C3 /* game_screen_separator.png */,
 				C43DD6F5164A53CF000207C3 /* game_sensei_down_repeat.png */,
 				C43DD6F6164A53CF000207C3 /* game_sensei_down.png */,
@@ -1674,6 +1677,7 @@
 				C43DD72C164A53CF000207C3 /* game_top_time_active.png in Resources */,
 				C43DD72D164A53CF000207C3 /* game_top_time.png in Resources */,
 				C43DD72F164A5BBB000207C3 /* game_paused_button_yes_pressed.png in Resources */,
+				C4CEED5A164CADB30036BE79 /* game_rounds_bg.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
