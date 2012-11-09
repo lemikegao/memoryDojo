@@ -12,6 +12,7 @@
 #define kMainMenuTagValue 1
 #define kGameInstructionsTagValue 2
 #define kGamePausedBgTagValue 3
+#define kGameRoundBgTagValue 4
 
 typedef enum {
     kSceneTypeNone = 0,

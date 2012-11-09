@@ -17,6 +17,7 @@
 @property (nonatomic) BOOL isGamePaused;
 @property (nonatomic, strong) Ninja *ninja;
 @property (nonatomic, strong) Sensei *sensei;
+@property (nonatomic) int roundNumber;
 @property (nonatomic, strong) CCLabelBMFont *scoreLabel;
 @property (nonatomic, strong) NSMutableArray *sequence;
 @property (nonatomic) int currentSequencePosition;
@@ -29,6 +30,7 @@
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeUpRecognizer;
 -(void)initializeGame;
 -(void)removeInstructions;
+-(void)removeRoundPopup:(CCSprite*)roundBg;
 -(void)displaySequence:(ccTime)deltaTime;
 -(void)handleLeftSwipe;
 -(void)handleDownSwipe;
@@ -36,6 +38,7 @@
 -(void)handleUpSwipe;
 -(void)checkIfSwipeIsCorrect:(DirectionTypes)direction;
 -(void)startNewRound;
+-(void)showRoundLabelAfterNiceMessage;
 -(void)pauseGame;
 -(void)pauseAllSchedulerAndActions:(CCNode*)node;
 -(void)addPausedMenuItems;
@@ -158,6 +161,8 @@
         NSLog(@"sequence at %i: %@", i, self.sequence[i]);
     }
     
+    self.roundNumber = 1;
+    
     // display the rules then start the game!
     CCSprite *gameInstructions = [CCSprite spriteWithSpriteFrameName:@"game_instructions.png"];
     gameInstructions.anchorPoint = ccp(0.5f, 0);
@@ -207,6 +212,11 @@
 
 -(void)removeInstructions {
     [self removeChildByTag:kGameInstructionsTagValue cleanup:YES];
+}
+
+-(void)removeRoundPopup:(CCSprite*)roundBg {
+    [roundBg removeAllChildrenWithCleanup:YES];
+    [self removeChild:roundBg cleanup:YES];
 }
 
 -(void)startDisplaySequenceSelector {
@@ -305,16 +315,54 @@
         NSLog(@"sequence at %i: %@", currentSequenceLength + i, self.sequence[currentSequenceLength + i]);
     }
 
+    // show new round indicator
     CGSize screenSize = [CCDirector sharedDirector].winSize;
-    CCLabelBMFont *newRoundLabel = [CCLabelBMFont labelWithString:@"Nice!" fntFile:@"SpaceVikingFont.fnt"];
-    newRoundLabel.position = ccp(screenSize.width/2, screenSize.height/2);
-    [self addChild:newRoundLabel];
-    id labelAction = [CCSpawn actions:[CCScaleBy actionWithDuration:1.0f scale:4], [CCFadeOut actionWithDuration:1.0f], nil];
+    CCSprite *roundBg = [CCSprite spriteWithSpriteFrameName:@"game_rounds_bg.png"];
+    roundBg.position = ccp(screenSize.width/2, screenSize.height/2);
+    [self addChild:roundBg z:100 tag:kGameRoundBgTagValue];
+    
+    // add 'nice!' message if player finished round 1
+    if (self.roundNumber == 1) {
+        CCLabelBMFont *niceLabel = [CCLabelBMFont labelWithString:@"Nice!" fntFile:@"Round.fnt"];
+        niceLabel.position = ccp(roundBg.boundingBox.size.width/2, roundBg.boundingBox.size.height/2);
+        [roundBg addChild:niceLabel];
+        id niceLabelBgAction = [CCFadeIn actionWithDuration:1.0f];
+        id niceLabelAction = [CCSequence actions:[CCFadeIn actionWithDuration:1.0f], [CCDelayTime actionWithDuration:1.0f], [CCFadeOut actionWithDuration:1.0f], [CCCallFunc actionWithTarget:self selector:@selector(showRoundLabel)], nil];
+        [roundBg runAction:niceLabelBgAction];
+        [niceLabel runAction:niceLabelAction];
+    } else {
+        CCLabelBMFont *newRoundLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"Round %i", self.roundNumber] fntFile:@"Round.fnt"];
+        newRoundLabel.position = ccp(roundBg.boundingBox.size.width/2, roundBg.boundingBox.size.height/2);
+        [roundBg addChild:newRoundLabel];
+        
+        
+        id labelAction = [CCSequence actions:[CCFadeIn actionWithDuration:1.0f], [CCDelayTime actionWithDuration:2.0f], [CCFadeOut actionWithDuration:1.0f], nil];
+        
+        // have sensei perform new sequence
+        id labelBgAction = [CCSequence actions:[CCFadeIn actionWithDuration:1.0f], [CCDelayTime actionWithDuration:2.0f], [CCFadeOut actionWithDuration:1.0f], [CCCallFuncN actionWithTarget:self selector:@selector(removeRoundPopup:)], [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
+        
+        [newRoundLabel runAction:labelAction];
+        [roundBg runAction:labelBgAction];
+    }
+    
+    self.roundNumber++;
+}
+
+-(void)showRoundLabelAfterNiceMessage {
+    CCSprite *roundBg = (CCSprite*)[self getChildByTag:kGameRoundBgTagValue];
+    
+    CCLabelBMFont *newRoundLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"Round %i", self.roundNumber] fntFile:@"Round.fnt"];
+    newRoundLabel.position = ccp(roundBg.boundingBox.size.width/2, roundBg.boundingBox.size.height/2);
+    [roundBg addChild:newRoundLabel];
+    
+    
+    id labelAction = [CCSequence actions:[CCFadeIn actionWithDuration:1.0f], [CCDelayTime actionWithDuration:2.0f], [CCFadeOut actionWithDuration:1.0f], nil];
     
     // have sensei perform new sequence
-    id action = [CCSequence actions:labelAction, [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
+    id labelBgAction = [CCSequence actions:[CCDelayTime actionWithDuration:3.0f], [CCFadeOut actionWithDuration:1.0f], [CCCallFuncN actionWithTarget:self selector:@selector(removeRoundPopup:)], [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
     
-    [newRoundLabel runAction:action];
+    [newRoundLabel runAction:labelAction];
+    [roundBg runAction:labelBgAction];
 }
 
 -(void)pauseGame {
