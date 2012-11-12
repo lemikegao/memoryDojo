@@ -9,6 +9,14 @@
 /* Begin PBXBuildFile section */
 		C41D7FD0165085E8003A9CF3 /* game_transition_message_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FCE165085E8003A9CF3 /* game_transition_message_bg.png */; };
 		C41D7FD1165085E8003A9CF3 /* game_transition_ray.png in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FCF165085E8003A9CF3 /* game_transition_ray.png */; };
+		C41D7FDB165094A7003A9CF3 /* game_levelup_body-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FD3165094A7003A9CF3 /* game_levelup_body-hd.fnt */; };
+		C41D7FDC165094A7003A9CF3 /* game_levelup_body-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FD4165094A7003A9CF3 /* game_levelup_body-hd.png */; };
+		C41D7FDD165094A7003A9CF3 /* game_levelup_body.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FD5165094A7003A9CF3 /* game_levelup_body.fnt */; };
+		C41D7FDE165094A7003A9CF3 /* game_levelup_body.png in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FD6165094A7003A9CF3 /* game_levelup_body.png */; };
+		C41D7FDF165094A7003A9CF3 /* game_levelup_header-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FD7165094A7003A9CF3 /* game_levelup_header-hd.fnt */; };
+		C41D7FE0165094A7003A9CF3 /* game_levelup_header-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FD8165094A7003A9CF3 /* game_levelup_header-hd.png */; };
+		C41D7FE1165094A7003A9CF3 /* game_levelup_header.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FD9165094A7003A9CF3 /* game_levelup_header.fnt */; };
+		C41D7FE2165094A7003A9CF3 /* game_levelup_header.png in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FDA165094A7003A9CF3 /* game_levelup_header.png */; };
 		C4258538164FB015002CC2FE /* confetti.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4258537164FB015002CC2FE /* confetti.plist */; };
 		C425993A163F6CB900A72BCB /* gong.caf in Resources */ = {isa = PBXBuildFile; fileRef = C4114718163E184500FC2BE8 /* gong.caf */; };
 		C43DD703164A53CF000207C3 /* game_bg_bottom.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD6D8164A53CF000207C3 /* game_bg_bottom.png */; };
@@ -356,6 +364,14 @@
 		C4114718163E184500FC2BE8 /* gong.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = gong.caf; sourceTree = "<group>"; };
 		C41D7FCE165085E8003A9CF3 /* game_transition_message_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_transition_message_bg.png; sourceTree = "<group>"; };
 		C41D7FCF165085E8003A9CF3 /* game_transition_ray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_transition_ray.png; sourceTree = "<group>"; };
+		C41D7FD3165094A7003A9CF3 /* game_levelup_body-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "game_levelup_body-hd.fnt"; sourceTree = "<group>"; };
+		C41D7FD4165094A7003A9CF3 /* game_levelup_body-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "game_levelup_body-hd.png"; sourceTree = "<group>"; };
+		C41D7FD5165094A7003A9CF3 /* game_levelup_body.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = game_levelup_body.fnt; sourceTree = "<group>"; };
+		C41D7FD6165094A7003A9CF3 /* game_levelup_body.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_levelup_body.png; sourceTree = "<group>"; };
+		C41D7FD7165094A7003A9CF3 /* game_levelup_header-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "game_levelup_header-hd.fnt"; sourceTree = "<group>"; };
+		C41D7FD8165094A7003A9CF3 /* game_levelup_header-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "game_levelup_header-hd.png"; sourceTree = "<group>"; };
+		C41D7FD9165094A7003A9CF3 /* game_levelup_header.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = game_levelup_header.fnt; sourceTree = "<group>"; };
+		C41D7FDA165094A7003A9CF3 /* game_levelup_header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_levelup_header.png; sourceTree = "<group>"; };
 		C4258537164FB015002CC2FE /* confetti.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = confetti.plist; sourceTree = "<group>"; };
 		C43DD6D8164A53CF000207C3 /* game_bg_bottom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_bg_bottom.png; sourceTree = "<group>"; };
 		C43DD6D9164A53CF000207C3 /* game_bg_top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_bg_top.png; sourceTree = "<group>"; };
@@ -982,6 +998,14 @@
 		C4F6B58816311642007C5C63 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				C41D7FD3165094A7003A9CF3 /* game_levelup_body-hd.fnt */,
+				C41D7FD4165094A7003A9CF3 /* game_levelup_body-hd.png */,
+				C41D7FD5165094A7003A9CF3 /* game_levelup_body.fnt */,
+				C41D7FD6165094A7003A9CF3 /* game_levelup_body.png */,
+				C41D7FD7165094A7003A9CF3 /* game_levelup_header-hd.fnt */,
+				C41D7FD8165094A7003A9CF3 /* game_levelup_header-hd.png */,
+				C41D7FD9165094A7003A9CF3 /* game_levelup_header.fnt */,
+				C41D7FDA165094A7003A9CF3 /* game_levelup_header.png */,
 				C45C77AA164CF7DF0041A3E1 /* Round-hd.fnt */,
 				C45C77AB164CF7DF0041A3E1 /* Round-hd.png */,
 				C45C77AC164CF7DF0041A3E1 /* Round.fnt */,
@@ -1706,6 +1730,14 @@
 				C4258538164FB015002CC2FE /* confetti.plist in Resources */,
 				C41D7FD0165085E8003A9CF3 /* game_transition_message_bg.png in Resources */,
 				C41D7FD1165085E8003A9CF3 /* game_transition_ray.png in Resources */,
+				C41D7FDB165094A7003A9CF3 /* game_levelup_body-hd.fnt in Resources */,
+				C41D7FDC165094A7003A9CF3 /* game_levelup_body-hd.png in Resources */,
+				C41D7FDD165094A7003A9CF3 /* game_levelup_body.fnt in Resources */,
+				C41D7FDE165094A7003A9CF3 /* game_levelup_body.png in Resources */,
+				C41D7FDF165094A7003A9CF3 /* game_levelup_header-hd.fnt in Resources */,
+				C41D7FE0165094A7003A9CF3 /* game_levelup_header-hd.png in Resources */,
+				C41D7FE1165094A7003A9CF3 /* game_levelup_header.fnt in Resources */,
+				C41D7FE2165094A7003A9CF3 /* game_levelup_header.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -385,6 +385,13 @@
     CCSprite *levelUpMessageBg = [CCSprite spriteWithSpriteFrameName:@"game_transition_message_bg.png"];
     levelUpMessageBg.position = screenMidpoint;
     [levelUpBg addChild:levelUpMessageBg z:2];
+    
+    CGSize levelUpMessageBgSize = levelUpMessageBg.boundingBox.size;
+    
+    // add level up message header
+    CCLabelBMFont *levelUpMessageHeader = [CCLabelBMFont labelWithString:@"HEY LOOK!" fntFile:@"game_levelup_header.fnt"];
+    levelUpMessageHeader.position = ccp(levelUpMessageBgSize.width/2, levelUpMessageBgSize.height * 0.70f);
+    [levelUpMessageBg addChild:levelUpMessageHeader];
 }
 
 -(void)startNewRound {
