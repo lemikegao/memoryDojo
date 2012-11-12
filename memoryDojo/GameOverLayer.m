@@ -24,10 +24,10 @@
         CGSize screenSize = [CCDirector sharedDirector].winSize;
         
         // add text for game over
-        NSString *gameoverString = [NSString stringWithFormat:@"Game over! Score: %i", [GameManager sharedGameManager].score];
-        CCLabelBMFont *gameOverLabel = [CCLabelBMFont labelWithString:gameoverString fntFile:@"SpaceVikingFont.fnt"];
-        gameOverLabel.position = ccp(screenSize.width/2, screenSize.height/2);
-        [self addChild:gameOverLabel];
+//        NSString *gameoverString = [NSString stringWithFormat:@"Game over! Score: %i", [GameManager sharedGameManager].score];
+//        CCLabelBMFont *gameOverLabel = [CCLabelBMFont labelWithString:gameoverString fntFile:@"SpaceVikingFont.fnt"];
+//        gameOverLabel.position = ccp(screenSize.width/2, screenSize.height/2);
+//        [self addChild:gameOverLabel];
     }
     
     return self;

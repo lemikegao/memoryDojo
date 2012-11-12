@@ -16,6 +16,7 @@
 @property (nonatomic) BOOL isSoundEffectsOn;
 @property (nonatomic) BOOL hasPlayerDied;
 @property (nonatomic) int score;
+@property (nonatomic) int ninjaLevel;
 @property (nonatomic) GameManagerSoundState managerSoundState;
 @property (nonatomic, strong) NSMutableDictionary *listOfSoundEffectFiles;
 @property (nonatomic, strong) NSMutableDictionary *soundEffectsState;

@@ -13,6 +13,7 @@
 
 @interface MainMenuLayer()
 
+@property (nonatomic, strong) CCParticleSystem *confettiEmitter;
 -(void)playGameScene;
 -(void)showSettings;
 -(void)displayMainMenu;
@@ -38,9 +39,14 @@
         
         MainMenuNinja *ninja = [[MainMenuNinja alloc] init];
         ninja.position = ccp(screenSize.width * 0.612f, screenSize.height * 0.468f);
-        [self addChild:ninja];
+        [self addChild:ninja z:100];
         
         [self displayMainMenu];
+        
+        // add confetti
+        self.confettiEmitter = [CCParticleSystemQuad particleWithFile:@"confetti.plist"];
+        self.confettiEmitter.position = ccp(screenSize.width/2, screenSize.height/2);
+        [self addChild:self.confettiEmitter z:10];
     }
     
     return self;

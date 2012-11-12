@@ -14,6 +14,13 @@
 #define kGamePausedBgTagValue 3
 #define kGameRoundBgTagValue 4
 
+// complete round to level up
+#define kGameLevel2Round 1
+#define kGameLevel3Round 8
+#define kGameLevel4Round 15
+#define kGameLevel5Round 30
+#define kGameLevel6Round 50
+
 typedef enum {
     kSceneTypeNone = 0,
     kSceneTypeMainMenu,

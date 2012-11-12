@@ -53,6 +53,7 @@ static GameManager *_sharedGameManager = nil;   // singleton
         _hasPlayerDied = NO;
         _currentScene = kSceneTypeNone;
         _score = 0;
+        _ninjaLevel = 1;
         _hasAudioBeenInitialized = NO;
         _soundEngine = nil;
         _managerSoundState = kAudioManagerUninitialized;

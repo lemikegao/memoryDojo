@@ -298,8 +298,93 @@
     
     // check if sequence is complete
     if ([self.sequence count] == (self.currentSequencePosition)) {
-        [self startNewRound];
+        int ninjaLevel = [GameManager sharedGameManager].ninjaLevel;
+        BOOL shouldLevelUp = NO;
+        switch (self.roundNumber) {
+            case kGameLevel2Round:
+                if (ninjaLevel == 1) {
+                    shouldLevelUp = YES;
+                }
+                break;
+                
+            case kGameLevel3Round:
+                if (ninjaLevel == 1) {
+                    shouldLevelUp = YES;
+                }
+                break;
+                
+            case kGameLevel4Round:
+                if (ninjaLevel == 1) {
+                    shouldLevelUp = YES;
+                }
+                break;
+                
+            case kGameLevel5Round:
+                if (ninjaLevel == 1) {
+                    shouldLevelUp = YES;
+                }
+                break;
+                
+            case kGameLevel6Round:
+                if (ninjaLevel == 1) {
+                    shouldLevelUp = YES;
+                }
+                break;
+                
+            default:
+                break;
+        }
+        
+        if (shouldLevelUp == YES) {
+            [self ninjaLevelUp];
+        } else {
+            [self startNewRound];
+        }
     }
+}
+
+-(void)ninjaLevelUp {
+    // stop gameplay
+    self.enableGestures = NO;
+    [self unscheduleUpdate];
+    
+    // increase ninja level
+    [GameManager sharedGameManager].ninjaLevel++;
+    int ninjaLevel = [GameManager sharedGameManager].ninjaLevel;
+    
+    // add background color layer first
+    CGSize screenSize = [CCDirector sharedDirector].winSize;
+    CCLayerColor *levelUpBg = [CCLayerColor layerWithColor:ccc4(30, 30, 30, 255) width:screenSize.width height:screenSize.height];
+    [self addChild:levelUpBg z:150];
+    
+    // add rays to sprite batch node
+    CGPoint screenMidpoint = ccp(screenSize.width/2, screenSize.height/2);
+    CCSpriteBatchNode *rayBatchNode = [CCSpriteBatchNode batchNodeWithFile:@"game_art.pvr.ccz"];
+    rayBatchNode.position = screenMidpoint;
+    
+    float rayAngle = 0;
+    while (rayAngle < 360) {
+        CCSprite *ray = [CCSprite spriteWithSpriteFrameName:@"game_transition_ray.png"];
+        ray.anchorPoint = ccp(0.5, 0);
+        ray.rotation = rayAngle;
+        ray.position = CGPointZero;
+        [rayBatchNode addChild:ray];
+        
+        // next ray is 40 degrees apart
+        rayAngle = rayAngle + 40;
+    }
+    
+    [levelUpBg addChild:rayBatchNode z:1];
+    
+    // spin the ray batch node
+//    id rotateRayAction = [CCRepeatForever actionWithAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.1f], [CCRotateBy actionWithDuration:0.1f angle:10], nil]];
+    id rotateRayAction = [CCRepeatForever actionWithAction:[CCRotateBy actionWithDuration:1 angle:40]];
+    [rayBatchNode runAction:rotateRayAction];
+    
+    // add level up message bg
+    CCSprite *levelUpMessageBg = [CCSprite spriteWithSpriteFrameName:@"game_transition_message_bg.png"];
+    levelUpMessageBg.position = screenMidpoint;
+    [levelUpBg addChild:levelUpMessageBg z:2];
 }
 
 -(void)startNewRound {
@@ -327,7 +412,7 @@
         niceLabel.position = ccp(roundBg.boundingBox.size.width/2, roundBg.boundingBox.size.height/2);
         [roundBg addChild:niceLabel];
         id niceLabelBgAction = [CCFadeIn actionWithDuration:1.0f];
-        id niceLabelAction = [CCSequence actions:[CCFadeIn actionWithDuration:1.0f], [CCDelayTime actionWithDuration:1.0f], [CCFadeOut actionWithDuration:1.0f], [CCCallFunc actionWithTarget:self selector:@selector(showRoundLabel)], nil];
+        id niceLabelAction = [CCSequence actions:[CCFadeIn actionWithDuration:1.0f], [CCDelayTime actionWithDuration:1.0f], [CCFadeOut actionWithDuration:1.0f], [CCCallFunc actionWithTarget:self selector:@selector(showRoundLabelAfterNiceMessage)], nil];
         [roundBg runAction:niceLabelBgAction];
         [niceLabel runAction:niceLabelAction];
     } else {
