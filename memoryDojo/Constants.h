@@ -9,17 +9,21 @@
 #ifndef memoryDojo_Constants_h
 #define memoryDojo_Constants_h
 
-#define kMainMenuTagValue 1
-#define kGameInstructionsTagValue 2
-#define kGamePausedBgTagValue 3
-#define kGameRoundBgTagValue 4
-
 // complete round to level up
 #define kGameLevel2Round 1
 #define kGameLevel3Round 8
 #define kGameLevel4Round 15
 #define kGameLevel5Round 30
 #define kGameLevel6Round 50
+
+typedef enum {
+    kTagNone = 0,
+    kTagMainMenu,
+    kTagGameInstructions,
+    kTagGamePausedBg,
+    kTagGameRoundBg,
+    kTagGameLevelUpMessageBg
+} TagValues;
 
 typedef enum {
     kSceneTypeNone = 0,
@@ -33,12 +37,29 @@ typedef enum {
 } LinkTypes;
 
 typedef enum {
+    kGameStateNone = 0,
+    kGameStateIntro,
+    kGameStatePlay,
+    kGameStateLevelUpScreen1,
+    kGameStateLevelUpScreen2,
+    kGameStatePause
+} GameStates;
+
+typedef enum {
     kDirectionTypeNone = 0,
     kDirectionTypeLeft,
     kDirectionTypeDown,
     kDirectionTypeRight,
     kDirectionTypeUp
 } DirectionTypes;
+
+typedef enum {
+    kCharacterStateIdle = 0,
+    kCharacterStateLeft,
+    kCharacterStateDown,
+    kCharacterStateRight,
+    kCharacterStateUp
+} CharacterStates;
 
 // audio items
 #define AUDIO_MAX_WAITTIME 150

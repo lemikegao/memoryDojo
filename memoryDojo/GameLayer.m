@@ -15,6 +15,7 @@
 @interface GameLayer()
 
 @property (nonatomic) BOOL isGamePaused;
+@property (nonatomic, strong) CCSprite *levelUpMessageBg;
 @property (nonatomic, strong) Ninja *ninja;
 @property (nonatomic, strong) Sensei *sensei;
 @property (nonatomic) int roundNumber;
@@ -28,6 +29,7 @@
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeDownRecognizer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeRightRecognizer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeUpRecognizer;
+@property (nonatomic) GameStates currentGameState;
 -(void)initializeGame;
 -(void)removeInstructions;
 -(void)removeRoundPopup:(CCSprite*)roundBg;
@@ -70,8 +72,13 @@
     // do not allow swipe input until sensei performs the sequence
     self.enableGestures = NO;
     
+    // enable touch for level up transitions
+    self.isTouchEnabled = YES;
+    
     // game is not paused
     self.isGamePaused = NO;
+    
+    self.currentGameState = kGameStateIntro;
     
     [GameManager sharedGameManager].score = 0;
     CGSize screenSize = [CCDirector sharedDirector].winSize;
@@ -167,7 +174,7 @@
     CCSprite *gameInstructions = [CCSprite spriteWithSpriteFrameName:@"game_instructions.png"];
     gameInstructions.anchorPoint = ccp(0.5f, 0);
     gameInstructions.position = ccp(screenSize.width/2, topBar.position.y);
-    [self addChild:gameInstructions z:2 tag:kGameInstructionsTagValue];
+    [self addChild:gameInstructions z:2 tag:kTagGameInstructions];
     
     // display sequence after label disappears
     id moveGameInstructionsDown = [CCMoveTo actionWithDuration:0.5f position:ccp(screenSize.width/2, screenSize.height * 0.60f)];
@@ -210,8 +217,17 @@
     [[CCDirector sharedDirector].view removeGestureRecognizer:self.swipeUpRecognizer];
 }
 
+-(void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    // if game is displaying level up screen 1, transition to next level up screen
+    if (self.currentGameState == kGameStateLevelUpScreen1) {
+        [self showNinjaLevelUpScreen2];
+    } else if (self.currentGameState == kGameStateLevelUpScreen2) {
+        [self dismissLevelUpScreenAndStartNewRound];
+    }
+}
+
 -(void)removeInstructions {
-    [self removeChildByTag:kGameInstructionsTagValue cleanup:YES];
+    [self removeChildByTag:kTagGameInstructions cleanup:YES];
 }
 
 -(void)removeRoundPopup:(CCSprite*)roundBg {
@@ -382,16 +398,43 @@
     [rayBatchNode runAction:rotateRayAction];
     
     // add level up message bg
-    CCSprite *levelUpMessageBg = [CCSprite spriteWithSpriteFrameName:@"game_transition_message_bg.png"];
-    levelUpMessageBg.position = screenMidpoint;
-    [levelUpBg addChild:levelUpMessageBg z:2];
+    self.levelUpMessageBg = [CCSprite spriteWithSpriteFrameName:@"game_transition_message_bg.png"];
+    self.levelUpMessageBg.position = screenMidpoint;
+    [levelUpBg addChild:self.levelUpMessageBg z:2 tag:kTagGameLevelUpMessageBg];
     
-    CGSize levelUpMessageBgSize = levelUpMessageBg.boundingBox.size;
+    CGSize levelUpMessageBgSize = self.levelUpMessageBg.boundingBox.size;
     
     // add level up message header
     CCLabelBMFont *levelUpMessageHeader = [CCLabelBMFont labelWithString:@"HEY LOOK!" fntFile:@"game_levelup_header.fnt"];
     levelUpMessageHeader.position = ccp(levelUpMessageBgSize.width/2, levelUpMessageBgSize.height * 0.70f);
-    [levelUpMessageBg addChild:levelUpMessageHeader];
+    [self.levelUpMessageBg addChild:levelUpMessageHeader];
+    
+    CCLabelBMFont *levelUpMessageBody = [CCLabelBMFont labelWithString:@"SOMETHING SEEMS TO BE HAPPENING!" fntFile:@"game_levelup_body.fnt" width:levelUpMessageBgSize.width * 0.60 alignment:kCCTextAlignmentCenter];
+    levelUpMessageBody.position = ccp(levelUpMessageBgSize.width/2, levelUpMessageBgSize.height * 0.40f);
+    [self.levelUpMessageBg addChild:levelUpMessageBody];
+    
+    self.currentGameState = kGameStateLevelUpScreen1;
+}
+
+-(void)showNinjaLevelUpScreen2 {
+    // remove previous messages from level up message bg
+    [self.levelUpMessageBg removeAllChildrenWithCleanup:YES];
+    
+    CGSize levelUpMessageBgSize = self.levelUpMessageBg.boundingBox.size;
+    
+    // add new level up messages
+    CCLabelBMFont *levelUpMessageBody = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"YOU'VE JUST BEEN UPGRADED TO SUPER NINJA LEVEL %i!", [GameManager sharedGameManager].ninjaLevel] fntFile:@"game_levelup_body.fnt" width:levelUpMessageBgSize.width * 0.70f alignment:kCCTextAlignmentCenter];
+    levelUpMessageBody.position = ccp(levelUpMessageBgSize.width/2, levelUpMessageBgSize.height/2);
+    [self.levelUpMessageBg addChild:levelUpMessageBody];
+    
+    self.currentGameState = kGameStateLevelUpScreen2;
+}
+
+-(void)dismissLevelUpScreenAndStartNewRound {
+    CCSprite *levelUpBg = (CCSprite*)self.levelUpMessageBg.parent;  // tight coupling :/
+    [levelUpBg removeAllChildrenWithCleanup:YES];
+    [levelUpBg removeFromParentAndCleanup:YES];
+    [self startNewRound];
 }
 
 -(void)startNewRound {
@@ -400,6 +443,7 @@
     self.timer.percentage = 100;
     self.currentSequencePosition = 0;
     self.currentDisplaySequencePosition = 0;
+    self.currentGameState = kGameStatePlay;
     
     int currentSequenceLength = [self.sequence count];
     for (int i=0; i<2; i++) {
@@ -411,7 +455,7 @@
     CGSize screenSize = [CCDirector sharedDirector].winSize;
     CCSprite *roundBg = [CCSprite spriteWithSpriteFrameName:@"game_rounds_bg.png"];
     roundBg.position = ccp(screenSize.width/2, screenSize.height/2);
-    [self addChild:roundBg z:100 tag:kGameRoundBgTagValue];
+    [self addChild:roundBg z:100 tag:kTagGameRoundBg];
     
     // add 'nice!' message if player finished round 1
     if (self.roundNumber == 1) {
@@ -441,7 +485,7 @@
 }
 
 -(void)showRoundLabelAfterNiceMessage {
-    CCSprite *roundBg = (CCSprite*)[self getChildByTag:kGameRoundBgTagValue];
+    CCSprite *roundBg = (CCSprite*)[self getChildByTag:kTagGameRoundBg];
     
     CCLabelBMFont *newRoundLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"Round %i", self.roundNumber] fntFile:@"Round.fnt"];
     newRoundLabel.position = ccp(roundBg.boundingBox.size.width/2, roundBg.boundingBox.size.height/2);
@@ -469,7 +513,7 @@
         CGSize screenSize = [CCDirector sharedDirector].winSize;
         CCSprite *pausedBg = [CCSprite spriteWithSpriteFrameName:@"game_paused_bg.png"];
         pausedBg.position = ccp(screenSize.width/2, screenSize.height/2);
-        [self addChild:pausedBg z:100 tag:kGamePausedBgTagValue];
+        [self addChild:pausedBg z:100 tag:kTagGamePausedBg];
         [self addPausedMenuItems];
     }
 }
@@ -486,7 +530,7 @@
 }
 
 -(void)addPausedMenuItems {
-    CCSprite *pausedBg = (CCSprite*)[self getChildByTag:kGamePausedBgTagValue];
+    CCSprite *pausedBg = (CCSprite*)[self getChildByTag:kTagGamePausedBg];
     
     CGFloat pausedBgHeight = pausedBg.boundingBox.size.height;
     CGFloat pausedBgWidth = pausedBg.boundingBox.size.width;
@@ -529,7 +573,7 @@
     }
     
     // remove paused menu from self
-    [self removeChildByTag:kGamePausedBgTagValue cleanup:YES];
+    [self removeChildByTag:kTagGamePausedBg cleanup:YES];
 }
 
 -(void)resumeAllSchedulerAndActions:(CCNode*)node {
@@ -544,7 +588,7 @@
 }
 
 -(void)confirmRestartGame {
-    CCSprite *pausedBg = (CCSprite*)[self getChildByTag:kGamePausedBgTagValue];
+    CCSprite *pausedBg = (CCSprite*)[self getChildByTag:kTagGamePausedBg];
     CGFloat pausedBgWidth = pausedBg.boundingBox.size.width;
     CGFloat pausedBgHeight = pausedBg.boundingBox.size.height;
     
@@ -571,7 +615,7 @@
 }
 
 -(void)goBackToPausedMenu {
-    CCSprite *pausedBg = (CCSprite*)[self getChildByTag:kGamePausedBgTagValue];
+    CCSprite *pausedBg = (CCSprite*)[self getChildByTag:kTagGamePausedBg];
     [pausedBg removeAllChildrenWithCleanup:YES];
     
     [self addPausedMenuItems];
@@ -584,7 +628,7 @@
 }
 
 -(void)confirmQuitGame {
-    CCSprite *pausedBg = (CCSprite*)[self getChildByTag:kGamePausedBgTagValue];
+    CCSprite *pausedBg = (CCSprite*)[self getChildByTag:kTagGamePausedBg];
     CGFloat pausedBgWidth = pausedBg.boundingBox.size.width;
     CGFloat pausedBgHeight = pausedBg.boundingBox.size.height;
     
