@@ -17,15 +17,6 @@
 #define kGameLevel6Round 50
 
 typedef enum {
-    kTagNone = 0,
-    kTagMainMenu,
-    kTagGameInstructions,
-    kTagGamePausedBg,
-    kTagGameRoundBg,
-    kTagGameLevelUpMessageBg
-} TagValues;
-
-typedef enum {
     kSceneTypeNone = 0,
     kSceneTypeMainMenu,
     kSceneTypeGame,

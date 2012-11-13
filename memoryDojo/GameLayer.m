@@ -14,22 +14,33 @@
 
 @interface GameLayer()
 
-@property (nonatomic) BOOL isGamePaused;
-@property (nonatomic, strong) CCSprite *levelUpMessageBg;
+// game objects
 @property (nonatomic, strong) Ninja *ninja;
 @property (nonatomic, strong) Sensei *sensei;
+
+// game state
+@property (nonatomic) BOOL isGamePaused;
 @property (nonatomic) int roundNumber;
-@property (nonatomic, strong) CCLabelBMFont *scoreLabel;
+@property (nonatomic) GameStates currentGameState;
+@property (nonatomic, strong) CCProgressTimer *timer;
+@property (nonatomic) BOOL enableGestures;
+
+// gameplay
 @property (nonatomic, strong) NSMutableArray *sequence;
 @property (nonatomic) int currentSequencePosition;
 @property (nonatomic) int currentDisplaySequencePosition;
-@property (nonatomic) BOOL enableGestures;
-@property (nonatomic, strong) CCProgressTimer *timer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeLeftRecognizer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeDownRecognizer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeRightRecognizer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeUpRecognizer;
-@property (nonatomic) GameStates currentGameState;
+
+// sprite management -- not using tags anymore!
+@property (nonatomic, strong) CCSprite *gameInstructions;
+@property (nonatomic, strong) CCLabelBMFont *scoreLabel;
+@property (nonatomic, strong) CCSprite *gameRoundBg;
+@property (nonatomic, strong) CCSprite *gamePausedBg;
+@property (nonatomic, strong) CCSprite *levelUpMessageBg;
+
 -(void)initializeGame;
 -(void)removeInstructions;
 -(void)removeRoundPopup:(CCSprite*)roundBg;
@@ -171,10 +182,10 @@
     self.roundNumber = 1;
     
     // display the rules then start the game!
-    CCSprite *gameInstructions = [CCSprite spriteWithSpriteFrameName:@"game_instructions.png"];
-    gameInstructions.anchorPoint = ccp(0.5f, 0);
-    gameInstructions.position = ccp(screenSize.width/2, topBar.position.y);
-    [self addChild:gameInstructions z:2 tag:kTagGameInstructions];
+    self.gameInstructions = [CCSprite spriteWithSpriteFrameName:@"game_instructions.png"];
+    self.gameInstructions.anchorPoint = ccp(0.5f, 0);
+    self.gameInstructions.position = ccp(screenSize.width/2, topBar.position.y);
+    [self addChild:self.gameInstructions z:2];
     
     // display sequence after label disappears
     id moveGameInstructionsDown = [CCMoveTo actionWithDuration:0.5f position:ccp(screenSize.width/2, screenSize.height * 0.60f)];
@@ -184,7 +195,7 @@
     id callStartDisplaySequenceSelector = [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)];
     
     id action = [CCSequence actions:moveGameInstructionsDown, pauseGameInstructions, moveGameInstructionsUp, removeInstructions, callStartDisplaySequenceSelector, nil];
-    [gameInstructions runAction:action];
+    [self.gameInstructions runAction:action];
 }
 
 -(void)onEnter {
@@ -227,7 +238,7 @@
 }
 
 -(void)removeInstructions {
-    [self removeChildByTag:kTagGameInstructions cleanup:YES];
+    [self.gameInstructions removeFromParentAndCleanup:YES];
 }
 
 -(void)removeRoundPopup:(CCSprite*)roundBg {
@@ -400,7 +411,7 @@
     // add level up message bg
     self.levelUpMessageBg = [CCSprite spriteWithSpriteFrameName:@"game_transition_message_bg.png"];
     self.levelUpMessageBg.position = screenMidpoint;
-    [levelUpBg addChild:self.levelUpMessageBg z:2 tag:kTagGameLevelUpMessageBg];
+    [levelUpBg addChild:self.levelUpMessageBg z:2];
     
     CGSize levelUpMessageBgSize = self.levelUpMessageBg.boundingBox.size;
     
@@ -453,23 +464,23 @@
 
     // show new round indicator
     CGSize screenSize = [CCDirector sharedDirector].winSize;
-    CCSprite *roundBg = [CCSprite spriteWithSpriteFrameName:@"game_rounds_bg.png"];
-    roundBg.position = ccp(screenSize.width/2, screenSize.height/2);
-    [self addChild:roundBg z:100 tag:kTagGameRoundBg];
+    self.gameRoundBg = [CCSprite spriteWithSpriteFrameName:@"game_rounds_bg.png"];
+    self.gameRoundBg .position = ccp(screenSize.width/2, screenSize.height/2);
+    [self addChild:self.gameRoundBg  z:100];
     
     // add 'nice!' message if player finished round 1
     if (self.roundNumber == 1) {
         CCLabelBMFont *niceLabel = [CCLabelBMFont labelWithString:@"Nice!" fntFile:@"Round.fnt"];
-        niceLabel.position = ccp(roundBg.boundingBox.size.width/2, roundBg.boundingBox.size.height/2);
-        [roundBg addChild:niceLabel];
+        niceLabel.position = ccp(self.gameRoundBg.boundingBox.size.width/2, self.gameRoundBg.boundingBox.size.height/2);
+        [self.gameRoundBg addChild:niceLabel];
         id niceLabelBgAction = [CCFadeIn actionWithDuration:1.0f];
         id niceLabelAction = [CCSequence actions:[CCFadeIn actionWithDuration:1.0f], [CCDelayTime actionWithDuration:1.0f], [CCFadeOut actionWithDuration:1.0f], [CCCallFunc actionWithTarget:self selector:@selector(showRoundLabelAfterNiceMessage)], nil];
-        [roundBg runAction:niceLabelBgAction];
+        [self.gameRoundBg runAction:niceLabelBgAction];
         [niceLabel runAction:niceLabelAction];
     } else {
         CCLabelBMFont *newRoundLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"Round %i", self.roundNumber] fntFile:@"Round.fnt"];
-        newRoundLabel.position = ccp(roundBg.boundingBox.size.width/2, roundBg.boundingBox.size.height/2);
-        [roundBg addChild:newRoundLabel];
+        newRoundLabel.position = ccp(self.gameRoundBg.boundingBox.size.width/2, self.gameRoundBg.boundingBox.size.height/2);
+        [self.gameRoundBg addChild:newRoundLabel];
         
         
         id labelAction = [CCSequence actions:[CCFadeIn actionWithDuration:1.0f], [CCDelayTime actionWithDuration:2.0f], [CCFadeOut actionWithDuration:1.0f], nil];
@@ -478,18 +489,16 @@
         id labelBgAction = [CCSequence actions:[CCFadeIn actionWithDuration:1.0f], [CCDelayTime actionWithDuration:2.0f], [CCFadeOut actionWithDuration:1.0f], [CCCallFuncN actionWithTarget:self selector:@selector(removeRoundPopup:)], [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
         
         [newRoundLabel runAction:labelAction];
-        [roundBg runAction:labelBgAction];
+        [self.gameRoundBg runAction:labelBgAction];
     }
     
     self.roundNumber++;
 }
 
 -(void)showRoundLabelAfterNiceMessage {
-    CCSprite *roundBg = (CCSprite*)[self getChildByTag:kTagGameRoundBg];
-    
     CCLabelBMFont *newRoundLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"Round %i", self.roundNumber] fntFile:@"Round.fnt"];
-    newRoundLabel.position = ccp(roundBg.boundingBox.size.width/2, roundBg.boundingBox.size.height/2);
-    [roundBg addChild:newRoundLabel];
+    newRoundLabel.position = ccp(self.gameRoundBg.boundingBox.size.width/2, self.gameRoundBg.boundingBox.size.height/2);
+    [self.gameRoundBg addChild:newRoundLabel];
     
     
     id labelAction = [CCSequence actions:[CCFadeIn actionWithDuration:1.0f], [CCDelayTime actionWithDuration:2.0f], [CCFadeOut actionWithDuration:1.0f], nil];
@@ -498,7 +507,7 @@
     id labelBgAction = [CCSequence actions:[CCDelayTime actionWithDuration:3.0f], [CCFadeOut actionWithDuration:1.0f], [CCCallFuncN actionWithTarget:self selector:@selector(removeRoundPopup:)], [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
     
     [newRoundLabel runAction:labelAction];
-    [roundBg runAction:labelBgAction];
+    [self.gameRoundBg runAction:labelBgAction];
 }
 
 -(void)pauseGame {
@@ -511,9 +520,9 @@
         
         // show paused menu
         CGSize screenSize = [CCDirector sharedDirector].winSize;
-        CCSprite *pausedBg = [CCSprite spriteWithSpriteFrameName:@"game_paused_bg.png"];
-        pausedBg.position = ccp(screenSize.width/2, screenSize.height/2);
-        [self addChild:pausedBg z:100 tag:kTagGamePausedBg];
+        self.gamePausedBg = [CCSprite spriteWithSpriteFrameName:@"game_paused_bg.png"];
+        self.gamePausedBg.position = ccp(screenSize.width/2, screenSize.height/2);
+        [self addChild:self.gamePausedBg z:100];
         [self addPausedMenuItems];
     }
 }
@@ -530,20 +539,18 @@
 }
 
 -(void)addPausedMenuItems {
-    CCSprite *pausedBg = (CCSprite*)[self getChildByTag:kTagGamePausedBg];
-    
-    CGFloat pausedBgHeight = pausedBg.boundingBox.size.height;
-    CGFloat pausedBgWidth = pausedBg.boundingBox.size.width;
+    CGFloat pausedBgHeight = self.gamePausedBg.boundingBox.size.height;
+    CGFloat pausedBgWidth = self.gamePausedBg.boundingBox.size.width;
     
     // add game paused label
     CCSprite *pausedText = [CCSprite spriteWithSpriteFrameName:@"game_paused_text.png"];
     pausedText.position = ccp(pausedBgWidth/2, pausedBgHeight * 0.88f);
-    [pausedBg addChild:pausedText];
+    [self.gamePausedBg addChild:pausedText];
     
     // add game paused separator
     CCSprite *pausedSeparator = [CCSprite spriteWithSpriteFrameName:@"game_paused_line.png"];
     pausedSeparator.position = ccp(pausedBgWidth * 0.55f, pausedBgHeight * 0.77f);
-    [pausedBg addChild:pausedSeparator];
+    [self.gamePausedBg addChild:pausedSeparator];
     
     // create game paused resume button
     CCMenuItemImage *pausedResumeButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_resume.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_resume_pressed.png"] target:self selector:@selector(resumeGame)];
@@ -560,7 +567,7 @@
     [pausedMenu alignItemsVerticallyWithPadding:pausedBgHeight * 0.085f];
     pausedMenu.anchorPoint = ccp(0, 0.5);
     pausedMenu.position = ccp(pausedBgWidth * 0.23f, pausedBgHeight * 0.44f);
-    [pausedBg addChild:pausedMenu z:10];
+    [self.gamePausedBg addChild:pausedMenu z:10];
 }
 
 -(void)resumeGame {
@@ -573,7 +580,7 @@
     }
     
     // remove paused menu from self
-    [self removeChildByTag:kTagGamePausedBg cleanup:YES];
+    [self.gamePausedBg removeFromParentAndCleanup:YES];
 }
 
 -(void)resumeAllSchedulerAndActions:(CCNode*)node {
@@ -588,17 +595,16 @@
 }
 
 -(void)confirmRestartGame {
-    CCSprite *pausedBg = (CCSprite*)[self getChildByTag:kTagGamePausedBg];
-    CGFloat pausedBgWidth = pausedBg.boundingBox.size.width;
-    CGFloat pausedBgHeight = pausedBg.boundingBox.size.height;
+    CGFloat pausedBgWidth = self.gamePausedBg.boundingBox.size.width;
+    CGFloat pausedBgHeight = self.gamePausedBg.boundingBox.size.height;
     
     // remove all children from pausedBg first
-    [pausedBg removeAllChildrenWithCleanup:YES];
+    [self.gamePausedBg removeAllChildrenWithCleanup:YES];
     
     // add restart confirmation text
     CCSprite *pausedRestartConfirmation = [CCSprite spriteWithSpriteFrameName:@"game_paused_restartconfirmation_text.png"];
     pausedRestartConfirmation.position = ccp(pausedBgWidth/2, pausedBgHeight * 0.73f);
-    [pausedBg addChild:pausedRestartConfirmation];
+    [self.gamePausedBg addChild:pausedRestartConfirmation];
     
     // add no or yes options
     CCMenuItemImage *pausedButtonNo = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_no.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_no_pressed.png"] target:self selector:@selector(goBackToPausedMenu)];
@@ -611,12 +617,11 @@
     [pausedMenuRestartConfirmation alignItemsHorizontallyWithPadding:pausedBgWidth * 0.2f];
     pausedMenuRestartConfirmation.anchorPoint = ccp(0.5f, 0);
     pausedMenuRestartConfirmation.position = ccp(pausedBgWidth * 0.5f, pausedBgHeight * 0.30f);
-    [pausedBg addChild:pausedMenuRestartConfirmation z:10];
+    [self.gamePausedBg addChild:pausedMenuRestartConfirmation z:10];
 }
 
 -(void)goBackToPausedMenu {
-    CCSprite *pausedBg = (CCSprite*)[self getChildByTag:kTagGamePausedBg];
-    [pausedBg removeAllChildrenWithCleanup:YES];
+    [self.gamePausedBg removeAllChildrenWithCleanup:YES];
     
     [self addPausedMenuItems];
 }
@@ -628,17 +633,16 @@
 }
 
 -(void)confirmQuitGame {
-    CCSprite *pausedBg = (CCSprite*)[self getChildByTag:kTagGamePausedBg];
-    CGFloat pausedBgWidth = pausedBg.boundingBox.size.width;
-    CGFloat pausedBgHeight = pausedBg.boundingBox.size.height;
+    CGFloat pausedBgWidth = self.gamePausedBg.boundingBox.size.width;
+    CGFloat pausedBgHeight = self.gamePausedBg.boundingBox.size.height;
     
     // remove all children from pausedBg first
-    [pausedBg removeAllChildrenWithCleanup:YES];
+    [self.gamePausedBg removeAllChildrenWithCleanup:YES];
     
     // add restart confirmation text
     CCSprite *pausedQuitConfirmation = [CCSprite spriteWithSpriteFrameName:@"game_paused_quitconfirmation_text.png"];
     pausedQuitConfirmation.position = ccp(pausedBgWidth/2, pausedBgHeight * 0.73f);
-    [pausedBg addChild:pausedQuitConfirmation];
+    [self.gamePausedBg addChild:pausedQuitConfirmation];
     
     // add no or yes options
     CCMenuItemImage *pausedButtonNo = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_no.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_no_pressed.png"] target:self selector:@selector(goBackToPausedMenu)];
@@ -651,7 +655,7 @@
     [pausedMenuRestartConfirmation alignItemsHorizontallyWithPadding:pausedBgWidth * 0.2f];
     pausedMenuRestartConfirmation.anchorPoint = ccp(0.5f, 0);
     pausedMenuRestartConfirmation.position = ccp(pausedBgWidth * 0.5f, pausedBgHeight * 0.30f);
-    [pausedBg addChild:pausedMenuRestartConfirmation z:10];
+    [self.gamePausedBg addChild:pausedMenuRestartConfirmation z:10];
 }
 
 -(void)quitGame {
