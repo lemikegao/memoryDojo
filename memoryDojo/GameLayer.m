@@ -24,6 +24,7 @@
 @property (nonatomic) GameStates currentGameState;
 @property (nonatomic, strong) CCProgressTimer *timer;
 @property (nonatomic) BOOL enableGestures;
+@property (nonatomic) CGFloat timeToSubtractPerSecond;
 
 // gameplay
 @property (nonatomic, strong) NSMutableArray *sequence;
@@ -176,7 +177,7 @@
     // add appropriate level upgrades
     int ninjaLevel = [GameManager sharedGameManager].ninjaLevel;
     
-    if (ninjaLevel == 2) {
+    if (ninjaLevel >= 2) {
         // add aura behind ninja
         self.level2AuraEmitter = [CCParticleSystemQuad particleWithFile:@"aura1_game.plist"];
         self.level2AuraEmitter.position = ccp(self.ninja.position.x + self.ninja.boundingBox.size.width/8, self.ninja.position.y);
@@ -263,7 +264,49 @@
 
 -(void)startDisplaySequenceSelector {
 //    PLAYSOUNDEFFECT(GONG);
-    [self schedule:@selector(displaySequence:) interval:0.8];
+    
+    // set timeToSubtractPerSecond
+    // level 1 - round 1: 10 sec; +2 sec for each round
+    // level 2 - round 1: 8 sec; +2 sec for each round
+    // level 3 - round 1: 6 sec; +1.5 sec for each round
+    // level 4 - round 1: 5 sec; +1.5 sec for each round
+    // level 5 - round 1: 4 sec; +1 sec for each round
+    // level 6 - round 1: 2 sec; +1 sec for each round
+    
+    CGFloat displaySequenceInterval;
+    switch ([GameManager sharedGameManager].ninjaLevel) {
+        case 1:
+            displaySequenceInterval = 1.0;
+            self.timeToSubtractPerSecond = 100/(10+(self.roundNumber-1)*2);
+            break;
+        case 2:
+            displaySequenceInterval = 0.8;
+            self.timeToSubtractPerSecond = 100/(8+(self.roundNumber-1)*2);
+            break;
+        case 3:
+            displaySequenceInterval = 0.6;
+            self.timeToSubtractPerSecond = 100/(6+(self.roundNumber-1)*1.5);
+            break;
+        case 4:
+            displaySequenceInterval = 0.4;
+            self.timeToSubtractPerSecond = 100/(5+(self.roundNumber-1)*1.5);
+            break;
+        case 5:
+            displaySequenceInterval = 0.3;
+            self.timeToSubtractPerSecond = 100/(4+(self.roundNumber-1)*1);
+            break;
+        case 6:
+            displaySequenceInterval = 0.2;
+            self.timeToSubtractPerSecond = 100/(2+(self.roundNumber-1)*1);
+            break;
+        default:
+            CCLOG(@"level not supported in GameLayer.m, startDisplaySequenceSelector");
+            displaySequenceInterval = 0.2;
+            self.timeToSubtractPerSecond = 100/(2+(self.roundNumber-1));
+            break;
+    
+    }
+    [self schedule:@selector(displaySequence:) interval:displaySequenceInterval];
 }
 
 -(void)displaySequence:(ccTime)deltaTime {
@@ -331,7 +374,7 @@
     if ([self.sequence[self.currentSequencePosition] intValue] == direction) {
         self.currentSequencePosition++;
         CCLOG(@"Correct swipe detected: %i", direction);
-        [GameManager sharedGameManager].score++;
+        [GameManager sharedGameManager].score = [GameManager sharedGameManager].score + [GameManager sharedGameManager].ninjaLevel;
         self.scoreLabel.string = [NSString stringWithFormat:@"%i", [GameManager sharedGameManager].score];
     } else {
         CCLOG(@"You lose!");
@@ -720,7 +763,13 @@
     [self.ninja updateStateWithDeltaTime:deltaTime andListOfGameObjects:nil];
     [self.sensei updateStateWithDeltaTime:deltaTime andListOfGameObjects:nil];
     
-    self.timer.percentage -= deltaTime*10;
+    // level 1 - round 1: 10 sec; +2 sec for each round
+    // level 2 - round 1: 8 sec; +2 sec for each round
+    // level 3 - round 1: 6 sec; +1.5 sec for each round
+    // level 4 - round 1: 5 sec; +1.5 sec for each round
+    // level 5 - round 1: 4 sec; +1.5 sec for each round
+    // level 6 - round 1: 4 sec; +1 sec for each round
+    self.timer.percentage -= self.timeToSubtractPerSecond/60.0f;
     if (self.timer.percentage <= 0) {
         [self playGameOverScene];
     }

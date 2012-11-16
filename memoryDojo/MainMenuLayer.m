@@ -44,7 +44,7 @@
         // add appropriate level upgrades
         int ninjaLevel = [GameManager sharedGameManager].ninjaLevel;
         
-        if (ninjaLevel == 2) {
+        if (ninjaLevel >= 2) {
             // add aura behind ninja
             self.auraEmitter = [CCParticleSystemQuad particleWithFile:@"aura1.plist"];
             self.auraEmitter.position = ccp(ninja.position.x + ninja.boundingBox.size.width/8, ninja.position.y);
