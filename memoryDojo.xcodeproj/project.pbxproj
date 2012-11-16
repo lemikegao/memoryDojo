@@ -17,7 +17,6 @@
 		C41D7FE0165094A7003A9CF3 /* game_levelup_header-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FD8165094A7003A9CF3 /* game_levelup_header-hd.png */; };
 		C41D7FE1165094A7003A9CF3 /* game_levelup_header.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FD9165094A7003A9CF3 /* game_levelup_header.fnt */; };
 		C41D7FE2165094A7003A9CF3 /* game_levelup_header.png in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FDA165094A7003A9CF3 /* game_levelup_header.png */; };
-		C4258538164FB015002CC2FE /* confetti.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4258537164FB015002CC2FE /* confetti.plist */; };
 		C425993A163F6CB900A72BCB /* gong.caf in Resources */ = {isa = PBXBuildFile; fileRef = C4114718163E184500FC2BE8 /* gong.caf */; };
 		C43DD703164A53CF000207C3 /* game_bg_bottom.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD6D8164A53CF000207C3 /* game_bg_bottom.png */; };
 		C43DD704164A53CF000207C3 /* game_bg_top.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD6D9164A53CF000207C3 /* game_bg_top.png */; };
@@ -32,7 +31,6 @@
 		C43DD70D164A53CF000207C3 /* game_ninja_right.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD6E2164A53CF000207C3 /* game_ninja_right.png */; };
 		C43DD70E164A53CF000207C3 /* game_ninja_up_repeat.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD6E3164A53CF000207C3 /* game_ninja_up_repeat.png */; };
 		C43DD70F164A53CF000207C3 /* game_ninja_up.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD6E4164A53CF000207C3 /* game_ninja_up.png */; };
-		C43DD710164A53CF000207C3 /* game_paused_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD6E5164A53CF000207C3 /* game_paused_bg.png */; };
 		C43DD711164A53CF000207C3 /* game_paused_button_no_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD6E6164A53CF000207C3 /* game_paused_button_no_pressed.png */; };
 		C43DD712164A53CF000207C3 /* game_paused_button_no.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD6E7164A53CF000207C3 /* game_paused_button_no.png */; };
 		C43DD713164A53CF000207C3 /* game_paused_button_quit_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD6E8164A53CF000207C3 /* game_paused_button_quit_pressed.png */; };
@@ -91,6 +89,9 @@
 		C49CACF41649C40000B13370 /* mainmenu_ninja_eyes_2.png in Resources */ = {isa = PBXBuildFile; fileRef = C49CACF21649C40000B13370 /* mainmenu_ninja_eyes_2.png */; };
 		C49CAD411649E05F00B13370 /* Sensei.m in Sources */ = {isa = PBXBuildFile; fileRef = C49CAD401649E05F00B13370 /* Sensei.m */; };
 		C49CAD431649E11600B13370 /* Sensei.plist in Resources */ = {isa = PBXBuildFile; fileRef = C49CAD421649E11600B13370 /* Sensei.plist */; };
+		C49CF2C41655BA5D00E92A1C /* aura1_game.plist in Resources */ = {isa = PBXBuildFile; fileRef = C49CF2C11655BA5D00E92A1C /* aura1_game.plist */; };
+		C49CF2C51655BA5D00E92A1C /* aura1.plist in Resources */ = {isa = PBXBuildFile; fileRef = C49CF2C21655BA5D00E92A1C /* aura1.plist */; };
+		C49CF2C61655BA5D00E92A1C /* confetti.plist in Resources */ = {isa = PBXBuildFile; fileRef = C49CF2C31655BA5D00E92A1C /* confetti.plist */; };
 		C4AC2BEC164643A600002EE3 /* game_art-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BE8164643A600002EE3 /* game_art-hd.plist */; };
 		C4AC2BED164643A600002EE3 /* game_art-hd.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BE9164643A600002EE3 /* game_art-hd.pvr.ccz */; };
 		C4AC2BEE164643A600002EE3 /* game_art.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BEA164643A600002EE3 /* game_art.plist */; };
@@ -372,7 +373,6 @@
 		C41D7FD8165094A7003A9CF3 /* game_levelup_header-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "game_levelup_header-hd.png"; sourceTree = "<group>"; };
 		C41D7FD9165094A7003A9CF3 /* game_levelup_header.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = game_levelup_header.fnt; sourceTree = "<group>"; };
 		C41D7FDA165094A7003A9CF3 /* game_levelup_header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_levelup_header.png; sourceTree = "<group>"; };
-		C4258537164FB015002CC2FE /* confetti.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = confetti.plist; sourceTree = "<group>"; };
 		C43DD6D8164A53CF000207C3 /* game_bg_bottom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_bg_bottom.png; sourceTree = "<group>"; };
 		C43DD6D9164A53CF000207C3 /* game_bg_top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_bg_top.png; sourceTree = "<group>"; };
 		C43DD6DA164A53CF000207C3 /* game_instructions.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_instructions.png; sourceTree = "<group>"; };
@@ -386,7 +386,6 @@
 		C43DD6E2164A53CF000207C3 /* game_ninja_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_ninja_right.png; sourceTree = "<group>"; };
 		C43DD6E3164A53CF000207C3 /* game_ninja_up_repeat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_ninja_up_repeat.png; sourceTree = "<group>"; };
 		C43DD6E4164A53CF000207C3 /* game_ninja_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_ninja_up.png; sourceTree = "<group>"; };
-		C43DD6E5164A53CF000207C3 /* game_paused_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_paused_bg.png; sourceTree = "<group>"; };
 		C43DD6E6164A53CF000207C3 /* game_paused_button_no_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_paused_button_no_pressed.png; sourceTree = "<group>"; };
 		C43DD6E7164A53CF000207C3 /* game_paused_button_no.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_paused_button_no.png; sourceTree = "<group>"; };
 		C43DD6E8164A53CF000207C3 /* game_paused_button_quit_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_paused_button_quit_pressed.png; sourceTree = "<group>"; };
@@ -449,6 +448,9 @@
 		C49CAD3F1649E05F00B13370 /* Sensei.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sensei.h; sourceTree = "<group>"; };
 		C49CAD401649E05F00B13370 /* Sensei.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sensei.m; sourceTree = "<group>"; };
 		C49CAD421649E11600B13370 /* Sensei.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Sensei.plist; sourceTree = "<group>"; };
+		C49CF2C11655BA5D00E92A1C /* aura1_game.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = aura1_game.plist; sourceTree = "<group>"; };
+		C49CF2C21655BA5D00E92A1C /* aura1.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = aura1.plist; sourceTree = "<group>"; };
+		C49CF2C31655BA5D00E92A1C /* confetti.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = confetti.plist; sourceTree = "<group>"; };
 		C4AC2BE8164643A600002EE3 /* game_art-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "game_art-hd.plist"; sourceTree = "<group>"; };
 		C4AC2BE9164643A600002EE3 /* game_art-hd.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "game_art-hd.pvr.ccz"; sourceTree = "<group>"; };
 		C4AC2BEA164643A600002EE3 /* game_art.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = game_art.plist; sourceTree = "<group>"; };
@@ -767,7 +769,9 @@
 		C4258531164FA914002CC2FE /* Particles */ = {
 			isa = PBXGroup;
 			children = (
-				C4258537164FB015002CC2FE /* confetti.plist */,
+				C49CF2C11655BA5D00E92A1C /* aura1_game.plist */,
+				C49CF2C21655BA5D00E92A1C /* aura1.plist */,
+				C49CF2C31655BA5D00E92A1C /* confetti.plist */,
 			);
 			name = Particles;
 			sourceTree = "<group>";
@@ -857,7 +861,6 @@
 				C43DD6E2164A53CF000207C3 /* game_ninja_right.png */,
 				C43DD6E3164A53CF000207C3 /* game_ninja_up_repeat.png */,
 				C43DD6E4164A53CF000207C3 /* game_ninja_up.png */,
-				C43DD6E5164A53CF000207C3 /* game_paused_bg.png */,
 				C43DD6E6164A53CF000207C3 /* game_paused_button_no_pressed.png */,
 				C43DD6E7164A53CF000207C3 /* game_paused_button_no.png */,
 				C43DD6E8164A53CF000207C3 /* game_paused_button_quit_pressed.png */,
@@ -1692,7 +1695,6 @@
 				C43DD70D164A53CF000207C3 /* game_ninja_right.png in Resources */,
 				C43DD70E164A53CF000207C3 /* game_ninja_up_repeat.png in Resources */,
 				C43DD70F164A53CF000207C3 /* game_ninja_up.png in Resources */,
-				C43DD710164A53CF000207C3 /* game_paused_bg.png in Resources */,
 				C43DD711164A53CF000207C3 /* game_paused_button_no_pressed.png in Resources */,
 				C43DD712164A53CF000207C3 /* game_paused_button_no.png in Resources */,
 				C43DD713164A53CF000207C3 /* game_paused_button_quit_pressed.png in Resources */,
@@ -1727,7 +1729,6 @@
 				C45C77AF164CF7DF0041A3E1 /* Round-hd.png in Resources */,
 				C45C77B0164CF7DF0041A3E1 /* Round.fnt in Resources */,
 				C45C77B1164CF7DF0041A3E1 /* Round.png in Resources */,
-				C4258538164FB015002CC2FE /* confetti.plist in Resources */,
 				C41D7FD0165085E8003A9CF3 /* game_transition_message_bg.png in Resources */,
 				C41D7FD1165085E8003A9CF3 /* game_transition_ray.png in Resources */,
 				C41D7FDB165094A7003A9CF3 /* game_levelup_body-hd.fnt in Resources */,
@@ -1738,6 +1739,9 @@
 				C41D7FE0165094A7003A9CF3 /* game_levelup_header-hd.png in Resources */,
 				C41D7FE1165094A7003A9CF3 /* game_levelup_header.fnt in Resources */,
 				C41D7FE2165094A7003A9CF3 /* game_levelup_header.png in Resources */,
+				C49CF2C41655BA5D00E92A1C /* aura1_game.plist in Resources */,
+				C49CF2C51655BA5D00E92A1C /* aura1.plist in Resources */,
+				C49CF2C61655BA5D00E92A1C /* confetti.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

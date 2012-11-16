@@ -39,7 +39,10 @@
 @property (nonatomic, strong) CCLabelBMFont *scoreLabel;
 @property (nonatomic, strong) CCSprite *gameRoundBg;
 @property (nonatomic, strong) CCSprite *gamePausedBg;
+@property (nonatomic, strong) CCLayerColor *levelUpBg;
 @property (nonatomic, strong) CCSprite *levelUpMessageBg;
+@property (nonatomic, strong) CCParticleSystem *confettiEmitter;
+@property (nonatomic, strong) CCParticleSystem *level2AuraEmitter;
 
 -(void)initializeGame;
 -(void)removeInstructions;
@@ -160,22 +163,33 @@
     backgroundBottom.position = ccp(0, screenSeparator.position.y - screenSeparator.boundingBox.size.height/2);
     [self addChild:backgroundBottom z:-1];
     
-    // initialize ninja
-    self.ninja = [[Ninja alloc] init];
-    self.ninja.position = ccp(screenSize.width/2, screenSize.height * 0.27f);
-    [self addChild:self.ninja z:1];
-    
     // initialize sensei
     self.sensei = [[Sensei alloc] init];
     self.sensei.position = ccp(screenSize.width/2, screenSize.height * 0.66f);
     [self addChild:self.sensei z:1];
+    
+    // initialize ninja
+    self.ninja = [[Ninja alloc] init];
+    self.ninja.position = ccp(screenSize.width/2, screenSize.height * 0.27f);
+    [self addChild:self.ninja z:4];
+    
+    // add appropriate level upgrades
+    int ninjaLevel = [GameManager sharedGameManager].ninjaLevel;
+    
+    if (ninjaLevel == 2) {
+        // add aura behind ninja
+        self.level2AuraEmitter = [CCParticleSystemQuad particleWithFile:@"aura1_game.plist"];
+        self.level2AuraEmitter.position = ccp(self.ninja.position.x + self.ninja.boundingBox.size.width/8, self.ninja.position.y);
+        [self addChild:self.level2AuraEmitter z:3];
+    }
     
     // initialize sequence
     self.currentSequencePosition = 0;
     self.currentDisplaySequencePosition = 0;
     self.sequence = [[NSMutableArray alloc] initWithCapacity:100];
     for (int i=0; i<4; i++) {
-        self.sequence[i] = [NSNumber numberWithInt:arc4random_uniform(4) + 1];
+//        self.sequence[i] = [NSNumber numberWithInt:arc4random_uniform(4) + 1];
+        self.sequence[i] = [NSNumber numberWithInt:kDirectionTypeUp];
         NSLog(@"sequence at %i: %@", i, self.sequence[i]);
     }
     
@@ -231,9 +245,10 @@
 -(void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     // if game is displaying level up screen 1, transition to next level up screen
     if (self.currentGameState == kGameStateLevelUpScreen1) {
-        [self showNinjaLevelUpScreen2];
+        [self showLevelUpAnimation];
     } else if (self.currentGameState == kGameStateLevelUpScreen2) {
-        [self dismissLevelUpScreenAndStartNewRound];
+        [self dismissLevelUpScreen];
+        [self startNewRound];
     }
 }
 
@@ -335,25 +350,25 @@
                 break;
                 
             case kGameLevel3Round:
-                if (ninjaLevel == 1) {
+                if (ninjaLevel == 2) {
                     shouldLevelUp = YES;
                 }
                 break;
                 
             case kGameLevel4Round:
-                if (ninjaLevel == 1) {
+                if (ninjaLevel == 3) {
                     shouldLevelUp = YES;
                 }
                 break;
                 
             case kGameLevel5Round:
-                if (ninjaLevel == 1) {
+                if (ninjaLevel == 4) {
                     shouldLevelUp = YES;
                 }
                 break;
                 
             case kGameLevel6Round:
-                if (ninjaLevel == 1) {
+                if (ninjaLevel == 5) {
                     shouldLevelUp = YES;
                 }
                 break;
@@ -377,12 +392,74 @@
     
     // increase ninja level
     [GameManager sharedGameManager].ninjaLevel++;
-    int ninjaLevel = [GameManager sharedGameManager].ninjaLevel;
     
+    [self setUpLevelUpScreen];
+    
+    CGSize levelUpMessageBgSize = self.levelUpMessageBg.boundingBox.size;
+    
+    // add level up message header
+    CCLabelBMFont *levelUpMessageHeader = [CCLabelBMFont labelWithString:@"HEY LOOK!" fntFile:@"game_levelup_header.fnt"];
+    levelUpMessageHeader.position = ccp(levelUpMessageBgSize.width/2, levelUpMessageBgSize.height * 0.70f);
+    [self.levelUpMessageBg addChild:levelUpMessageHeader];
+    
+    CCLabelBMFont *levelUpMessageBody = [CCLabelBMFont labelWithString:@"SOMETHING SEEMS TO BE HAPPENING!" fntFile:@"game_levelup_body.fnt" width:levelUpMessageBgSize.width * 0.60 alignment:kCCTextAlignmentCenter];
+    levelUpMessageBody.position = ccp(levelUpMessageBgSize.width/2, levelUpMessageBgSize.height * 0.40f);
+    [self.levelUpMessageBg addChild:levelUpMessageBody];
+    
+    self.currentGameState = kGameStateLevelUpScreen1;
+}
+
+-(void)showLevelUpAnimation {
+    // dismiss messages and show ninja
+    self.currentGameState = kGameStateLevelUpAnimation;
+    [self dismissLevelUpScreen];
+    
+    id upgradeToBlink = nil;
+    switch ([GameManager sharedGameManager].ninjaLevel) {
+        case 2:
+            // add aura
+            self.level2AuraEmitter = [CCParticleSystemQuad particleWithFile:@"aura1_game.plist"];
+            self.level2AuraEmitter.position = ccp(self.ninja.position.x + self.ninja.boundingBox.size.width/8, self.ninja.position.y);
+            self.level2AuraEmitter.visible = NO;
+            [self addChild:self.level2AuraEmitter z:3];
+            upgradeToBlink = self.level2AuraEmitter;
+            
+            break;
+            
+        default:
+            CCLOG(@"Level not recognized in GameLayer.m, showLevelUpAnimation");
+            break;
+    }
+    
+    if (upgradeToBlink != nil) {
+        [upgradeToBlink runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.5f], [CCBlink actionWithDuration:1 blinks:5], [CCDelayTime actionWithDuration:1.5f], [CCCallFunc actionWithTarget:self selector:@selector(showNinjaLevelUpScreen2)], nil]];
+    }
+}
+
+-(void)showNinjaLevelUpScreen2 {
+    [self setUpLevelUpScreen];
+    
+    CGSize screenSize = [CCDirector sharedDirector].winSize;
+    CGSize levelUpMessageBgSize = self.levelUpMessageBg.boundingBox.size;
+    
+    // add new level up messages
+    CCLabelBMFont *levelUpMessageBody = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"YOU'VE JUST BEEN UPGRADED TO SUPER NINJA LEVEL %i!", [GameManager sharedGameManager].ninjaLevel] fntFile:@"game_levelup_body.fnt" width:levelUpMessageBgSize.width * 0.70f alignment:kCCTextAlignmentCenter];
+    levelUpMessageBody.position = ccp(levelUpMessageBgSize.width/2, levelUpMessageBgSize.height/2);
+    [self.levelUpMessageBg addChild:levelUpMessageBody];
+    
+    // add confetti
+    self.confettiEmitter = [CCParticleSystemQuad particleWithFile:@"confetti.plist"];
+    self.confettiEmitter.position = ccp(screenSize.width/2, screenSize.height/2);
+    [self.levelUpBg addChild:self.confettiEmitter z:3];
+    
+    self.currentGameState = kGameStateLevelUpScreen2;
+}
+
+-(void)setUpLevelUpScreen {
     // add background color layer first
     CGSize screenSize = [CCDirector sharedDirector].winSize;
-    CCLayerColor *levelUpBg = [CCLayerColor layerWithColor:ccc4(30, 30, 30, 255) width:screenSize.width height:screenSize.height];
-    [self addChild:levelUpBg z:150];
+    self.levelUpBg = [CCLayerColor layerWithColor:ccc4(30, 30, 30, 255) width:screenSize.width height:screenSize.height];
+    [self addChild:self.levelUpBg z:150];
     
     // add rays to sprite batch node
     CGPoint screenMidpoint = ccp(screenSize.width/2, screenSize.height/2);
@@ -401,51 +478,22 @@
         rayAngle = rayAngle + 40;
     }
     
-    [levelUpBg addChild:rayBatchNode z:1];
+    [self.levelUpBg addChild:rayBatchNode z:1];
     
     // spin the ray batch node
-//    id rotateRayAction = [CCRepeatForever actionWithAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.1f], [CCRotateBy actionWithDuration:0.1f angle:10], nil]];
+    //    id rotateRayAction = [CCRepeatForever actionWithAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.1f], [CCRotateBy actionWithDuration:0.1f angle:10], nil]];
     id rotateRayAction = [CCRepeatForever actionWithAction:[CCRotateBy actionWithDuration:1 angle:40]];
     [rayBatchNode runAction:rotateRayAction];
     
     // add level up message bg
     self.levelUpMessageBg = [CCSprite spriteWithSpriteFrameName:@"game_transition_message_bg.png"];
     self.levelUpMessageBg.position = screenMidpoint;
-    [levelUpBg addChild:self.levelUpMessageBg z:2];
-    
-    CGSize levelUpMessageBgSize = self.levelUpMessageBg.boundingBox.size;
-    
-    // add level up message header
-    CCLabelBMFont *levelUpMessageHeader = [CCLabelBMFont labelWithString:@"HEY LOOK!" fntFile:@"game_levelup_header.fnt"];
-    levelUpMessageHeader.position = ccp(levelUpMessageBgSize.width/2, levelUpMessageBgSize.height * 0.70f);
-    [self.levelUpMessageBg addChild:levelUpMessageHeader];
-    
-    CCLabelBMFont *levelUpMessageBody = [CCLabelBMFont labelWithString:@"SOMETHING SEEMS TO BE HAPPENING!" fntFile:@"game_levelup_body.fnt" width:levelUpMessageBgSize.width * 0.60 alignment:kCCTextAlignmentCenter];
-    levelUpMessageBody.position = ccp(levelUpMessageBgSize.width/2, levelUpMessageBgSize.height * 0.40f);
-    [self.levelUpMessageBg addChild:levelUpMessageBody];
-    
-    self.currentGameState = kGameStateLevelUpScreen1;
+    [self.levelUpBg addChild:self.levelUpMessageBg z:5];
 }
 
--(void)showNinjaLevelUpScreen2 {
-    // remove previous messages from level up message bg
-    [self.levelUpMessageBg removeAllChildrenWithCleanup:YES];
-    
-    CGSize levelUpMessageBgSize = self.levelUpMessageBg.boundingBox.size;
-    
-    // add new level up messages
-    CCLabelBMFont *levelUpMessageBody = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"YOU'VE JUST BEEN UPGRADED TO SUPER NINJA LEVEL %i!", [GameManager sharedGameManager].ninjaLevel] fntFile:@"game_levelup_body.fnt" width:levelUpMessageBgSize.width * 0.70f alignment:kCCTextAlignmentCenter];
-    levelUpMessageBody.position = ccp(levelUpMessageBgSize.width/2, levelUpMessageBgSize.height/2);
-    [self.levelUpMessageBg addChild:levelUpMessageBody];
-    
-    self.currentGameState = kGameStateLevelUpScreen2;
-}
-
--(void)dismissLevelUpScreenAndStartNewRound {
-    CCSprite *levelUpBg = (CCSprite*)self.levelUpMessageBg.parent;  // tight coupling :/
-    [levelUpBg removeAllChildrenWithCleanup:YES];
-    [levelUpBg removeFromParentAndCleanup:YES];
-    [self startNewRound];
+-(void)dismissLevelUpScreen {
+    [self.levelUpBg removeAllChildrenWithCleanup:YES];
+    [self.levelUpBg removeFromParentAndCleanup:YES];
 }
 
 -(void)startNewRound {
@@ -458,7 +506,8 @@
     
     int currentSequenceLength = [self.sequence count];
     for (int i=0; i<2; i++) {
-        self.sequence[currentSequenceLength + i] = [NSNumber numberWithInt:arc4random_uniform(4) + 1];
+//        self.sequence[currentSequenceLength + i] = [NSNumber numberWithInt:arc4random_uniform(4) + 1];
+        self.sequence[currentSequenceLength + i] = [NSNumber numberWithInt:kDirectionTypeUp];
         NSLog(@"sequence at %i: %@", currentSequenceLength + i, self.sequence[currentSequenceLength + i]);
     }
 
@@ -470,6 +519,7 @@
     
     // add 'nice!' message if player finished round 1
     if (self.roundNumber == 1) {
+        self.roundNumber++;
         CCLabelBMFont *niceLabel = [CCLabelBMFont labelWithString:@"Nice!" fntFile:@"Round.fnt"];
         niceLabel.position = ccp(self.gameRoundBg.boundingBox.size.width/2, self.gameRoundBg.boundingBox.size.height/2);
         [self.gameRoundBg addChild:niceLabel];
@@ -478,6 +528,7 @@
         [self.gameRoundBg runAction:niceLabelBgAction];
         [niceLabel runAction:niceLabelAction];
     } else {
+        self.roundNumber++;
         CCLabelBMFont *newRoundLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"Round %i", self.roundNumber] fntFile:@"Round.fnt"];
         newRoundLabel.position = ccp(self.gameRoundBg.boundingBox.size.width/2, self.gameRoundBg.boundingBox.size.height/2);
         [self.gameRoundBg addChild:newRoundLabel];
@@ -491,8 +542,6 @@
         [newRoundLabel runAction:labelAction];
         [self.gameRoundBg runAction:labelBgAction];
     }
-    
-    self.roundNumber++;
 }
 
 -(void)showRoundLabelAfterNiceMessage {
@@ -520,7 +569,7 @@
         
         // show paused menu
         CGSize screenSize = [CCDirector sharedDirector].winSize;
-        self.gamePausedBg = [CCSprite spriteWithSpriteFrameName:@"game_paused_bg.png"];
+        self.gamePausedBg = [CCSprite spriteWithSpriteFrameName:@"game_transition_message_bg.png"];
         self.gamePausedBg.position = ccp(screenSize.width/2, screenSize.height/2);
         [self addChild:self.gamePausedBg z:100];
         [self addPausedMenuItems];

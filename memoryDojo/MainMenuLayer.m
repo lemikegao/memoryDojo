@@ -13,7 +13,7 @@
 
 @interface MainMenuLayer()
 
-@property (nonatomic, strong) CCParticleSystem *confettiEmitter;
+@property (nonatomic, strong) CCParticleSystem *auraEmitter;
 -(void)playGameScene;
 -(void)showSettings;
 -(void)displayMainMenu;
@@ -41,12 +41,17 @@
         ninja.position = ccp(screenSize.width * 0.612f, screenSize.height * 0.468f);
         [self addChild:ninja z:100];
         
-        [self displayMainMenu];
+        // add appropriate level upgrades
+        int ninjaLevel = [GameManager sharedGameManager].ninjaLevel;
         
-        // add confetti
-        self.confettiEmitter = [CCParticleSystemQuad particleWithFile:@"confetti.plist"];
-        self.confettiEmitter.position = ccp(screenSize.width/2, screenSize.height/2);
-        [self addChild:self.confettiEmitter z:10];
+        if (ninjaLevel == 2) {
+            // add aura behind ninja
+            self.auraEmitter = [CCParticleSystemQuad particleWithFile:@"aura1.plist"];
+            self.auraEmitter.position = ccp(ninja.position.x + ninja.boundingBox.size.width/8, ninja.position.y);
+            [self addChild:self.auraEmitter z:10];
+        }
+        
+        [self displayMainMenu];
     }
     
     return self;
