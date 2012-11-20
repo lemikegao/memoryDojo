@@ -10,16 +10,16 @@
 #define memoryDojo_Constants_h
 
 // complete round to level up
-#define kGameLevel2Round 3
-#define kGameLevel3Round 8
-#define kGameLevel4Round 15
-#define kGameLevel5Round 30
-#define kGameLevel6Round 50
-//#define kGameLevel2Round 50
-//#define kGameLevel3Round 51
-//#define kGameLevel4Round 52
-//#define kGameLevel5Round 53
-//#define kGameLevel6Round 54
+//#define kGameLevel2Round 3
+//#define kGameLevel3Round 8
+//#define kGameLevel4Round 15
+//#define kGameLevel5Round 30
+//#define kGameLevel6Round 50
+#define kGameLevel2Round 1
+#define kGameLevel3Round 2
+#define kGameLevel4Round 3
+#define kGameLevel5Round 4
+#define kGameLevel6Round 5
 
 
 typedef enum {

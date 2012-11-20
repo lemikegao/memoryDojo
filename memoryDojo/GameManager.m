@@ -53,7 +53,7 @@ static GameManager *_sharedGameManager = nil;   // singleton
         _hasPlayerDied = NO;
         _currentScene = kSceneTypeNone;
         _score = 0;
-        _ninjaLevel = 1;
+        _ninjaLevel = 3;
         _hasAudioBeenInitialized = NO;
         _soundEngine = nil;
         _managerSoundState = kAudioManagerUninitialized;
@@ -320,7 +320,7 @@ static GameManager *_sharedGameManager = nil;   // singleton
     [self performSelectorInBackground:@selector(loadAudioForSceneWithID:) withObject:[NSNumber numberWithInt:self.currentScene]];
     
     if ([[CCDirector sharedDirector] runningScene] == nil) {
-        [[CCDirector sharedDirector] runWithScene:sceneToRun];
+        [[CCDirector sharedDirector] pushScene:sceneToRun];
     } else {
         [[CCDirector sharedDirector] replaceScene:sceneToRun];
     }

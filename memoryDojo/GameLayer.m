@@ -11,12 +11,14 @@
 #import "GameManager.h"
 #import "Ninja.h"
 #import "Sensei.h"
+#import "NinjaStar.h"
 
 @interface GameLayer()
 
 // game objects
 @property (nonatomic, strong) Ninja *ninja;
 @property (nonatomic, strong) Sensei *sensei;
+@property (nonatomic, strong) CCArray *ninjaStars;
 
 // game state
 @property (nonatomic) BOOL isGamePaused;
@@ -44,6 +46,7 @@
 @property (nonatomic, strong) CCSprite *levelUpMessageBg;
 @property (nonatomic, strong) CCParticleSystem *confettiEmitter;
 @property (nonatomic, strong) CCParticleSystem *level2AuraEmitter;
+@property (nonatomic) int nextInactiveNinjaStar;
 
 -(void)initializeGame;
 -(void)removeInstructions;
@@ -182,6 +185,26 @@
         self.level2AuraEmitter = [CCParticleSystemQuad particleWithFile:@"aura1_game.plist"];
         self.level2AuraEmitter.position = ccp(self.ninja.position.x + self.ninja.boundingBox.size.width/8, self.ninja.position.y);
         [self addChild:self.level2AuraEmitter z:3];
+    }
+    if (ninjaLevel >= 3) {
+        // add ninja star
+        CCSprite *ninjaStar = [CCSprite spriteWithSpriteFrameName:@"game_upgrades_ninjastar2.png"];
+        ninjaStar.position = ccp(self.ninja.boundingBox.size.width * 0.33f, self.ninja.boundingBox.size.height * 0.275f);
+        [self.ninja addChild:ninjaStar];
+        
+        // init throwing ninja stars
+        CCSpriteBatchNode *ninjaStarBatchNode = [CCSpriteBatchNode batchNodeWithFile:@"game_art.pvr.ccz"];
+        [self addChild:ninjaStarBatchNode z:10];
+        
+        // Create a max of 8 throwing ninja stars on screen at one time
+        for (int i=0; i<8; i++) {
+            NinjaStar *ninjaStar = [[NinjaStar alloc] init];
+            [ninjaStarBatchNode addChild:ninjaStar];
+        }
+        
+        self.ninjaStars = [ninjaStarBatchNode children];
+        
+        self.nextInactiveNinjaStar = 0;
     }
     
     // initialize sequence
@@ -345,6 +368,15 @@
 -(void)handleLeftSwipe {
     if (self.enableGestures && !self.isGamePaused) {
         [self.ninja changeState:kCharacterStateLeft];
+        if ([GameManager sharedGameManager].ninjaLevel >= 3) {
+            // throw ninja star
+            NinjaStar *ninjaStar = (NinjaStar*)[self.ninjaStars objectAtIndex:self.nextInactiveNinjaStar];
+            [ninjaStar shootNinjaStarFromNinja:self.ninja withDirection:kDirectionTypeLeft];
+            self.nextInactiveNinjaStar++;
+            if (self.nextInactiveNinjaStar >= [self.ninjaStars count]) {
+                self.nextInactiveNinjaStar = 0;
+            }
+        }
         [self checkIfSwipeIsCorrect:kDirectionTypeLeft];
     }
 }
@@ -352,6 +384,15 @@
 -(void)handleDownSwipe {
     if (self.enableGestures && !self.isGamePaused) {
         [self.ninja changeState:kCharacterStateDown];
+        if ([GameManager sharedGameManager].ninjaLevel >= 3) {
+            // throw ninja star
+            NinjaStar *ninjaStar = (NinjaStar*)[self.ninjaStars objectAtIndex:self.nextInactiveNinjaStar];
+            [ninjaStar shootNinjaStarFromNinja:self.ninja withDirection:kDirectionTypeDown];
+            self.nextInactiveNinjaStar++;
+            if (self.nextInactiveNinjaStar >= [self.ninjaStars count]) {
+                self.nextInactiveNinjaStar = 0;
+            }
+        }
         [self checkIfSwipeIsCorrect:kDirectionTypeDown];
     }
 }
@@ -359,6 +400,15 @@
 -(void)handleRightSwipe {
     if (self.enableGestures && !self.isGamePaused) {
         [self.ninja changeState:kCharacterStateRight];
+        if ([GameManager sharedGameManager].ninjaLevel >= 3) {
+            // throw ninja star
+            NinjaStar *ninjaStar = (NinjaStar*)[self.ninjaStars objectAtIndex:self.nextInactiveNinjaStar];
+            [ninjaStar shootNinjaStarFromNinja:self.ninja withDirection:kDirectionTypeRight];
+            self.nextInactiveNinjaStar++;
+            if (self.nextInactiveNinjaStar >= [self.ninjaStars count]) {
+                self.nextInactiveNinjaStar = 0;
+            }
+        }
         [self checkIfSwipeIsCorrect:kDirectionTypeRight];
     }
 }
@@ -366,6 +416,15 @@
 -(void)handleUpSwipe {
     if (self.enableGestures && !self.isGamePaused) {
         [self.ninja changeState:kCharacterStateUp];
+        if ([GameManager sharedGameManager].ninjaLevel >= 3) {
+            // throw ninja star
+            NinjaStar *ninjaStar = (NinjaStar*)[self.ninjaStars objectAtIndex:self.nextInactiveNinjaStar];
+            [ninjaStar shootNinjaStarFromNinja:self.ninja withDirection:kDirectionTypeUp];
+            self.nextInactiveNinjaStar++;
+            if (self.nextInactiveNinjaStar >= [self.ninjaStars count]) {
+                self.nextInactiveNinjaStar = 0;
+            }
+        }
         [self checkIfSwipeIsCorrect:kDirectionTypeUp];
     }
 }
@@ -460,6 +519,7 @@
     id upgradeToBlink = nil;
     switch ([GameManager sharedGameManager].ninjaLevel) {
         case 2:
+        {
             // add aura
             self.level2AuraEmitter = [CCParticleSystemQuad particleWithFile:@"aura1_game.plist"];
             self.level2AuraEmitter.position = ccp(self.ninja.position.x + self.ninja.boundingBox.size.width/8, self.ninja.position.y);
@@ -468,10 +528,25 @@
             upgradeToBlink = self.level2AuraEmitter;
             
             break;
+        }
+            
+        case 3:
+        {
+            // add ninja star
+            CCSprite *ninjaStar = [CCSprite spriteWithSpriteFrameName:@"game_upgrades_ninjastar2.png"];
+            ninjaStar.position = ccp(self.ninja.boundingBox.size.width * 0.33f, self.ninja.boundingBox.size.height * 0.275f);
+            ninjaStar.visible = NO;
+            [self.ninja addChild:ninjaStar];
+            upgradeToBlink = ninjaStar;
+            
+            break;
+        }
             
         default:
+        {
             CCLOG(@"Level not recognized in GameLayer.m, showLevelUpAnimation");
             break;
+        }
     }
     
     if (upgradeToBlink != nil) {
@@ -486,7 +561,7 @@
     CGSize levelUpMessageBgSize = self.levelUpMessageBg.boundingBox.size;
     
     // add new level up messages
-    CCLabelBMFont *levelUpMessageBody = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"YOU'VE JUST BEEN UPGRADED TO SUPER NINJA LEVEL %i!", [GameManager sharedGameManager].ninjaLevel] fntFile:@"game_levelup_body.fnt" width:levelUpMessageBgSize.width * 0.70f alignment:kCCTextAlignmentCenter];
+    CCLabelBMFont *levelUpMessageBody = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"YOU ARE NOW SUPER NINJA LEVEL %i!", [GameManager sharedGameManager].ninjaLevel] fntFile:@"game_levelup_header.fnt" width:levelUpMessageBgSize.width * 0.70f alignment:kCCTextAlignmentCenter];
     levelUpMessageBody.position = ccp(levelUpMessageBgSize.width/2, levelUpMessageBgSize.height/2);
     [self.levelUpMessageBg addChild:levelUpMessageBody];
     

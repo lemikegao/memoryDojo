@@ -89,6 +89,7 @@
 	// and add the scene to the stack. The director will run it when it automatically when the view is displayed.
     [[GameManager sharedGameManager] runSceneWithID:kSceneTypeMainMenu];
 
+
 	return YES;
 }
 

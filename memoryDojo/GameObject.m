@@ -10,10 +10,6 @@
 
 @implementation GameObject
 
-@synthesize screenSize = _screenSize;
-@synthesize isActive = _isActive;
-@synthesize gameObjectType = _gameObjectType;
-
 -(id)init {
     if (self=[super init]) {
         CCLOG(@"GameObject init");
