@@ -79,6 +79,7 @@
     self = [super init];
     if (self != nil) {
         // load texture atlas
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"game_art_bg.plist"];
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"game_art.plist"];
         [self initializeGame];
     }
@@ -192,19 +193,13 @@
         ninjaStar.position = ccp(self.ninja.boundingBox.size.width * 0.33f, self.ninja.boundingBox.size.height * 0.275f);
         [self.ninja addChild:ninjaStar];
         
-        // init throwing ninja stars
-        CCSpriteBatchNode *ninjaStarBatchNode = [CCSpriteBatchNode batchNodeWithFile:@"game_art.pvr.ccz"];
-        [self addChild:ninjaStarBatchNode z:10];
-        
-        // Create a max of 8 throwing ninja stars on screen at one time
-        for (int i=0; i<8; i++) {
-            NinjaStar *ninjaStar = [[NinjaStar alloc] init];
-            [ninjaStarBatchNode addChild:ninjaStar];
-        }
-        
-        self.ninjaStars = [ninjaStarBatchNode children];
-        
-        self.nextInactiveNinjaStar = 0;
+        [self addNinjaStarsUpgrade];
+    }
+    if (ninjaLevel >= 4) {
+        // add small cat
+        CCSprite *smallCat = [CCSprite spriteWithSpriteFrameName:@"game_upgrades_cat_small.png"];
+        smallCat.position = ccp(self.ninja.position.x * 0.33f, self.ninja.position.y * 0.66f);
+        [self addChild:smallCat z:4];
     }
     
     // initialize sequence
@@ -269,7 +264,17 @@
 -(void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     // if game is displaying level up screen 1, transition to next level up screen
     if (self.currentGameState == kGameStateLevelUpScreen1) {
-        [self showLevelUpAnimation];
+        if ([GameManager sharedGameManager].ninjaLevel == 4) {
+            // no upgrade animation -- show sensei gift screen
+            [self showSenseiGiftScreen];
+        } else {
+            [self showLevelUpAnimation];
+        }
+    } else if (self.currentGameState == kGameStateLevelUpGiftScreen) {
+        // show small cat
+        [self showSmallCatScreen];
+    } else if (self.currentGameState == kGameStateLevelUpSmallCatScreen) {
+        [self showNinjaLevelUpScreen2FromCatScreen];
     } else if (self.currentGameState == kGameStateLevelUpScreen2) {
         [self dismissLevelUpScreen];
         [self startNewRound];
@@ -299,11 +304,11 @@
     CGFloat displaySequenceInterval;
     switch ([GameManager sharedGameManager].ninjaLevel) {
         case 1:
-            displaySequenceInterval = 1.0;
+            displaySequenceInterval = 0.65;
             self.timeToSubtractPerSecond = 100/(10+(self.roundNumber-1)*2);
             break;
         case 2:
-            displaySequenceInterval = 0.8;
+            displaySequenceInterval = 0.6;
             self.timeToSubtractPerSecond = 100/(8+(self.roundNumber-1)*2);
             break;
         case 3:
@@ -539,6 +544,8 @@
             [self.ninja addChild:ninjaStar];
             upgradeToBlink = ninjaStar;
             
+            [self addNinjaStarsUpgrade];
+            
             break;
         }
             
@@ -554,8 +561,70 @@
     }
 }
 
+-(void)showSenseiGiftScreen {
+    self.currentGameState = kGameStateLevelUpGiftScreen;
+    
+    // clear current messages
+    [self.levelUpMessageBg removeAllChildrenWithCleanup:YES];
+    
+    // add new message
+    CGSize levelUpMessageBgSize = self.levelUpMessageBg.boundingBox.size;
+    CCLabelBMFont *giftMessageBody = [CCLabelBMFont labelWithString:@"YOU'RE DOING SO WELL. HERE'S A LITTLE GIFT!" fntFile:@"game_levelup_body.fnt" width:levelUpMessageBgSize.width * 0.65f alignment:kCCTextAlignmentCenter];
+    giftMessageBody.position = ccp(levelUpMessageBgSize.width/2, levelUpMessageBgSize.height * 0.75f);
+    [self.levelUpMessageBg addChild:giftMessageBody];
+    
+    // add sensei
+    CCSprite *senseiGift = [CCSprite spriteWithSpriteFrameName:@"game_transition_sensei.png"];
+    senseiGift.anchorPoint = ccp(0.5, 0);
+    senseiGift.position = ccp(levelUpMessageBgSize.width * 0.55f, 0);
+    [self.levelUpMessageBg addChild:senseiGift];
+}
+
+-(void)showSmallCatScreen {
+    self.currentGameState = kGameStateLevelUpSmallCatScreen;
+
+    // fade out old messages and sensei, fade in small cat
+    for (CCNode* child in self.levelUpMessageBg.children) {
+        [child runAction:[CCFadeOut actionWithDuration:1.0f]];
+    }
+    
+    // fade in cat after old messages fade out
+    id catFadeIn = [CCSequence actions:[CCDelayTime actionWithDuration:1.0f], [CCFadeIn actionWithDuration:1.0f], nil];
+    CCSprite *smallCatTransition = [CCSprite spriteWithSpriteFrameName:@"game_transition_cat.png"];
+    smallCatTransition.opacity = 0;
+    smallCatTransition.position = ccp(self.levelUpMessageBg.boundingBox.size.width/2, self.levelUpMessageBg.boundingBox.size.height/2);
+    [self.levelUpMessageBg addChild:smallCatTransition];
+    
+    [smallCatTransition runAction:catFadeIn];
+    
+    // add small cat to gameplay
+    CCSprite *smallCat = [CCSprite spriteWithSpriteFrameName:@"game_upgrades_cat_small.png"];
+    smallCat.position = ccp(self.ninja.position.x * 0.33f, self.ninja.position.y * 0.66f);
+    [self addChild:smallCat z:4];
+}
+
 -(void)showNinjaLevelUpScreen2 {
     [self setUpLevelUpScreen];
+    
+    CGSize screenSize = [CCDirector sharedDirector].winSize;
+    CGSize levelUpMessageBgSize = self.levelUpMessageBg.boundingBox.size;
+    
+    // add new level up messages
+    CCLabelBMFont *levelUpMessageBody = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"YOU ARE NOW SUPER NINJA LEVEL %i!", [GameManager sharedGameManager].ninjaLevel] fntFile:@"game_levelup_header.fnt" width:levelUpMessageBgSize.width * 0.70f alignment:kCCTextAlignmentCenter];
+    levelUpMessageBody.position = ccp(levelUpMessageBgSize.width/2, levelUpMessageBgSize.height/2);
+    [self.levelUpMessageBg addChild:levelUpMessageBody];
+    
+    // add confetti
+    self.confettiEmitter = [CCParticleSystemQuad particleWithFile:@"confetti.plist"];
+    self.confettiEmitter.position = ccp(screenSize.width/2, screenSize.height/2);
+    [self.levelUpBg addChild:self.confettiEmitter z:3];
+    
+    self.currentGameState = kGameStateLevelUpScreen2;
+}
+
+-(void)showNinjaLevelUpScreen2FromCatScreen {
+    // remove cat
+    [self.levelUpMessageBg removeAllChildrenWithCleanup:YES];
     
     CGSize screenSize = [CCDirector sharedDirector].winSize;
     CGSize levelUpMessageBgSize = self.levelUpMessageBg.boundingBox.size;
@@ -581,7 +650,7 @@
     
     // add rays to sprite batch node
     CGPoint screenMidpoint = ccp(screenSize.width/2, screenSize.height/2);
-    CCSpriteBatchNode *rayBatchNode = [CCSpriteBatchNode batchNodeWithFile:@"game_art.pvr.ccz"];
+    CCSpriteBatchNode *rayBatchNode = [CCSpriteBatchNode batchNodeWithFile:@"game_art_bg.pvr.ccz" capacity:10];
     rayBatchNode.position = screenMidpoint;
     
     float rayAngle = 0;
@@ -599,7 +668,6 @@
     [self.levelUpBg addChild:rayBatchNode z:1];
     
     // spin the ray batch node
-    //    id rotateRayAction = [CCRepeatForever actionWithAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.1f], [CCRotateBy actionWithDuration:0.1f angle:10], nil]];
     id rotateRayAction = [CCRepeatForever actionWithAction:[CCRotateBy actionWithDuration:1 angle:40]];
     [rayBatchNode runAction:rotateRayAction];
     
@@ -612,6 +680,24 @@
 -(void)dismissLevelUpScreen {
     [self.levelUpBg removeAllChildrenWithCleanup:YES];
     [self.levelUpBg removeFromParentAndCleanup:YES];
+}
+
+#pragma mark --
+#pragma mark level up upgrades
+-(void)addNinjaStarsUpgrade {
+    // init throwing ninja stars
+    CCSpriteBatchNode *ninjaStarBatchNode = [CCSpriteBatchNode batchNodeWithFile:@"game_art.pvr.ccz" capacity:8];
+    [self addChild:ninjaStarBatchNode z:10];
+    
+    // Create a max of 8 throwing ninja stars on screen at one time
+    for (int i=0; i<8; i++) {
+        NinjaStar *ninjaStar = [[NinjaStar alloc] init];
+        [ninjaStarBatchNode addChild:ninjaStar];
+    }
+    
+    self.ninjaStars = [ninjaStarBatchNode children];
+    
+    self.nextInactiveNinjaStar = 0;
 }
 
 -(void)startNewRound {

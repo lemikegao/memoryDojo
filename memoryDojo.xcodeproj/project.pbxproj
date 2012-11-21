@@ -7,16 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C41D7FD0165085E8003A9CF3 /* game_transition_message_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FCE165085E8003A9CF3 /* game_transition_message_bg.png */; };
-		C41D7FD1165085E8003A9CF3 /* game_transition_ray.png in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FCF165085E8003A9CF3 /* game_transition_ray.png */; };
 		C41D7FDF165094A7003A9CF3 /* game_levelup_header-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FD7165094A7003A9CF3 /* game_levelup_header-hd.fnt */; };
 		C41D7FE0165094A7003A9CF3 /* game_levelup_header-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FD8165094A7003A9CF3 /* game_levelup_header-hd.png */; };
 		C41D7FE1165094A7003A9CF3 /* game_levelup_header.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FD9165094A7003A9CF3 /* game_levelup_header.fnt */; };
 		C41D7FE2165094A7003A9CF3 /* game_levelup_header.png in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FDA165094A7003A9CF3 /* game_levelup_header.png */; };
 		C425993A163F6CB900A72BCB /* gong.caf in Resources */ = {isa = PBXBuildFile; fileRef = C4114718163E184500FC2BE8 /* gong.caf */; };
-		C43DD703164A53CF000207C3 /* game_bg_bottom.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD6D8164A53CF000207C3 /* game_bg_bottom.png */; };
-		C43DD704164A53CF000207C3 /* game_bg_top.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD6D9164A53CF000207C3 /* game_bg_top.png */; };
-		C43DD705164A53CF000207C3 /* game_instructions.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD6DA164A53CF000207C3 /* game_instructions.png */; };
 		C43DD706164A53CF000207C3 /* game_ninja_down_repeat.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD6DB164A53CF000207C3 /* game_ninja_down_repeat.png */; };
 		C43DD707164A53CF000207C3 /* game_ninja_down.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD6DC164A53CF000207C3 /* game_ninja_down.png */; };
 		C43DD708164A53CF000207C3 /* game_ninja_eyes_1.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD6DD164A53CF000207C3 /* game_ninja_eyes_1.png */; };
@@ -49,7 +44,6 @@
 		C43DD725164A53CF000207C3 /* game_sensei_right.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD6FA164A53CF000207C3 /* game_sensei_right.png */; };
 		C43DD726164A53CF000207C3 /* game_sensei_up_repeat.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD6FB164A53CF000207C3 /* game_sensei_up_repeat.png */; };
 		C43DD727164A53CF000207C3 /* game_sensei_up.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD6FC164A53CF000207C3 /* game_sensei_up.png */; };
-		C43DD728164A53CF000207C3 /* game_top_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD6FD164A53CF000207C3 /* game_top_bar.png */; };
 		C43DD729164A53CF000207C3 /* game_top_button_pause_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD6FE164A53CF000207C3 /* game_top_button_pause_pressed.png */; };
 		C43DD72A164A53CF000207C3 /* game_top_button_pause.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD6FF164A53CF000207C3 /* game_top_button_pause.png */; };
 		C43DD72B164A53CF000207C3 /* game_top_score.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD700164A53CF000207C3 /* game_top_score.png */; };
@@ -95,21 +89,34 @@
 		C4AC2BF216466BA900002EE3 /* Ninja.m in Sources */ = {isa = PBXBuildFile; fileRef = C4AC2BF116466BA900002EE3 /* Ninja.m */; };
 		C4AC2BF416466D9D00002EE3 /* Ninja.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BF316466D9D00002EE3 /* Ninja.plist */; };
 		C4BFF98A1630CEF600ED84D9 /* GameObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BFF9891630CEF600ED84D9 /* GameObject.m */; };
-		C4CEED5A164CADB30036BE79 /* game_rounds_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = C4CEED59164CADB30036BE79 /* game_rounds_bg.png */; };
 		C4EA539D1647310000AA26D1 /* Score-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C4EA539B1647310000AA26D1 /* Score-hd.png */; };
 		C4EA539E1647310000AA26D1 /* Score-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C4EA539C1647310000AA26D1 /* Score-hd.fnt */; };
 		C4EA53A21647311600AA26D1 /* Score.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C4EA53A01647311600AA26D1 /* Score.fnt */; };
 		C4EA53A31647311600AA26D1 /* Score.png in Resources */ = {isa = PBXBuildFile; fileRef = C4EA53A11647311600AA26D1 /* Score.png */; };
+		C4EBDA23165B371B00CF9C47 /* game_levelup_body-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C4EBDA1F165B371B00CF9C47 /* game_levelup_body-hd.fnt */; };
+		C4EBDA24165B371B00CF9C47 /* game_levelup_body-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C4EBDA20165B371B00CF9C47 /* game_levelup_body-hd.png */; };
+		C4EBDA25165B371B00CF9C47 /* game_levelup_body.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C4EBDA21165B371B00CF9C47 /* game_levelup_body.fnt */; };
+		C4EBDA26165B371B00CF9C47 /* game_levelup_body.png in Resources */ = {isa = PBXBuildFile; fileRef = C4EBDA22165B371B00CF9C47 /* game_levelup_body.png */; };
+		C4EBDA29165B3BEF00CF9C47 /* game_transition_cat.png in Resources */ = {isa = PBXBuildFile; fileRef = C4EBDA27165B3BEF00CF9C47 /* game_transition_cat.png */; };
+		C4EBDA2A165B3BEF00CF9C47 /* game_transition_sensei.png in Resources */ = {isa = PBXBuildFile; fileRef = C4EBDA28165B3BEF00CF9C47 /* game_transition_sensei.png */; };
+		C4EBDA2C165B3C1700CF9C47 /* game_upgrades_cat_small.png in Resources */ = {isa = PBXBuildFile; fileRef = C4EBDA2B165B3C1700CF9C47 /* game_upgrades_cat_small.png */; };
+		C4EBDA35165B3E0500CF9C47 /* game_bg_bottom.png in Resources */ = {isa = PBXBuildFile; fileRef = C4EBDA2E165B3E0500CF9C47 /* game_bg_bottom.png */; };
+		C4EBDA36165B3E0500CF9C47 /* game_bg_top.png in Resources */ = {isa = PBXBuildFile; fileRef = C4EBDA2F165B3E0500CF9C47 /* game_bg_top.png */; };
+		C4EBDA37165B3E0500CF9C47 /* game_instructions.png in Resources */ = {isa = PBXBuildFile; fileRef = C4EBDA30165B3E0500CF9C47 /* game_instructions.png */; };
+		C4EBDA38165B3E0500CF9C47 /* game_rounds_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = C4EBDA31165B3E0500CF9C47 /* game_rounds_bg.png */; };
+		C4EBDA39165B3E0500CF9C47 /* game_top_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = C4EBDA32165B3E0500CF9C47 /* game_top_bar.png */; };
+		C4EBDA3A165B3E0500CF9C47 /* game_transition_message_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = C4EBDA33165B3E0500CF9C47 /* game_transition_message_bg.png */; };
+		C4EBDA3B165B3E0500CF9C47 /* game_transition_ray.png in Resources */ = {isa = PBXBuildFile; fileRef = C4EBDA34165B3E0500CF9C47 /* game_transition_ray.png */; };
+		C4EBDA40165B3E2700CF9C47 /* game_art_bg-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4EBDA3C165B3E2700CF9C47 /* game_art_bg-hd.plist */; };
+		C4EBDA41165B3E2700CF9C47 /* game_art_bg-hd.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = C4EBDA3D165B3E2700CF9C47 /* game_art_bg-hd.pvr.ccz */; };
+		C4EBDA42165B3E2700CF9C47 /* game_art_bg.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4EBDA3E165B3E2700CF9C47 /* game_art_bg.plist */; };
+		C4EBDA43165B3E2700CF9C47 /* game_art_bg.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = C4EBDA3F165B3E2700CF9C47 /* game_art_bg.pvr.ccz */; };
 		C4F6B57F16310958007C5C63 /* GameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C4F6B57E16310958007C5C63 /* GameManager.m */; };
 		C4F6B58F163118FC007C5C63 /* MainMenuScene.m in Sources */ = {isa = PBXBuildFile; fileRef = C4F6B58E163118FC007C5C63 /* MainMenuScene.m */; };
 		C4F6B59216311913007C5C63 /* MainMenuLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C4F6B59116311913007C5C63 /* MainMenuLayer.m */; };
 		C4F6B5A1163133D9007C5C63 /* GameLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C4F6B5A0163133D9007C5C63 /* GameLayer.m */; };
 		C4F6B5A4163133E2007C5C63 /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = C4F6B5A3163133E2007C5C63 /* GameScene.m */; };
 		C4F94D211659E7D600EBB65B /* game_upgrades_ninjastar2.png in Resources */ = {isa = PBXBuildFile; fileRef = C4F94D201659E7D600EBB65B /* game_upgrades_ninjastar2.png */; };
-		C4F94D2F1659F20100EBB65B /* game_levelup_body-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C4F94D2B1659F20100EBB65B /* game_levelup_body-hd.fnt */; };
-		C4F94D301659F20100EBB65B /* game_levelup_body-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C4F94D2C1659F20100EBB65B /* game_levelup_body-hd.png */; };
-		C4F94D311659F20100EBB65B /* game_levelup_body.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C4F94D2D1659F20100EBB65B /* game_levelup_body.fnt */; };
-		C4F94D321659F20100EBB65B /* game_levelup_body.png in Resources */ = {isa = PBXBuildFile; fileRef = C4F94D2E1659F20100EBB65B /* game_levelup_body.png */; };
 		C4F94D35165A089800EBB65B /* NinjaStar.m in Sources */ = {isa = PBXBuildFile; fileRef = C4F94D34165A089700EBB65B /* NinjaStar.m */; };
 		DC0864B815BD8CE60044A820 /* CCNode+Debug.h in Headers */ = {isa = PBXBuildFile; fileRef = DC0864B515BD8CE60044A820 /* CCNode+Debug.h */; };
 		DC0864B915BD8CE60044A820 /* CCNode+Debug.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0864B615BD8CE60044A820 /* CCNode+Debug.m */; };
@@ -365,15 +372,10 @@
 
 /* Begin PBXFileReference section */
 		C4114718163E184500FC2BE8 /* gong.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = gong.caf; sourceTree = "<group>"; };
-		C41D7FCE165085E8003A9CF3 /* game_transition_message_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_transition_message_bg.png; sourceTree = "<group>"; };
-		C41D7FCF165085E8003A9CF3 /* game_transition_ray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_transition_ray.png; sourceTree = "<group>"; };
 		C41D7FD7165094A7003A9CF3 /* game_levelup_header-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "game_levelup_header-hd.fnt"; sourceTree = "<group>"; };
 		C41D7FD8165094A7003A9CF3 /* game_levelup_header-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "game_levelup_header-hd.png"; sourceTree = "<group>"; };
 		C41D7FD9165094A7003A9CF3 /* game_levelup_header.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = game_levelup_header.fnt; sourceTree = "<group>"; };
 		C41D7FDA165094A7003A9CF3 /* game_levelup_header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_levelup_header.png; sourceTree = "<group>"; };
-		C43DD6D8164A53CF000207C3 /* game_bg_bottom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_bg_bottom.png; sourceTree = "<group>"; };
-		C43DD6D9164A53CF000207C3 /* game_bg_top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_bg_top.png; sourceTree = "<group>"; };
-		C43DD6DA164A53CF000207C3 /* game_instructions.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_instructions.png; sourceTree = "<group>"; };
 		C43DD6DB164A53CF000207C3 /* game_ninja_down_repeat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_ninja_down_repeat.png; sourceTree = "<group>"; };
 		C43DD6DC164A53CF000207C3 /* game_ninja_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_ninja_down.png; sourceTree = "<group>"; };
 		C43DD6DD164A53CF000207C3 /* game_ninja_eyes_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_ninja_eyes_1.png; sourceTree = "<group>"; };
@@ -406,7 +408,6 @@
 		C43DD6FA164A53CF000207C3 /* game_sensei_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_sensei_right.png; sourceTree = "<group>"; };
 		C43DD6FB164A53CF000207C3 /* game_sensei_up_repeat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_sensei_up_repeat.png; sourceTree = "<group>"; };
 		C43DD6FC164A53CF000207C3 /* game_sensei_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_sensei_up.png; sourceTree = "<group>"; };
-		C43DD6FD164A53CF000207C3 /* game_top_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_top_bar.png; sourceTree = "<group>"; };
 		C43DD6FE164A53CF000207C3 /* game_top_button_pause_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_top_button_pause_pressed.png; sourceTree = "<group>"; };
 		C43DD6FF164A53CF000207C3 /* game_top_button_pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_top_button_pause.png; sourceTree = "<group>"; };
 		C43DD700164A53CF000207C3 /* game_top_score.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_top_score.png; sourceTree = "<group>"; };
@@ -460,11 +461,28 @@
 		C4BFF9871630C5E600ED84D9 /* CommonProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonProtocols.h; sourceTree = "<group>"; };
 		C4BFF9881630CEF600ED84D9 /* GameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObject.h; sourceTree = "<group>"; };
 		C4BFF9891630CEF600ED84D9 /* GameObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObject.m; sourceTree = "<group>"; };
-		C4CEED59164CADB30036BE79 /* game_rounds_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_rounds_bg.png; sourceTree = "<group>"; };
 		C4EA539B1647310000AA26D1 /* Score-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Score-hd.png"; sourceTree = "<group>"; };
 		C4EA539C1647310000AA26D1 /* Score-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Score-hd.fnt"; sourceTree = "<group>"; };
 		C4EA53A01647311600AA26D1 /* Score.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Score.fnt; sourceTree = "<group>"; };
 		C4EA53A11647311600AA26D1 /* Score.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Score.png; sourceTree = "<group>"; };
+		C4EBDA1F165B371B00CF9C47 /* game_levelup_body-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "game_levelup_body-hd.fnt"; sourceTree = "<group>"; };
+		C4EBDA20165B371B00CF9C47 /* game_levelup_body-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "game_levelup_body-hd.png"; sourceTree = "<group>"; };
+		C4EBDA21165B371B00CF9C47 /* game_levelup_body.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = game_levelup_body.fnt; sourceTree = "<group>"; };
+		C4EBDA22165B371B00CF9C47 /* game_levelup_body.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_levelup_body.png; sourceTree = "<group>"; };
+		C4EBDA27165B3BEF00CF9C47 /* game_transition_cat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_transition_cat.png; sourceTree = "<group>"; };
+		C4EBDA28165B3BEF00CF9C47 /* game_transition_sensei.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_transition_sensei.png; sourceTree = "<group>"; };
+		C4EBDA2B165B3C1700CF9C47 /* game_upgrades_cat_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_upgrades_cat_small.png; sourceTree = "<group>"; };
+		C4EBDA2E165B3E0500CF9C47 /* game_bg_bottom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_bg_bottom.png; sourceTree = "<group>"; };
+		C4EBDA2F165B3E0500CF9C47 /* game_bg_top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_bg_top.png; sourceTree = "<group>"; };
+		C4EBDA30165B3E0500CF9C47 /* game_instructions.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_instructions.png; sourceTree = "<group>"; };
+		C4EBDA31165B3E0500CF9C47 /* game_rounds_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_rounds_bg.png; sourceTree = "<group>"; };
+		C4EBDA32165B3E0500CF9C47 /* game_top_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_top_bar.png; sourceTree = "<group>"; };
+		C4EBDA33165B3E0500CF9C47 /* game_transition_message_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_transition_message_bg.png; sourceTree = "<group>"; };
+		C4EBDA34165B3E0500CF9C47 /* game_transition_ray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_transition_ray.png; sourceTree = "<group>"; };
+		C4EBDA3C165B3E2700CF9C47 /* game_art_bg-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "game_art_bg-hd.plist"; sourceTree = "<group>"; };
+		C4EBDA3D165B3E2700CF9C47 /* game_art_bg-hd.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "game_art_bg-hd.pvr.ccz"; sourceTree = "<group>"; };
+		C4EBDA3E165B3E2700CF9C47 /* game_art_bg.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = game_art_bg.plist; sourceTree = "<group>"; };
+		C4EBDA3F165B3E2700CF9C47 /* game_art_bg.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = game_art_bg.pvr.ccz; sourceTree = "<group>"; };
 		C4F6B57D16310958007C5C63 /* GameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameManager.h; sourceTree = "<group>"; };
 		C4F6B57E16310958007C5C63 /* GameManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameManager.m; sourceTree = "<group>"; };
 		C4F6B58D163118FC007C5C63 /* MainMenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuScene.h; sourceTree = "<group>"; };
@@ -476,10 +494,6 @@
 		C4F6B5A2163133E2007C5C63 /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
 		C4F6B5A3163133E2007C5C63 /* GameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameScene.m; sourceTree = "<group>"; };
 		C4F94D201659E7D600EBB65B /* game_upgrades_ninjastar2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_upgrades_ninjastar2.png; sourceTree = "<group>"; };
-		C4F94D2B1659F20100EBB65B /* game_levelup_body-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "game_levelup_body-hd.fnt"; sourceTree = "<group>"; };
-		C4F94D2C1659F20100EBB65B /* game_levelup_body-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "game_levelup_body-hd.png"; sourceTree = "<group>"; };
-		C4F94D2D1659F20100EBB65B /* game_levelup_body.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = game_levelup_body.fnt; sourceTree = "<group>"; };
-		C4F94D2E1659F20100EBB65B /* game_levelup_body.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_levelup_body.png; sourceTree = "<group>"; };
 		C4F94D33165A089700EBB65B /* NinjaStar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NinjaStar.h; sourceTree = "<group>"; };
 		C4F94D34165A089700EBB65B /* NinjaStar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NinjaStar.m; sourceTree = "<group>"; };
 		DC0864B515BD8CE60044A820 /* CCNode+Debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCNode+Debug.h"; sourceTree = "<group>"; };
@@ -801,6 +815,7 @@
 			isa = PBXGroup;
 			children = (
 				C4AC2BCB1646436E00002EE3 /* game_art */,
+				C4EBDA2D165B3E0500CF9C47 /* game_art_bg */,
 				C46ECA8716438F3A00AFC151 /* mainmenu_art */,
 			);
 			name = Assets;
@@ -838,6 +853,10 @@
 		C46ECA991643928C00AFC151 /* SpriteSheets */ = {
 			isa = PBXGroup;
 			children = (
+				C4EBDA3C165B3E2700CF9C47 /* game_art_bg-hd.plist */,
+				C4EBDA3D165B3E2700CF9C47 /* game_art_bg-hd.pvr.ccz */,
+				C4EBDA3E165B3E2700CF9C47 /* game_art_bg.plist */,
+				C4EBDA3F165B3E2700CF9C47 /* game_art_bg.pvr.ccz */,
 				C46ECA9A1643928C00AFC151 /* mainmenu_art-hd.plist */,
 				C46ECA9B1643928C00AFC151 /* mainmenu_art-hd.pvr.ccz */,
 				C46ECA9C1643928C00AFC151 /* mainmenu_art.plist */,
@@ -853,10 +872,10 @@
 		C4AC2BCB1646436E00002EE3 /* game_art */ = {
 			isa = PBXGroup;
 			children = (
+				C4EBDA2B165B3C1700CF9C47 /* game_upgrades_cat_small.png */,
+				C4EBDA27165B3BEF00CF9C47 /* game_transition_cat.png */,
+				C4EBDA28165B3BEF00CF9C47 /* game_transition_sensei.png */,
 				C4F94D201659E7D600EBB65B /* game_upgrades_ninjastar2.png */,
-				C43DD6D8164A53CF000207C3 /* game_bg_bottom.png */,
-				C43DD6D9164A53CF000207C3 /* game_bg_top.png */,
-				C43DD6DA164A53CF000207C3 /* game_instructions.png */,
 				C43DD6DD164A53CF000207C3 /* game_ninja_eyes_1.png */,
 				C43DD6DE164A53CF000207C3 /* game_ninja_eyes_2.png */,
 				C43DD6DB164A53CF000207C3 /* game_ninja_down_repeat.png */,
@@ -881,7 +900,6 @@
 				C43DD6F1164A53CF000207C3 /* game_paused_quitconfirmation_text.png */,
 				C43DD6F2164A53CF000207C3 /* game_paused_restartconfirmation_text.png */,
 				C43DD6F3164A53CF000207C3 /* game_paused_text.png */,
-				C4CEED59164CADB30036BE79 /* game_rounds_bg.png */,
 				C43DD6F4164A53CF000207C3 /* game_screen_separator.png */,
 				C43DD6F5164A53CF000207C3 /* game_sensei_down_repeat.png */,
 				C43DD6F6164A53CF000207C3 /* game_sensei_down.png */,
@@ -891,14 +909,11 @@
 				C43DD6FA164A53CF000207C3 /* game_sensei_right.png */,
 				C43DD6FB164A53CF000207C3 /* game_sensei_up_repeat.png */,
 				C43DD6FC164A53CF000207C3 /* game_sensei_up.png */,
-				C43DD6FD164A53CF000207C3 /* game_top_bar.png */,
 				C43DD6FE164A53CF000207C3 /* game_top_button_pause_pressed.png */,
 				C43DD6FF164A53CF000207C3 /* game_top_button_pause.png */,
 				C43DD700164A53CF000207C3 /* game_top_score.png */,
 				C43DD701164A53CF000207C3 /* game_top_time_active.png */,
 				C43DD702164A53CF000207C3 /* game_top_time.png */,
-				C41D7FCE165085E8003A9CF3 /* game_transition_message_bg.png */,
-				C41D7FCF165085E8003A9CF3 /* game_transition_ray.png */,
 			);
 			name = game_art;
 			path = memoryDojo/Assets/game_art;
@@ -973,6 +988,21 @@
 			name = Classes;
 			sourceTree = "<group>";
 		};
+		C4EBDA2D165B3E0500CF9C47 /* game_art_bg */ = {
+			isa = PBXGroup;
+			children = (
+				C4EBDA2E165B3E0500CF9C47 /* game_bg_bottom.png */,
+				C4EBDA2F165B3E0500CF9C47 /* game_bg_top.png */,
+				C4EBDA30165B3E0500CF9C47 /* game_instructions.png */,
+				C4EBDA31165B3E0500CF9C47 /* game_rounds_bg.png */,
+				C4EBDA32165B3E0500CF9C47 /* game_top_bar.png */,
+				C4EBDA33165B3E0500CF9C47 /* game_transition_message_bg.png */,
+				C4EBDA34165B3E0500CF9C47 /* game_transition_ray.png */,
+			);
+			name = game_art_bg;
+			path = memoryDojo/Assets/game_art_bg;
+			sourceTree = SOURCE_ROOT;
+		};
 		C4F6B58016311502007C5C63 /* MainMenu */ = {
 			isa = PBXGroup;
 			children = (
@@ -1009,10 +1039,10 @@
 		C4F6B58816311642007C5C63 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				C4F94D2B1659F20100EBB65B /* game_levelup_body-hd.fnt */,
-				C4F94D2C1659F20100EBB65B /* game_levelup_body-hd.png */,
-				C4F94D2D1659F20100EBB65B /* game_levelup_body.fnt */,
-				C4F94D2E1659F20100EBB65B /* game_levelup_body.png */,
+				C4EBDA1F165B371B00CF9C47 /* game_levelup_body-hd.fnt */,
+				C4EBDA20165B371B00CF9C47 /* game_levelup_body-hd.png */,
+				C4EBDA21165B371B00CF9C47 /* game_levelup_body.fnt */,
+				C4EBDA22165B371B00CF9C47 /* game_levelup_body.png */,
 				C41D7FD7165094A7003A9CF3 /* game_levelup_header-hd.fnt */,
 				C41D7FD8165094A7003A9CF3 /* game_levelup_header-hd.png */,
 				C41D7FD9165094A7003A9CF3 /* game_levelup_header.fnt */,
@@ -1690,9 +1720,6 @@
 				C49CACF31649C40000B13370 /* mainmenu_ninja_eyes_1.png in Resources */,
 				C49CACF41649C40000B13370 /* mainmenu_ninja_eyes_2.png in Resources */,
 				C49CAD431649E11600B13370 /* Sensei.plist in Resources */,
-				C43DD703164A53CF000207C3 /* game_bg_bottom.png in Resources */,
-				C43DD704164A53CF000207C3 /* game_bg_top.png in Resources */,
-				C43DD705164A53CF000207C3 /* game_instructions.png in Resources */,
 				C43DD706164A53CF000207C3 /* game_ninja_down_repeat.png in Resources */,
 				C43DD707164A53CF000207C3 /* game_ninja_down.png in Resources */,
 				C43DD708164A53CF000207C3 /* game_ninja_eyes_1.png in Resources */,
@@ -1725,20 +1752,16 @@
 				C43DD725164A53CF000207C3 /* game_sensei_right.png in Resources */,
 				C43DD726164A53CF000207C3 /* game_sensei_up_repeat.png in Resources */,
 				C43DD727164A53CF000207C3 /* game_sensei_up.png in Resources */,
-				C43DD728164A53CF000207C3 /* game_top_bar.png in Resources */,
 				C43DD729164A53CF000207C3 /* game_top_button_pause_pressed.png in Resources */,
 				C43DD72A164A53CF000207C3 /* game_top_button_pause.png in Resources */,
 				C43DD72B164A53CF000207C3 /* game_top_score.png in Resources */,
 				C43DD72C164A53CF000207C3 /* game_top_time_active.png in Resources */,
 				C43DD72D164A53CF000207C3 /* game_top_time.png in Resources */,
 				C43DD72F164A5BBB000207C3 /* game_paused_button_yes_pressed.png in Resources */,
-				C4CEED5A164CADB30036BE79 /* game_rounds_bg.png in Resources */,
 				C45C77AE164CF7DF0041A3E1 /* Round-hd.fnt in Resources */,
 				C45C77AF164CF7DF0041A3E1 /* Round-hd.png in Resources */,
 				C45C77B0164CF7DF0041A3E1 /* Round.fnt in Resources */,
 				C45C77B1164CF7DF0041A3E1 /* Round.png in Resources */,
-				C41D7FD0165085E8003A9CF3 /* game_transition_message_bg.png in Resources */,
-				C41D7FD1165085E8003A9CF3 /* game_transition_ray.png in Resources */,
 				C41D7FDF165094A7003A9CF3 /* game_levelup_header-hd.fnt in Resources */,
 				C41D7FE0165094A7003A9CF3 /* game_levelup_header-hd.png in Resources */,
 				C41D7FE1165094A7003A9CF3 /* game_levelup_header.fnt in Resources */,
@@ -1747,10 +1770,24 @@
 				C49CF2C51655BA5D00E92A1C /* aura1.plist in Resources */,
 				C49CF2C61655BA5D00E92A1C /* confetti.plist in Resources */,
 				C4F94D211659E7D600EBB65B /* game_upgrades_ninjastar2.png in Resources */,
-				C4F94D2F1659F20100EBB65B /* game_levelup_body-hd.fnt in Resources */,
-				C4F94D301659F20100EBB65B /* game_levelup_body-hd.png in Resources */,
-				C4F94D311659F20100EBB65B /* game_levelup_body.fnt in Resources */,
-				C4F94D321659F20100EBB65B /* game_levelup_body.png in Resources */,
+				C4EBDA23165B371B00CF9C47 /* game_levelup_body-hd.fnt in Resources */,
+				C4EBDA24165B371B00CF9C47 /* game_levelup_body-hd.png in Resources */,
+				C4EBDA25165B371B00CF9C47 /* game_levelup_body.fnt in Resources */,
+				C4EBDA26165B371B00CF9C47 /* game_levelup_body.png in Resources */,
+				C4EBDA29165B3BEF00CF9C47 /* game_transition_cat.png in Resources */,
+				C4EBDA2A165B3BEF00CF9C47 /* game_transition_sensei.png in Resources */,
+				C4EBDA2C165B3C1700CF9C47 /* game_upgrades_cat_small.png in Resources */,
+				C4EBDA35165B3E0500CF9C47 /* game_bg_bottom.png in Resources */,
+				C4EBDA36165B3E0500CF9C47 /* game_bg_top.png in Resources */,
+				C4EBDA37165B3E0500CF9C47 /* game_instructions.png in Resources */,
+				C4EBDA38165B3E0500CF9C47 /* game_rounds_bg.png in Resources */,
+				C4EBDA39165B3E0500CF9C47 /* game_top_bar.png in Resources */,
+				C4EBDA3A165B3E0500CF9C47 /* game_transition_message_bg.png in Resources */,
+				C4EBDA3B165B3E0500CF9C47 /* game_transition_ray.png in Resources */,
+				C4EBDA40165B3E2700CF9C47 /* game_art_bg-hd.plist in Resources */,
+				C4EBDA41165B3E2700CF9C47 /* game_art_bg-hd.pvr.ccz in Resources */,
+				C4EBDA42165B3E2700CF9C47 /* game_art_bg.plist in Resources */,
+				C4EBDA43165B3E2700CF9C47 /* game_art_bg.pvr.ccz in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
