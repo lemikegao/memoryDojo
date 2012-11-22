@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C4154BD0165EDD08006B6CF5 /* game_over_buttom_playagain.png in Resources */ = {isa = PBXBuildFile; fileRef = C4154BCB165EDD08006B6CF5 /* game_over_buttom_playagain.png */; };
+		C4154BD1165EDD08006B6CF5 /* game_over_buttom_playagain_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = C4154BCC165EDD08006B6CF5 /* game_over_buttom_playagain_pressed.png */; };
+		C4154BD2165EDD08006B6CF5 /* game_over_cat.png in Resources */ = {isa = PBXBuildFile; fileRef = C4154BCD165EDD08006B6CF5 /* game_over_cat.png */; };
+		C4154BD3165EDD08006B6CF5 /* game_over_copy.png in Resources */ = {isa = PBXBuildFile; fileRef = C4154BCE165EDD08006B6CF5 /* game_over_copy.png */; };
+		C4154BD4165EDD08006B6CF5 /* game_over_sensei.png in Resources */ = {isa = PBXBuildFile; fileRef = C4154BCF165EDD08006B6CF5 /* game_over_sensei.png */; };
+		C4154BD9165EDD87006B6CF5 /* gameover_art-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4154BD5165EDD87006B6CF5 /* gameover_art-hd.plist */; };
+		C4154BDA165EDD87006B6CF5 /* gameover_art-hd.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = C4154BD6165EDD87006B6CF5 /* gameover_art-hd.pvr.ccz */; };
+		C4154BDB165EDD87006B6CF5 /* gameover_art.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4154BD7165EDD87006B6CF5 /* gameover_art.plist */; };
+		C4154BDC165EDD87006B6CF5 /* gameover_art.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = C4154BD8165EDD87006B6CF5 /* gameover_art.pvr.ccz */; };
 		C41D7FDF165094A7003A9CF3 /* game_levelup_header-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FD7165094A7003A9CF3 /* game_levelup_header-hd.fnt */; };
 		C41D7FE0165094A7003A9CF3 /* game_levelup_header-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FD8165094A7003A9CF3 /* game_levelup_header-hd.png */; };
 		C41D7FE1165094A7003A9CF3 /* game_levelup_header.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FD9165094A7003A9CF3 /* game_levelup_header.fnt */; };
@@ -372,6 +381,15 @@
 
 /* Begin PBXFileReference section */
 		C4114718163E184500FC2BE8 /* gong.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = gong.caf; sourceTree = "<group>"; };
+		C4154BCB165EDD08006B6CF5 /* game_over_buttom_playagain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_over_buttom_playagain.png; sourceTree = "<group>"; };
+		C4154BCC165EDD08006B6CF5 /* game_over_buttom_playagain_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_over_buttom_playagain_pressed.png; sourceTree = "<group>"; };
+		C4154BCD165EDD08006B6CF5 /* game_over_cat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_over_cat.png; sourceTree = "<group>"; };
+		C4154BCE165EDD08006B6CF5 /* game_over_copy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_over_copy.png; sourceTree = "<group>"; };
+		C4154BCF165EDD08006B6CF5 /* game_over_sensei.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_over_sensei.png; sourceTree = "<group>"; };
+		C4154BD5165EDD87006B6CF5 /* gameover_art-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "gameover_art-hd.plist"; sourceTree = "<group>"; };
+		C4154BD6165EDD87006B6CF5 /* gameover_art-hd.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "gameover_art-hd.pvr.ccz"; sourceTree = "<group>"; };
+		C4154BD7165EDD87006B6CF5 /* gameover_art.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = gameover_art.plist; sourceTree = "<group>"; };
+		C4154BD8165EDD87006B6CF5 /* gameover_art.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = gameover_art.pvr.ccz; sourceTree = "<group>"; };
 		C41D7FD7165094A7003A9CF3 /* game_levelup_header-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "game_levelup_header-hd.fnt"; sourceTree = "<group>"; };
 		C41D7FD8165094A7003A9CF3 /* game_levelup_header-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "game_levelup_header-hd.png"; sourceTree = "<group>"; };
 		C41D7FD9165094A7003A9CF3 /* game_levelup_header.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = game_levelup_header.fnt; sourceTree = "<group>"; };
@@ -785,6 +803,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C4154BCA165EDD08006B6CF5 /* gameover_art */ = {
+			isa = PBXGroup;
+			children = (
+				C4154BCB165EDD08006B6CF5 /* game_over_buttom_playagain.png */,
+				C4154BCC165EDD08006B6CF5 /* game_over_buttom_playagain_pressed.png */,
+				C4154BCD165EDD08006B6CF5 /* game_over_cat.png */,
+				C4154BCE165EDD08006B6CF5 /* game_over_copy.png */,
+				C4154BCF165EDD08006B6CF5 /* game_over_sensei.png */,
+			);
+			path = gameover_art;
+			sourceTree = "<group>";
+		};
 		C4258531164FA914002CC2FE /* Particles */ = {
 			isa = PBXGroup;
 			children = (
@@ -814,6 +844,7 @@
 		C46ECA7F16438B6F00AFC151 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				C4154BCA165EDD08006B6CF5 /* gameover_art */,
 				C4AC2BCB1646436E00002EE3 /* game_art */,
 				C4EBDA2D165B3E0500CF9C47 /* game_art_bg */,
 				C46ECA8716438F3A00AFC151 /* mainmenu_art */,
@@ -853,6 +884,10 @@
 		C46ECA991643928C00AFC151 /* SpriteSheets */ = {
 			isa = PBXGroup;
 			children = (
+				C4154BD5165EDD87006B6CF5 /* gameover_art-hd.plist */,
+				C4154BD6165EDD87006B6CF5 /* gameover_art-hd.pvr.ccz */,
+				C4154BD7165EDD87006B6CF5 /* gameover_art.plist */,
+				C4154BD8165EDD87006B6CF5 /* gameover_art.pvr.ccz */,
 				C4EBDA3C165B3E2700CF9C47 /* game_art_bg-hd.plist */,
 				C4EBDA3D165B3E2700CF9C47 /* game_art_bg-hd.pvr.ccz */,
 				C4EBDA3E165B3E2700CF9C47 /* game_art_bg.plist */,
@@ -1788,6 +1823,15 @@
 				C4EBDA41165B3E2700CF9C47 /* game_art_bg-hd.pvr.ccz in Resources */,
 				C4EBDA42165B3E2700CF9C47 /* game_art_bg.plist in Resources */,
 				C4EBDA43165B3E2700CF9C47 /* game_art_bg.pvr.ccz in Resources */,
+				C4154BD0165EDD08006B6CF5 /* game_over_buttom_playagain.png in Resources */,
+				C4154BD1165EDD08006B6CF5 /* game_over_buttom_playagain_pressed.png in Resources */,
+				C4154BD2165EDD08006B6CF5 /* game_over_cat.png in Resources */,
+				C4154BD3165EDD08006B6CF5 /* game_over_copy.png in Resources */,
+				C4154BD4165EDD08006B6CF5 /* game_over_sensei.png in Resources */,
+				C4154BD9165EDD87006B6CF5 /* gameover_art-hd.plist in Resources */,
+				C4154BDA165EDD87006B6CF5 /* gameover_art-hd.pvr.ccz in Resources */,
+				C4154BDB165EDD87006B6CF5 /* gameover_art.plist in Resources */,
+				C4154BDC165EDD87006B6CF5 /* gameover_art.pvr.ccz in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
