@@ -50,6 +50,18 @@
             self.auraEmitter.position = ccp(ninja.position.x + ninja.boundingBox.size.width/8, ninja.position.y);
             [self addChild:self.auraEmitter z:10];
         }
+        if (ninjaLevel >= 3) {
+            // add ninja star
+            CCSprite *ninjaStar = [CCSprite spriteWithSpriteFrameName:@"mainmenu_upgrades_ninjastar2.png"];
+            ninjaStar.position = ccp(ninja.boundingBox.size.width * 0.33f, ninja.boundingBox.size.height * 0.285f);
+            [ninja addChild:ninjaStar];
+        }
+        if (ninjaLevel >= 4) {
+            // add small cat
+            CCSprite *smallCat = [CCSprite spriteWithSpriteFrameName:@"mainmenu_upgrades_catsmall.png"];
+            smallCat.position = ccp(ninja.position.x * 0.33f, ninja.position.y * 0.73f);
+            [self addChild:smallCat z:100];
+        }
         
         [self displayMainMenu];
     }

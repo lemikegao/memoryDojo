@@ -24,6 +24,9 @@
 		C4154BEC165EE748006B6CF5 /* score_numbers.png in Resources */ = {isa = PBXBuildFile; fileRef = C4154BE4165EE748006B6CF5 /* score_numbers.png */; };
 		C4154BEF165F2B09006B6CF5 /* game_over_button_playagain_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = C4154BED165F2B09006B6CF5 /* game_over_button_playagain_pressed.png */; };
 		C4154BF0165F2B09006B6CF5 /* game_over_button_playagain.png in Resources */ = {isa = PBXBuildFile; fileRef = C4154BEE165F2B09006B6CF5 /* game_over_button_playagain.png */; };
+		C4154BF2165F413C006B6CF5 /* mainmenu_upgrades_ninjastar2.png in Resources */ = {isa = PBXBuildFile; fileRef = C4154BF1165F413C006B6CF5 /* mainmenu_upgrades_ninjastar2.png */; };
+		C4154BF6165F4174006B6CF5 /* mainmenu_upgrades_catsmall.png in Resources */ = {isa = PBXBuildFile; fileRef = C4154BF5165F4174006B6CF5 /* mainmenu_upgrades_catsmall.png */; };
+		C4154BFA165F43FD006B6CF5 /* game_over_sensei.png in Resources */ = {isa = PBXBuildFile; fileRef = C4154BF8165F43FD006B6CF5 /* game_over_sensei.png */; };
 		C41D7FDF165094A7003A9CF3 /* game_levelup_header-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FD7165094A7003A9CF3 /* game_levelup_header-hd.fnt */; };
 		C41D7FE0165094A7003A9CF3 /* game_levelup_header-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FD8165094A7003A9CF3 /* game_levelup_header-hd.png */; };
 		C41D7FE1165094A7003A9CF3 /* game_levelup_header.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FD9165094A7003A9CF3 /* game_levelup_header.fnt */; };
@@ -406,6 +409,9 @@
 		C4154BE4165EE748006B6CF5 /* score_numbers.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = score_numbers.png; sourceTree = "<group>"; };
 		C4154BED165F2B09006B6CF5 /* game_over_button_playagain_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = game_over_button_playagain_pressed.png; path = memoryDojo/Assets/gameover_art/game_over_button_playagain_pressed.png; sourceTree = SOURCE_ROOT; };
 		C4154BEE165F2B09006B6CF5 /* game_over_button_playagain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = game_over_button_playagain.png; path = memoryDojo/Assets/gameover_art/game_over_button_playagain.png; sourceTree = SOURCE_ROOT; };
+		C4154BF1165F413C006B6CF5 /* mainmenu_upgrades_ninjastar2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainmenu_upgrades_ninjastar2.png; sourceTree = "<group>"; };
+		C4154BF5165F4174006B6CF5 /* mainmenu_upgrades_catsmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainmenu_upgrades_catsmall.png; sourceTree = "<group>"; };
+		C4154BF8165F43FD006B6CF5 /* game_over_sensei.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = game_over_sensei.png; path = memoryDojo/Assets/gameover_art/game_over_sensei.png; sourceTree = SOURCE_ROOT; };
 		C41D7FD7165094A7003A9CF3 /* game_levelup_header-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "game_levelup_header-hd.fnt"; sourceTree = "<group>"; };
 		C41D7FD8165094A7003A9CF3 /* game_levelup_header-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "game_levelup_header-hd.png"; sourceTree = "<group>"; };
 		C41D7FD9165094A7003A9CF3 /* game_levelup_header.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = game_levelup_header.fnt; sourceTree = "<group>"; };
@@ -822,6 +828,7 @@
 		C4154BCA165EDD08006B6CF5 /* gameover_art */ = {
 			isa = PBXGroup;
 			children = (
+				C4154BF8165F43FD006B6CF5 /* game_over_sensei.png */,
 				C4154BED165F2B09006B6CF5 /* game_over_button_playagain_pressed.png */,
 				C4154BEE165F2B09006B6CF5 /* game_over_button_playagain.png */,
 				C4154BCD165EDD08006B6CF5 /* game_over_cat.png */,
@@ -872,6 +879,8 @@
 		C46ECA8716438F3A00AFC151 /* mainmenu_art */ = {
 			isa = PBXGroup;
 			children = (
+				C4154BF5165F4174006B6CF5 /* mainmenu_upgrades_catsmall.png */,
+				C4154BF1165F413C006B6CF5 /* mainmenu_upgrades_ninjastar2.png */,
 				C49CACD41649C28800B13370 /* mainmenu_bg.png */,
 				C49CACD51649C28800B13370 /* mainmenu_button_music.png */,
 				C49CACD61649C28800B13370 /* mainmenu_button_settings_pressed.png */,
@@ -1864,6 +1873,9 @@
 				C4154BEC165EE748006B6CF5 /* score_numbers.png in Resources */,
 				C4154BEF165F2B09006B6CF5 /* game_over_button_playagain_pressed.png in Resources */,
 				C4154BF0165F2B09006B6CF5 /* game_over_button_playagain.png in Resources */,
+				C4154BF2165F413C006B6CF5 /* mainmenu_upgrades_ninjastar2.png in Resources */,
+				C4154BF6165F4174006B6CF5 /* mainmenu_upgrades_catsmall.png in Resources */,
+				C4154BFA165F43FD006B6CF5 /* game_over_sensei.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
