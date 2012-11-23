@@ -11,15 +11,9 @@
 
 @implementation GameOverLayer
 
--(void) ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    CCLOG(@"Touches received, returning to Main Menu Scene");
-    [[GameManager sharedGameManager] runSceneWithID:kSceneTypeMainMenu];
-}
-
 -(id) init {
     self = [super init];
     if (self != nil) {
-        self.isTouchEnabled = YES;
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"gameover_art.plist"];
         
         CGSize screenSize = [CCDirector sharedDirector].winSize;
@@ -29,9 +23,8 @@
         [self addChild:gameOverBg z:-1];
         
         // add rays to sprite batch node
-        CGPoint screenMidpoint = ccp(screenSize.width/2, screenSize.height/2);
         CCSpriteBatchNode *rayBatchNode = [CCSpriteBatchNode batchNodeWithFile:@"game_art_bg.pvr.ccz" capacity:10];
-        rayBatchNode.position = screenMidpoint;
+        rayBatchNode.position = ccp(screenSize.width/2, screenSize.height/2);
         
         float rayAngle = 0;
         while (rayAngle < 360) {
@@ -47,16 +40,49 @@
         
         [gameOverBg addChild:rayBatchNode z:1];
         
-
+        // add 'game over' copy
+        CCSprite *gameOverCopy = [CCSprite spriteWithSpriteFrameName:@"game_over_copy.png"];
+        gameOverCopy.position = ccp(screenSize.width/2, screenSize.height * 0.85f);
+        [gameOverBg addChild:gameOverCopy z:5];
         
-        // add text for game over
-//        NSString *gameoverString = [NSString stringWithFormat:@"Game over! Score: %i", [GameManager sharedGameManager].score];
-//        CCLabelBMFont *gameOverLabel = [CCLabelBMFont labelWithString:gameoverString fntFile:@"SpaceVikingFont.fnt"];
-//        gameOverLabel.position = ccp(screenSize.width/2, screenSize.height/2);
-//        [self addChild:gameOverLabel];
+        // add game over menu bg
+        CCSprite *gameOverMenuBg = [CCSprite spriteWithSpriteFrameName:@"game_transition_message_bg.png"];
+        gameOverMenuBg.position = ccp(screenSize.width/2, screenSize.height/2);
+        [gameOverBg addChild:gameOverMenuBg z:5];
+        
+        // add score copy
+        CGSize gameOverMenuBgSize = gameOverMenuBg.boundingBox.size;
+        CCSprite *scoreCopy = [CCLabelBMFont labelWithString:@"SCORE:" fntFile:@"score_copy.fnt"];
+        scoreCopy.position = ccp(gameOverMenuBgSize.width * 0.33f, gameOverMenuBgSize.height * 0.80f);
+        [gameOverMenuBg addChild:scoreCopy];
+        
+        // add score
+        CCSprite *score = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].score] fntFile:@"score_numbers.fnt"];
+        score.anchorPoint = ccp(0, 0.5);
+        score.position = ccp(gameOverMenuBgSize.width * 0.52f, gameOverMenuBgSize.height * 0.80f);
+        [gameOverMenuBg addChild:score];
+        
+        // add menu (play again, quit)
+        // play again
+        CCMenuItemImage *playAgainButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_over_button_playagain.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"game_over_button_playagain_pressed.png"] target:self selector:@selector(playAgain)];
+        
+        CCMenuItemImage *quitButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_quit.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_quit_pressed.png"] target:self selector:@selector(quit)];
+        
+        CCMenu *gameOverMenu = [CCMenu menuWithItems:playAgainButton, quitButton, nil];
+        [gameOverMenu alignItemsVerticallyWithPadding:gameOverMenuBgSize.height * 0.085f];
+        gameOverMenu.position = ccp(gameOverMenuBgSize.width * 0.50f, gameOverMenuBgSize.height * 0.50f);
+        [gameOverMenuBg addChild:gameOverMenu z:5];
     }
     
     return self;
+}
+
+-(void)playAgain {
+    [[GameManager sharedGameManager] runSceneWithID:kSceneTypeGame];
+}
+
+-(void)quit {
+    [[GameManager sharedGameManager] runSceneWithID:kSceneTypeMainMenu];
 }
 
 @end
