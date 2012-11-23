@@ -35,7 +35,8 @@ typedef enum {
 
 typedef enum {
     kGameStateNone = 0,
-    kGameStateIntro,
+    kGameStateInit,
+    kGameStateInstructions,
     kGameStatePlay,
     kGameStateLevelUpScreen1,
     kGameStateLevelUpAnimation,

@@ -97,7 +97,7 @@
     // game is not paused
     self.isGamePaused = NO;
     
-    self.currentGameState = kGameStateIntro;
+    self.currentGameState = kGameStateInit;
     
     [GameManager sharedGameManager].score = 0;
     CGSize screenSize = [CCDirector sharedDirector].winSize;
@@ -217,17 +217,20 @@
     // display the rules then start the game!
     self.gameInstructions = [CCSprite spriteWithSpriteFrameName:@"game_instructions.png"];
     self.gameInstructions.anchorPoint = ccp(0.5f, 0);
-    self.gameInstructions.position = ccp(screenSize.width/2, topBar.position.y);
+    self.gameInstructions.position = ccp(screenSize.width/2, screenSize.height);
     [self addChild:self.gameInstructions z:2];
     
     // display sequence after label disappears
     id moveGameInstructionsDown = [CCMoveTo actionWithDuration:0.5f position:ccp(screenSize.width/2, screenSize.height * 0.60f)];
+    id setGameStateToInstructions = [CCCallBlock actionWithBlock:^{
+        self.currentGameState = kGameStateInstructions;
+    }];
     id pauseGameInstructions = [CCDelayTime actionWithDuration:3.0f];
     id moveGameInstructionsUp = [CCMoveTo actionWithDuration:0.5f position:ccp(screenSize.width/2, topBar.position.y)];
     id removeInstructions = [CCCallFunc actionWithTarget:self selector:@selector(removeInstructions)];
     id callStartDisplaySequenceSelector = [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)];
     
-    id action = [CCSequence actions:moveGameInstructionsDown, pauseGameInstructions, moveGameInstructionsUp, removeInstructions, callStartDisplaySequenceSelector, nil];
+    id action = [CCSequence actions:moveGameInstructionsDown, setGameStateToInstructions, pauseGameInstructions, moveGameInstructionsUp, removeInstructions, callStartDisplaySequenceSelector, nil];
     [self.gameInstructions runAction:action];
 }
 
@@ -262,20 +265,35 @@
 }
 
 -(void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    // begin game if user inputs a touch during instructions
+    if (self.currentGameState == kGameStateInstructions) {
+        CGSize screenSize = [CCDirector sharedDirector].winSize;
+        self.currentGameState = kGameStateInit;
+        [self.gameInstructions stopAllActions];
+        id moveGameInstructionsUp = [CCMoveTo actionWithDuration:0.5f position:ccp(screenSize.width/2, screenSize.height)];
+        id removeInstructions = [CCCallFunc actionWithTarget:self selector:@selector(removeInstructions)];
+        id callStartDisplaySequenceSelector = [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)];
+        
+        id action = [CCSequence actions:moveGameInstructionsUp, removeInstructions, callStartDisplaySequenceSelector, nil];
+        [self.gameInstructions runAction:action];
+    }
     // if game is displaying level up screen 1, transition to next level up screen
-    if (self.currentGameState == kGameStateLevelUpScreen1) {
+    else if (self.currentGameState == kGameStateLevelUpScreen1) {
         if ([GameManager sharedGameManager].ninjaLevel == 4) {
             // no upgrade animation -- show sensei gift screen
             [self showSenseiGiftScreen];
         } else {
             [self showLevelUpAnimation];
         }
-    } else if (self.currentGameState == kGameStateLevelUpGiftScreen) {
+    }
+    else if (self.currentGameState == kGameStateLevelUpGiftScreen) {
         // show small cat
         [self showSmallCatScreen];
-    } else if (self.currentGameState == kGameStateLevelUpSmallCatScreen) {
+    }
+    else if (self.currentGameState == kGameStateLevelUpSmallCatScreen) {
         [self showNinjaLevelUpScreen2FromCatScreen];
-    } else if (self.currentGameState == kGameStateLevelUpScreen2) {
+    }
+    else if (self.currentGameState == kGameStateLevelUpScreen2) {
         [self dismissLevelUpScreen];
         [self startNewRound];
     }
@@ -585,11 +603,16 @@
 
     // fade out old messages and sensei, fade in small cat
     for (CCNode* child in self.levelUpMessageBg.children) {
-        [child runAction:[CCFadeOut actionWithDuration:1.0f]];
+        [child runAction:[CCSequence actions:[CCCallBlock actionWithBlock:^{
+            // disable touch during the gift presentation
+            self.isTouchEnabled = NO;
+        }], [CCFadeOut actionWithDuration:1.0f], nil]];
     }
     
     // fade in cat after old messages fade out
-    id catFadeIn = [CCSequence actions:[CCDelayTime actionWithDuration:1.0f], [CCFadeIn actionWithDuration:1.0f], nil];
+    id catFadeIn = [CCSequence actions:[CCDelayTime actionWithDuration:1.0f], [CCFadeIn actionWithDuration:1.0f], [CCCallBlock actionWithBlock:^{
+        self.isTouchEnabled = YES;
+    }], nil];
     CCSprite *smallCatTransition = [CCSprite spriteWithSpriteFrameName:@"game_transition_cat.png"];
     smallCatTransition.opacity = 0;
     smallCatTransition.position = ccp(self.levelUpMessageBg.boundingBox.size.width/2, self.levelUpMessageBg.boundingBox.size.height/2);
@@ -727,8 +750,8 @@
         CCLabelBMFont *niceLabel = [CCLabelBMFont labelWithString:@"Nice!" fntFile:@"Round.fnt"];
         niceLabel.position = ccp(self.gameRoundBg.boundingBox.size.width/2, self.gameRoundBg.boundingBox.size.height/2);
         [self.gameRoundBg addChild:niceLabel];
-        id niceLabelBgAction = [CCFadeIn actionWithDuration:1.0f];
-        id niceLabelAction = [CCSequence actions:[CCFadeIn actionWithDuration:1.0f], [CCDelayTime actionWithDuration:1.0f], [CCFadeOut actionWithDuration:1.0f], [CCCallFunc actionWithTarget:self selector:@selector(showRoundLabelAfterNiceMessage)], nil];
+        id niceLabelBgAction = [CCFadeIn actionWithDuration:0.5f];
+        id niceLabelAction = [CCSequence actions:[CCFadeIn actionWithDuration:0.5f], [CCDelayTime actionWithDuration:0.5f], [CCFadeOut actionWithDuration:0.5f], [CCCallFunc actionWithTarget:self selector:@selector(showRoundLabelAfterNiceMessage)], nil];
         [self.gameRoundBg runAction:niceLabelBgAction];
         [niceLabel runAction:niceLabelAction];
     } else {
@@ -738,10 +761,10 @@
         [self.gameRoundBg addChild:newRoundLabel];
         
         
-        id labelAction = [CCSequence actions:[CCFadeIn actionWithDuration:1.0f], [CCDelayTime actionWithDuration:2.0f], [CCFadeOut actionWithDuration:1.0f], nil];
+        id labelAction = [CCSequence actions:[CCFadeIn actionWithDuration:0.5f], [CCDelayTime actionWithDuration:1.0f], [CCFadeOut actionWithDuration:0.5f], nil];
         
         // have sensei perform new sequence
-        id labelBgAction = [CCSequence actions:[CCFadeIn actionWithDuration:1.0f], [CCDelayTime actionWithDuration:2.0f], [CCFadeOut actionWithDuration:1.0f], [CCCallFuncN actionWithTarget:self selector:@selector(removeRoundPopup:)], [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
+        id labelBgAction = [CCSequence actions:[CCFadeIn actionWithDuration:0.5f], [CCDelayTime actionWithDuration:1.0f], [CCFadeOut actionWithDuration:0.5f], [CCCallFuncN actionWithTarget:self selector:@selector(removeRoundPopup:)], [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
         
         [newRoundLabel runAction:labelAction];
         [self.gameRoundBg runAction:labelBgAction];
@@ -754,10 +777,10 @@
     [self.gameRoundBg addChild:newRoundLabel];
     
     
-    id labelAction = [CCSequence actions:[CCFadeIn actionWithDuration:1.0f], [CCDelayTime actionWithDuration:2.0f], [CCFadeOut actionWithDuration:1.0f], nil];
+    id labelAction = [CCSequence actions:[CCFadeIn actionWithDuration:0.5], [CCDelayTime actionWithDuration:1.0f], [CCFadeOut actionWithDuration:0.5f], nil];
     
     // have sensei perform new sequence
-    id labelBgAction = [CCSequence actions:[CCDelayTime actionWithDuration:3.0f], [CCFadeOut actionWithDuration:1.0f], [CCCallFuncN actionWithTarget:self selector:@selector(removeRoundPopup:)], [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
+    id labelBgAction = [CCSequence actions:[CCDelayTime actionWithDuration:1.5f], [CCFadeOut actionWithDuration:0.5f], [CCCallFuncN actionWithTarget:self selector:@selector(removeRoundPopup:)], [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
     
     [newRoundLabel runAction:labelAction];
     [self.gameRoundBg runAction:labelBgAction];
