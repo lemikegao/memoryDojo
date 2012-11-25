@@ -38,6 +38,7 @@
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeUpRecognizer;
 
 // sprite management -- not using tags anymore!
+@property (nonatomic) CGSize screenSize;
 @property (nonatomic, strong) CCSprite *gameInstructions;
 @property (nonatomic, strong) CCLabelBMFont *scoreLabel;
 @property (nonatomic, strong) CCSprite *gameRoundBg;
@@ -47,6 +48,7 @@
 @property (nonatomic, strong) CCParticleSystem *confettiEmitter;
 @property (nonatomic, strong) CCParticleSystem *level2AuraEmitter;
 @property (nonatomic) int nextInactiveNinjaStar;
+@property (nonatomic, strong) CCSpriteBatchNode *sequenceArrowsBatch;
 
 -(void)initializeGame;
 -(void)removeInstructions;
@@ -78,9 +80,12 @@
 -(id)init {
     self = [super init];
     if (self != nil) {
+        self.screenSize = [CCDirector sharedDirector].winSize;
+        
         // load texture atlas
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"game_art_bg.plist"];
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"game_art.plist"];
+        self.sequenceArrowsBatch = [CCSpriteBatchNode batchNodeWithFile:@"game_art.pvr.ccz"];
         [self initializeGame];
     }
     
@@ -170,7 +175,7 @@
     
     // initialize sensei
     self.sensei = [[Sensei alloc] init];
-    self.sensei.position = ccp(screenSize.width/2, screenSize.height * 0.66f);
+    self.sensei.position = ccp(screenSize.width/2, screenSize.height * 0.63f);
     [self addChild:self.sensei z:1];
     
     // initialize ninja
@@ -219,6 +224,9 @@
     self.gameInstructions.anchorPoint = ccp(0.5f, 0);
     self.gameInstructions.position = ccp(screenSize.width/2, screenSize.height);
     [self addChild:self.gameInstructions z:2];
+    
+    // add sequence arrows batch node
+    [self addChild:self.sequenceArrowsBatch];
     
     // display sequence after label disappears
     id moveGameInstructionsDown = [CCMoveTo actionWithDuration:0.5f position:ccp(screenSize.width/2, screenSize.height * 0.60f)];
@@ -356,23 +364,50 @@
 }
 
 -(void)displaySequence:(ccTime)deltaTime {
+    // add arrow + animate sensei
     switch ([self.sequence[self.currentDisplaySequencePosition] intValue]) {
         case kDirectionTypeLeft:
+        {
+            CCSprite *arrow = [CCSprite spriteWithSpriteFrameName:@"game_arrow_left.png"];
+            arrow.anchorPoint = ccp(0, 0.5);
+            arrow.position = ccp(self.screenSize.width/7.0f * self.currentDisplaySequencePosition + self.screenSize.width * 0.03f, self.screenSize.height * .808f);
+            [self.sequenceArrowsBatch addChild:arrow];
             [self.sensei changeState:kCharacterStateLeft];
             break;
+        }
         case kDirectionTypeDown:
+        {
+            CCSprite *arrow = [CCSprite spriteWithSpriteFrameName:@"game_arrow_down.png"];
+            arrow.anchorPoint = ccp(0, 0.5);
+            arrow.position = ccp(self.screenSize.width/7.0f * self.currentDisplaySequencePosition + self.screenSize.width * 0.03f, self.screenSize.height * .808f);
+            [self.sequenceArrowsBatch addChild:arrow];
             [self.sensei changeState:kCharacterStateDown];
             break;
+        }
         case kDirectionTypeRight:
+        {
+            CCSprite *arrow = [CCSprite spriteWithSpriteFrameName:@"game_arrow_right.png"];
+            arrow.anchorPoint = ccp(0, 0.5);
+            arrow.position = ccp(self.screenSize.width/7.0f * self.currentDisplaySequencePosition + self.screenSize.width * 0.03f, self.screenSize.height * .808f);
+            [self.sequenceArrowsBatch addChild:arrow];
             [self.sensei changeState:kCharacterStateRight];
             break;
+        }
         case kDirectionTypeUp:
+        {
+            CCSprite *arrow = [CCSprite spriteWithSpriteFrameName:@"game_arrow_up.png"];
+            arrow.anchorPoint = ccp(0, 0.5);
+            arrow.position = ccp(self.screenSize.width/7.0f * self.currentDisplaySequencePosition + self.screenSize.width * 0.03f, self.screenSize.height * .808f);
+            [self.sequenceArrowsBatch addChild:arrow];
             [self.sensei changeState:kCharacterStateUp];
             break;
+        }
         default:
+        {
             CCLOG(@"Not a valid sequence direction to display");
             return;
             break;
+        }
     }
     
     self.currentDisplaySequencePosition++;
@@ -381,10 +416,15 @@
         // no more sequence to display
         [self unschedule:@selector(displaySequence:)];
         
-        // start gameplay
-        
-        self.enableGestures = YES;
-        [self scheduleUpdate];
+        // start gameplay after a 1 sec delay
+        [self runAction:[CCSequence actions:[CCDelayTime actionWithDuration:1.0f], [CCCallBlock actionWithBlock:^{
+            // make arrows batch disappear if above level 1
+            if ([GameManager sharedGameManager].ninjaLevel > 1) {
+                self.sequenceArrowsBatch.visible = NO;
+            }
+            self.enableGestures = YES;
+            [self scheduleUpdate];
+        }], nil]];
     }
 }
 
@@ -456,8 +496,13 @@
     if ([self.sequence[self.currentSequencePosition] intValue] == direction) {
         self.currentSequencePosition++;
         CCLOG(@"Correct swipe detected: %i", direction);
+        
         [GameManager sharedGameManager].score = [GameManager sharedGameManager].score + [GameManager sharedGameManager].ninjaLevel;
         self.scoreLabel.string = [NSString stringWithFormat:@"%i", [GameManager sharedGameManager].score];
+        
+        // move arrows batch node
+        id moveArrows = [CCMoveBy actionWithDuration:0.1f position:ccp(-1 * self.screenSize.width/7.0f, 0)];
+        [self.sequenceArrowsBatch runAction:moveArrows];
     } else {
         CCLOG(@"You lose!");
         [self playGameOverScene];
@@ -731,6 +776,13 @@
     self.currentDisplaySequencePosition = 0;
     self.currentGameState = kGameStatePlay;
     
+    // remove arrows from batch node
+    [self.sequenceArrowsBatch removeAllChildrenWithCleanup:YES];
+    // reset batch node position
+# warning - replace move action with setting position
+    [self.sequenceArrowsBatch runAction:[CCMoveTo actionWithDuration:0.1f position:CGPointZero]];
+    self.sequenceArrowsBatch.visible = YES;
+    
     int currentSequenceLength = [self.sequence count];
     for (int i=0; i<2; i++) {
 //        self.sequence[currentSequenceLength + i] = [NSNumber numberWithInt:arc4random_uniform(4) + 1];
@@ -947,16 +999,18 @@
     [self.ninja updateStateWithDeltaTime:deltaTime andListOfGameObjects:nil];
     [self.sensei updateStateWithDeltaTime:deltaTime andListOfGameObjects:nil];
     
-    // level 1 - round 1: 10 sec; +2 sec for each round
-    // level 2 - round 1: 8 sec; +2 sec for each round
-    // level 3 - round 1: 6 sec; +1.5 sec for each round
-    // level 4 - round 1: 5 sec; +1.5 sec for each round
-    // level 5 - round 1: 4 sec; +1.5 sec for each round
-    // level 6 - round 1: 4 sec; +1 sec for each round
+    // level 1 - arrows stay the entire round
+    // level 2 - arrows appear after 2 seconds, waits 1 sec, then disappears
+    // level 3 - arrows appear after 3 seconds, waits 0.5 sec, then disappears
+    // level 4 - arrows reappear if player is idle for 0.5 sec
+    // level 5 - arrows reappear if player is idle for 1 sec
+    // level 6 - no arrows
     self.timer.percentage -= self.timeToSubtractPerSecond/60.0f;
     if (self.timer.percentage <= 0) {
         [self playGameOverScene];
     }
+    
+    
 }
 
 @end

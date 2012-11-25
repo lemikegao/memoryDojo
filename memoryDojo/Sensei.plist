@@ -5,7 +5,7 @@
 	<key>blinkingAnim</key>
 	<dict>
 		<key>filenamePrefix</key>
-		<string>game_ninja_eyes_</string>
+		<string>game_sensei_eyes_</string>
 		<key>delay</key>
 		<string>0.25</string>
 		<key>animationFrames</key>

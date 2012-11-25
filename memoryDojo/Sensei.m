@@ -30,7 +30,7 @@
         self.characterState = kCharacterStateIdle;
         
         // add eyes
-        self.senseiOpenEyes = [CCSprite spriteWithSpriteFrameName:@"game_ninja_eyes_1.png"];
+        self.senseiOpenEyes = [CCSprite spriteWithSpriteFrameName:@"game_sensei_eyes_1.png"];
         self.senseiOpenEyes.position = ccp(self.boundingBox.size.width * 0.51f, self.boundingBox.size.height * 0.65f);
         [self addChild:self.senseiOpenEyes z:100];
         
@@ -66,7 +66,7 @@
     
     // adjust sensei eyes
     if (newState == kCharacterStateDown) {
-        self.senseiOpenEyes.position = ccp(self.boundingBox.size.width * 0.51f, self.boundingBox.size.height * 0.605f);
+        self.senseiOpenEyes.position = ccp(self.boundingBox.size.width * 0.51f, self.boundingBox.size.height * 0.61f);
     } else {
         self.senseiOpenEyes.position = ccp(self.boundingBox.size.width * 0.51f, self.boundingBox.size.height * 0.65f);
     }
@@ -144,7 +144,7 @@
 }
 
 -(void)moveEyesDown {
-    self.senseiOpenEyes.position = ccp(self.boundingBox.size.width * 0.51f, self.boundingBox.size.height * 0.605f);
+    self.senseiOpenEyes.position = ccp(self.boundingBox.size.width * 0.51f, self.boundingBox.size.height * 0.61f);
 }
 
 -(void)updateStateWithDeltaTime:(ccTime)deltaTime andListOfGameObjects:(CCArray *)listOfGameObjects {

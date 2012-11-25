@@ -72,12 +72,6 @@
         [gameOverMenu alignItemsVerticallyWithPadding:gameOverMenuBgSize.height * 0.085f];
         gameOverMenu.position = ccp(gameOverMenuBgSize.width * 0.50f, gameOverMenuBgSize.height * 0.50f);
         [gameOverMenuBg addChild:gameOverMenu z:5];
-        
-        // add sad sensei
-//        CCSprite *sadSensei = [CCSprite spriteWithSpriteFrameName:@"game_over_sensei.png"];
-//        sadSensei.anchorPoint = ccp(0.5, 0);
-//        sadSensei.position = ccp(gameOverMenuBgSize.width * 0.715f,gameOverMenuBgSize.height * 0.023f);
-//        [gameOverMenuBg addChild:sadSensei z:5];
     }
     
     return self;
