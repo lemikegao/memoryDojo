@@ -61,7 +61,7 @@
     
     switch (newState) {
         case kCharacterStateIdle:
-            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_neutral"];
+            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_neutral.png"];
             break;
             
         case kCharacterStateLeft:

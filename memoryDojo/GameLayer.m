@@ -27,6 +27,7 @@
 @property (nonatomic, strong) CCProgressTimer *timer;
 @property (nonatomic) BOOL enableGestures;
 @property (nonatomic) CGFloat timeToSubtractPerSecond;
+@property (nonatomic) CGFloat timeArrowsHidden;
 
 // gameplay
 @property (nonatomic, strong) NSMutableArray *sequence;
@@ -50,6 +51,7 @@
 @property (nonatomic) int nextInactiveNinjaStar;
 @property (nonatomic, strong) CCSpriteBatchNode *sequenceArrowsBatch;
 
+-(void)initializeSequence;
 -(void)initializeGame;
 -(void)removeInstructions;
 -(void)removeRoundPopup:(CCSprite*)roundBg;
@@ -90,6 +92,54 @@
     }
     
     return self;
+}
+
+-(void)initializeSequence {
+    self.currentSequencePosition = 0;
+    self.currentDisplaySequencePosition = 0;
+    self.sequence = [[NSMutableArray alloc] initWithCapacity:100];
+    for (int i=0; i<4; i++) {
+        self.sequence[i] = [NSNumber numberWithInt:arc4random_uniform(4) + 1];
+        //        self.sequence[i] = [NSNumber numberWithInt:kDirectionTypeUp];
+        NSLog(@"sequence at %i: %@", i, self.sequence[i]);
+    }
+    
+    self.roundNumber = 1;
+}
+
+-(void)resetSequenceAfterLevelUp {
+    [self initializeSequence];
+    
+    self.enableGestures = NO;
+    [self unscheduleUpdate];
+    self.timer.percentage = 100;
+    self.currentGameState = kGameStatePlay;
+    self.timeArrowsHidden = 0;
+    
+    // remove arrows from batch node
+    [self.sequenceArrowsBatch removeAllChildrenWithCleanup:YES];
+    // reset batch node position
+# warning - replace move action with setting position
+    [self.sequenceArrowsBatch runAction:[CCMoveTo actionWithDuration:0.1f position:CGPointZero]];
+    
+    // show new round indicator
+    CGSize screenSize = [CCDirector sharedDirector].winSize;
+    self.gameRoundBg = [CCSprite spriteWithSpriteFrameName:@"game_rounds_bg.png"];
+    self.gameRoundBg .position = ccp(screenSize.width/2, screenSize.height/2);
+    [self addChild:self.gameRoundBg  z:100];
+    
+    CCLabelBMFont *newRoundLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"Round %i", self.roundNumber] fntFile:@"Round.fnt"];
+    newRoundLabel.position = ccp(self.gameRoundBg.boundingBox.size.width/2, self.gameRoundBg.boundingBox.size.height/2);
+    [self.gameRoundBg addChild:newRoundLabel];
+    
+    
+    id labelAction = [CCSequence actions:[CCFadeIn actionWithDuration:0.5f], [CCDelayTime actionWithDuration:1.0f], [CCFadeOut actionWithDuration:0.5f], nil];
+    
+    // have sensei perform new sequence
+    id labelBgAction = [CCSequence actions:[CCFadeIn actionWithDuration:0.5f], [CCDelayTime actionWithDuration:1.0f], [CCFadeOut actionWithDuration:0.5f], [CCCallFuncN actionWithTarget:self selector:@selector(removeRoundPopup:)], [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
+    
+    [newRoundLabel runAction:labelAction];
+    [self.gameRoundBg runAction:labelBgAction];
 }
 
 -(void)initializeGame {
@@ -208,16 +258,7 @@
     }
     
     // initialize sequence
-    self.currentSequencePosition = 0;
-    self.currentDisplaySequencePosition = 0;
-    self.sequence = [[NSMutableArray alloc] initWithCapacity:100];
-    for (int i=0; i<4; i++) {
-//        self.sequence[i] = [NSNumber numberWithInt:arc4random_uniform(4) + 1];
-        self.sequence[i] = [NSNumber numberWithInt:kDirectionTypeUp];
-        NSLog(@"sequence at %i: %@", i, self.sequence[i]);
-    }
-    
-    self.roundNumber = 1;
+    [self initializeSequence];
     
     // display the rules then start the game!
     self.gameInstructions = [CCSprite spriteWithSpriteFrameName:@"game_instructions.png"];
@@ -303,7 +344,8 @@
     }
     else if (self.currentGameState == kGameStateLevelUpScreen2) {
         [self dismissLevelUpScreen];
-        [self startNewRound];
+//        [self startNewRound];
+        [self resetSequenceAfterLevelUp];
     }
 }
 
@@ -317,6 +359,7 @@
 }
 
 -(void)startDisplaySequenceSelector {
+    self.sequenceArrowsBatch.visible = YES;
 //    PLAYSOUNDEFFECT(GONG);
     
     // set timeToSubtractPerSecond
@@ -775,18 +818,18 @@
     self.currentSequencePosition = 0;
     self.currentDisplaySequencePosition = 0;
     self.currentGameState = kGameStatePlay;
+    self.timeArrowsHidden = 0;
     
     // remove arrows from batch node
     [self.sequenceArrowsBatch removeAllChildrenWithCleanup:YES];
     // reset batch node position
 # warning - replace move action with setting position
     [self.sequenceArrowsBatch runAction:[CCMoveTo actionWithDuration:0.1f position:CGPointZero]];
-    self.sequenceArrowsBatch.visible = YES;
     
     int currentSequenceLength = [self.sequence count];
     for (int i=0; i<2; i++) {
-//        self.sequence[currentSequenceLength + i] = [NSNumber numberWithInt:arc4random_uniform(4) + 1];
-        self.sequence[currentSequenceLength + i] = [NSNumber numberWithInt:kDirectionTypeUp];
+        self.sequence[currentSequenceLength + i] = [NSNumber numberWithInt:arc4random_uniform(4) + 1];
+//        self.sequence[currentSequenceLength + i] = [NSNumber numberWithInt:kDirectionTypeUp];
         NSLog(@"sequence at %i: %@", currentSequenceLength + i, self.sequence[currentSequenceLength + i]);
     }
 
@@ -1000,8 +1043,7 @@
     [self.sensei updateStateWithDeltaTime:deltaTime andListOfGameObjects:nil];
     
     // level 1 - arrows stay the entire round
-    // level 2 - arrows appear after 2 seconds, waits 1 sec, then disappears
-    // level 3 - arrows appear after 3 seconds, waits 0.5 sec, then disappears
+    
     // level 4 - arrows reappear if player is idle for 0.5 sec
     // level 5 - arrows reappear if player is idle for 1 sec
     // level 6 - no arrows
@@ -1010,7 +1052,44 @@
         [self playGameOverScene];
     }
     
+    if (self.sequenceArrowsBatch.visible == NO) {
+        self.timeArrowsHidden = self.timeArrowsHidden + deltaTime;
+    }
     
+    switch ([GameManager sharedGameManager].ninjaLevel) {
+        case 2: {
+            // level 2 - arrows appear after 1 second, waits 2 sec, then disappears
+            if (self.timeArrowsHidden >= 1) {
+                self.timeArrowsHidden = 0;
+                self.sequenceArrowsBatch.visible = YES;
+                [self.sequenceArrowsBatch runAction:[CCSequence actions:[CCDelayTime actionWithDuration:2.0f], [CCCallBlock actionWithBlock:^{
+                    self.sequenceArrowsBatch.visible = NO;
+                }], nil]];
+            }
+        }
+            
+        case 3: {
+            // level 3 - arrows appear after 2 seconds, waits 1 sec, then disappears
+            if (self.timeArrowsHidden >= 2) {
+                self.timeArrowsHidden = 0;
+                self.sequenceArrowsBatch.visible = YES;
+                [self.sequenceArrowsBatch runAction:[CCSequence actions:[CCDelayTime actionWithDuration:1.0f], [CCCallBlock actionWithBlock:^{
+                    self.sequenceArrowsBatch.visible = NO;
+                }], nil]];
+            }
+        }
+            
+        case 4: {
+            // level 4 - arrows appear after 2 seconds, waits 0.5 sec, then disappears
+            if (self.timeArrowsHidden >= 2) {
+                self.timeArrowsHidden = 0;
+                self.sequenceArrowsBatch.visible = YES;
+                [self.sequenceArrowsBatch runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.5f], [CCCallBlock actionWithBlock:^{
+                    self.sequenceArrowsBatch.visible = NO;
+                }], nil]];
+            }
+        }
+    }
 }
 
 @end
