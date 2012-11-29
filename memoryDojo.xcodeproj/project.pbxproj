@@ -31,6 +31,7 @@
 		C41D7FE1165094A7003A9CF3 /* game_levelup_header.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FD9165094A7003A9CF3 /* game_levelup_header.fnt */; };
 		C41D7FE2165094A7003A9CF3 /* game_levelup_header.png in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FDA165094A7003A9CF3 /* game_levelup_header.png */; };
 		C425993A163F6CB900A72BCB /* gong.caf in Resources */ = {isa = PBXBuildFile; fileRef = C4114718163E184500FC2BE8 /* gong.caf */; };
+		C42DF2531668047600AA4842 /* game_upgrades_cat_big.png in Resources */ = {isa = PBXBuildFile; fileRef = C42DF2521668047600AA4842 /* game_upgrades_cat_big.png */; };
 		C431192E166012A600738E17 /* game_sensei_eyes_1.png in Resources */ = {isa = PBXBuildFile; fileRef = C431192B166012A600738E17 /* game_sensei_eyes_1.png */; };
 		C431192F166012A600738E17 /* game_sensei_eyes_2.png in Resources */ = {isa = PBXBuildFile; fileRef = C431192C166012A600738E17 /* game_sensei_eyes_2.png */; };
 		C4311932166013AF00738E17 /* game_sensei_up_repeat.png in Resources */ = {isa = PBXBuildFile; fileRef = C4311931166013AF00738E17 /* game_sensei_up_repeat.png */; };
@@ -83,6 +84,8 @@
 		C4610EC8163871B800EB1006 /* GameOverScene.m in Sources */ = {isa = PBXBuildFile; fileRef = C4610EC7163871B800EB1006 /* GameOverScene.m */; };
 		C4610ECC163871C400EB1006 /* GameOverLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C4610ECB163871C400EB1006 /* GameOverLayer.m */; };
 		C46C58AB163E0BB000C33010 /* SoundEffects.plist in Resources */ = {isa = PBXBuildFile; fileRef = C46C58AA163E0BB000C33010 /* SoundEffects.plist */; };
+		C46D83EC1666ED0800C6529A /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C46D83EB1666ED0800C6529A /* libFlurry.a */; };
+		C46D83EE1666F01700C6529A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C46D83ED1666F01700C6529A /* SystemConfiguration.framework */; };
 		C46ECA981643921400AFC151 /* TP-update.sh in Resources */ = {isa = PBXBuildFile; fileRef = C46ECA971643921400AFC151 /* TP-update.sh */; };
 		C46ECA9E1643928C00AFC151 /* mainmenu_art-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = C46ECA9A1643928C00AFC151 /* mainmenu_art-hd.plist */; };
 		C46ECA9F1643928C00AFC151 /* mainmenu_art-hd.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = C46ECA9B1643928C00AFC151 /* mainmenu_art-hd.pvr.ccz */; };
@@ -420,6 +423,7 @@
 		C41D7FD8165094A7003A9CF3 /* game_levelup_header-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "game_levelup_header-hd.png"; sourceTree = "<group>"; };
 		C41D7FD9165094A7003A9CF3 /* game_levelup_header.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = game_levelup_header.fnt; sourceTree = "<group>"; };
 		C41D7FDA165094A7003A9CF3 /* game_levelup_header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_levelup_header.png; sourceTree = "<group>"; };
+		C42DF2521668047600AA4842 /* game_upgrades_cat_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_upgrades_cat_big.png; sourceTree = "<group>"; };
 		C431192B166012A600738E17 /* game_sensei_eyes_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_sensei_eyes_1.png; sourceTree = "<group>"; };
 		C431192C166012A600738E17 /* game_sensei_eyes_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_sensei_eyes_2.png; sourceTree = "<group>"; };
 		C4311931166013AF00738E17 /* game_sensei_up_repeat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_sensei_up_repeat.png; sourceTree = "<group>"; };
@@ -474,6 +478,9 @@
 		C4610ECA163871C400EB1006 /* GameOverLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverLayer.h; sourceTree = "<group>"; };
 		C4610ECB163871C400EB1006 /* GameOverLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverLayer.m; sourceTree = "<group>"; };
 		C46C58AA163E0BB000C33010 /* SoundEffects.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SoundEffects.plist; sourceTree = "<group>"; };
+		C46D83EA1666ED0800C6529A /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
+		C46D83EB1666ED0800C6529A /* libFlurry.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry.a; sourceTree = "<group>"; };
+		C46D83ED1666F01700C6529A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C46ECA971643921400AFC151 /* TP-update.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "TP-update.sh"; sourceTree = "<group>"; };
 		C46ECA9A1643928C00AFC151 /* mainmenu_art-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "mainmenu_art-hd.plist"; sourceTree = "<group>"; };
 		C46ECA9B1643928C00AFC151 /* mainmenu_art-hd.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "mainmenu_art-hd.pvr.ccz"; sourceTree = "<group>"; };
@@ -811,6 +818,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C46D83EE1666F01700C6529A /* SystemConfiguration.framework in Frameworks */,
 				DC0C4B92154AB57C00B4B727 /* libcocos2d-library.a in Frameworks */,
 				DC0C49F6154AB4DD00B4B727 /* QuartzCore.framework in Frameworks */,
 				DC0C49F8154AB4DD00B4B727 /* OpenGLES.framework in Frameworks */,
@@ -821,6 +829,7 @@
 				DC0C4A02154AB4DD00B4B727 /* Foundation.framework in Frameworks */,
 				DC0C4A04154AB4DD00B4B727 /* CoreGraphics.framework in Frameworks */,
 				DC0C4A06154AB4DD00B4B727 /* GameKit.framework in Frameworks */,
+				C46D83EC1666ED0800C6529A /* libFlurry.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -871,6 +880,15 @@
 				C4114718163E184500FC2BE8 /* gong.caf */,
 			);
 			name = SFX;
+			sourceTree = "<group>";
+		};
+		C46D83E91666ED0800C6529A /* Flurry */ = {
+			isa = PBXGroup;
+			children = (
+				C46D83EA1666ED0800C6529A /* Flurry.h */,
+				C46D83EB1666ED0800C6529A /* libFlurry.a */,
+			);
+			path = Flurry;
 			sourceTree = "<group>";
 		};
 		C46ECA7F16438B6F00AFC151 /* Assets */ = {
@@ -941,6 +959,7 @@
 		C4AC2BCB1646436E00002EE3 /* game_art */ = {
 			isa = PBXGroup;
 			children = (
+				C42DF2521668047600AA4842 /* game_upgrades_cat_big.png */,
 				C431193316601C8300738E17 /* game_arrow_down.png */,
 				C431193416601C8400738E17 /* game_arrow_left.png */,
 				C431193516601C8400738E17 /* game_arrow_right.png */,
@@ -1163,6 +1182,7 @@
 		DC0C49F4154AB4DD00B4B727 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C46D83ED1666F01700C6529A /* SystemConfiguration.framework */,
 				DC0C49F5154AB4DD00B4B727 /* QuartzCore.framework */,
 				DC0C49F7154AB4DD00B4B727 /* OpenGLES.framework */,
 				DC0C49F9154AB4DD00B4B727 /* OpenAL.framework */,
@@ -1226,6 +1246,7 @@
 		DC0C4B93154AB59800B4B727 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				C46D83E91666ED0800C6529A /* Flurry */,
 				DC0C4B94154AB59800B4B727 /* cocos2d */,
 				DC0C4C54154AB59800B4B727 /* CocosDenshion */,
 				DC0C4C5E154AB59800B4B727 /* kazmath */,
@@ -1896,6 +1917,7 @@
 				C431193816601C8400738E17 /* game_arrow_left.png in Resources */,
 				C431193916601C8400738E17 /* game_arrow_right.png in Resources */,
 				C431193A16601C8400738E17 /* game_arrow_up.png in Resources */,
+				C42DF2531668047600AA4842 /* game_upgrades_cat_big.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2084,6 +2106,11 @@
 				GCC_PREFIX_HEADER = memoryDojo/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"memoryDojo/libs/kazmath/include\"";
 				INFOPLIST_FILE = memoryDojo/Resources/Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/memoryDojo/libs\"",
+					"\"$(SRCROOT)/memoryDojo/libs/Flurry\"",
+				);
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-ObjC",
@@ -2103,6 +2130,11 @@
 				GCC_PREFIX_HEADER = memoryDojo/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"memoryDojo/libs/kazmath/include\"";
 				INFOPLIST_FILE = memoryDojo/Resources/Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/memoryDojo/libs\"",
+					"\"$(SRCROOT)/memoryDojo/libs/Flurry\"",
+				);
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-ObjC",

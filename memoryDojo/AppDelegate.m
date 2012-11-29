@@ -7,6 +7,7 @@
 
 #import "AppDelegate.h"
 #import "GameManager.h"
+#import "Flurry.h"
 
 @implementation AppController
 
@@ -14,6 +15,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // initialize flurry analytics
+    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+    [Flurry startSession:@"BM9PTKCV3RG6Z8MDQQZK"];
+    
 	// Create the main window
 	window_ = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
@@ -142,6 +147,12 @@
 -(void) applicationSignificantTimeChange:(UIApplication *)application
 {
 	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
+}
+
+// log crashes with flurry
+void uncaughtExceptionHandler(NSException *exception)
+{
+    [Flurry logError:@"Uncaught" message:@"Crash!" exception:exception];
 }
 
 @end

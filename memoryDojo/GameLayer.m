@@ -12,6 +12,7 @@
 #import "Ninja.h"
 #import "Sensei.h"
 #import "NinjaStar.h"
+#import "Flurry.h"
 
 @interface GameLayer()
 
@@ -50,6 +51,7 @@
 @property (nonatomic, strong) CCParticleSystem *level2AuraEmitter;
 @property (nonatomic) int nextInactiveNinjaStar;
 @property (nonatomic, strong) CCSpriteBatchNode *sequenceArrowsBatch;
+@property (nonatomic, strong) CCSprite *smallCat;
 
 -(void)initializeSequence;
 -(void)initializeGame;
@@ -82,6 +84,10 @@
 -(id)init {
     self = [super init];
     if (self != nil) {
+        // record duration of staying on main menu
+        NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].ninjaLevel], @"Level", nil];
+        [Flurry logEvent:@"Playing_Game" withParameters:flurryParams timed:YES];
+        
         self.screenSize = [CCDirector sharedDirector].winSize;
         
         // load texture atlas
@@ -105,41 +111,6 @@
     }
     
     self.roundNumber = 1;
-}
-
--(void)resetSequenceAfterLevelUp {
-    [self initializeSequence];
-    
-    self.enableGestures = NO;
-    [self unscheduleUpdate];
-    self.timer.percentage = 100;
-    self.currentGameState = kGameStatePlay;
-    self.timeArrowsHidden = 0;
-    
-    // remove arrows from batch node
-    [self.sequenceArrowsBatch removeAllChildrenWithCleanup:YES];
-    // reset batch node position
-# warning - replace move action with setting position
-    [self.sequenceArrowsBatch runAction:[CCMoveTo actionWithDuration:0.1f position:CGPointZero]];
-    
-    // show new round indicator
-    CGSize screenSize = [CCDirector sharedDirector].winSize;
-    self.gameRoundBg = [CCSprite spriteWithSpriteFrameName:@"game_rounds_bg.png"];
-    self.gameRoundBg .position = ccp(screenSize.width/2, screenSize.height/2);
-    [self addChild:self.gameRoundBg  z:100];
-    
-    CCLabelBMFont *newRoundLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"Round %i", self.roundNumber] fntFile:@"Round.fnt"];
-    newRoundLabel.position = ccp(self.gameRoundBg.boundingBox.size.width/2, self.gameRoundBg.boundingBox.size.height/2);
-    [self.gameRoundBg addChild:newRoundLabel];
-    
-    
-    id labelAction = [CCSequence actions:[CCFadeIn actionWithDuration:0.5f], [CCDelayTime actionWithDuration:1.0f], [CCFadeOut actionWithDuration:0.5f], nil];
-    
-    // have sensei perform new sequence
-    id labelBgAction = [CCSequence actions:[CCFadeIn actionWithDuration:0.5f], [CCDelayTime actionWithDuration:1.0f], [CCFadeOut actionWithDuration:0.5f], [CCCallFuncN actionWithTarget:self selector:@selector(removeRoundPopup:)], [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
-    
-    [newRoundLabel runAction:labelAction];
-    [self.gameRoundBg runAction:labelBgAction];
 }
 
 -(void)initializeGame {
@@ -240,7 +211,7 @@
         // add aura behind ninja
         self.level2AuraEmitter = [CCParticleSystemQuad particleWithFile:@"aura1_game.plist"];
         self.level2AuraEmitter.position = ccp(self.ninja.position.x + self.ninja.boundingBox.size.width/8, self.ninja.position.y);
-        [self addChild:self.level2AuraEmitter z:3];
+        [self addChild:self.level2AuraEmitter z:2];
     }
     if (ninjaLevel >= 3) {
         // add ninja star
@@ -250,11 +221,17 @@
         
         [self addNinjaStarsUpgrade];
     }
-    if (ninjaLevel >= 4) {
+    if (ninjaLevel == 4) {
         // add small cat
-        CCSprite *smallCat = [CCSprite spriteWithSpriteFrameName:@"game_upgrades_cat_small.png"];
-        smallCat.position = ccp(self.ninja.position.x * 0.33f, self.ninja.position.y * 0.66f);
-        [self addChild:smallCat z:4];
+        self.smallCat = [CCSprite spriteWithSpriteFrameName:@"game_upgrades_cat_small.png"];
+        self.smallCat.position = ccp(self.ninja.position.x * 0.33f, self.ninja.position.y * 0.66f);
+        [self addChild:self.smallCat z:3];
+    }
+    if (ninjaLevel >= 5) {
+        // add big cat
+        CCSprite *bigCat = [CCSprite spriteWithSpriteFrameName:@"game_upgrades_cat_big.png"];
+        bigCat.position = ccp(self.ninja.position.x * 0.297f, self.ninja.position.y * 0.726f);
+        [self addChild:bigCat z:3];
     }
     
     // initialize sequence
@@ -356,6 +333,41 @@
 -(void)removeRoundPopup:(CCSprite*)roundBg {
     [roundBg removeAllChildrenWithCleanup:YES];
     [self removeChild:roundBg cleanup:YES];
+}
+
+-(void)resetSequenceAfterLevelUp {
+    [self initializeSequence];
+    
+    self.enableGestures = NO;
+    [self unscheduleUpdate];
+    self.timer.percentage = 100;
+    self.currentGameState = kGameStatePlay;
+    self.timeArrowsHidden = 0;
+    
+    // remove arrows from batch node
+    [self.sequenceArrowsBatch removeAllChildrenWithCleanup:YES];
+    // reset batch node position
+# warning - replace move action with setting position
+    [self.sequenceArrowsBatch runAction:[CCMoveTo actionWithDuration:0.1f position:CGPointZero]];
+    
+    // show new round indicator
+    CGSize screenSize = [CCDirector sharedDirector].winSize;
+    self.gameRoundBg = [CCSprite spriteWithSpriteFrameName:@"game_rounds_bg.png"];
+    self.gameRoundBg .position = ccp(screenSize.width/2, screenSize.height/2);
+    [self addChild:self.gameRoundBg  z:100];
+    
+    CCLabelBMFont *newRoundLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"Round %i", self.roundNumber] fntFile:@"Round.fnt"];
+    newRoundLabel.position = ccp(self.gameRoundBg.boundingBox.size.width/2, self.gameRoundBg.boundingBox.size.height/2);
+    [self.gameRoundBg addChild:newRoundLabel];
+    
+    
+    id labelAction = [CCSequence actions:[CCFadeIn actionWithDuration:0.5f], [CCDelayTime actionWithDuration:1.0f], [CCFadeOut actionWithDuration:0.5f], nil];
+    
+    // have sensei perform new sequence
+    id labelBgAction = [CCSequence actions:[CCFadeIn actionWithDuration:0.5f], [CCDelayTime actionWithDuration:1.0f], [CCFadeOut actionWithDuration:0.5f], [CCCallFuncN actionWithTarget:self selector:@selector(removeRoundPopup:)], [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
+    
+    [newRoundLabel runAction:labelAction];
+    [self.gameRoundBg runAction:labelBgAction];
 }
 
 -(void)startDisplaySequenceSelector {
@@ -606,6 +618,9 @@
     // increase ninja level
     [GameManager sharedGameManager].ninjaLevel++;
     
+    NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].ninjaLevel], @"New_Level", nil];
+    [Flurry logEvent:@"Leveled_Up" withParameters:flurryParams];
+    
     [self setUpLevelUpScreen];
     
     CGSize levelUpMessageBgSize = self.levelUpMessageBg.boundingBox.size;
@@ -626,8 +641,7 @@
     // dismiss messages and show ninja
     self.currentGameState = kGameStateLevelUpAnimation;
     [self dismissLevelUpScreen];
-    
-    id upgradeToBlink = nil;
+
     switch ([GameManager sharedGameManager].ninjaLevel) {
         case 2:
         {
@@ -636,7 +650,8 @@
             self.level2AuraEmitter.position = ccp(self.ninja.position.x + self.ninja.boundingBox.size.width/8, self.ninja.position.y);
             self.level2AuraEmitter.visible = NO;
             [self addChild:self.level2AuraEmitter z:3];
-            upgradeToBlink = self.level2AuraEmitter;
+            
+            [self.level2AuraEmitter runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.5f], [CCBlink actionWithDuration:1 blinks:5], [CCDelayTime actionWithDuration:1.5f], [CCCallFunc actionWithTarget:self selector:@selector(showNinjaLevelUpScreen2)], nil]];
             
             break;
         }
@@ -648,11 +663,27 @@
             ninjaStar.position = ccp(self.ninja.boundingBox.size.width * 0.33f, self.ninja.boundingBox.size.height * 0.275f);
             ninjaStar.visible = NO;
             [self.ninja addChild:ninjaStar];
-            upgradeToBlink = ninjaStar;
-            
             [self addNinjaStarsUpgrade];
             
+            [ninjaStar runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.5f], [CCBlink actionWithDuration:1 blinks:5], [CCDelayTime actionWithDuration:1.5f], [CCCallFunc actionWithTarget:self selector:@selector(showNinjaLevelUpScreen2)], nil]];
+            
             break;
+        }
+            
+        // skip case 4 -- cat gift screen
+            
+        case 5:
+        {
+            // evolve little cat to big cat
+            CCSprite *bigCat = [CCSprite spriteWithSpriteFrameName:@"game_upgrades_cat_big.png"];
+            bigCat.position = ccp(self.smallCat.position.x * 0.90f, self.smallCat.position.y * 1.10f);
+            bigCat.visible = NO;
+            [self addChild:bigCat z:3];
+            
+            [bigCat runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.5f], [CCBlink actionWithDuration:1 blinks:5], [CCCallBlock actionWithBlock:^{
+                // remove small cat
+                [self.smallCat removeFromParentAndCleanup:YES];
+            }], [CCDelayTime actionWithDuration:1.5f], [CCCallFunc actionWithTarget:self selector:@selector(showNinjaLevelUpScreen2)], nil]];
         }
             
         default:
@@ -660,10 +691,6 @@
             CCLOG(@"Level not recognized in GameLayer.m, showLevelUpAnimation");
             break;
         }
-    }
-    
-    if (upgradeToBlink != nil) {
-        [upgradeToBlink runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.5f], [CCBlink actionWithDuration:1 blinks:5], [CCDelayTime actionWithDuration:1.5f], [CCCallFunc actionWithTarget:self selector:@selector(showNinjaLevelUpScreen2)], nil]];
     }
 }
 
@@ -709,9 +736,9 @@
     [smallCatTransition runAction:catFadeIn];
     
     // add small cat to gameplay
-    CCSprite *smallCat = [CCSprite spriteWithSpriteFrameName:@"game_upgrades_cat_small.png"];
-    smallCat.position = ccp(self.ninja.position.x * 0.33f, self.ninja.position.y * 0.66f);
-    [self addChild:smallCat z:4];
+    self.smallCat = [CCSprite spriteWithSpriteFrameName:@"game_upgrades_cat_small.png"];
+    self.smallCat.position = ccp(self.ninja.position.x * 0.33f, self.ninja.position.y * 0.66f);
+    [self addChild:self.smallCat z:4];
 }
 
 -(void)showNinjaLevelUpScreen2 {
@@ -883,6 +910,8 @@
 
 -(void)pauseGame {
     if (self.isGamePaused == NO) {
+        NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].ninjaLevel], @"Level", nil];
+        [Flurry logEvent:@"Paused_Game" withParameters:flurryParams];
         self.isGamePaused = YES;
         [self pauseSchedulerAndActions];
         for (CCNode *node in [self children]) {
@@ -998,7 +1027,10 @@
 }
 
 -(void)restartGame {
+    NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].ninjaLevel], @"Level", nil];
+    [Flurry logEvent:@"Restarted_Game" withParameters:flurryParams];
     [self unscheduleAllSelectors];
+    [self.sequenceArrowsBatch removeAllChildrenWithCleanup:YES];
     [self removeAllChildrenWithCleanup:YES];
     [self initializeGame];
 }
@@ -1030,11 +1062,15 @@
 }
 
 -(void)quitGame {
+    NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].ninjaLevel], @"Level", nil];
+    [Flurry logEvent:@"Quit_Game" withParameters:flurryParams];
+    [Flurry endTimedEvent:@"Playing_Game" withParameters:nil];
     // go back to main menu
     [[GameManager sharedGameManager] runSceneWithID:kSceneTypeMainMenu];
 }
 
 -(void)playGameOverScene {
+    [Flurry endTimedEvent:@"Playing_Game" withParameters:nil];
     [[GameManager sharedGameManager] runSceneWithID:kSceneTypeGameOver];
 }
 

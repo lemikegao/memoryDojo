@@ -54,7 +54,7 @@ static GameManager *_sharedGameManager = nil;   // singleton
         _currentScene = kSceneTypeNone;
         _score = 0;
 #warning -- reset level
-        _ninjaLevel = 1;
+        _ninjaLevel = 4;
         _hasAudioBeenInitialized = NO;
         _soundEngine = nil;
         _managerSoundState = kAudioManagerUninitialized;

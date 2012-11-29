@@ -10,6 +10,7 @@
 #import "Constants.h"
 #import "GameManager.h"
 #import "MainMenuNinja.h"
+#import "Flurry.h"
 
 @interface MainMenuLayer()
 
@@ -25,6 +26,13 @@
 -(id)init {
     self = [super init];
     if (self != nil) {
+        // add appropriate level upgrades
+        int ninjaLevel = [GameManager sharedGameManager].ninjaLevel;
+        
+        // record duration of staying on main menu
+        NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%i", ninjaLevel], @"Level", nil];
+        [Flurry logEvent:@"On_MainMenu" withParameters:flurryParams timed:YES];
+        
         // load texture atlas
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"mainmenu_art.plist"];
         
@@ -40,9 +48,6 @@
         MainMenuNinja *ninja = [[MainMenuNinja alloc] init];
         ninja.position = ccp(screenSize.width * 0.612f, screenSize.height * 0.468f);
         [self addChild:ninja z:100];
-        
-        // add appropriate level upgrades
-        int ninjaLevel = [GameManager sharedGameManager].ninjaLevel;
         
         if (ninjaLevel >= 2) {
             // add aura behind ninja
@@ -70,10 +75,15 @@
 }
 
 -(void)playGameScene {
+    NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].ninjaLevel], @"Level", nil];
+    [Flurry logEvent:@"Clicked_Play_Game" withParameters:flurryParams];
+    [Flurry endTimedEvent:@"On_MainMenu" withParameters:nil];
     [[GameManager sharedGameManager] runSceneWithID:kSceneTypeGame];
 }
 
 -(void)showSettings {
+    NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].ninjaLevel], @"Level", nil];
+    [Flurry logEvent:@"Clicked_Settings" withParameters:flurryParams];
     // placeholder
     CCLOG(@"settings button was pressed");
 }

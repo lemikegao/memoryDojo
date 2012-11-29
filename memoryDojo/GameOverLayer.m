@@ -8,12 +8,16 @@
 
 #import "GameOverLayer.h"
 #import "GameManager.h"
+#import "Flurry.h"
 
 @implementation GameOverLayer
 
 -(id) init {
     self = [super init];
     if (self != nil) {
+        NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].ninjaLevel], @"Level", nil];
+        [Flurry logEvent:@"On_GameOver" withParameters:flurryParams timed:YES];
+        
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"gameover_art.plist"];
         
         CGSize screenSize = [CCDirector sharedDirector].winSize;
@@ -78,10 +82,16 @@
 }
 
 -(void)playAgain {
+    NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].ninjaLevel], @"Level", nil];
+    [Flurry logEvent:@"Clicked_Play_Again" withParameters:flurryParams];
+    [Flurry endTimedEvent:@"On_GameOver" withParameters:nil];
     [[GameManager sharedGameManager] runSceneWithID:kSceneTypeGame];
 }
 
 -(void)quit {
+    NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].ninjaLevel], @"Level", nil];
+    [Flurry logEvent:@"Clicked_Quit" withParameters:flurryParams];
+    [Flurry endTimedEvent:@"On_GameOver" withParameters:nil];
     [[GameManager sharedGameManager] runSceneWithID:kSceneTypeMainMenu];
 }
 
