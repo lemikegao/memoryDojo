@@ -14,22 +14,10 @@
 		C4154BDA165EDD87006B6CF5 /* gameover_art-hd.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = C4154BD6165EDD87006B6CF5 /* gameover_art-hd.pvr.ccz */; };
 		C4154BDB165EDD87006B6CF5 /* gameover_art.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4154BD7165EDD87006B6CF5 /* gameover_art.plist */; };
 		C4154BDC165EDD87006B6CF5 /* gameover_art.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = C4154BD8165EDD87006B6CF5 /* gameover_art.pvr.ccz */; };
-		C4154BE5165EE748006B6CF5 /* score_copy-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C4154BDD165EE748006B6CF5 /* score_copy-hd.fnt */; };
-		C4154BE6165EE748006B6CF5 /* score_copy-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C4154BDE165EE748006B6CF5 /* score_copy-hd.png */; };
-		C4154BE7165EE748006B6CF5 /* score_copy.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C4154BDF165EE748006B6CF5 /* score_copy.fnt */; };
-		C4154BE8165EE748006B6CF5 /* score_copy.png in Resources */ = {isa = PBXBuildFile; fileRef = C4154BE0165EE748006B6CF5 /* score_copy.png */; };
-		C4154BE9165EE748006B6CF5 /* score_numbers-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C4154BE1165EE748006B6CF5 /* score_numbers-hd.fnt */; };
-		C4154BEA165EE748006B6CF5 /* score_numbers-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C4154BE2165EE748006B6CF5 /* score_numbers-hd.png */; };
-		C4154BEB165EE748006B6CF5 /* score_numbers.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C4154BE3165EE748006B6CF5 /* score_numbers.fnt */; };
-		C4154BEC165EE748006B6CF5 /* score_numbers.png in Resources */ = {isa = PBXBuildFile; fileRef = C4154BE4165EE748006B6CF5 /* score_numbers.png */; };
 		C4154BEF165F2B09006B6CF5 /* game_over_button_playagain_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = C4154BED165F2B09006B6CF5 /* game_over_button_playagain_pressed.png */; };
 		C4154BF0165F2B09006B6CF5 /* game_over_button_playagain.png in Resources */ = {isa = PBXBuildFile; fileRef = C4154BEE165F2B09006B6CF5 /* game_over_button_playagain.png */; };
 		C4154BF2165F413C006B6CF5 /* mainmenu_upgrades_ninjastar2.png in Resources */ = {isa = PBXBuildFile; fileRef = C4154BF1165F413C006B6CF5 /* mainmenu_upgrades_ninjastar2.png */; };
 		C4154BF6165F4174006B6CF5 /* mainmenu_upgrades_catsmall.png in Resources */ = {isa = PBXBuildFile; fileRef = C4154BF5165F4174006B6CF5 /* mainmenu_upgrades_catsmall.png */; };
-		C41D7FDF165094A7003A9CF3 /* game_levelup_header-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FD7165094A7003A9CF3 /* game_levelup_header-hd.fnt */; };
-		C41D7FE0165094A7003A9CF3 /* game_levelup_header-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FD8165094A7003A9CF3 /* game_levelup_header-hd.png */; };
-		C41D7FE1165094A7003A9CF3 /* game_levelup_header.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FD9165094A7003A9CF3 /* game_levelup_header.fnt */; };
-		C41D7FE2165094A7003A9CF3 /* game_levelup_header.png in Resources */ = {isa = PBXBuildFile; fileRef = C41D7FDA165094A7003A9CF3 /* game_levelup_header.png */; };
 		C425993A163F6CB900A72BCB /* gong.caf in Resources */ = {isa = PBXBuildFile; fileRef = C4114718163E184500FC2BE8 /* gong.caf */; };
 		C42DF2531668047600AA4842 /* game_upgrades_cat_big.png in Resources */ = {isa = PBXBuildFile; fileRef = C42DF2521668047600AA4842 /* game_upgrades_cat_big.png */; };
 		C431192E166012A600738E17 /* game_sensei_eyes_1.png in Resources */ = {isa = PBXBuildFile; fileRef = C431192B166012A600738E17 /* game_sensei_eyes_1.png */; };
@@ -76,10 +64,6 @@
 		C43DD72C164A53CF000207C3 /* game_top_time_active.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD701164A53CF000207C3 /* game_top_time_active.png */; };
 		C43DD72D164A53CF000207C3 /* game_top_time.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD702164A53CF000207C3 /* game_top_time.png */; };
 		C43DD72F164A5BBB000207C3 /* game_paused_button_yes_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = C43DD72E164A5BBB000207C3 /* game_paused_button_yes_pressed.png */; };
-		C45C77AE164CF7DF0041A3E1 /* Round-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C45C77AA164CF7DF0041A3E1 /* Round-hd.fnt */; };
-		C45C77AF164CF7DF0041A3E1 /* Round-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C45C77AB164CF7DF0041A3E1 /* Round-hd.png */; };
-		C45C77B0164CF7DF0041A3E1 /* Round.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C45C77AC164CF7DF0041A3E1 /* Round.fnt */; };
-		C45C77B1164CF7DF0041A3E1 /* Round.png in Resources */ = {isa = PBXBuildFile; fileRef = C45C77AD164CF7DF0041A3E1 /* Round.png */; };
 		C460C12316308B9A00E8C0D2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C460C12216308B9A00E8C0D2 /* Default-568h@2x.png */; };
 		C4610EC8163871B800EB1006 /* GameOverScene.m in Sources */ = {isa = PBXBuildFile; fileRef = C4610EC7163871B800EB1006 /* GameOverScene.m */; };
 		C4610ECC163871C400EB1006 /* GameOverLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C4610ECB163871C400EB1006 /* GameOverLayer.m */; };
@@ -110,6 +94,22 @@
 		C49CF2C51655BA5D00E92A1C /* aura1.plist in Resources */ = {isa = PBXBuildFile; fileRef = C49CF2C21655BA5D00E92A1C /* aura1.plist */; };
 		C49CF2C61655BA5D00E92A1C /* confetti.plist in Resources */ = {isa = PBXBuildFile; fileRef = C49CF2C31655BA5D00E92A1C /* confetti.plist */; };
 		C49D65F6166EC22D00448524 /* mainmenu_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = C49D65F5166EC22D00448524 /* mainmenu_bg.png */; };
+		C49D65FB166ED5D900448524 /* grobold_21px.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C49D65F7166ED5D900448524 /* grobold_21px.fnt */; };
+		C49D65FC166ED5D900448524 /* grobold_21px.png in Resources */ = {isa = PBXBuildFile; fileRef = C49D65F8166ED5D900448524 /* grobold_21px.png */; };
+		C49D65FD166ED5D900448524 /* grobold_21px-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C49D65F9166ED5D900448524 /* grobold_21px-hd.fnt */; };
+		C49D65FE166ED5D900448524 /* grobold_21px-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C49D65FA166ED5D900448524 /* grobold_21px-hd.png */; };
+		C49D6603166ED82800448524 /* grobold_35px-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C49D65FF166ED82700448524 /* grobold_35px-hd.fnt */; };
+		C49D6604166ED82800448524 /* grobold_35px-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C49D6600166ED82800448524 /* grobold_35px-hd.png */; };
+		C49D6605166ED82800448524 /* grobold_35px.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C49D6601166ED82800448524 /* grobold_35px.fnt */; };
+		C49D6606166ED82800448524 /* grobold_35px.png in Resources */ = {isa = PBXBuildFile; fileRef = C49D6602166ED82800448524 /* grobold_35px.png */; };
+		C49D660B166EE0D600448524 /* grobold_30px-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C49D6607166EE0D600448524 /* grobold_30px-hd.fnt */; };
+		C49D660C166EE0D600448524 /* grobold_30px-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C49D6608166EE0D600448524 /* grobold_30px-hd.png */; };
+		C49D660D166EE0D600448524 /* grobold_30px.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C49D6609166EE0D600448524 /* grobold_30px.fnt */; };
+		C49D660E166EE0D600448524 /* grobold_30px.png in Resources */ = {isa = PBXBuildFile; fileRef = C49D660A166EE0D600448524 /* grobold_30px.png */; };
+		C49D6613166EE90F00448524 /* grobold_17px-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C49D660F166EE90E00448524 /* grobold_17px-hd.fnt */; };
+		C49D6614166EE90F00448524 /* grobold_17px-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C49D6610166EE90F00448524 /* grobold_17px-hd.png */; };
+		C49D6615166EE90F00448524 /* grobold_17px.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C49D6611166EE90F00448524 /* grobold_17px.fnt */; };
+		C49D6616166EE90F00448524 /* grobold_17px.png in Resources */ = {isa = PBXBuildFile; fileRef = C49D6612166EE90F00448524 /* grobold_17px.png */; };
 		C4AC2BEC164643A600002EE3 /* game_art-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BE8164643A600002EE3 /* game_art-hd.plist */; };
 		C4AC2BED164643A600002EE3 /* game_art-hd.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BE9164643A600002EE3 /* game_art-hd.pvr.ccz */; };
 		C4AC2BEE164643A600002EE3 /* game_art.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BEA164643A600002EE3 /* game_art.plist */; };
@@ -117,14 +117,6 @@
 		C4AC2BF216466BA900002EE3 /* Ninja.m in Sources */ = {isa = PBXBuildFile; fileRef = C4AC2BF116466BA900002EE3 /* Ninja.m */; };
 		C4AC2BF416466D9D00002EE3 /* Ninja.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BF316466D9D00002EE3 /* Ninja.plist */; };
 		C4BFF98A1630CEF600ED84D9 /* GameObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BFF9891630CEF600ED84D9 /* GameObject.m */; };
-		C4EA539D1647310000AA26D1 /* Score-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C4EA539B1647310000AA26D1 /* Score-hd.png */; };
-		C4EA539E1647310000AA26D1 /* Score-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C4EA539C1647310000AA26D1 /* Score-hd.fnt */; };
-		C4EA53A21647311600AA26D1 /* Score.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C4EA53A01647311600AA26D1 /* Score.fnt */; };
-		C4EA53A31647311600AA26D1 /* Score.png in Resources */ = {isa = PBXBuildFile; fileRef = C4EA53A11647311600AA26D1 /* Score.png */; };
-		C4EBDA23165B371B00CF9C47 /* game_levelup_body-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C4EBDA1F165B371B00CF9C47 /* game_levelup_body-hd.fnt */; };
-		C4EBDA24165B371B00CF9C47 /* game_levelup_body-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C4EBDA20165B371B00CF9C47 /* game_levelup_body-hd.png */; };
-		C4EBDA25165B371B00CF9C47 /* game_levelup_body.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C4EBDA21165B371B00CF9C47 /* game_levelup_body.fnt */; };
-		C4EBDA26165B371B00CF9C47 /* game_levelup_body.png in Resources */ = {isa = PBXBuildFile; fileRef = C4EBDA22165B371B00CF9C47 /* game_levelup_body.png */; };
 		C4EBDA29165B3BEF00CF9C47 /* game_transition_cat.png in Resources */ = {isa = PBXBuildFile; fileRef = C4EBDA27165B3BEF00CF9C47 /* game_transition_cat.png */; };
 		C4EBDA2A165B3BEF00CF9C47 /* game_transition_sensei.png in Resources */ = {isa = PBXBuildFile; fileRef = C4EBDA28165B3BEF00CF9C47 /* game_transition_sensei.png */; };
 		C4EBDA2C165B3C1700CF9C47 /* game_upgrades_cat_small.png in Resources */ = {isa = PBXBuildFile; fileRef = C4EBDA2B165B3C1700CF9C47 /* game_upgrades_cat_small.png */; };
@@ -407,22 +399,10 @@
 		C4154BD6165EDD87006B6CF5 /* gameover_art-hd.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "gameover_art-hd.pvr.ccz"; sourceTree = "<group>"; };
 		C4154BD7165EDD87006B6CF5 /* gameover_art.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = gameover_art.plist; sourceTree = "<group>"; };
 		C4154BD8165EDD87006B6CF5 /* gameover_art.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = gameover_art.pvr.ccz; sourceTree = "<group>"; };
-		C4154BDD165EE748006B6CF5 /* score_copy-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "score_copy-hd.fnt"; sourceTree = "<group>"; };
-		C4154BDE165EE748006B6CF5 /* score_copy-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "score_copy-hd.png"; sourceTree = "<group>"; };
-		C4154BDF165EE748006B6CF5 /* score_copy.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = score_copy.fnt; sourceTree = "<group>"; };
-		C4154BE0165EE748006B6CF5 /* score_copy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = score_copy.png; sourceTree = "<group>"; };
-		C4154BE1165EE748006B6CF5 /* score_numbers-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "score_numbers-hd.fnt"; sourceTree = "<group>"; };
-		C4154BE2165EE748006B6CF5 /* score_numbers-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "score_numbers-hd.png"; sourceTree = "<group>"; };
-		C4154BE3165EE748006B6CF5 /* score_numbers.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = score_numbers.fnt; sourceTree = "<group>"; };
-		C4154BE4165EE748006B6CF5 /* score_numbers.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = score_numbers.png; sourceTree = "<group>"; };
 		C4154BED165F2B09006B6CF5 /* game_over_button_playagain_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = game_over_button_playagain_pressed.png; path = memoryDojo/Assets/gameover_art/game_over_button_playagain_pressed.png; sourceTree = SOURCE_ROOT; };
 		C4154BEE165F2B09006B6CF5 /* game_over_button_playagain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = game_over_button_playagain.png; path = memoryDojo/Assets/gameover_art/game_over_button_playagain.png; sourceTree = SOURCE_ROOT; };
 		C4154BF1165F413C006B6CF5 /* mainmenu_upgrades_ninjastar2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainmenu_upgrades_ninjastar2.png; sourceTree = "<group>"; };
 		C4154BF5165F4174006B6CF5 /* mainmenu_upgrades_catsmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainmenu_upgrades_catsmall.png; sourceTree = "<group>"; };
-		C41D7FD7165094A7003A9CF3 /* game_levelup_header-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "game_levelup_header-hd.fnt"; sourceTree = "<group>"; };
-		C41D7FD8165094A7003A9CF3 /* game_levelup_header-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "game_levelup_header-hd.png"; sourceTree = "<group>"; };
-		C41D7FD9165094A7003A9CF3 /* game_levelup_header.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = game_levelup_header.fnt; sourceTree = "<group>"; };
-		C41D7FDA165094A7003A9CF3 /* game_levelup_header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_levelup_header.png; sourceTree = "<group>"; };
 		C42DF2521668047600AA4842 /* game_upgrades_cat_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_upgrades_cat_big.png; sourceTree = "<group>"; };
 		C431192B166012A600738E17 /* game_sensei_eyes_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_sensei_eyes_1.png; sourceTree = "<group>"; };
 		C431192C166012A600738E17 /* game_sensei_eyes_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_sensei_eyes_2.png; sourceTree = "<group>"; };
@@ -468,10 +448,6 @@
 		C43DD701164A53CF000207C3 /* game_top_time_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_top_time_active.png; sourceTree = "<group>"; };
 		C43DD702164A53CF000207C3 /* game_top_time.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_top_time.png; sourceTree = "<group>"; };
 		C43DD72E164A5BBB000207C3 /* game_paused_button_yes_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_paused_button_yes_pressed.png; sourceTree = "<group>"; };
-		C45C77AA164CF7DF0041A3E1 /* Round-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Round-hd.fnt"; sourceTree = "<group>"; };
-		C45C77AB164CF7DF0041A3E1 /* Round-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Round-hd.png"; sourceTree = "<group>"; };
-		C45C77AC164CF7DF0041A3E1 /* Round.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Round.fnt; sourceTree = "<group>"; };
-		C45C77AD164CF7DF0041A3E1 /* Round.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Round.png; sourceTree = "<group>"; };
 		C460C12216308B9A00E8C0D2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		C4610EC6163871B800EB1006 /* GameOverScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverScene.h; sourceTree = "<group>"; };
 		C4610EC7163871B800EB1006 /* GameOverScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverScene.m; sourceTree = "<group>"; };
@@ -507,6 +483,22 @@
 		C49CF2C21655BA5D00E92A1C /* aura1.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = aura1.plist; sourceTree = "<group>"; };
 		C49CF2C31655BA5D00E92A1C /* confetti.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = confetti.plist; sourceTree = "<group>"; };
 		C49D65F5166EC22D00448524 /* mainmenu_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainmenu_bg.png; sourceTree = "<group>"; };
+		C49D65F7166ED5D900448524 /* grobold_21px.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grobold_21px.fnt; sourceTree = "<group>"; };
+		C49D65F8166ED5D900448524 /* grobold_21px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grobold_21px.png; sourceTree = "<group>"; };
+		C49D65F9166ED5D900448524 /* grobold_21px-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "grobold_21px-hd.fnt"; sourceTree = "<group>"; };
+		C49D65FA166ED5D900448524 /* grobold_21px-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grobold_21px-hd.png"; sourceTree = "<group>"; };
+		C49D65FF166ED82700448524 /* grobold_35px-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "grobold_35px-hd.fnt"; sourceTree = "<group>"; };
+		C49D6600166ED82800448524 /* grobold_35px-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grobold_35px-hd.png"; sourceTree = "<group>"; };
+		C49D6601166ED82800448524 /* grobold_35px.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grobold_35px.fnt; sourceTree = "<group>"; };
+		C49D6602166ED82800448524 /* grobold_35px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grobold_35px.png; sourceTree = "<group>"; };
+		C49D6607166EE0D600448524 /* grobold_30px-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "grobold_30px-hd.fnt"; sourceTree = "<group>"; };
+		C49D6608166EE0D600448524 /* grobold_30px-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grobold_30px-hd.png"; sourceTree = "<group>"; };
+		C49D6609166EE0D600448524 /* grobold_30px.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grobold_30px.fnt; sourceTree = "<group>"; };
+		C49D660A166EE0D600448524 /* grobold_30px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grobold_30px.png; sourceTree = "<group>"; };
+		C49D660F166EE90E00448524 /* grobold_17px-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "grobold_17px-hd.fnt"; sourceTree = "<group>"; };
+		C49D6610166EE90F00448524 /* grobold_17px-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grobold_17px-hd.png"; sourceTree = "<group>"; };
+		C49D6611166EE90F00448524 /* grobold_17px.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grobold_17px.fnt; sourceTree = "<group>"; };
+		C49D6612166EE90F00448524 /* grobold_17px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grobold_17px.png; sourceTree = "<group>"; };
 		C4AC2BE8164643A600002EE3 /* game_art-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "game_art-hd.plist"; sourceTree = "<group>"; };
 		C4AC2BE9164643A600002EE3 /* game_art-hd.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "game_art-hd.pvr.ccz"; sourceTree = "<group>"; };
 		C4AC2BEA164643A600002EE3 /* game_art.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = game_art.plist; sourceTree = "<group>"; };
@@ -518,14 +510,6 @@
 		C4BFF9871630C5E600ED84D9 /* CommonProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonProtocols.h; sourceTree = "<group>"; };
 		C4BFF9881630CEF600ED84D9 /* GameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObject.h; sourceTree = "<group>"; };
 		C4BFF9891630CEF600ED84D9 /* GameObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObject.m; sourceTree = "<group>"; };
-		C4EA539B1647310000AA26D1 /* Score-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Score-hd.png"; sourceTree = "<group>"; };
-		C4EA539C1647310000AA26D1 /* Score-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Score-hd.fnt"; sourceTree = "<group>"; };
-		C4EA53A01647311600AA26D1 /* Score.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Score.fnt; sourceTree = "<group>"; };
-		C4EA53A11647311600AA26D1 /* Score.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Score.png; sourceTree = "<group>"; };
-		C4EBDA1F165B371B00CF9C47 /* game_levelup_body-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "game_levelup_body-hd.fnt"; sourceTree = "<group>"; };
-		C4EBDA20165B371B00CF9C47 /* game_levelup_body-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "game_levelup_body-hd.png"; sourceTree = "<group>"; };
-		C4EBDA21165B371B00CF9C47 /* game_levelup_body.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = game_levelup_body.fnt; sourceTree = "<group>"; };
-		C4EBDA22165B371B00CF9C47 /* game_levelup_body.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_levelup_body.png; sourceTree = "<group>"; };
 		C4EBDA27165B3BEF00CF9C47 /* game_transition_cat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_transition_cat.png; sourceTree = "<group>"; };
 		C4EBDA28165B3BEF00CF9C47 /* game_transition_sensei.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_transition_sensei.png; sourceTree = "<group>"; };
 		C4EBDA2B165B3C1700CF9C47 /* game_upgrades_cat_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_upgrades_cat_small.png; sourceTree = "<group>"; };
@@ -1133,30 +1117,22 @@
 		C4F6B58816311642007C5C63 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				C4154BDD165EE748006B6CF5 /* score_copy-hd.fnt */,
-				C4154BDE165EE748006B6CF5 /* score_copy-hd.png */,
-				C4154BDF165EE748006B6CF5 /* score_copy.fnt */,
-				C4154BE0165EE748006B6CF5 /* score_copy.png */,
-				C4154BE1165EE748006B6CF5 /* score_numbers-hd.fnt */,
-				C4154BE2165EE748006B6CF5 /* score_numbers-hd.png */,
-				C4154BE3165EE748006B6CF5 /* score_numbers.fnt */,
-				C4154BE4165EE748006B6CF5 /* score_numbers.png */,
-				C4EBDA1F165B371B00CF9C47 /* game_levelup_body-hd.fnt */,
-				C4EBDA20165B371B00CF9C47 /* game_levelup_body-hd.png */,
-				C4EBDA21165B371B00CF9C47 /* game_levelup_body.fnt */,
-				C4EBDA22165B371B00CF9C47 /* game_levelup_body.png */,
-				C41D7FD7165094A7003A9CF3 /* game_levelup_header-hd.fnt */,
-				C41D7FD8165094A7003A9CF3 /* game_levelup_header-hd.png */,
-				C41D7FD9165094A7003A9CF3 /* game_levelup_header.fnt */,
-				C41D7FDA165094A7003A9CF3 /* game_levelup_header.png */,
-				C45C77AA164CF7DF0041A3E1 /* Round-hd.fnt */,
-				C45C77AB164CF7DF0041A3E1 /* Round-hd.png */,
-				C45C77AC164CF7DF0041A3E1 /* Round.fnt */,
-				C45C77AD164CF7DF0041A3E1 /* Round.png */,
-				C4EA53A01647311600AA26D1 /* Score.fnt */,
-				C4EA53A11647311600AA26D1 /* Score.png */,
-				C4EA539B1647310000AA26D1 /* Score-hd.png */,
-				C4EA539C1647310000AA26D1 /* Score-hd.fnt */,
+				C49D6607166EE0D600448524 /* grobold_30px-hd.fnt */,
+				C49D6608166EE0D600448524 /* grobold_30px-hd.png */,
+				C49D6609166EE0D600448524 /* grobold_30px.fnt */,
+				C49D660A166EE0D600448524 /* grobold_30px.png */,
+				C49D65FF166ED82700448524 /* grobold_35px-hd.fnt */,
+				C49D6600166ED82800448524 /* grobold_35px-hd.png */,
+				C49D6601166ED82800448524 /* grobold_35px.fnt */,
+				C49D6602166ED82800448524 /* grobold_35px.png */,
+				C49D65F7166ED5D900448524 /* grobold_21px.fnt */,
+				C49D65F8166ED5D900448524 /* grobold_21px.png */,
+				C49D65F9166ED5D900448524 /* grobold_21px-hd.fnt */,
+				C49D65FA166ED5D900448524 /* grobold_21px-hd.png */,
+				C49D660F166EE90E00448524 /* grobold_17px-hd.fnt */,
+				C49D6610166EE90F00448524 /* grobold_17px-hd.png */,
+				C49D6611166EE90F00448524 /* grobold_17px.fnt */,
+				C49D6612166EE90F00448524 /* grobold_17px.png */,
 			);
 			name = Fonts;
 			sourceTree = "<group>";
@@ -1806,10 +1782,6 @@
 				C4AC2BEE164643A600002EE3 /* game_art.plist in Resources */,
 				C4AC2BEF164643A600002EE3 /* game_art.pvr.ccz in Resources */,
 				C4AC2BF416466D9D00002EE3 /* Ninja.plist in Resources */,
-				C4EA539D1647310000AA26D1 /* Score-hd.png in Resources */,
-				C4EA539E1647310000AA26D1 /* Score-hd.fnt in Resources */,
-				C4EA53A21647311600AA26D1 /* Score.fnt in Resources */,
-				C4EA53A31647311600AA26D1 /* Score.png in Resources */,
 				C49CACE11649C28800B13370 /* mainmenu_button_music.png in Resources */,
 				C49CACE21649C28800B13370 /* mainmenu_button_settings_pressed.png in Resources */,
 				C49CACE31649C28800B13370 /* mainmenu_button_settings.png in Resources */,
@@ -1860,22 +1832,10 @@
 				C43DD72C164A53CF000207C3 /* game_top_time_active.png in Resources */,
 				C43DD72D164A53CF000207C3 /* game_top_time.png in Resources */,
 				C43DD72F164A5BBB000207C3 /* game_paused_button_yes_pressed.png in Resources */,
-				C45C77AE164CF7DF0041A3E1 /* Round-hd.fnt in Resources */,
-				C45C77AF164CF7DF0041A3E1 /* Round-hd.png in Resources */,
-				C45C77B0164CF7DF0041A3E1 /* Round.fnt in Resources */,
-				C45C77B1164CF7DF0041A3E1 /* Round.png in Resources */,
-				C41D7FDF165094A7003A9CF3 /* game_levelup_header-hd.fnt in Resources */,
-				C41D7FE0165094A7003A9CF3 /* game_levelup_header-hd.png in Resources */,
-				C41D7FE1165094A7003A9CF3 /* game_levelup_header.fnt in Resources */,
-				C41D7FE2165094A7003A9CF3 /* game_levelup_header.png in Resources */,
 				C49CF2C41655BA5D00E92A1C /* aura1_game.plist in Resources */,
 				C49CF2C51655BA5D00E92A1C /* aura1.plist in Resources */,
 				C49CF2C61655BA5D00E92A1C /* confetti.plist in Resources */,
 				C4F94D211659E7D600EBB65B /* game_upgrades_ninjastar2.png in Resources */,
-				C4EBDA23165B371B00CF9C47 /* game_levelup_body-hd.fnt in Resources */,
-				C4EBDA24165B371B00CF9C47 /* game_levelup_body-hd.png in Resources */,
-				C4EBDA25165B371B00CF9C47 /* game_levelup_body.fnt in Resources */,
-				C4EBDA26165B371B00CF9C47 /* game_levelup_body.png in Resources */,
 				C4EBDA29165B3BEF00CF9C47 /* game_transition_cat.png in Resources */,
 				C4EBDA2A165B3BEF00CF9C47 /* game_transition_sensei.png in Resources */,
 				C4EBDA2C165B3C1700CF9C47 /* game_upgrades_cat_small.png in Resources */,
@@ -1897,14 +1857,6 @@
 				C4154BDA165EDD87006B6CF5 /* gameover_art-hd.pvr.ccz in Resources */,
 				C4154BDB165EDD87006B6CF5 /* gameover_art.plist in Resources */,
 				C4154BDC165EDD87006B6CF5 /* gameover_art.pvr.ccz in Resources */,
-				C4154BE5165EE748006B6CF5 /* score_copy-hd.fnt in Resources */,
-				C4154BE6165EE748006B6CF5 /* score_copy-hd.png in Resources */,
-				C4154BE7165EE748006B6CF5 /* score_copy.fnt in Resources */,
-				C4154BE8165EE748006B6CF5 /* score_copy.png in Resources */,
-				C4154BE9165EE748006B6CF5 /* score_numbers-hd.fnt in Resources */,
-				C4154BEA165EE748006B6CF5 /* score_numbers-hd.png in Resources */,
-				C4154BEB165EE748006B6CF5 /* score_numbers.fnt in Resources */,
-				C4154BEC165EE748006B6CF5 /* score_numbers.png in Resources */,
 				C4154BEF165F2B09006B6CF5 /* game_over_button_playagain_pressed.png in Resources */,
 				C4154BF0165F2B09006B6CF5 /* game_over_button_playagain.png in Resources */,
 				C4154BF2165F413C006B6CF5 /* mainmenu_upgrades_ninjastar2.png in Resources */,
@@ -1918,6 +1870,22 @@
 				C431193A16601C8400738E17 /* game_arrow_up.png in Resources */,
 				C42DF2531668047600AA4842 /* game_upgrades_cat_big.png in Resources */,
 				C49D65F6166EC22D00448524 /* mainmenu_bg.png in Resources */,
+				C49D65FB166ED5D900448524 /* grobold_21px.fnt in Resources */,
+				C49D65FC166ED5D900448524 /* grobold_21px.png in Resources */,
+				C49D65FD166ED5D900448524 /* grobold_21px-hd.fnt in Resources */,
+				C49D65FE166ED5D900448524 /* grobold_21px-hd.png in Resources */,
+				C49D6603166ED82800448524 /* grobold_35px-hd.fnt in Resources */,
+				C49D6604166ED82800448524 /* grobold_35px-hd.png in Resources */,
+				C49D6605166ED82800448524 /* grobold_35px.fnt in Resources */,
+				C49D6606166ED82800448524 /* grobold_35px.png in Resources */,
+				C49D660B166EE0D600448524 /* grobold_30px-hd.fnt in Resources */,
+				C49D660C166EE0D600448524 /* grobold_30px-hd.png in Resources */,
+				C49D660D166EE0D600448524 /* grobold_30px.fnt in Resources */,
+				C49D660E166EE0D600448524 /* grobold_30px.png in Resources */,
+				C49D6613166EE90F00448524 /* grobold_17px-hd.fnt in Resources */,
+				C49D6614166EE90F00448524 /* grobold_17px-hd.png in Resources */,
+				C49D6615166EE90F00448524 /* grobold_17px.fnt in Resources */,
+				C49D6616166EE90F00448524 /* grobold_17px.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

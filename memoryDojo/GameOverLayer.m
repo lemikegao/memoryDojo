@@ -56,15 +56,24 @@
         
         // add score copy
         CGSize gameOverMenuBgSize = gameOverMenuBg.boundingBox.size;
-        CCSprite *scoreCopy = [CCLabelBMFont labelWithString:@"SCORE:" fntFile:@"score_copy.fnt"];
-        scoreCopy.position = ccp(gameOverMenuBgSize.width * 0.33f, gameOverMenuBgSize.height * 0.80f);
+        CCLabelBMFont *scoreCopy = [CCLabelBMFont labelWithString:@"SCORE:" fntFile:@"grobold_21px.fnt"];
+        scoreCopy.color = ccc3(104, 95, 82);
+        scoreCopy.position = ccp(gameOverMenuBgSize.width * 0.33f, gameOverMenuBgSize.height * 0.79f);
         [gameOverMenuBg addChild:scoreCopy];
         
         // add score
-        CCSprite *score = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].score] fntFile:@"score_numbers.fnt"];
-        score.anchorPoint = ccp(0, 0.5);
-        score.position = ccp(gameOverMenuBgSize.width * 0.52f, gameOverMenuBgSize.height * 0.80f);
-        [gameOverMenuBg addChild:score];
+        int score = [GameManager sharedGameManager].score;
+        CCSprite *scoreLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i", score] fntFile:@"grobold_35px.fnt"];
+        scoreLabel.color = ccc3(229, 214, 172);
+        scoreLabel.anchorPoint = ccp(0, 0.5);
+        scoreLabel.position = ccp(gameOverMenuBgSize.width * 0.52f, gameOverMenuBgSize.height * 0.80f);
+        [gameOverMenuBg addChild:scoreLabel];
+        
+        // check if new high score
+        if (score > [GameManager sharedGameManager].highScore) {
+            [GameManager sharedGameManager].highScore = score;
+#warning -- add NEW HIGH SCORE + confetti
+        }
         
         // add menu (play again, quit)
         // play again

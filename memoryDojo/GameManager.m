@@ -47,6 +47,7 @@ static GameManager *_sharedGameManager = nil;   // singleton
 // override setter to also store in NSUserDefaults
 -(void)setHighScore:(int)highScore {
     if (_highScore != highScore) {
+        CCLOG(@"GameManager->setHighScore");
         _highScore = highScore;
         [[NSUserDefaults standardUserDefaults] setInteger:highScore forKey:@"highScore"];
     }
@@ -54,6 +55,7 @@ static GameManager *_sharedGameManager = nil;   // singleton
 
 -(void)setHighNinjaLevel:(int)highNinjaLevel {
     if (_highNinjaLevel != highNinjaLevel) {
+        CCLOG(@"GameManager->setHighNinjaLevel");
         _highNinjaLevel = highNinjaLevel;
         [[NSUserDefaults standardUserDefaults] setInteger:highNinjaLevel forKey:@"highNinjaLevel"];
     }
@@ -61,6 +63,7 @@ static GameManager *_sharedGameManager = nil;   // singleton
 
 -(void)setNinjaLevel:(int)ninjaLevel {
     if (_ninjaLevel != ninjaLevel) {
+        CCLOG(@"GameManager->setNinjaLevel");
         _ninjaLevel = ninjaLevel;
         [[NSUserDefaults standardUserDefaults] setInteger:ninjaLevel forKey:@"currentLevel"];
     }
@@ -98,7 +101,8 @@ static GameManager *_sharedGameManager = nil;   // singleton
         
         _highScore = [defaults integerForKey:@"highScore"];
         _highNinjaLevel = [defaults integerForKey:@"highNinjaLevel"];
-        _ninjaLevel = [defaults integerForKey:@"currentLevel"];
+//        _ninjaLevel = [defaults integerForKey:@"currentLevel"];
+        _ninjaLevel = 3;
     }
     
     return self;
