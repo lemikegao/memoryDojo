@@ -91,7 +91,6 @@
 		C46ECA9F1643928C00AFC151 /* mainmenu_art-hd.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = C46ECA9B1643928C00AFC151 /* mainmenu_art-hd.pvr.ccz */; };
 		C46ECAA01643928C00AFC151 /* mainmenu_art.plist in Resources */ = {isa = PBXBuildFile; fileRef = C46ECA9C1643928C00AFC151 /* mainmenu_art.plist */; };
 		C46ECAA11643928C00AFC151 /* mainmenu_art.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = C46ECA9D1643928C00AFC151 /* mainmenu_art.pvr.ccz */; };
-		C49CACE01649C28800B13370 /* mainmenu_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = C49CACD41649C28800B13370 /* mainmenu_bg.png */; };
 		C49CACE11649C28800B13370 /* mainmenu_button_music.png in Resources */ = {isa = PBXBuildFile; fileRef = C49CACD51649C28800B13370 /* mainmenu_button_music.png */; };
 		C49CACE21649C28800B13370 /* mainmenu_button_settings_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = C49CACD61649C28800B13370 /* mainmenu_button_settings_pressed.png */; };
 		C49CACE31649C28800B13370 /* mainmenu_button_settings.png in Resources */ = {isa = PBXBuildFile; fileRef = C49CACD71649C28800B13370 /* mainmenu_button_settings.png */; };
@@ -110,6 +109,7 @@
 		C49CF2C41655BA5D00E92A1C /* aura1_game.plist in Resources */ = {isa = PBXBuildFile; fileRef = C49CF2C11655BA5D00E92A1C /* aura1_game.plist */; };
 		C49CF2C51655BA5D00E92A1C /* aura1.plist in Resources */ = {isa = PBXBuildFile; fileRef = C49CF2C21655BA5D00E92A1C /* aura1.plist */; };
 		C49CF2C61655BA5D00E92A1C /* confetti.plist in Resources */ = {isa = PBXBuildFile; fileRef = C49CF2C31655BA5D00E92A1C /* confetti.plist */; };
+		C49D65F6166EC22D00448524 /* mainmenu_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = C49D65F5166EC22D00448524 /* mainmenu_bg.png */; };
 		C4AC2BEC164643A600002EE3 /* game_art-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BE8164643A600002EE3 /* game_art-hd.plist */; };
 		C4AC2BED164643A600002EE3 /* game_art-hd.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BE9164643A600002EE3 /* game_art-hd.pvr.ccz */; };
 		C4AC2BEE164643A600002EE3 /* game_art.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4AC2BEA164643A600002EE3 /* game_art.plist */; };
@@ -486,7 +486,6 @@
 		C46ECA9B1643928C00AFC151 /* mainmenu_art-hd.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "mainmenu_art-hd.pvr.ccz"; sourceTree = "<group>"; };
 		C46ECA9C1643928C00AFC151 /* mainmenu_art.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = mainmenu_art.plist; sourceTree = "<group>"; };
 		C46ECA9D1643928C00AFC151 /* mainmenu_art.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = mainmenu_art.pvr.ccz; sourceTree = "<group>"; };
-		C49CACD41649C28800B13370 /* mainmenu_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainmenu_bg.png; sourceTree = "<group>"; };
 		C49CACD51649C28800B13370 /* mainmenu_button_music.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainmenu_button_music.png; sourceTree = "<group>"; };
 		C49CACD61649C28800B13370 /* mainmenu_button_settings_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainmenu_button_settings_pressed.png; sourceTree = "<group>"; };
 		C49CACD71649C28800B13370 /* mainmenu_button_settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainmenu_button_settings.png; sourceTree = "<group>"; };
@@ -507,6 +506,7 @@
 		C49CF2C11655BA5D00E92A1C /* aura1_game.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = aura1_game.plist; sourceTree = "<group>"; };
 		C49CF2C21655BA5D00E92A1C /* aura1.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = aura1.plist; sourceTree = "<group>"; };
 		C49CF2C31655BA5D00E92A1C /* confetti.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = confetti.plist; sourceTree = "<group>"; };
+		C49D65F5166EC22D00448524 /* mainmenu_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainmenu_bg.png; sourceTree = "<group>"; };
 		C4AC2BE8164643A600002EE3 /* game_art-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "game_art-hd.plist"; sourceTree = "<group>"; };
 		C4AC2BE9164643A600002EE3 /* game_art-hd.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "game_art-hd.pvr.ccz"; sourceTree = "<group>"; };
 		C4AC2BEA164643A600002EE3 /* game_art.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = game_art.plist; sourceTree = "<group>"; };
@@ -906,9 +906,9 @@
 		C46ECA8716438F3A00AFC151 /* mainmenu_art */ = {
 			isa = PBXGroup;
 			children = (
+				C49D65F5166EC22D00448524 /* mainmenu_bg.png */,
 				C4154BF5165F4174006B6CF5 /* mainmenu_upgrades_catsmall.png */,
 				C4154BF1165F413C006B6CF5 /* mainmenu_upgrades_ninjastar2.png */,
-				C49CACD41649C28800B13370 /* mainmenu_bg.png */,
 				C49CACD51649C28800B13370 /* mainmenu_button_music.png */,
 				C49CACD61649C28800B13370 /* mainmenu_button_settings_pressed.png */,
 				C49CACD71649C28800B13370 /* mainmenu_button_settings.png */,
@@ -1810,7 +1810,6 @@
 				C4EA539E1647310000AA26D1 /* Score-hd.fnt in Resources */,
 				C4EA53A21647311600AA26D1 /* Score.fnt in Resources */,
 				C4EA53A31647311600AA26D1 /* Score.png in Resources */,
-				C49CACE01649C28800B13370 /* mainmenu_bg.png in Resources */,
 				C49CACE11649C28800B13370 /* mainmenu_button_music.png in Resources */,
 				C49CACE21649C28800B13370 /* mainmenu_button_settings_pressed.png in Resources */,
 				C49CACE31649C28800B13370 /* mainmenu_button_settings.png in Resources */,
@@ -1918,6 +1917,7 @@
 				C431193916601C8400738E17 /* game_arrow_right.png in Resources */,
 				C431193A16601C8400738E17 /* game_arrow_up.png in Resources */,
 				C42DF2531668047600AA4842 /* game_upgrades_cat_big.png in Resources */,
+				C49D65F6166EC22D00448524 /* mainmenu_bg.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -44,6 +44,28 @@ static GameManager *_sharedGameManager = nil;   // singleton
     return nil;
 }
 
+// override setter to also store in NSUserDefaults
+-(void)setHighScore:(int)highScore {
+    if (_highScore != highScore) {
+        _highScore = highScore;
+        [[NSUserDefaults standardUserDefaults] setInteger:highScore forKey:@"highScore"];
+    }
+}
+
+-(void)setHighNinjaLevel:(int)highNinjaLevel {
+    if (_highNinjaLevel != highNinjaLevel) {
+        _highNinjaLevel = highNinjaLevel;
+        [[NSUserDefaults standardUserDefaults] setInteger:highNinjaLevel forKey:@"highNinjaLevel"];
+    }
+}
+
+-(void)setNinjaLevel:(int)ninjaLevel {
+    if (_ninjaLevel != ninjaLevel) {
+        _ninjaLevel = ninjaLevel;
+        [[NSUserDefaults standardUserDefaults] setInteger:ninjaLevel forKey:@"currentLevel"];
+    }
+}
+
 -(id)init {
     self = [super init];
     if (self) {
@@ -53,11 +75,30 @@ static GameManager *_sharedGameManager = nil;   // singleton
         _hasPlayerDied = NO;
         _currentScene = kSceneTypeNone;
         _score = 0;
-#warning -- reset level
-        _ninjaLevel = 4;
         _hasAudioBeenInitialized = NO;
         _soundEngine = nil;
         _managerSoundState = kAudioManagerUninitialized;
+        
+        // if no highScore exists locally, then set to 0
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        if ([defaults integerForKey:@"highScore"] == 0) {
+            [defaults setInteger:0 forKey:@"highScore"];
+        }
+        
+        // if no highLevel exists locally, then set to 1
+        if ([defaults integerForKey:@"highNinjaLevel"] == 0) {
+            [defaults setInteger:1 forKey:@"highNinjaLevel"];
+        }
+        
+        #warning -- reset level
+        // if no currentLevel exists locally, then set to 1
+        if ([defaults integerForKey:@"currentLevel"] == 0) {
+            [defaults setInteger:4 forKey:@"currentLevel"];
+        }
+        
+        _highScore = [defaults integerForKey:@"highScore"];
+        _highNinjaLevel = [defaults integerForKey:@"highNinjaLevel"];
+        _ninjaLevel = [defaults integerForKey:@"currentLevel"];
     }
     
     return self;
