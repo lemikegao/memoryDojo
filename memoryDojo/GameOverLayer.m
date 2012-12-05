@@ -58,7 +58,7 @@
         CGSize gameOverMenuBgSize = gameOverMenuBg.boundingBox.size;
         CCLabelBMFont *scoreCopy = [CCLabelBMFont labelWithString:@"SCORE:" fntFile:@"grobold_21px.fnt"];
         scoreCopy.color = ccc3(104, 95, 82);
-        scoreCopy.position = ccp(gameOverMenuBgSize.width * 0.33f, gameOverMenuBgSize.height * 0.79f);
+        scoreCopy.position = ccp(gameOverMenuBgSize.width * 0.33f, gameOverMenuBgSize.height * 0.796f);
         [gameOverMenuBg addChild:scoreCopy];
         
         // add score

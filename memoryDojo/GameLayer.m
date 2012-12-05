@@ -162,6 +162,7 @@
     // reset score to 0
     [GameManager sharedGameManager].score = 0;
     self.scoreLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].score] fntFile:@"grobold_17px.fnt"];
+    self.scoreLabel.color = ccc3(229, 214, 172);
     self.scoreLabel.anchorPoint = ccp(0, 1);
     self.scoreLabel.position = ccp(topBarWidth * 0.05f, topBarHeight * 0.58f);
     [topBar addChild:self.scoreLabel z:10];

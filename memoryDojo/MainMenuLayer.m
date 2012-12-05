@@ -42,8 +42,22 @@
         [self addChild:background z:-1];
         
         CCSprite *gameTitle = [CCSprite spriteWithSpriteFrameName:@"mainmenu_game_title.png"];
-        [self addChild:gameTitle];
         gameTitle.position = ccp(screenSize.width * 0.77f, screenSize.height * 0.85f);
+        [self addChild:gameTitle];
+        
+        // add high score
+        CCLabelBMFont *highScoreLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].highScore] fntFile:@"grobold_25px.fnt"];
+        highScoreLabel.color = ccc3(229, 214, 172);
+        highScoreLabel.anchorPoint = ccp(0, 0.5);
+        highScoreLabel.position = ccp(screenSize.width * 0.05f, screenSize.height * 0.84f);
+        [self addChild:highScoreLabel];
+        
+        // add current level
+        CCLabelBMFont *currentLevelLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].ninjaLevel] fntFile:@"grobold_21px.fnt"];
+        currentLevelLabel.color = ccc3(229, 214, 172);
+        currentLevelLabel.anchorPoint = ccp(0, 0.5);
+        currentLevelLabel.position = ccp(screenSize.width * 0.23f, screenSize.height * 0.78f);
+        [self addChild:currentLevelLabel];
         
         MainMenuNinja *ninja = [[MainMenuNinja alloc] init];
         ninja.position = ccp(screenSize.width * 0.612f, screenSize.height * 0.468f);
