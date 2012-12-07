@@ -257,6 +257,7 @@
     
     // add sequence arrows batch node
     [self addChild:self.sequenceArrowsBatch];
+#warning - any way to reset position of arrows without CCMoveTo action? lame hack
     [self.sequenceArrowsBatch runAction:[CCMoveTo actionWithDuration:0.1f position:CGPointZero]];
     
     // display sequence after label disappears
@@ -401,7 +402,9 @@
     
     id labelAction = [CCSequence actions:[CCFadeIn actionWithDuration:0.5f], [CCCallBlock actionWithBlock:^{
         self.currentGameState = kGameStateRoundDisplay;
-    }], [CCDelayTime actionWithDuration:2.0f], [CCFadeOut actionWithDuration:0.5f], nil];
+    }], [CCDelayTime actionWithDuration:2.0f], [CCCallBlock actionWithBlock:^{
+        self.currentGameState = kGameStatePlay;
+    }], [CCFadeOut actionWithDuration:0.5f], nil];
     
     // have sensei perform new sequence
     id labelBgAction = [CCSequence actions:[CCFadeIn actionWithDuration:0.5f], [CCDelayTime actionWithDuration:2.0f], [CCFadeOut actionWithDuration:0.5f], [CCCallFuncN actionWithTarget:self selector:@selector(removeRoundPopup:)], [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
@@ -1014,7 +1017,9 @@
         
         id labelAction = [CCSequence actions:[CCFadeIn actionWithDuration:0.5f], [CCCallBlock actionWithBlock:^{
             self.currentGameState = kGameStateRoundDisplay;
-        }], [CCDelayTime actionWithDuration:2.0f], [CCFadeOut actionWithDuration:0.5f], nil];
+        }], [CCDelayTime actionWithDuration:2.0f], [CCCallBlock actionWithBlock:^{
+            self.currentGameState = kGameStatePlay;
+        }], [CCFadeOut actionWithDuration:0.5f], nil];
         
         // have sensei perform new sequence
         id labelBgAction = [CCSequence actions:[CCFadeIn actionWithDuration:0.5f], [CCDelayTime actionWithDuration:2.0f], [CCFadeOut actionWithDuration:0.5f], [CCCallFuncN actionWithTarget:self selector:@selector(removeRoundPopup:)], [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
@@ -1076,7 +1081,9 @@
     
     id labelAction = [CCSequence actions:[CCFadeIn actionWithDuration:0.5], [CCCallBlock actionWithBlock:^{
         self.currentGameState = kGameStateRoundDisplay;
-    }], [CCDelayTime actionWithDuration:2.0f], [CCFadeOut actionWithDuration:0.5f], nil];
+    }], [CCDelayTime actionWithDuration:2.0f], [CCCallBlock actionWithBlock:^{
+        self.currentGameState = kGameStatePlay;
+    }], [CCFadeOut actionWithDuration:0.5f], nil];
     
     // have sensei perform new sequence
     id labelBgAction = [CCSequence actions:[CCDelayTime actionWithDuration:2.5f], [CCFadeOut actionWithDuration:0.5f], [CCCallFuncN actionWithTarget:self selector:@selector(removeRoundPopup:)], [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
@@ -1225,12 +1232,9 @@
     }
     
     [self.sequenceArrowsBatch removeAllChildrenWithCleanup:YES];
-# warning - replace move action with setting position
-//    [self.sequenceArrowsBatch runAction:[CCSequence actions:[CCMoveTo actionWithDuration:0.1f position:CGPointZero], [CCCallBlock actionWithBlock:^{
-        [self unscheduleAllSelectors];
-        [self removeAllChildrenWithCleanup:YES];
-        [self initializeGame];
-//    }], nil]];
+    [self unscheduleAllSelectors];
+    [self removeAllChildrenWithCleanup:YES];
+    [self initializeGame];
 }
 
 -(void)confirmQuitGame {

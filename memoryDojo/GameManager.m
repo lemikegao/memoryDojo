@@ -50,6 +50,7 @@ static GameManager *_sharedGameManager = nil;   // singleton
         CCLOG(@"GameManager->setHighScore");
         _highScore = highScore;
         [[NSUserDefaults standardUserDefaults] setInteger:highScore forKey:@"highScore"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
 
@@ -58,6 +59,7 @@ static GameManager *_sharedGameManager = nil;   // singleton
         CCLOG(@"GameManager->setHighNinjaLevel");
         _highNinjaLevel = highNinjaLevel;
         [[NSUserDefaults standardUserDefaults] setInteger:highNinjaLevel forKey:@"highNinjaLevel"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
 
@@ -66,6 +68,7 @@ static GameManager *_sharedGameManager = nil;   // singleton
         CCLOG(@"GameManager->setNinjaLevel");
         _ninjaLevel = ninjaLevel;
         [[NSUserDefaults standardUserDefaults] setInteger:ninjaLevel forKey:@"currentLevel"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
 
@@ -102,7 +105,7 @@ static GameManager *_sharedGameManager = nil;   // singleton
         _highScore = [defaults integerForKey:@"highScore"];
         _highNinjaLevel = [defaults integerForKey:@"highNinjaLevel"];
 //        _ninjaLevel = [defaults integerForKey:@"currentLevel"];
-        _ninjaLevel = 2;
+        _ninjaLevel = 1;
     }
     
     return self;

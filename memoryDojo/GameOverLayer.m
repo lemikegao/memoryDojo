@@ -72,7 +72,6 @@
         // check if new high score
         if (score > [GameManager sharedGameManager].highScore) {
             [GameManager sharedGameManager].highScore = score;
-#warning -- add NEW HIGH SCORE + confetti
         }
         
         // add menu (play again, quit)
