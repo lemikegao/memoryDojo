@@ -41,26 +41,22 @@
         background.position = ccp(screenSize.width/2, screenSize.height/2);
         [self addChild:background z:-1];
         
-        CCSprite *gameTitle = [CCSprite spriteWithSpriteFrameName:@"mainmenu_game_title.png"];
-        gameTitle.position = ccp(screenSize.width * 0.77f, screenSize.height * 0.85f);
-        [self addChild:gameTitle];
-        
         // add high score
-        CCLabelBMFont *highScoreLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].highScore] fntFile:@"grobold_25px.fnt"];
+        CCLabelBMFont *highScoreLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].highScore] fntFile:@"grobold_25px_nostroke.fnt"];
         highScoreLabel.color = ccc3(229, 214, 172);
         highScoreLabel.anchorPoint = ccp(0, 0.5);
         highScoreLabel.position = ccp(screenSize.width * 0.05f, screenSize.height * 0.84f);
         [self addChild:highScoreLabel];
         
         // add current level
-        CCLabelBMFont *currentLevelLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].ninjaLevel] fntFile:@"grobold_21px.fnt"];
+        CCLabelBMFont *currentLevelLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].ninjaLevel] fntFile:@"grobold_25px_nostroke.fnt"];
         currentLevelLabel.color = ccc3(229, 214, 172);
         currentLevelLabel.anchorPoint = ccp(0, 0.5);
-        currentLevelLabel.position = ccp(screenSize.width * 0.23f, screenSize.height * 0.78f);
+        currentLevelLabel.position = ccp(screenSize.width * 0.24f, screenSize.height * 0.78f);
         [self addChild:currentLevelLabel];
         
         MainMenuNinja *ninja = [[MainMenuNinja alloc] init];
-        ninja.position = ccp(screenSize.width * 0.612f, screenSize.height * 0.468f);
+        ninja.position = ccp(screenSize.width * 0.67f, screenSize.height * 0.468f);
         [self addChild:ninja z:100];
         
         if (ninjaLevel >= 2) {
@@ -75,11 +71,17 @@
             ninjaStar.position = ccp(ninja.boundingBox.size.width * 0.33f, ninja.boundingBox.size.height * 0.285f);
             [ninja addChild:ninjaStar];
         }
-        if (ninjaLevel >= 4) {
+        if (ninjaLevel == 4) {
             // add small cat
             CCSprite *smallCat = [CCSprite spriteWithSpriteFrameName:@"mainmenu_upgrades_catsmall.png"];
-            smallCat.position = ccp(ninja.position.x * 0.33f, ninja.position.y * 0.73f);
-            [self addChild:smallCat z:100];
+            smallCat.position = ccp(ninja.position.x * 0.33f, ninja.position.y * 0.78f);
+            [self addChild:smallCat z:95];
+        }
+        if (ninjaLevel >= 5) {
+            // add big cat
+            CCSprite *bigCat = [CCSprite spriteWithSpriteFrameName:@"mainmenu_upgrades_catbig.png"];
+            bigCat.position = ccp(ninja.position.x * 0.33f, ninja.position.y * 0.85f);
+            [self addChild:bigCat z:95];
         }
         
         [self displayMainMenu];

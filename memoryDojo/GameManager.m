@@ -102,7 +102,7 @@ static GameManager *_sharedGameManager = nil;   // singleton
         _highScore = [defaults integerForKey:@"highScore"];
         _highNinjaLevel = [defaults integerForKey:@"highNinjaLevel"];
 //        _ninjaLevel = [defaults integerForKey:@"currentLevel"];
-        _ninjaLevel = 3;
+        _ninjaLevel = 1;
     }
     
     return self;

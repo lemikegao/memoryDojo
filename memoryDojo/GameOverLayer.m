@@ -58,7 +58,7 @@
         CGSize gameOverMenuBgSize = gameOverMenuBg.boundingBox.size;
         CCLabelBMFont *scoreCopy = [CCLabelBMFont labelWithString:@"SCORE:" fntFile:@"grobold_21px.fnt"];
         scoreCopy.color = ccc3(104, 95, 82);
-        scoreCopy.position = ccp(gameOverMenuBgSize.width * 0.33f, gameOverMenuBgSize.height * 0.796f);
+        scoreCopy.position = ccp(gameOverMenuBgSize.width * 0.33f, gameOverMenuBgSize.height * 0.766f);
         [gameOverMenuBg addChild:scoreCopy];
         
         // add score
@@ -66,7 +66,7 @@
         CCSprite *scoreLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i", score] fntFile:@"grobold_35px.fnt"];
         scoreLabel.color = ccc3(229, 214, 172);
         scoreLabel.anchorPoint = ccp(0, 0.5);
-        scoreLabel.position = ccp(gameOverMenuBgSize.width * 0.52f, gameOverMenuBgSize.height * 0.80f);
+        scoreLabel.position = ccp(gameOverMenuBgSize.width * 0.52f, gameOverMenuBgSize.height * 0.77f);
         [gameOverMenuBg addChild:scoreLabel];
         
         // check if new high score
@@ -82,8 +82,8 @@
         CCMenuItemImage *quitButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_quit.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_quit_pressed.png"] target:self selector:@selector(quit)];
         
         CCMenu *gameOverMenu = [CCMenu menuWithItems:playAgainButton, quitButton, nil];
-        [gameOverMenu alignItemsVerticallyWithPadding:gameOverMenuBgSize.height * 0.085f];
-        gameOverMenu.position = ccp(gameOverMenuBgSize.width * 0.50f, gameOverMenuBgSize.height * 0.50f);
+        [gameOverMenu alignItemsVerticallyWithPadding:gameOverMenuBgSize.height * 0.10f];
+        gameOverMenu.position = ccp(gameOverMenuBgSize.width * 0.50f, gameOverMenuBgSize.height * 0.45f);
         [gameOverMenuBg addChild:gameOverMenu z:5];
     }
     

@@ -12,8 +12,8 @@
 // complete round to level up
 #define kGameLevel2Round 3
 #define kGameLevel3Round 8
-#define kGameLevel4Round 1
-#define kGameLevel5Round 30
+#define kGameLevel4Round 15
+#define kGameLevel5Round 1
 #define kGameLevel6Round 50
 //#define kGameLevel2Round 3
 //#define kGameLevel3Round 8

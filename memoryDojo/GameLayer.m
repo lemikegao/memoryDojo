@@ -53,6 +53,8 @@
 @property (nonatomic) int nextInactiveNinjaStar;
 @property (nonatomic, strong) CCSpriteBatchNode *sequenceArrowsBatch;
 @property (nonatomic, strong) CCSprite *smallCat;
+@property (nonatomic, strong) CCLayerColor *dimLayer;
+@property (nonatomic, strong) CCLayerColor *waitDimLayer;
 
 -(void)initializeSequence;
 -(void)initializeGame;
@@ -228,13 +230,13 @@
     if (ninjaLevel == 4) {
         // add small cat
         self.smallCat = [CCSprite spriteWithSpriteFrameName:@"game_upgrades_cat_small.png"];
-        self.smallCat.position = ccp(self.ninja.position.x * 0.33f, self.ninja.position.y * 0.66f);
+        self.smallCat.position = ccp(self.ninja.position.x * 0.33f, self.ninja.position.y * 0.71f);
         [self addChild:self.smallCat z:3];
     }
     if (ninjaLevel >= 5) {
         // add big cat
         CCSprite *bigCat = [CCSprite spriteWithSpriteFrameName:@"game_upgrades_cat_big.png"];
-        bigCat.position = ccp(self.ninja.position.x * 0.297f, self.ninja.position.y * 0.726f);
+        bigCat.position = ccp(self.ninja.position.x * 0.297f, self.ninja.position.y * 0.83f);
         [self addChild:bigCat z:3];
     }
     
@@ -295,38 +297,40 @@
 }
 
 -(void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    // begin game if user inputs a touch during instructions
-    if (self.currentGameState == kGameStateInstructions) {
-        CGSize screenSize = [CCDirector sharedDirector].winSize;
-        self.currentGameState = kGameStateInit;
-        [self.gameInstructions stopAllActions];
-        id moveGameInstructionsUp = [CCMoveTo actionWithDuration:0.5f position:ccp(screenSize.width/2, screenSize.height)];
-        id removeInstructions = [CCCallFunc actionWithTarget:self selector:@selector(removeInstructions)];
-        id callStartDisplaySequenceSelector = [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)];
-        
-        id action = [CCSequence actions:moveGameInstructionsUp, removeInstructions, callStartDisplaySequenceSelector, nil];
-        [self.gameInstructions runAction:action];
-    }
-    // if game is displaying level up screen 1, transition to next level up screen
-    else if (self.currentGameState == kGameStateLevelUpScreen1) {
-        if ([GameManager sharedGameManager].ninjaLevel == 4) {
-            // no upgrade animation -- show sensei gift screen
-            [self showSenseiGiftScreen];
-        } else {
-            [self showLevelUpAnimation];
+    if (self.isGamePaused == NO) {
+        // begin game if user inputs a touch during instructions
+        if (self.currentGameState == kGameStateInstructions) {
+            CGSize screenSize = [CCDirector sharedDirector].winSize;
+            self.currentGameState = kGameStateInit;
+            [self.gameInstructions stopAllActions];
+            id moveGameInstructionsUp = [CCMoveTo actionWithDuration:0.5f position:ccp(screenSize.width/2, screenSize.height)];
+            id removeInstructions = [CCCallFunc actionWithTarget:self selector:@selector(removeInstructions)];
+            id callStartDisplaySequenceSelector = [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)];
+            
+            id action = [CCSequence actions:moveGameInstructionsUp, removeInstructions, callStartDisplaySequenceSelector, nil];
+            [self.gameInstructions runAction:action];
         }
-    }
-    else if (self.currentGameState == kGameStateLevelUpGiftScreen) {
-        // show small cat
-        [self showSmallCatScreen];
-    }
-    else if (self.currentGameState == kGameStateLevelUpSmallCatScreen) {
-        [self showNinjaLevelUpScreen2FromCatScreen];
-    }
-    else if (self.currentGameState == kGameStateLevelUpScreen2) {
-        [self dismissLevelUpScreen];
-//        [self startNewRound];
-        [self resetSequenceAfterLevelUp];
+        // if game is displaying level up screen 1, transition to next level up screen
+        else if (self.currentGameState == kGameStateLevelUpScreen1) {
+            if ([GameManager sharedGameManager].ninjaLevel == 4) {
+                // no upgrade animation -- show sensei gift screen
+                [self showSenseiGiftScreen];
+            } else {
+                [self showLevelUpAnimation];
+            }
+        }
+        else if (self.currentGameState == kGameStateLevelUpGiftScreen) {
+            // show small cat
+            [self showSmallCatScreen];
+        }
+        else if (self.currentGameState == kGameStateLevelUpSmallCatScreen) {
+            [self showNinjaLevelUpScreen2FromCatScreen];
+        }
+        else if (self.currentGameState == kGameStateLevelUpScreen2) {
+            [self dismissLevelUpScreen];
+    //        [self startNewRound];
+            [self resetSequenceAfterLevelUp];
+        }
     }
 }
 
@@ -420,6 +424,25 @@
             break;
     
     }
+    
+//    // add dim bg for WATCH SENSEI message if not already exist
+//    if (self.waitDimLayer == nil) {
+//        self.waitDimLayer = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 220) width:self.screenSize.width height:self.screenSize.height * 0.46f];
+//        [self addChild:self.waitDimLayer z:90];
+//        
+//        // add WATCH SENSEI message
+//        CCLabelBMFont *waitLabel = [CCLabelBMFont labelWithString:@"WATCH SENSEI" fntFile:@"grobold_25px_nostroke.fnt"];
+//        waitLabel.color = ccc3(229, 214, 172);
+//        waitLabel.position = ccp(self.waitDimLayer.boundingBox.size.width/2, self.waitDimLayer.boundingBox.size.height * 0.60f);
+//        [self.waitDimLayer addChild:waitLabel];
+//        
+//        // add arrow
+//        CCSprite *waitArrow = [CCSprite spriteWithSpriteFrameName:@"game_wait_arrow.png"];
+//        waitArrow.anchorPoint = ccp(0.5, 0);
+//        waitArrow.position = ccp(waitLabel.position.x + waitLabel.boundingBox.size.width * 0.52f, waitLabel.position.y);
+//        [self.waitDimLayer addChild:waitArrow];
+//    }
+    
     [self schedule:@selector(displaySequence:) interval:displaySequenceInterval];
 }
 
@@ -696,7 +719,7 @@
         {
             // evolve little cat to big cat
             CCSprite *bigCat = [CCSprite spriteWithSpriteFrameName:@"game_upgrades_cat_big.png"];
-            bigCat.position = ccp(self.smallCat.position.x * 0.90f, self.smallCat.position.y * 1.10f);
+            bigCat.position = ccp(self.smallCat.position.x * 0.87f, self.smallCat.position.y * 1.15f);
             bigCat.visible = NO;
             [self addChild:bigCat z:3];
             
@@ -902,10 +925,46 @@
         [niceLabel runAction:niceLabelAction];
     } else {
         self.roundNumber++;
-        CCLabelBMFont *newRoundLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"ROUND %i", self.roundNumber] fntFile:@"grobold_35px.fnt"];
+        CCLabelBMFont *newRoundLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"ROUND %i", self.roundNumber] fntFile:@"grobold_30px.fnt"];
         newRoundLabel.color = ccc3(153, 136, 94);
-        newRoundLabel.position = ccp(self.gameRoundBg.boundingBox.size.width/2, self.gameRoundBg.boundingBox.size.height/2);
+        newRoundLabel.position = ccp(self.gameRoundBg.boundingBox.size.width/2, self.gameRoundBg.boundingBox.size.height * 0.60f);
         [self.gameRoundBg addChild:newRoundLabel];
+        
+        // display how many rounds left until next level
+        int roundsUntilLevelUp;
+        int ninjaLevel = [GameManager sharedGameManager].ninjaLevel;
+        switch (ninjaLevel) {
+            case 1:
+                roundsUntilLevelUp = kGameLevel2Round - self.roundNumber + 1;
+                break;
+            case 2:
+                roundsUntilLevelUp = kGameLevel3Round - self.roundNumber + 1;
+                break;
+            case 3:
+                roundsUntilLevelUp = kGameLevel4Round - self.roundNumber + 1;
+                break;
+            case 4:
+                roundsUntilLevelUp = kGameLevel5Round - self.roundNumber + 1;
+                break;
+            case 5:
+                roundsUntilLevelUp = kGameLevel6Round - self.roundNumber + 1;
+                break;
+            default:
+                roundsUntilLevelUp = -1;
+                break;
+        }
+        
+        CCLabelBMFont *roundsUntilNextLevelLabel = nil;
+        
+        if (roundsUntilLevelUp > 0) {
+            if (roundsUntilLevelUp > 1)
+                roundsUntilNextLevelLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i MORE ROUNDS...", roundsUntilLevelUp] fntFile:@"grobold_17px.fnt"];
+            else
+                roundsUntilNextLevelLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i MORE ROUND...", roundsUntilLevelUp] fntFile:@"grobold_17px.fnt"];
+            roundsUntilNextLevelLabel.position = ccp(newRoundLabel.position.x, newRoundLabel.position.y * 0.50f);
+            roundsUntilNextLevelLabel.color = ccc3(104, 95, 82);
+            [self.gameRoundBg addChild:roundsUntilNextLevelLabel];
+        }
         
         
         id labelAction = [CCSequence actions:[CCFadeIn actionWithDuration:0.5f], [CCDelayTime actionWithDuration:1.0f], [CCFadeOut actionWithDuration:0.5f], nil];
@@ -914,15 +973,55 @@
         id labelBgAction = [CCSequence actions:[CCFadeIn actionWithDuration:0.5f], [CCDelayTime actionWithDuration:1.0f], [CCFadeOut actionWithDuration:0.5f], [CCCallFuncN actionWithTarget:self selector:@selector(removeRoundPopup:)], [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
         
         [newRoundLabel runAction:labelAction];
+        if (roundsUntilNextLevelLabel != nil) {
+            id roundsUntilNextLevelLabelAction = [labelAction copy];
+            [roundsUntilNextLevelLabel runAction:roundsUntilNextLevelLabelAction];
+        }
         [self.gameRoundBg runAction:labelBgAction];
     }
 }
 
 -(void)showRoundLabelAfterNiceMessage {
-    CCLabelBMFont *newRoundLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"ROUND %i", self.roundNumber] fntFile:@"grobold_35px.fnt"];
+    CCLabelBMFont *newRoundLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"ROUND %i", self.roundNumber] fntFile:@"grobold_30px.fnt"];
     newRoundLabel.color = ccc3(153, 136, 94);
-    newRoundLabel.position = ccp(self.gameRoundBg.boundingBox.size.width/2, self.gameRoundBg.boundingBox.size.height/2);
+    newRoundLabel.position = ccp(self.gameRoundBg.boundingBox.size.width/2, self.gameRoundBg.boundingBox.size.height * 0.60f);
     [self.gameRoundBg addChild:newRoundLabel];
+    
+    // display how many rounds left until next level
+    int roundsUntilLevelUp;
+    int ninjaLevel = [GameManager sharedGameManager].ninjaLevel;
+    switch (ninjaLevel) {
+        case 1:
+            roundsUntilLevelUp = kGameLevel2Round - self.roundNumber + 1;
+            break;
+        case 2:
+            roundsUntilLevelUp = kGameLevel3Round - self.roundNumber + 1;
+            break;
+        case 3:
+            roundsUntilLevelUp = kGameLevel4Round - self.roundNumber + 1;
+            break;
+        case 4:
+            roundsUntilLevelUp = kGameLevel5Round - self.roundNumber + 1;
+            break;
+        case 5:
+            roundsUntilLevelUp = kGameLevel6Round - self.roundNumber + 1;
+            break;
+        default:
+            roundsUntilLevelUp = -1;
+            break;
+    }
+    
+    CCLabelBMFont *roundsUntilNextLevelLabel = nil;
+    if (roundsUntilLevelUp > 0) {
+        if (roundsUntilLevelUp > 1)
+            roundsUntilNextLevelLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i MORE ROUNDS...", roundsUntilLevelUp] fntFile:@"grobold_17px.fnt"];
+        else
+            roundsUntilNextLevelLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i MORE ROUND...", roundsUntilLevelUp] fntFile:@"grobold_17px.fnt"];
+        
+        roundsUntilNextLevelLabel.position = ccp(newRoundLabel.position.x, newRoundLabel.position.y * 0.501f);
+        roundsUntilNextLevelLabel.color = ccc3(104, 95, 82);
+        [self.gameRoundBg addChild:roundsUntilNextLevelLabel];
+    }
     
     
     id labelAction = [CCSequence actions:[CCFadeIn actionWithDuration:0.5], [CCDelayTime actionWithDuration:1.0f], [CCFadeOut actionWithDuration:0.5f], nil];
@@ -931,6 +1030,10 @@
     id labelBgAction = [CCSequence actions:[CCDelayTime actionWithDuration:1.5f], [CCFadeOut actionWithDuration:0.5f], [CCCallFuncN actionWithTarget:self selector:@selector(removeRoundPopup:)], [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
     
     [newRoundLabel runAction:labelAction];
+    if (roundsUntilNextLevelLabel != nil) {
+        id roundsUntilNextLevelLabelAction = [labelAction copy];
+        [roundsUntilNextLevelLabel runAction:roundsUntilNextLevelLabelAction];
+    }
     [self.gameRoundBg runAction:labelBgAction];
 }
 
@@ -944,8 +1047,12 @@
             [self pauseAllSchedulerAndActions:node];
         }
         
-        // show paused menu
+        // dim the gameplay layer
         CGSize screenSize = [CCDirector sharedDirector].winSize;
+        self.dimLayer = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 200)];
+        [self addChild:self.dimLayer z:95];
+        
+        // show paused menu
         self.gamePausedBg = [CCSprite spriteWithSpriteFrameName:@"game_transition_message_bg.png"];
         self.gamePausedBg.position = ccp(screenSize.width/2, screenSize.height/2);
         [self addChild:self.gamePausedBg z:100];
@@ -970,12 +1077,12 @@
     
     // add game paused label
     CCSprite *pausedText = [CCSprite spriteWithSpriteFrameName:@"game_paused_text.png"];
-    pausedText.position = ccp(pausedBgWidth/2, pausedBgHeight * 0.88f);
+    pausedText.position = ccp(pausedBgWidth * 0.48f, pausedBgHeight * 0.84f);
     [self.gamePausedBg addChild:pausedText];
     
     // add game paused separator
     CCSprite *pausedSeparator = [CCSprite spriteWithSpriteFrameName:@"game_paused_line.png"];
-    pausedSeparator.position = ccp(pausedBgWidth * 0.55f, pausedBgHeight * 0.77f);
+    pausedSeparator.position = ccp(pausedBgWidth * 0.53f, pausedBgHeight * 0.75f);
     [self.gamePausedBg addChild:pausedSeparator];
     
     // create game paused resume button
@@ -1003,10 +1110,13 @@
         for (CCNode *node in [self children]) {
             [self resumeAllSchedulerAndActions:node];
         }
+        
+        // remove dim layer
+        [self.dimLayer removeFromParentAndCleanup:YES];
+        
+        // remove paused menu from self
+        [self.gamePausedBg removeFromParentAndCleanup:YES];
     }
-    
-    // remove paused menu from self
-    [self.gamePausedBg removeFromParentAndCleanup:YES];
 }
 
 -(void)resumeAllSchedulerAndActions:(CCNode*)node {
@@ -1055,10 +1165,16 @@
 -(void)restartGame {
     NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].ninjaLevel], @"Level", nil];
     [Flurry logEvent:@"Restarted_Game" withParameters:flurryParams];
-    [self unscheduleAllSelectors];
     [self.sequenceArrowsBatch removeAllChildrenWithCleanup:YES];
-    [self removeAllChildrenWithCleanup:YES];
-    [self initializeGame];
+# warning - replace move action with setting position
+    [self.sequenceArrowsBatch runAction:[CCSequence actions:[CCMoveTo actionWithDuration:0.01f position:CGPointZero], [CCCallBlock actionWithBlock:^{
+        [self unscheduleAllSelectors];
+        [self removeAllChildrenWithCleanup:YES];
+        [self initializeGame];
+    }], nil]];
+//    [self unscheduleAllSelectors];
+//    [self removeAllChildrenWithCleanup:YES];
+//    [self initializeGame];
 }
 
 -(void)confirmQuitGame {
@@ -1089,6 +1205,12 @@
 
 -(void)quitGame {
     NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].ninjaLevel], @"Level", nil];
+    // check if player beat high score
+    int score = [GameManager sharedGameManager].score;
+    if (score > [GameManager sharedGameManager].highScore) {
+        [GameManager sharedGameManager].highScore = score;
+    }
+    
     [Flurry logEvent:@"Quit_Game" withParameters:flurryParams];
     [Flurry endTimedEvent:@"Playing_Game" withParameters:nil];
     // go back to main menu
