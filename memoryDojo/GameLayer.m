@@ -243,6 +243,8 @@
     // initialize sequence
     [self initializeSequence];
     
+    [self addWatchSenseiMessage];
+    
     // display the rules then start the game!
     self.gameInstructions = [CCSprite spriteWithSpriteFrameName:@"game_instructions.png"];
     self.gameInstructions.anchorPoint = ccp(0.5f, 0);
@@ -379,6 +381,24 @@
     [self.gameRoundBg runAction:labelBgAction];
 }
 
+-(void)addWatchSenseiMessage {
+    // add WATCH SENSEI message bg
+    self.waitDimLayer = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 220) width:self.screenSize.width height:self.screenSize.height * 0.46f];
+    [self addChild:self.waitDimLayer z:90];
+    
+    // add WATCH SENSEI message
+    CCLabelBMFont *waitLabel = [CCLabelBMFont labelWithString:@"WATCH SENSEI" fntFile:@"grobold_25px_nostroke.fnt"];
+    waitLabel.color = ccc3(229, 214, 172);
+    waitLabel.position = ccp(self.waitDimLayer.boundingBox.size.width/2, self.waitDimLayer.boundingBox.size.height * 0.60f);
+    [self.waitDimLayer addChild:waitLabel];
+    
+    // add arrow
+    CCSprite *waitArrow = [CCSprite spriteWithSpriteFrameName:@"game_wait_arrow.png"];
+    waitArrow.anchorPoint = ccp(0.5, 0);
+    waitArrow.position = ccp(waitLabel.position.x + waitLabel.boundingBox.size.width * 0.52f, waitLabel.position.y);
+    [self.waitDimLayer addChild:waitArrow];
+}
+
 -(void)startDisplaySequenceSelector {
     self.sequenceArrowsBatch.visible = YES;
 //    PLAYSOUNDEFFECT(GONG);
@@ -424,24 +444,6 @@
             break;
     
     }
-    
-//    // add dim bg for WATCH SENSEI message if not already exist
-//    if (self.waitDimLayer == nil) {
-//        self.waitDimLayer = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 220) width:self.screenSize.width height:self.screenSize.height * 0.46f];
-//        [self addChild:self.waitDimLayer z:90];
-//        
-//        // add WATCH SENSEI message
-//        CCLabelBMFont *waitLabel = [CCLabelBMFont labelWithString:@"WATCH SENSEI" fntFile:@"grobold_25px_nostroke.fnt"];
-//        waitLabel.color = ccc3(229, 214, 172);
-//        waitLabel.position = ccp(self.waitDimLayer.boundingBox.size.width/2, self.waitDimLayer.boundingBox.size.height * 0.60f);
-//        [self.waitDimLayer addChild:waitLabel];
-//        
-//        // add arrow
-//        CCSprite *waitArrow = [CCSprite spriteWithSpriteFrameName:@"game_wait_arrow.png"];
-//        waitArrow.anchorPoint = ccp(0.5, 0);
-//        waitArrow.position = ccp(waitLabel.position.x + waitLabel.boundingBox.size.width * 0.52f, waitLabel.position.y);
-//        [self.waitDimLayer addChild:waitArrow];
-//    }
     
     [self schedule:@selector(displaySequence:) interval:displaySequenceInterval];
 }
@@ -501,6 +503,19 @@
         
         // start gameplay after a 1 sec delay
         [self runAction:[CCSequence actions:[CCDelayTime actionWithDuration:1.0f], [CCCallBlock actionWithBlock:^{
+            // remove WATCH SENSEI message
+            [self.waitDimLayer removeAllChildrenWithCleanup:YES];
+            
+            // show GO! message
+            CCLabelBMFont *goLabel = [CCLabelBMFont labelWithString:@"GO!" fntFile:@"grobold_50px_GO.fnt"];
+            goLabel.color = ccc3(229, 214, 172);
+            goLabel.position = ccp(self.waitDimLayer.boundingBox.size.width/2, self.waitDimLayer.boundingBox.size.height * 0.60f);
+            [self.waitDimLayer addChild:goLabel];
+            
+            // enlarge and fade away label with dim bg simultaneously
+            [goLabel runAction:[CCSpawn actions:[CCScaleTo actionWithDuration:0.5f scale:2], [CCFadeOut actionWithDuration:0.5f], nil]];
+            [self.waitDimLayer runAction:[CCFadeOut actionWithDuration:0.5f]];
+            
             // make arrows batch disappear if above level 1
             if ([GameManager sharedGameManager].ninjaLevel > 1) {
                 self.sequenceArrowsBatch.visible = NO;
@@ -1172,9 +1187,6 @@
         [self removeAllChildrenWithCleanup:YES];
         [self initializeGame];
     }], nil]];
-//    [self unscheduleAllSelectors];
-//    [self removeAllChildrenWithCleanup:YES];
-//    [self initializeGame];
 }
 
 -(void)confirmQuitGame {

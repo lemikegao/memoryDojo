@@ -19,6 +19,10 @@
 		C4154BF2165F413C006B6CF5 /* mainmenu_upgrades_ninjastar2.png in Resources */ = {isa = PBXBuildFile; fileRef = C4154BF1165F413C006B6CF5 /* mainmenu_upgrades_ninjastar2.png */; };
 		C4154BF6165F4174006B6CF5 /* mainmenu_upgrades_catsmall.png in Resources */ = {isa = PBXBuildFile; fileRef = C4154BF5165F4174006B6CF5 /* mainmenu_upgrades_catsmall.png */; };
 		C42113DF167191E8005A3221 /* game_wait_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = C42113DE167191E8005A3221 /* game_wait_arrow.png */; };
+		C42113ED1671CC15005A3221 /* grobold_50px_GO-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C42113E91671CC15005A3221 /* grobold_50px_GO-hd.fnt */; };
+		C42113EE1671CC15005A3221 /* grobold_50px_GO-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C42113EA1671CC15005A3221 /* grobold_50px_GO-hd.png */; };
+		C42113EF1671CC15005A3221 /* grobold_50px_GO.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C42113EB1671CC15005A3221 /* grobold_50px_GO.fnt */; };
+		C42113F01671CC15005A3221 /* grobold_50px_GO.png in Resources */ = {isa = PBXBuildFile; fileRef = C42113EC1671CC15005A3221 /* grobold_50px_GO.png */; };
 		C425993A163F6CB900A72BCB /* gong.caf in Resources */ = {isa = PBXBuildFile; fileRef = C4114718163E184500FC2BE8 /* gong.caf */; };
 		C42DF2531668047600AA4842 /* game_upgrades_cat_big.png in Resources */ = {isa = PBXBuildFile; fileRef = C42DF2521668047600AA4842 /* game_upgrades_cat_big.png */; };
 		C431192E166012A600738E17 /* game_sensei_eyes_1.png in Resources */ = {isa = PBXBuildFile; fileRef = C431192B166012A600738E17 /* game_sensei_eyes_1.png */; };
@@ -414,6 +418,10 @@
 		C4154BF1165F413C006B6CF5 /* mainmenu_upgrades_ninjastar2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainmenu_upgrades_ninjastar2.png; sourceTree = "<group>"; };
 		C4154BF5165F4174006B6CF5 /* mainmenu_upgrades_catsmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainmenu_upgrades_catsmall.png; sourceTree = "<group>"; };
 		C42113DE167191E8005A3221 /* game_wait_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_wait_arrow.png; sourceTree = "<group>"; };
+		C42113E91671CC15005A3221 /* grobold_50px_GO-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "grobold_50px_GO-hd.fnt"; sourceTree = "<group>"; };
+		C42113EA1671CC15005A3221 /* grobold_50px_GO-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grobold_50px_GO-hd.png"; sourceTree = "<group>"; };
+		C42113EB1671CC15005A3221 /* grobold_50px_GO.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = grobold_50px_GO.fnt; sourceTree = "<group>"; };
+		C42113EC1671CC15005A3221 /* grobold_50px_GO.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grobold_50px_GO.png; sourceTree = "<group>"; };
 		C42DF2521668047600AA4842 /* game_upgrades_cat_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_upgrades_cat_big.png; sourceTree = "<group>"; };
 		C431192B166012A600738E17 /* game_sensei_eyes_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_sensei_eyes_1.png; sourceTree = "<group>"; };
 		C431192C166012A600738E17 /* game_sensei_eyes_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_sensei_eyes_2.png; sourceTree = "<group>"; };
@@ -1139,6 +1147,10 @@
 		C4F6B58816311642007C5C63 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				C42113E91671CC15005A3221 /* grobold_50px_GO-hd.fnt */,
+				C42113EA1671CC15005A3221 /* grobold_50px_GO-hd.png */,
+				C42113EB1671CC15005A3221 /* grobold_50px_GO.fnt */,
+				C42113EC1671CC15005A3221 /* grobold_50px_GO.png */,
 				C49D6607166EE0D600448524 /* grobold_30px-hd.fnt */,
 				C49D6608166EE0D600448524 /* grobold_30px-hd.png */,
 				C49D6609166EE0D600448524 /* grobold_30px.fnt */,
@@ -1926,6 +1938,10 @@
 				C46FDAF5166FEC7100E10ABA /* grobold_25px_nostroke.fnt in Resources */,
 				C46FDAF6166FEC7100E10ABA /* grobold_25px_nostroke.png in Resources */,
 				C42113DF167191E8005A3221 /* game_wait_arrow.png in Resources */,
+				C42113ED1671CC15005A3221 /* grobold_50px_GO-hd.fnt in Resources */,
+				C42113EE1671CC15005A3221 /* grobold_50px_GO-hd.png in Resources */,
+				C42113EF1671CC15005A3221 /* grobold_50px_GO.fnt in Resources */,
+				C42113F01671CC15005A3221 /* grobold_50px_GO.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
