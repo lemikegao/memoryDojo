@@ -243,6 +243,10 @@
     // initialize sequence
     [self initializeSequence];
     
+    // add WATCH SENSEI message bg
+    self.waitDimLayer = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 220) width:self.screenSize.width height:self.screenSize.height * 0.46f];
+    [self addChild:self.waitDimLayer z:90];
+    
     [self addWatchSenseiMessage];
     
     // display the rules then start the game!
@@ -253,6 +257,7 @@
     
     // add sequence arrows batch node
     [self addChild:self.sequenceArrowsBatch];
+    [self.sequenceArrowsBatch runAction:[CCMoveTo actionWithDuration:0.1f position:CGPointZero]];
     
     // display sequence after label disappears
     id moveGameInstructionsDown = [CCMoveTo actionWithDuration:0.5f position:ccp(screenSize.width/2, screenSize.height * 0.60f)];
@@ -312,6 +317,23 @@
             id action = [CCSequence actions:moveGameInstructionsUp, removeInstructions, callStartDisplaySequenceSelector, nil];
             [self.gameInstructions runAction:action];
         }
+        // dismiss round label if user inputs a touch
+        else if (self.currentGameState == kGameStateRoundDisplay) {
+            self.currentGameState = kGameStatePlay;
+            id labelBgAction = [CCSequence actions:[CCFadeOut actionWithDuration:0.5f], [CCCallFuncN actionWithTarget:self selector:@selector(removeRoundPopup:)], [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
+            id labelAction = [CCFadeOut actionWithDuration:0.5f];
+            
+            [self.gameRoundBg stopAllActions];
+            for (CCNode *child in self.gameRoundBg.children) {
+                [child stopAllActions];
+            }
+            
+            // fade out bg and children labels
+            [self.gameRoundBg runAction:labelBgAction];
+            for (CCNode *child in self.gameRoundBg.children) {
+                [child runAction:[labelAction copy]];
+            }
+        }
         // if game is displaying level up screen 1, transition to next level up screen
         else if (self.currentGameState == kGameStateLevelUpScreen1) {
             if ([GameManager sharedGameManager].ninjaLevel == 4) {
@@ -360,6 +382,11 @@
 # warning - replace move action with setting position
     [self.sequenceArrowsBatch runAction:[CCMoveTo actionWithDuration:0.1f position:CGPointZero]];
     
+    // add WATCH SENSEI message
+    [self.waitDimLayer removeAllChildrenWithCleanup:YES];
+    self.waitDimLayer.opacity = 220;
+    [self addWatchSenseiMessage];
+    
     // show new round indicator
     CGSize screenSize = [CCDirector sharedDirector].winSize;
     self.gameRoundBg = [CCSprite spriteWithSpriteFrameName:@"game_rounds_bg.png"];
@@ -372,20 +399,18 @@
     [self.gameRoundBg addChild:newRoundLabel];
     
     
-    id labelAction = [CCSequence actions:[CCFadeIn actionWithDuration:0.5f], [CCDelayTime actionWithDuration:1.0f], [CCFadeOut actionWithDuration:0.5f], nil];
+    id labelAction = [CCSequence actions:[CCFadeIn actionWithDuration:0.5f], [CCCallBlock actionWithBlock:^{
+        self.currentGameState = kGameStateRoundDisplay;
+    }], [CCDelayTime actionWithDuration:2.0f], [CCFadeOut actionWithDuration:0.5f], nil];
     
     // have sensei perform new sequence
-    id labelBgAction = [CCSequence actions:[CCFadeIn actionWithDuration:0.5f], [CCDelayTime actionWithDuration:1.0f], [CCFadeOut actionWithDuration:0.5f], [CCCallFuncN actionWithTarget:self selector:@selector(removeRoundPopup:)], [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
+    id labelBgAction = [CCSequence actions:[CCFadeIn actionWithDuration:0.5f], [CCDelayTime actionWithDuration:2.0f], [CCFadeOut actionWithDuration:0.5f], [CCCallFuncN actionWithTarget:self selector:@selector(removeRoundPopup:)], [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
     
     [newRoundLabel runAction:labelAction];
     [self.gameRoundBg runAction:labelBgAction];
 }
 
 -(void)addWatchSenseiMessage {
-    // add WATCH SENSEI message bg
-    self.waitDimLayer = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 220) width:self.screenSize.width height:self.screenSize.height * 0.46f];
-    [self addChild:self.waitDimLayer z:90];
-    
     // add WATCH SENSEI message
     CCLabelBMFont *waitLabel = [CCLabelBMFont labelWithString:@"WATCH SENSEI" fntFile:@"grobold_25px_nostroke.fnt"];
     waitLabel.color = ccc3(229, 214, 172);
@@ -920,6 +945,11 @@
 //        self.sequence[currentSequenceLength + i] = [NSNumber numberWithInt:kDirectionTypeUp];
         NSLog(@"sequence at %i: %@", currentSequenceLength + i, self.sequence[currentSequenceLength + i]);
     }
+    
+    // show WATCH SENSEI message
+    [self.waitDimLayer removeAllChildrenWithCleanup:YES];
+    self.waitDimLayer.opacity = 220;
+    [self addWatchSenseiMessage];
 
     // show new round indicator
     CGSize screenSize = [CCDirector sharedDirector].winSize;
@@ -982,10 +1012,12 @@
         }
         
         
-        id labelAction = [CCSequence actions:[CCFadeIn actionWithDuration:0.5f], [CCDelayTime actionWithDuration:1.0f], [CCFadeOut actionWithDuration:0.5f], nil];
+        id labelAction = [CCSequence actions:[CCFadeIn actionWithDuration:0.5f], [CCCallBlock actionWithBlock:^{
+            self.currentGameState = kGameStateRoundDisplay;
+        }], [CCDelayTime actionWithDuration:2.0f], [CCFadeOut actionWithDuration:0.5f], nil];
         
         // have sensei perform new sequence
-        id labelBgAction = [CCSequence actions:[CCFadeIn actionWithDuration:0.5f], [CCDelayTime actionWithDuration:1.0f], [CCFadeOut actionWithDuration:0.5f], [CCCallFuncN actionWithTarget:self selector:@selector(removeRoundPopup:)], [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
+        id labelBgAction = [CCSequence actions:[CCFadeIn actionWithDuration:0.5f], [CCDelayTime actionWithDuration:2.0f], [CCFadeOut actionWithDuration:0.5f], [CCCallFuncN actionWithTarget:self selector:@selector(removeRoundPopup:)], [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
         
         [newRoundLabel runAction:labelAction];
         if (roundsUntilNextLevelLabel != nil) {
@@ -997,6 +1029,9 @@
 }
 
 -(void)showRoundLabelAfterNiceMessage {
+    // remove nice message
+    [self.gameRoundBg removeAllChildrenWithCleanup:YES];
+    
     CCLabelBMFont *newRoundLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"ROUND %i", self.roundNumber] fntFile:@"grobold_30px.fnt"];
     newRoundLabel.color = ccc3(153, 136, 94);
     newRoundLabel.position = ccp(self.gameRoundBg.boundingBox.size.width/2, self.gameRoundBg.boundingBox.size.height * 0.60f);
@@ -1039,10 +1074,12 @@
     }
     
     
-    id labelAction = [CCSequence actions:[CCFadeIn actionWithDuration:0.5], [CCDelayTime actionWithDuration:1.0f], [CCFadeOut actionWithDuration:0.5f], nil];
+    id labelAction = [CCSequence actions:[CCFadeIn actionWithDuration:0.5], [CCCallBlock actionWithBlock:^{
+        self.currentGameState = kGameStateRoundDisplay;
+    }], [CCDelayTime actionWithDuration:2.0f], [CCFadeOut actionWithDuration:0.5f], nil];
     
     // have sensei perform new sequence
-    id labelBgAction = [CCSequence actions:[CCDelayTime actionWithDuration:1.5f], [CCFadeOut actionWithDuration:0.5f], [CCCallFuncN actionWithTarget:self selector:@selector(removeRoundPopup:)], [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
+    id labelBgAction = [CCSequence actions:[CCDelayTime actionWithDuration:2.5f], [CCFadeOut actionWithDuration:0.5f], [CCCallFuncN actionWithTarget:self selector:@selector(removeRoundPopup:)], [CCCallFunc actionWithTarget:self selector:@selector(startDisplaySequenceSelector)], nil];
     
     [newRoundLabel runAction:labelAction];
     if (roundsUntilNextLevelLabel != nil) {
@@ -1180,13 +1217,20 @@
 -(void)restartGame {
     NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].ninjaLevel], @"Level", nil];
     [Flurry logEvent:@"Restarted_Game" withParameters:flurryParams];
+    
+    // check if new high score
+    int score = [GameManager sharedGameManager].score;
+    if (score > [GameManager sharedGameManager].highScore) {
+        [GameManager sharedGameManager].highScore = score;
+    }
+    
     [self.sequenceArrowsBatch removeAllChildrenWithCleanup:YES];
 # warning - replace move action with setting position
-    [self.sequenceArrowsBatch runAction:[CCSequence actions:[CCMoveTo actionWithDuration:0.01f position:CGPointZero], [CCCallBlock actionWithBlock:^{
+//    [self.sequenceArrowsBatch runAction:[CCSequence actions:[CCMoveTo actionWithDuration:0.1f position:CGPointZero], [CCCallBlock actionWithBlock:^{
         [self unscheduleAllSelectors];
         [self removeAllChildrenWithCleanup:YES];
         [self initializeGame];
-    }], nil]];
+//    }], nil]];
 }
 
 -(void)confirmQuitGame {
