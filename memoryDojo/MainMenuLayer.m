@@ -33,10 +33,6 @@
         NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%i", ninjaLevel], @"Level", nil];
         [Flurry logEvent:@"On_MainMenu" withParameters:flurryParams timed:YES];
         
-        // load texture atlas
-        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"mainmenu_art.plist"];
-        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"mainmenu_art_bg.plist"];
-        
         // add background image
         CGSize screenSize = [CCDirector sharedDirector].winSize;
         CCSprite *background = [CCSprite spriteWithSpriteFrameName:@"mainmenu_bg.png"];
@@ -112,7 +108,11 @@
     CCLOG(@"settings button was pressed");
 }
 
--(void)selectLevel {
+-(void)selectLevel:(int)level {
+    CCLOG(@"select level: %i", level);
+}
+
+-(void)showSelectLevelMenu {
     
 }
 
@@ -126,7 +126,7 @@
     settingsButton.position = ccp(screenSize.width * 0.87f, screenSize.height * 0.13f);
     
     // level select button
-    CCMenuItemImage *selectLevelButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"mainmenu_level_select_tab.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"mainmenu_level_select_tab_pressed.png"] target:self selector:@selector(selectLevel)];
+    CCMenuItemImage *selectLevelButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"mainmenu_level_select_tab.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"mainmenu_level_select_tab_pressed.png"] target:self selector:@selector(showSelectLevelMenu)];
     selectLevelButton.anchorPoint = ccp(0, 0);
     selectLevelButton.position = ccp(0, screenSize.height * 0.197f);
     
@@ -151,7 +151,7 @@
     // set menu position at 0,0 so menu items can be set with a normal offset
     mainMenu.position = CGPointZero;
     
-    [self addChild:mainMenu];
+//    [self addChild:mainMenu];
 }
 
 @end

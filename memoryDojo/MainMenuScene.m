@@ -8,14 +8,22 @@
 
 #import "MainMenuScene.h"
 #import "MainMenuLayer.h"
+#import "LevelSelectionLayer.h"
 
 @implementation MainMenuScene
 
 -(id)init {
     self = [super init];
     if (self != nil) {
+        // load texture atlas
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"mainmenu_art.plist"];
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"mainmenu_art_bg.plist"];
+        
         MainMenuLayer *mainMenuLayer = [MainMenuLayer node];
-        [self addChild:mainMenuLayer];
+        [self addChild:mainMenuLayer z:1];
+        
+        LevelSelectionLayer *levelSelectionLayer = [LevelSelectionLayer node];
+        [self addChild:levelSelectionLayer z:2];
     }
     
     return self;

@@ -710,7 +710,7 @@
     CGSize levelUpMessageBgSize = self.levelUpMessageBg.boundingBox.size;
     
     // add level up message header
-    CCLabelBMFont *levelUpMessageHeader = [CCLabelBMFont labelWithString:@"HEY LOOK!" fntFile:@"grobold_30px.fnt"];
+    CCLabelBMFont *levelUpMessageHeader = [CCLabelBMFont labelWithString:@"HEY LOOK!" fntFile:@"grobold_30px_nostroke.fnt"];
     levelUpMessageHeader.color = ccc3(153, 136, 94);
     levelUpMessageHeader.position = ccp(levelUpMessageBgSize.width/2, levelUpMessageBgSize.height * 0.70f);
     [self.levelUpMessageBg addChild:levelUpMessageHeader];
@@ -835,7 +835,7 @@
     CGSize levelUpMessageBgSize = self.levelUpMessageBg.boundingBox.size;
     
     // add new level up messages
-    CCLabelBMFont *levelUpMessageBody = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"YOU ARE NOW SUPER NINJA LEVEL %i!", [GameManager sharedGameManager].ninjaLevel] fntFile:@"grobold_30px.fnt" width:levelUpMessageBgSize.width * 0.70f alignment:kCCTextAlignmentCenter];
+    CCLabelBMFont *levelUpMessageBody = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"YOU ARE NOW SUPER NINJA LEVEL %i!", [GameManager sharedGameManager].ninjaLevel] fntFile:@"grobold_30px_nostroke.fnt" width:levelUpMessageBgSize.width * 0.70f alignment:kCCTextAlignmentCenter];
     levelUpMessageBody.color = ccc3(153, 136, 94);
     levelUpMessageBody.position = ccp(levelUpMessageBgSize.width/2, levelUpMessageBgSize.height/2);
     [self.levelUpMessageBg addChild:levelUpMessageBody];
@@ -856,7 +856,7 @@
     CGSize levelUpMessageBgSize = self.levelUpMessageBg.boundingBox.size;
     
     // add new level up messages
-    CCLabelBMFont *levelUpMessageBody = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"YOU ARE NOW SUPER NINJA LEVEL %i!", [GameManager sharedGameManager].ninjaLevel] fntFile:@"grobold_30px.fnt" width:levelUpMessageBgSize.width * 0.70f alignment:kCCTextAlignmentCenter];
+    CCLabelBMFont *levelUpMessageBody = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"YOU ARE NOW SUPER NINJA LEVEL %i!", [GameManager sharedGameManager].ninjaLevel] fntFile:@"grobold_30px_nostroke.fnt" width:levelUpMessageBgSize.width * 0.70f alignment:kCCTextAlignmentCenter];
     levelUpMessageBody.color = ccc3(153, 136, 94);
     levelUpMessageBody.position = ccp(levelUpMessageBgSize.width/2, levelUpMessageBgSize.height/2);
     [self.levelUpMessageBg addChild:levelUpMessageBody];
@@ -973,7 +973,7 @@
         [niceLabel runAction:niceLabelAction];
     } else {
         self.roundNumber++;
-        CCLabelBMFont *newRoundLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"ROUND %i", self.roundNumber] fntFile:@"grobold_30px.fnt"];
+        CCLabelBMFont *newRoundLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"ROUND %i", self.roundNumber] fntFile:@"grobold_30px_nostroke.fnt"];
         newRoundLabel.color = ccc3(153, 136, 94);
         newRoundLabel.position = ccp(self.gameRoundBg.boundingBox.size.width/2, self.gameRoundBg.boundingBox.size.height * 0.60f);
         [self.gameRoundBg addChild:newRoundLabel];
@@ -1037,7 +1037,7 @@
     // remove nice message
     [self.gameRoundBg removeAllChildrenWithCleanup:YES];
     
-    CCLabelBMFont *newRoundLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"ROUND %i", self.roundNumber] fntFile:@"grobold_30px.fnt"];
+    CCLabelBMFont *newRoundLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"ROUND %i", self.roundNumber] fntFile:@"grobold_30px_nostroke.fnt"];
     newRoundLabel.color = ccc3(153, 136, 94);
     newRoundLabel.position = ccp(self.gameRoundBg.boundingBox.size.width/2, self.gameRoundBg.boundingBox.size.height * 0.60f);
     [self.gameRoundBg addChild:newRoundLabel];
