@@ -7,7 +7,10 @@
 //
 
 #import "CCLayer.h"
+#import "CommonProtocols.h"
 
 @interface LevelSelectionLayer : CCLayer
+
+@property (nonatomic, weak) id<MainMenuLayerDelegate> delegate;
 
 @end

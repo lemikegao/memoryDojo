@@ -59,7 +59,7 @@
             [levelMenuItem addChild:levelAvatar z:10];
         } else {
             // show question mark in place of avatar
-            CCLabelBMFont *missingLevelAvatar = [CCLabelBMFont labelWithString:@"???" fntFile:@"grobold_25px_nostroke-hd.fnt"];
+            CCLabelBMFont *missingLevelAvatar = [CCLabelBMFont labelWithString:@"???" fntFile:@"grobold_25px_nostroke.fnt"];
             missingLevelAvatar.color = ccc3(25, 25, 25);
             missingLevelAvatar.position = ccp(self.levelMenuItemSize.width * 0.40f, self.levelMenuItemSize.height * 0.44f);
             [levelMenuItem addChild:missingLevelAvatar z:10];
@@ -152,6 +152,9 @@
             
             // change level label to new selected level
             self.levelLabel.string = [NSString stringWithFormat:@"%i", level];
+            
+            // show upgrades for newly selected level
+            [self.delegate showUpgradesForLevel:level fromLevel:currentLevel];
         }
     }
     

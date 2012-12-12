@@ -24,6 +24,8 @@
         
         LevelSelectionLayer *levelSelectionLayer = [LevelSelectionLayer node];
         [self addChild:levelSelectionLayer z:2];
+        
+        levelSelectionLayer.delegate = mainMenuLayer;
     }
     
     return self;

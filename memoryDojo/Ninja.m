@@ -150,7 +150,7 @@
 -(void)updateStateWithDeltaTime:(ccTime)deltaTime andListOfGameObjects:(CCArray *)listOfGameObjects {
     // blink every 2 seconds when idle
     self.secondsStayingIdle = self.secondsStayingIdle + deltaTime;
-    if (self.secondsStayingIdle > 3.0f && self.isNinjaBlinking == NO) {
+    if (self.secondsStayingIdle > 2.0f && self.isNinjaBlinking == NO) {
         [self blink];
     }
 }

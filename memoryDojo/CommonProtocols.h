@@ -22,4 +22,10 @@ typedef enum {
 
 @end
 
+@protocol MainMenuLayerDelegate
+
+-(void) showUpgradesForLevel:(int)newLevel fromLevel:(int)oldLevel;
+
+@end
+
 #endif

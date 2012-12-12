@@ -7,7 +7,8 @@
 //
 
 #import "CCLayer.h"
+#import "CommonProtocols.h"
 
-@interface MainMenuLayer : CCLayer
+@interface MainMenuLayer : CCLayer <MainMenuLayerDelegate>
 
 @end

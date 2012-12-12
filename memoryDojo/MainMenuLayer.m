@@ -10,14 +10,30 @@
 #import "Constants.h"
 #import "GameManager.h"
 #import "MainMenuNinja.h"
+#import "MainMenuNinjaStar.h"
 #import "Flurry.h"
 
 @interface MainMenuLayer()
 
+// game objects
+@property (nonatomic, strong) MainMenuNinja *ninja;
+@property (nonatomic, strong) CCArray *ninjaStars;
+
+// game state
+@property (nonatomic) BOOL enableGestures;
+@property (nonatomic) int nextInactiveNinjaStar;
+
+// upgrades
 @property (nonatomic, strong) CCParticleSystem *auraEmitter;
--(void)playGameScene;
--(void)showSettings;
--(void)displayMainMenu;
+@property (nonatomic, strong) CCSprite *ninjaStar;
+@property (nonatomic, strong) CCSprite *smallCat;
+@property (nonatomic, strong) CCSprite *bigCat;
+
+// player input actions
+@property (nonatomic, strong) UISwipeGestureRecognizer *swipeLeftRecognizer;
+@property (nonatomic, strong) UISwipeGestureRecognizer *swipeDownRecognizer;
+@property (nonatomic, strong) UISwipeGestureRecognizer *swipeRightRecognizer;
+@property (nonatomic, strong) UISwipeGestureRecognizer *swipeUpRecognizer;
 
 @end
 
@@ -28,6 +44,8 @@
     if (self != nil) {
         // add appropriate level upgrades
         int ninjaLevel = [GameManager sharedGameManager].ninjaLevel;
+        self.enableGestures = YES;
+        self.nextInactiveNinjaStar = 0;
         
         // record duration of staying on main menu
         NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%i", ninjaLevel], @"Level", nil];
@@ -59,39 +77,115 @@
         highScoreLabel.position = ccp(screenSize.width * 0.05f, screenSize.height * 0.84f);
         [self addChild:highScoreLabel];
         
-        MainMenuNinja *ninja = [[MainMenuNinja alloc] init];
-        ninja.position = ccp(screenSize.width * 0.76f, screenSize.height * 0.50f);
-        [self addChild:ninja z:100];
+        self.ninja = [[MainMenuNinja alloc] init];
+        self.ninja.position = ccp(screenSize.width * 0.76f, screenSize.height * 0.50f);
+        [self addChild:self.ninja z:100];
         
-        if (ninjaLevel >= 2) {
-            // add aura behind ninja
-            self.auraEmitter = [CCParticleSystemQuad particleWithFile:@"aura1.plist"];
-            self.auraEmitter.position = ccp(ninja.position.x + ninja.boundingBox.size.width/8, ninja.position.y);
-            [self addChild:self.auraEmitter z:10];
-        }
-        if (ninjaLevel >= 3) {
-            // add ninja star
-            CCSprite *ninjaStar = [CCSprite spriteWithSpriteFrameName:@"mainmenu_upgrades_ninjastar2.png"];
-            ninjaStar.position = ccp(ninja.boundingBox.size.width * 0.33f, ninja.boundingBox.size.height * 0.285f);
-            [ninja addChild:ninjaStar];
-        }
-        if (ninjaLevel == 4) {
-            // add small cat
-            CCSprite *smallCat = [CCSprite spriteWithSpriteFrameName:@"mainmenu_upgrades_catsmall.png"];
-            smallCat.position = ccp(ninja.position.x * 0.50f, ninja.position.y * 0.78f);
-            [self addChild:smallCat z:95];
-        }
-        if (ninjaLevel >= 5) {
-            // add big cat
-            CCSprite *bigCat = [CCSprite spriteWithSpriteFrameName:@"mainmenu_upgrades_catbig.png"];
-            bigCat.position = ccp(ninja.position.x * 0.48f, ninja.position.y * 0.83f);
-            [self addChild:bigCat z:95];
-        }
+        // initialize upgrades (minus the aura, which has to be reinitialized in showUpgradesForLevel:)
+        self.ninjaStar = [CCSprite spriteWithSpriteFrameName:@"mainmenu_upgrades_ninjastar2.png"];
+        self.ninjaStar.position = ccp(self.ninja.boundingBox.size.width * 0.33f, self.ninja.boundingBox.size.height * 0.285f);
+        self.smallCat = [CCSprite spriteWithSpriteFrameName:@"mainmenu_upgrades_catsmall.png"];
+        self.smallCat.position = ccp(self.ninja.position.x * 0.50f, self.ninja.position.y * 0.78f);
+        self.bigCat = [CCSprite spriteWithSpriteFrameName:@"mainmenu_upgrades_catbig.png"];
+        self.bigCat.position = ccp(self.ninja.position.x * 0.48f, self.ninja.position.y * 0.83f);
+        
+        [self showUpgradesForLevel:ninjaLevel fromLevel:1];
         
         [self displayMainMenu];
+        [self scheduleUpdate];
     }
     
     return self;
+}
+
+-(void)onEnter {
+    [super onEnter];
+    
+    self.swipeLeftRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleLeftSwipe)];
+    self.swipeLeftRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
+    [[CCDirector sharedDirector].view addGestureRecognizer:self.swipeLeftRecognizer];
+    
+    self.swipeDownRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleDownSwipe)];
+    self.swipeDownRecognizer.direction = UISwipeGestureRecognizerDirectionDown;
+    [[CCDirector sharedDirector].view addGestureRecognizer:self.swipeDownRecognizer];
+    
+    self.swipeRightRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleRightSwipe)];
+    self.swipeRightRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
+    [[CCDirector sharedDirector].view addGestureRecognizer:self.swipeRightRecognizer];
+    
+    self.swipeUpRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleUpSwipe)];
+    self.swipeUpRecognizer.direction = UISwipeGestureRecognizerDirectionUp;
+    [[CCDirector sharedDirector].view addGestureRecognizer:self.swipeUpRecognizer];
+}
+
+-(void)onExit {
+    CCLOG(@"MainMenuLayer->onExit");
+    [super onExit];
+    
+    [[CCDirector sharedDirector].view removeGestureRecognizer:self.swipeLeftRecognizer];
+    [[CCDirector sharedDirector].view removeGestureRecognizer:self.swipeDownRecognizer];
+    [[CCDirector sharedDirector].view removeGestureRecognizer:self.swipeRightRecognizer];
+    [[CCDirector sharedDirector].view removeGestureRecognizer:self.swipeUpRecognizer];
+}
+
+-(void)handleLeftSwipe {
+    if (self.enableGestures) {
+        [self.ninja changeState:kCharacterStateLeft];
+        if ([GameManager sharedGameManager].ninjaLevel >= 3) {
+            // throw ninja star
+            MainMenuNinjaStar *ninjaStar = (MainMenuNinjaStar*)[self.ninjaStars objectAtIndex:self.nextInactiveNinjaStar];
+            [ninjaStar shootNinjaStarFromNinja:self.ninja withDirection:kDirectionTypeLeft];
+            self.nextInactiveNinjaStar++;
+            if (self.nextInactiveNinjaStar >= [self.ninjaStars count]) {
+                self.nextInactiveNinjaStar = 0;
+            }
+        }
+    }
+}
+
+-(void)handleDownSwipe {
+    if (self.enableGestures) {
+        [self.ninja changeState:kCharacterStateDown];
+        if ([GameManager sharedGameManager].ninjaLevel >= 3) {
+            // throw ninja star
+            MainMenuNinjaStar *ninjaStar = (MainMenuNinjaStar*)[self.ninjaStars objectAtIndex:self.nextInactiveNinjaStar];
+            [ninjaStar shootNinjaStarFromNinja:self.ninja withDirection:kDirectionTypeDown];
+            self.nextInactiveNinjaStar++;
+            if (self.nextInactiveNinjaStar >= [self.ninjaStars count]) {
+                self.nextInactiveNinjaStar = 0;
+            }
+        }
+    }
+}
+
+-(void)handleRightSwipe {
+    if (self.enableGestures) {
+        [self.ninja changeState:kCharacterStateRight];
+        if ([GameManager sharedGameManager].ninjaLevel >= 3) {
+            // throw ninja star
+            MainMenuNinjaStar *ninjaStar = (MainMenuNinjaStar*)[self.ninjaStars objectAtIndex:self.nextInactiveNinjaStar];
+            [ninjaStar shootNinjaStarFromNinja:self.ninja withDirection:kDirectionTypeRight];
+            self.nextInactiveNinjaStar++;
+            if (self.nextInactiveNinjaStar >= [self.ninjaStars count]) {
+                self.nextInactiveNinjaStar = 0;
+            }
+        }
+    }
+}
+
+-(void)handleUpSwipe {
+    if (self.enableGestures) {
+        [self.ninja changeState:kCharacterStateUp];
+        if ([GameManager sharedGameManager].ninjaLevel >= 3) {
+            // throw ninja star
+            MainMenuNinjaStar *ninjaStar = (MainMenuNinjaStar*)[self.ninjaStars objectAtIndex:self.nextInactiveNinjaStar];
+            [ninjaStar shootNinjaStarFromNinja:self.ninja withDirection:kDirectionTypeUp];
+            self.nextInactiveNinjaStar++;
+            if (self.nextInactiveNinjaStar >= [self.ninjaStars count]) {
+                self.nextInactiveNinjaStar = 0;
+            }
+        }
+    }
 }
 
 -(void)playGameScene {
@@ -106,14 +200,6 @@
     [Flurry logEvent:@"Clicked_Settings" withParameters:flurryParams];
     // placeholder
     CCLOG(@"settings button was pressed");
-}
-
--(void)selectLevel:(int)level {
-    CCLOG(@"select level: %i", level);
-}
-
--(void)showSelectLevelMenu {
-    
 }
 
 -(void)displayMainMenu {
@@ -131,6 +217,109 @@
     mainMenu.position = CGPointZero;
     
     [self addChild:mainMenu];
+}
+
+-(void)showUpgradesForLevel:(int)newLevel fromLevel:(int)oldLevel {
+    if (oldLevel > newLevel) {
+        // remove upgrades
+        switch (newLevel) {
+            case 5:
+                // placeholder for when there's a level 6 upgrade
+                break;
+            case 4:
+                // replace big cat with small cat
+                [self removeChild:self.bigCat cleanup:YES];
+                [self addChild:self.smallCat z:95];
+                break;
+            case 3:
+                // remove cat
+                if (oldLevel >=5) {
+                    [self removeChild:self.bigCat cleanup:YES];
+                } else {
+                    [self removeChild:self.smallCat cleanup:YES];
+                }
+                break;
+            case 2:
+                // remove appropriate cat
+                if (oldLevel >=5) {
+                    [self removeChild:self.bigCat cleanup:YES];
+                } else if (oldLevel == 4) {
+                    [self removeChild:self.smallCat cleanup:YES];
+                }
+                
+                // remove ninja star
+                [self.ninja removeChild:self.ninjaStar cleanup:YES];
+                break;
+            case 1:
+                // remove appropriate cat
+                if (oldLevel >=5) {
+                    [self removeChild:self.bigCat cleanup:YES];
+                } else if (oldLevel == 4) {
+                    [self removeChild:self.smallCat cleanup:YES];
+                }
+                
+                // remove ninja star if appropriate
+                if (oldLevel >=3 ) {
+                    [self.ninja removeChild:self.ninjaStar cleanup:YES];
+                }
+                
+                // remove aura
+                [self removeChild:self.auraEmitter cleanup:YES];
+                break;
+            default:
+                CCLOG(@"Invalid level in MainMenuLayer->showUpgradesForLevel: %i", newLevel);
+                break;
+        }
+    } else {
+        // add upgrades
+        if (oldLevel < 2 && newLevel >= 2) {
+            // add aura behind ninja
+            self.auraEmitter = [CCParticleSystemQuad particleWithFile:@"aura1.plist"];
+            self.auraEmitter.position = ccp(self.ninja.position.x + self.ninja.boundingBox.size.width/8, self.ninja.position.y);
+            [self addChild:self.auraEmitter z:10];
+        }
+        if (oldLevel < 3 && newLevel >= 3) {
+            // add ninja star
+            [self.ninja addChild:self.ninjaStar];
+            [self addNinjaStarsUpgrade];
+        }
+        if (oldLevel < 4 && newLevel == 4) {
+            // add small cat
+            [self addChild:self.smallCat z:95];
+        }
+        if (oldLevel < 5 && newLevel >= 5) {
+            // remove small cat if coming from level 4
+            if (oldLevel == 4) {
+                [self removeChild:self.smallCat cleanup:YES];
+            }
+            
+            // add big cat
+            [self addChild:self.bigCat z:95];
+        }
+        if (newLevel >= 6) {
+            // placeholder for level 6 upgrade
+        }
+    }
+}
+
+-(void)addNinjaStarsUpgrade {
+    // init throwing ninja stars
+    CCSpriteBatchNode *ninjaStarBatchNode = [CCSpriteBatchNode batchNodeWithFile:@"mainmenu_art.pvr.ccz" capacity:8];
+    [self addChild:ninjaStarBatchNode z:99];
+    
+    // Create a max of 8 throwing ninja stars on screen at one time
+    for (int i=0; i<8; i++) {
+        MainMenuNinjaStar *ninjaStar = [[MainMenuNinjaStar alloc] init];
+        [ninjaStarBatchNode addChild:ninjaStar];
+    }
+    
+    self.ninjaStars = [ninjaStarBatchNode children];
+    
+    self.nextInactiveNinjaStar = 0;
+}
+
+-(void)update:(ccTime)deltaTime {
+    [self.ninja updateStateWithDeltaTime:deltaTime andListOfGameObjects:nil];
 }
 
 @end
