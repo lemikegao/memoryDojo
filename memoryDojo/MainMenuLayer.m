@@ -125,33 +125,12 @@
     CCMenuItemImage *settingsButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"mainmenu_button_settings.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"mainmenu_button_settings_pressed.png"] target:self selector:@selector(showSettings)];
     settingsButton.position = ccp(screenSize.width * 0.87f, screenSize.height * 0.13f);
     
-    // level select button
-    CCMenuItemImage *selectLevelButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"mainmenu_level_select_tab.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"mainmenu_level_select_tab_pressed.png"] target:self selector:@selector(showSelectLevelMenu)];
-    selectLevelButton.anchorPoint = ccp(0, 0);
-    selectLevelButton.position = ccp(0, screenSize.height * 0.197f);
-    
-    CGSize selectLevelButtonSize = selectLevelButton.boundingBox.size;
-    
-    // add level copy to level select button
-    CCLabelBMFont *levelCopyLabel = [CCLabelBMFont labelWithString:@"LEVEL" fntFile:@"grobold_21px_nostroke.fnt"];
-    levelCopyLabel.color = ccc3(165, 149, 109);
-    levelCopyLabel.anchorPoint = ccp(0, 0.5);
-    levelCopyLabel.position = ccp(selectLevelButtonSize.width * 0.09f, selectLevelButtonSize.height * 0.45f);
-    [selectLevelButton addChild:levelCopyLabel];
-    
-    // add level to level select button
-    CCLabelBMFont *levelLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].ninjaLevel] fntFile:@"grobold_25px_nostroke.fnt"];
-    levelLabel.color = ccc3(229, 214, 172);
-    levelLabel.anchorPoint = ccp(0, 0.5);
-    levelLabel.position = ccp(levelCopyLabel.boundingBox.size.width + levelCopyLabel.position.x + selectLevelButtonSize.width * 0.09f, levelCopyLabel.position.y);
-    [selectLevelButton addChild:levelLabel];
-    
-    CCMenu *mainMenu = [CCMenu menuWithItems:playGameButton, settingsButton, selectLevelButton, nil];
+    CCMenu *mainMenu = [CCMenu menuWithItems:playGameButton, settingsButton, nil];
 
     // set menu position at 0,0 so menu items can be set with a normal offset
     mainMenu.position = CGPointZero;
     
-//    [self addChild:mainMenu];
+    [self addChild:mainMenu];
 }
 
 @end
