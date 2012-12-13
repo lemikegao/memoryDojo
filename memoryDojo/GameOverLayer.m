@@ -58,7 +58,7 @@
         CGSize gameOverMenuBgSize = gameOverMenuBg.boundingBox.size;
         CCLabelBMFont *scoreCopy = [CCLabelBMFont labelWithString:@"SCORE:" fntFile:@"grobold_21px_nostroke.fnt"];
         scoreCopy.color = ccc3(104, 95, 82);
-        scoreCopy.position = ccp(gameOverMenuBgSize.width * 0.33f, gameOverMenuBgSize.height * 0.766f);
+        scoreCopy.position = ccp(gameOverMenuBgSize.width * 0.33f, gameOverMenuBgSize.height * 0.696f);
         [gameOverMenuBg addChild:scoreCopy];
         
         // add score
@@ -66,12 +66,16 @@
         CCSprite *scoreLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i", score] fntFile:@"grobold_35px.fnt"];
         scoreLabel.color = ccc3(229, 214, 172);
         scoreLabel.anchorPoint = ccp(0, 0.5);
-        scoreLabel.position = ccp(gameOverMenuBgSize.width * 0.52f, gameOverMenuBgSize.height * 0.77f);
+        scoreLabel.position = ccp(gameOverMenuBgSize.width * 0.52f, gameOverMenuBgSize.height * 0.70f);
         [gameOverMenuBg addChild:scoreLabel];
         
         // check if new high score
         if (score > [GameManager sharedGameManager].highScore) {
             [GameManager sharedGameManager].highScore = score;
+            // add new high score sprite
+            CCSprite *newHighScore = [CCSprite spriteWithSpriteFrameName:@"game_over_new_high_score.png"];
+            newHighScore.position = ccp(gameOverMenuBgSize.width * 0.73f, gameOverMenuBgSize.height * 0.85f);
+            [gameOverMenuBg addChild:newHighScore];
         }
         
         // add menu (play again, quit)
@@ -82,7 +86,7 @@
         
         CCMenu *gameOverMenu = [CCMenu menuWithItems:playAgainButton, quitButton, nil];
         [gameOverMenu alignItemsVerticallyWithPadding:gameOverMenuBgSize.height * 0.10f];
-        gameOverMenu.position = ccp(gameOverMenuBgSize.width * 0.50f, gameOverMenuBgSize.height * 0.45f);
+        gameOverMenu.position = ccp(gameOverMenuBgSize.width * 0.50f, gameOverMenuBgSize.height * 0.43f);
         [gameOverMenuBg addChild:gameOverMenu z:5];
     }
     
