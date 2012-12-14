@@ -10,4 +10,6 @@
 
 @interface Ninja : GameObject
 
+-(void)removeBlinkingEyes;
+
 @end

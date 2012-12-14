@@ -30,6 +30,7 @@
 @property (nonatomic) CGFloat timeToSubtractPerSecond;
 @property (nonatomic) CGFloat timeArrowsHidden;
 @property (nonatomic) BOOL didBeatHighScore;
+@property (nonatomic) CGFloat secondsIdle;
 
 // gameplay
 @property (nonatomic, strong) NSMutableArray *sequence;
@@ -55,30 +56,6 @@
 @property (nonatomic, strong) CCSprite *smallCat;
 @property (nonatomic, strong) CCLayerColor *dimLayer;
 @property (nonatomic, strong) CCLayerColor *waitDimLayer;
-
--(void)initializeSequence;
--(void)initializeGame;
--(void)removeInstructions;
--(void)removeRoundPopup:(CCSprite*)roundBg;
--(void)displaySequence:(ccTime)deltaTime;
--(void)handleLeftSwipe;
--(void)handleDownSwipe;
--(void)handleRightSwipe;
--(void)handleUpSwipe;
--(void)checkIfSwipeIsCorrect:(DirectionTypes)direction;
--(void)startNewRound;
--(void)showRoundLabelAfterNiceMessage;
--(void)pauseGame;
--(void)pauseAllSchedulerAndActions:(CCNode*)node;
--(void)addPausedMenuItems;
--(void)resumeGame;
--(void)resumeAllSchedulerAndActions:(CCNode*)node;
--(void)confirmRestartGame;
--(void)goBackToPausedMenu;
--(void)restartGame;
--(void)confirmQuitGame;
--(void)quitGame;
--(void)playGameOverScene;
 
 @end
 
@@ -207,7 +184,8 @@
     
     // initialize ninja
     self.ninja = [[Ninja alloc] init];
-    self.ninja.position = ccp(screenSize.width/2, screenSize.height * 0.27f);
+    self.ninja.anchorPoint = ccp(0.5, 0);
+    self.ninja.position = ccp(screenSize.width/2, screenSize.height * 0.10f);
     [self addChild:self.ninja z:4];
     
     // add appropriate level upgrades
@@ -216,7 +194,7 @@
     if (ninjaLevel >= 2) {
         // add aura behind ninja
         self.level2AuraEmitter = [CCParticleSystemQuad particleWithFile:@"aura1_game.plist"];
-        self.level2AuraEmitter.position = ccp(self.ninja.position.x + self.ninja.boundingBox.size.width/8, self.ninja.position.y);
+        self.level2AuraEmitter.position = ccp(self.ninja.position.x + self.ninja.boundingBox.size.width/8, self.ninja.position.y + self.ninja.boundingBox.size.height/2);
         [self addChild:self.level2AuraEmitter z:2];
     }
     if (ninjaLevel >= 3) {
@@ -230,13 +208,13 @@
     if (ninjaLevel == 4) {
         // add small cat
         self.smallCat = [CCSprite spriteWithSpriteFrameName:@"game_upgrades_cat_small.png"];
-        self.smallCat.position = ccp(self.ninja.position.x * 0.33f, self.ninja.position.y * 0.71f);
+        self.smallCat.position = ccp(self.ninja.position.x * 0.33f, self.ninja.position.y * 2.20f);
         [self addChild:self.smallCat z:3];
     }
     if (ninjaLevel >= 5) {
         // add big cat
         CCSprite *bigCat = [CCSprite spriteWithSpriteFrameName:@"game_upgrades_cat_big.png"];
-        bigCat.position = ccp(self.ninja.position.x * 0.297f, self.ninja.position.y * 0.83f);
+        bigCat.position = ccp(self.ninja.position.x * 0.297f, self.ninja.position.y * 2.40f);
         [self addChild:bigCat z:3];
     }
     
@@ -549,6 +527,8 @@
                 self.sequenceArrowsBatch.visible = NO;
             }
             self.enableGestures = YES;
+            // reset idle timer
+            self.secondsIdle = 0;
             [self scheduleUpdate];
         }], nil]];
     }
@@ -556,6 +536,7 @@
 
 -(void)handleLeftSwipe {
     if (self.enableGestures && !self.isGamePaused) {
+        self.secondsIdle = 0;
         [self.ninja changeState:kCharacterStateLeft];
         if ([GameManager sharedGameManager].ninjaLevel >= 3) {
             // throw ninja star
@@ -572,6 +553,7 @@
 
 -(void)handleDownSwipe {
     if (self.enableGestures && !self.isGamePaused) {
+        self.secondsIdle = 0;
         [self.ninja changeState:kCharacterStateDown];
         if ([GameManager sharedGameManager].ninjaLevel >= 3) {
             // throw ninja star
@@ -588,6 +570,7 @@
 
 -(void)handleRightSwipe {
     if (self.enableGestures && !self.isGamePaused) {
+        self.secondsIdle = 0;
         [self.ninja changeState:kCharacterStateRight];
         if ([GameManager sharedGameManager].ninjaLevel >= 3) {
             // throw ninja star
@@ -604,6 +587,7 @@
 
 -(void)handleUpSwipe {
     if (self.enableGestures && !self.isGamePaused) {
+        self.secondsIdle = 0;
         [self.ninja changeState:kCharacterStateUp];
         if ([GameManager sharedGameManager].ninjaLevel >= 3) {
             // throw ninja star
@@ -636,8 +620,7 @@
         id moveArrows = [CCMoveBy actionWithDuration:0.1f position:ccp(-1 * self.screenSize.width/7.0f, 0)];
         [self.sequenceArrowsBatch runAction:moveArrows];
     } else {
-        CCLOG(@"You lose!");
-        [self playGameOverScene];
+        [self playerLosesWithDirection:direction];
     }
     
     // check if sequence is complete
@@ -685,6 +668,77 @@
             [self startNewRound];
         }
     }
+}
+
+-(void)playerLosesWithDirection:(DirectionTypes)direction {
+    CCLOG(@"you lose!");
+    self.enableGestures = NO;
+    [self unscheduleUpdate];
+    // trigger losing animation for LEFT and DOWN direction
+    id tripAnimation;
+    if (direction == kDirectionTypeLeft) {
+        tripAnimation = [CCSequence actions:[CCRotateBy actionWithDuration:0.15f angle:-10], [CCRotateBy actionWithDuration:0.15f angle:20], [CCRotateBy actionWithDuration:0.15f angle:-75], [CCCallBlock actionWithBlock:^{
+            // remove blinking eyes
+            [self.ninja removeBlinkingEyes];
+            
+            // add spinny eyes
+            CCSprite *rightSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
+            rightSpinnyEyes.position = ccp(self.ninja.position.x * 0.55f, self.ninja.position.y * 2.25f);
+            [self.ninja addChild:rightSpinnyEyes];
+            
+            CCSprite *leftSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
+            leftSpinnyEyes.position = ccp(rightSpinnyEyes.position.x * 0.72f, rightSpinnyEyes.position.y);
+            [self.ninja addChild:leftSpinnyEyes];
+            
+            // spin eyes
+            id spinEyes = [CCRotateBy actionWithDuration:2.0f angle:-900];
+            [rightSpinnyEyes runAction:spinEyes];
+            [leftSpinnyEyes runAction:[spinEyes copy]];
+            
+        }], nil];
+    } else if (direction == kDirectionTypeDown) {
+        // need to move eyes lower
+        tripAnimation = [CCSequence actions:[CCRotateBy actionWithDuration:0.15f angle:-10], [CCRotateBy actionWithDuration:0.15f angle:20], [CCRotateBy actionWithDuration:0.15f angle:-75], [CCCallBlock actionWithBlock:^{
+            // remove blinking eyes
+            [self.ninja removeBlinkingEyes];
+            
+            // add spinny eyes
+            CCSprite *rightSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
+            rightSpinnyEyes.position = ccp(self.ninja.position.x * 0.55f, self.ninja.position.y * 2.10f);
+            [self.ninja addChild:rightSpinnyEyes];
+            
+            CCSprite *leftSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
+            leftSpinnyEyes.position = ccp(rightSpinnyEyes.position.x * 0.72f, rightSpinnyEyes.position.y);
+            [self.ninja addChild:leftSpinnyEyes];
+            
+            // spin eyes
+            id spinEyes = [CCRotateBy actionWithDuration:2.0f angle:-900];
+            [rightSpinnyEyes runAction:spinEyes];
+            [leftSpinnyEyes runAction:[spinEyes copy]];
+        }], nil];
+    } else {
+        tripAnimation = [CCSequence actions:[CCRotateBy actionWithDuration:0.15f angle:10], [CCRotateBy actionWithDuration:0.15f angle:-20], [CCRotateBy actionWithDuration:0.15f angle:75], [CCCallBlock actionWithBlock:^{
+            // remove blinking eyes
+            [self.ninja removeBlinkingEyes];
+            
+            // add spinny eyes
+            CCSprite *rightSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
+            rightSpinnyEyes.position = ccp(self.ninja.position.x * 0.55f, self.ninja.position.y * 2.25f);
+            [self.ninja addChild:rightSpinnyEyes];
+            
+            CCSprite *leftSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
+            leftSpinnyEyes.position = ccp(rightSpinnyEyes.position.x * 0.72f, rightSpinnyEyes.position.y);
+            [self.ninja addChild:leftSpinnyEyes];
+            
+            // spin eyes
+            id spinEyes = [CCRotateBy actionWithDuration:2.0f angle:-900];
+            [rightSpinnyEyes runAction:spinEyes];
+            [leftSpinnyEyes runAction:[spinEyes copy]];
+        }], nil];
+    }
+    [self.ninja runAction:[CCSequence actions:tripAnimation, [CCDelayTime actionWithDuration:2.0f], [CCCallBlock actionWithBlock:^{
+        [self playGameOverScene];
+    }], nil]];
 }
 
 -(void)ninjaLevelUp {
@@ -1286,12 +1340,8 @@
     [self.ninja updateStateWithDeltaTime:deltaTime andListOfGameObjects:nil];
     [self.sensei updateStateWithDeltaTime:deltaTime andListOfGameObjects:nil];
     
-    // level 1 - arrows stay the entire round
-    
-    // level 4 - arrows reappear if player is idle for 0.5 sec
-    // level 5 - arrows reappear if player is idle for 1 sec
-    // level 6 - no arrows
     self.timer.percentage -= self.timeToSubtractPerSecond/60.0f;
+    self.secondsIdle = self.secondsIdle + deltaTime;
     if (self.timer.percentage <= 0) {
         [self playGameOverScene];
     }
@@ -1332,6 +1382,23 @@
                     self.sequenceArrowsBatch.visible = NO;
                 }], nil]];
             }
+        }
+            
+        case 5: {
+            // level 5 - arrows appear after player is idle for 1sec
+            if (self.secondsIdle >= 1 && self.sequenceArrowsBatch.visible == NO) {
+                self.sequenceArrowsBatch.visible = YES;
+            } else if (self.secondsIdle < 1 && self.sequenceArrowsBatch.visible == YES) {
+                self.sequenceArrowsBatch.visible = NO;
+            }
+        }
+            
+        case 6: {
+            // level 6 -- arrows never reappear!
+        }
+            
+        default: {
+            // no other levels...
         }
     }
 }

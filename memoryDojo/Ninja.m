@@ -147,6 +147,10 @@
     self.ninjaOpenEyes.position = ccp(self.boundingBox.size.width * 0.455f, self.boundingBox.size.height * 0.574);
 }
 
+-(void)removeBlinkingEyes {
+    [self removeAllChildrenWithCleanup:YES];
+}
+
 -(void)updateStateWithDeltaTime:(ccTime)deltaTime andListOfGameObjects:(CCArray *)listOfGameObjects {
     // blink every 2 seconds when idle
     self.secondsStayingIdle = self.secondsStayingIdle + deltaTime;
