@@ -824,11 +824,30 @@
                 // remove small cat
                 [self.smallCat removeFromParentAndCleanup:YES];
             }], [CCDelayTime actionWithDuration:1.5f], [CCCallFunc actionWithTarget:self selector:@selector(showNinjaLevelUpScreen2)], nil]];
+            
+            break;
+        }
+            
+        case 6:
+        {
+            // evolve ninja into sensei
+            id switchFromNinjaToSenseiSpriteAction = [CCSequence actions:[CCCallBlock actionWithBlock:^{
+                [self.ninja switchToSensei];
+            }], [CCDelayTime actionWithDuration:0.1f], [CCCallBlock actionWithBlock:^{
+                [self.ninja switchToNinja];
+            }], [CCDelayTime actionWithDuration:0.1f], nil];
+            id evolveToSenseiAction = [CCSequence actions:[CCDelayTime actionWithDuration:0.5f], [CCRepeat actionWithAction:switchFromNinjaToSenseiSpriteAction times:5], [CCCallBlock actionWithBlock:^{
+                [self.ninja switchToSensei];
+            }], [CCDelayTime actionWithDuration:1.5f], nil];
+            
+            [self.ninja runAction:evolveToSenseiAction];
+            
+            break;
         }
             
         default:
         {
-            CCLOG(@"Level not recognized in GameLayer.m, showLevelUpAnimation");
+            CCLOG(@"Level not recognized in GameLayer.m->showLevelUpAnimation: %i", [GameManager sharedGameManager].ninjaLevel);
             break;
         }
     }

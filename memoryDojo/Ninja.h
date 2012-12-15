@@ -11,5 +11,7 @@
 @interface Ninja : GameObject
 
 -(void)removeBlinkingEyes;
+-(void)switchToSensei;
+-(void)switchToNinja;
 
 @end
