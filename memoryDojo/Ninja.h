@@ -7,11 +7,15 @@
 //
 
 #import "GameObject.h"
+#import "Constants.h"
 
 @interface Ninja : GameObject
 
 -(void)removeBlinkingEyes;
--(void)switchToSensei;
--(void)switchToNinja;
+-(void)addNinjaStarWithDirection:(DirectionTypes)direction;
+-(void)showNinjaStar;
+-(void)hideNinjaStar;
+-(void)switchToSenseiWithDirection:(DirectionTypes)direction;
+-(void)switchToNinjaWithDirection:(DirectionTypes)direction;
 
 @end

@@ -305,7 +305,7 @@
 -(void)addNinjaStarsUpgrade {
     // init throwing ninja stars
     CCSpriteBatchNode *ninjaStarBatchNode = [CCSpriteBatchNode batchNodeWithFile:@"mainmenu_art.pvr.ccz" capacity:8];
-    [self addChild:ninjaStarBatchNode z:99];
+    [self addChild:ninjaStarBatchNode z:105];
     
     // Create a max of 8 throwing ninja stars on screen at one time
     for (int i=0; i<8; i++) {

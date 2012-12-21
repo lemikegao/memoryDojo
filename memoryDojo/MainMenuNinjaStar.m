@@ -33,7 +33,7 @@
             
         case kDirectionTypeDown:
         {
-            self.position = ccp(ninja.position.x, ninja.position.y - ninja.boundingBox.size.height * 0.30f);
+            self.position = ccp(ninja.position.x - ninja.boundingBox.size.width * 0.30f, ninja.position.y - ninja.boundingBox.size.height * 0.30f);
             moveAction = [CCSequence actions:[CCSpawn actions:[CCRotateBy actionWithDuration:1.0f angle:1500.0f], [CCMoveBy actionWithDuration:1.0f position:ccp(0, -1*self.screenSize.height)], nil], [CCCallFunc actionWithTarget:self selector:@selector(hideNinjaStar)], nil];
             break;
         }
@@ -47,7 +47,7 @@
             
         case kDirectionTypeUp:
         {
-            self.position = ccp(ninja.position.x, ninja.position.y + ninja.boundingBox.size.height * 0.45f);
+            self.position = ccp(ninja.position.x - ninja.boundingBox.size.width * 0.30f, ninja.position.y);
             moveAction = [CCSequence actions:[CCSpawn actions:[CCRotateBy actionWithDuration:1.0f angle:1500.0f], [CCMoveBy actionWithDuration:1.0f position:ccp(0, self.screenSize.height)], nil], [CCCallFunc actionWithTarget:self selector:@selector(hideNinjaStar)], nil];
             break;
         }

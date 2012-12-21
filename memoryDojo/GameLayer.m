@@ -31,6 +31,7 @@
 @property (nonatomic) CGFloat timeArrowsHidden;
 @property (nonatomic) BOOL didBeatHighScore;
 @property (nonatomic) CGFloat secondsIdle;
+@property (nonatomic) DirectionTypes directionForLevelUp;
 
 // gameplay
 @property (nonatomic, strong) NSMutableArray *sequence;
@@ -85,8 +86,8 @@
     self.currentDisplaySequencePosition = 0;
     self.sequence = [[NSMutableArray alloc] initWithCapacity:100];
     for (int i=0; i<4; i++) {
-        self.sequence[i] = [NSNumber numberWithInt:arc4random_uniform(4) + 1];
-        //        self.sequence[i] = [NSNumber numberWithInt:kDirectionTypeUp];
+//        self.sequence[i] = [NSNumber numberWithInt:arc4random_uniform(4) + 1];
+        self.sequence[i] = [NSNumber numberWithInt:kDirectionTypeUp];
         NSLog(@"sequence at %i: %@", i, self.sequence[i]);
     }
     
@@ -199,10 +200,7 @@
     }
     if (ninjaLevel >= 3) {
         // add ninja star
-        CCSprite *ninjaStar = [CCSprite spriteWithSpriteFrameName:@"game_upgrades_ninjastar2.png"];
-        ninjaStar.position = ccp(self.ninja.boundingBox.size.width * 0.33f, self.ninja.boundingBox.size.height * 0.275f);
-        [self.ninja addChild:ninjaStar];
-        
+        [self.ninja addNinjaStarWithDirection:kDirectionTypeNone];
         [self addNinjaStarsUpgrade];
     }
     if (ninjaLevel == 4) {
@@ -663,6 +661,7 @@
         }
         
         if (shouldLevelUp == YES) {
+            self.directionForLevelUp = [[self.sequence objectAtIndex:([self.sequence count]-1)] intValue];
             [self ninjaLevelUp];
         } else {
             [self startNewRound];
@@ -787,7 +786,7 @@
         {
             // add aura
             self.level2AuraEmitter = [CCParticleSystemQuad particleWithFile:@"aura1_game.plist"];
-            self.level2AuraEmitter.position = ccp(self.ninja.position.x + self.ninja.boundingBox.size.width/8, self.ninja.position.y);
+            self.level2AuraEmitter.position = ccp(self.ninja.position.x + self.ninja.boundingBox.size.width/8, self.ninja.position.y + self.ninja.boundingBox.size.height/2);
             self.level2AuraEmitter.visible = NO;
             [self addChild:self.level2AuraEmitter z:3];
             
@@ -799,13 +798,17 @@
         case 3:
         {
             // add ninja star
-            CCSprite *ninjaStar = [CCSprite spriteWithSpriteFrameName:@"game_upgrades_ninjastar2.png"];
-            ninjaStar.position = ccp(self.ninja.boundingBox.size.width * 0.33f, self.ninja.boundingBox.size.height * 0.275f);
-            ninjaStar.visible = NO;
-            [self.ninja addChild:ninjaStar];
+            [self.ninja addNinjaStarWithDirection:self.directionForLevelUp];
+            [self.ninja hideNinjaStar];
             [self addNinjaStarsUpgrade];
             
-            [ninjaStar runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.5f], [CCBlink actionWithDuration:1 blinks:5], [CCDelayTime actionWithDuration:1.5f], [CCCallFunc actionWithTarget:self selector:@selector(showNinjaLevelUpScreen2)], nil]];
+            id hideAndShowNinjaStarAction = [CCSequence actions:[CCCallBlock actionWithBlock:^{
+                [self.ninja hideNinjaStar];
+            }], [CCDelayTime actionWithDuration:0.1f], [CCCallBlock actionWithBlock:^{
+                [self.ninja showNinjaStar];
+            }], [CCDelayTime actionWithDuration:0.1f], nil];
+            
+            [self.ninja runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.5f], [CCRepeat actionWithAction:hideAndShowNinjaStarAction times:5], [CCDelayTime actionWithDuration:1.5f], [CCCallFunc actionWithTarget:self selector:@selector(showNinjaLevelUpScreen2)], nil]];
             
             break;
         }
@@ -816,7 +819,7 @@
         {
             // evolve little cat to big cat
             CCSprite *bigCat = [CCSprite spriteWithSpriteFrameName:@"game_upgrades_cat_big.png"];
-            bigCat.position = ccp(self.smallCat.position.x * 0.87f, self.smallCat.position.y * 1.15f);
+            bigCat.position = ccp(self.ninja.position.x * 0.297f, self.ninja.position.y * 2.40f);
             bigCat.visible = NO;
             [self addChild:bigCat z:3];
             
@@ -832,13 +835,13 @@
         {
             // evolve ninja into sensei
             id switchFromNinjaToSenseiSpriteAction = [CCSequence actions:[CCCallBlock actionWithBlock:^{
-                [self.ninja switchToSensei];
+                [self.ninja switchToSenseiWithDirection:self.directionForLevelUp];
             }], [CCDelayTime actionWithDuration:0.1f], [CCCallBlock actionWithBlock:^{
-                [self.ninja switchToNinja];
+                [self.ninja switchToNinjaWithDirection:self.directionForLevelUp];
             }], [CCDelayTime actionWithDuration:0.1f], nil];
             id evolveToSenseiAction = [CCSequence actions:[CCDelayTime actionWithDuration:0.5f], [CCRepeat actionWithAction:switchFromNinjaToSenseiSpriteAction times:5], [CCCallBlock actionWithBlock:^{
-                [self.ninja switchToSensei];
-            }], [CCDelayTime actionWithDuration:1.5f], nil];
+                [self.ninja switchToSenseiWithDirection:self.directionForLevelUp];
+            }], [CCDelayTime actionWithDuration:1.5f], [CCCallFunc actionWithTarget:self selector:@selector(showNinjaLevelUpScreen2)], nil];
             
             [self.ninja runAction:evolveToSenseiAction];
             
@@ -897,7 +900,7 @@
     
     // add small cat to gameplay
     self.smallCat = [CCSprite spriteWithSpriteFrameName:@"game_upgrades_cat_small.png"];
-    self.smallCat.position = ccp(self.ninja.position.x * 0.33f, self.ninja.position.y * 0.66f);
+    self.smallCat.position = ccp(self.ninja.position.x * 0.33f, self.ninja.position.y * 2.20f);
     [self addChild:self.smallCat z:4];
 }
 
@@ -1379,6 +1382,7 @@
                     self.sequenceArrowsBatch.visible = NO;
                 }], nil]];
             }
+            break;
         }
             
         case 3: {
@@ -1390,6 +1394,7 @@
                     self.sequenceArrowsBatch.visible = NO;
                 }], nil]];
             }
+            break;
         }
             
         case 4: {
@@ -1401,6 +1406,7 @@
                     self.sequenceArrowsBatch.visible = NO;
                 }], nil]];
             }
+            break;
         }
             
         case 5: {
@@ -1410,14 +1416,22 @@
             } else if (self.secondsIdle < 1 && self.sequenceArrowsBatch.visible == YES) {
                 self.sequenceArrowsBatch.visible = NO;
             }
+            break;
         }
             
         case 6: {
-            // level 6 -- arrows never reappear!
+            // level 5 - arrows appear after player is idle for 1sec
+            if (self.secondsIdle >= 1 && self.sequenceArrowsBatch.visible == NO) {
+                self.sequenceArrowsBatch.visible = YES;
+            } else if (self.secondsIdle < 1 && self.sequenceArrowsBatch.visible == YES) {
+                self.sequenceArrowsBatch.visible = NO;
+            }
+            break;
         }
             
         default: {
             // no other levels...
+            break;
         }
     }
 }

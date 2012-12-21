@@ -26,28 +26,28 @@
     switch(direction) {
         case kDirectionTypeLeft:
         {
-            self.position = ninja.position;
+            self.position = ccp(ninja.position.x - ninja.boundingBox.size.width * 0.30f, ninja.position.y + ninja.boundingBox.size.height/2);
             moveAction = [CCSequence actions:[CCSpawn actions:[CCRotateBy actionWithDuration:1.0f angle:-1500.0f], [CCMoveBy actionWithDuration:1.0f position:ccp(-1*self.screenSize.height, 0)], nil], [CCCallFunc actionWithTarget:self selector:@selector(hideNinjaStar)], nil];
             break;
         }
             
         case kDirectionTypeDown:
         {
-            self.position = ninja.position;
+            self.position = ccp(ninja.position.x - ninja.boundingBox.size.width * 0.30f, ninja.position.y + ninja.boundingBox.size.height * 0.30f);
             moveAction = [CCSequence actions:[CCSpawn actions:[CCRotateBy actionWithDuration:1.0f angle:1500.0f], [CCMoveBy actionWithDuration:1.0f position:ccp(0, -1*self.screenSize.height)], nil], [CCCallFunc actionWithTarget:self selector:@selector(hideNinjaStar)], nil];
             break;
         }
             
         case kDirectionTypeRight:
         {
-            self.position = ninja.position;
+            self.position = ccp(ninja.position.x - ninja.boundingBox.size.width * 0.30f, ninja.position.y + ninja.boundingBox.size.height/2);
             moveAction = [CCSequence actions:[CCSpawn actions:[CCRotateBy actionWithDuration:1.0f angle:1500.0f], [CCMoveBy actionWithDuration:1.0f position:ccp(self.screenSize.height, 0)], nil], [CCCallFunc actionWithTarget:self selector:@selector(hideNinjaStar)], nil];
             break;
         }
             
         case kDirectionTypeUp:
         {
-            self.position = ninja.position;
+            self.position = ccp(ninja.position.x - ninja.boundingBox.size.width * 0.30f, ninja.position.y + ninja.boundingBox.size.height * 0.60f);
             moveAction = [CCSequence actions:[CCSpawn actions:[CCRotateBy actionWithDuration:1.0f angle:1500.0f], [CCMoveBy actionWithDuration:1.0f position:ccp(0, self.screenSize.height)], nil], [CCCallFunc actionWithTarget:self selector:@selector(hideNinjaStar)], nil];
             break;
         }

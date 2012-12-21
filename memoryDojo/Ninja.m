@@ -12,11 +12,21 @@
 @interface Ninja ()
 
 @property (nonatomic, strong) CCSprite *ninjaOpenEyes;
-@property (nonatomic, readonly) CGPoint defaultNinjaEyesPosition;
-@property (nonatomic, readonly) CGPoint defaultNinjaEyesDownPosition;
-@property (nonatomic, readonly) CGPoint defaultSenseiEyesPosition;
-@property (nonatomic, readonly) CGPoint defaultSenseiEyesDownPosition;
+@property (nonatomic, strong) CCSprite *ninjaStar;
+@property (nonatomic) CGPoint defaultNinjaEyesPosition;
+@property (nonatomic) CGPoint defaultNinjaEyesDownPosition;
+@property (nonatomic) CGPoint defaultNinjaEyesDownRepeatPosition;
+@property (nonatomic) CGPoint defaultSenseiEyesPosition;
+@property (nonatomic) CGPoint defaultSenseiEyesDownPosition;
+@property (nonatomic) CGPoint defaultSenseiEyesDownRepeatPosition;
+@property (nonatomic) CGPoint defaultNinjaStarPosition;
+@property (nonatomic) CGPoint defaultNinjaStarDownPosition;
+@property (nonatomic) CGPoint defaultNinjaStarDownRepeatPosition;
+@property (nonatomic) CGPoint defaultSenseiStarPosition;
+@property (nonatomic) CGPoint defaultSenseiStarDownPosition;
+@property (nonatomic) CGPoint defaultSenseiStarDownRepeatPosition;
 @property (nonatomic, strong) CCAnimation *blinkingAnim;
+@property (nonatomic, strong) CCAction *blinkAction;
 @property (nonatomic) float secondsStayingIdle;
 @property (nonatomic) BOOL isNinjaBlinking;
 @property (nonatomic) BOOL isNinjaSenseiMode;
@@ -39,10 +49,24 @@
         self.gameObjectType = kGameObjectTypeNinja;
         self.characterState = kCharacterStateIdle;
         
-        _defaultNinjaEyesPosition = ccp(self.boundingBox.size.width * 0.455f, self.boundingBox.size.height * 0.63f);
-        _defaultNinjaEyesDownPosition = ccp(self.boundingBox.size.width * 0.455f, self.boundingBox.size.height * 0.574f);
-        _defaultSenseiEyesPosition = ccp(self.boundingBox.size.width * 0.50f, self.boundingBox.size.height * 0.65f);
-        _defaultSenseiEyesDownPosition = ccp(self.boundingBox.size.width * 0.50f, self.boundingBox.size.height * 0.61f);
+        CCSprite *ninjaSprite = [CCSprite spriteWithSpriteFrameName:@"game_ninja_up_repeat.png"];
+        CCSprite *senseiSprite = [CCSprite spriteWithSpriteFrameName:@"game_sensei_up_repeat.png"];
+        
+        self.defaultNinjaEyesPosition = ccp(ninjaSprite.boundingBox.size.width * 0.455f, ninjaSprite.boundingBox.size.height * 0.63f);
+        self.defaultNinjaEyesDownPosition = ccp(ninjaSprite.boundingBox.size.width * 0.455f, ninjaSprite.boundingBox.size.height * 0.574f);
+        self.defaultNinjaEyesDownRepeatPosition = ccp(ninjaSprite.boundingBox.size.width * 0.455f, ninjaSprite.boundingBox.size.height * 0.6f);
+        
+        self.defaultSenseiEyesPosition = ccp(senseiSprite.boundingBox.size.width * 0.50f, senseiSprite.boundingBox.size.height * 0.65f);
+        self.defaultSenseiEyesDownPosition = ccp(senseiSprite.boundingBox.size.width * 0.50f, senseiSprite.boundingBox.size.height * 0.61f);
+        self.defaultSenseiEyesDownRepeatPosition = ccp(senseiSprite.boundingBox.size.width * 0.50f, senseiSprite.boundingBox.size.height * 0.63f);
+        
+        self.defaultNinjaStarPosition = ccp(ninjaSprite.boundingBox.size.width * 0.33f, ninjaSprite.boundingBox.size.height * 0.275f);
+        self.defaultNinjaStarDownPosition = ccp(ninjaSprite.boundingBox.size.width * 0.33f, ninjaSprite.boundingBox.size.height * 0.225f);
+        self.defaultNinjaStarDownRepeatPosition = ccp(ninjaSprite.boundingBox.size.width * 0.33f, ninjaSprite.boundingBox.size.height * 0.25f);
+        
+        self.defaultSenseiStarPosition = ccp(senseiSprite.boundingBox.size.width * 0.39f, senseiSprite.boundingBox.size.height * 0.275f);
+        self.defaultSenseiStarDownPosition = ccp(senseiSprite.boundingBox.size.width * 0.39f, senseiSprite.boundingBox.size.height * 0.225f);
+        self.defaultSenseiStarDownRepeatPosition = ccp(senseiSprite.boundingBox.size.width * 0.39f, senseiSprite.boundingBox.size.height * 0.25f);
         
         // initialize blinking
         self.secondsStayingIdle = 0;
@@ -74,8 +98,8 @@
 
 -(void)blink {
     self.isNinjaBlinking = YES;
-    id blinkAction = [CCSequence actions:[CCAnimate actionWithAnimation:self.blinkingAnim], [CCDelayTime actionWithDuration:2.0f], [CCCallFunc actionWithTarget:self selector:@selector(stopBlinking)], nil];
-    [self.ninjaOpenEyes runAction:blinkAction];
+    self.blinkAction = [CCSequence actions:[CCAnimate actionWithAnimation:self.blinkingAnim], [CCDelayTime actionWithDuration:2.0f], [CCCallFunc actionWithTarget:self selector:@selector(stopBlinking)], nil];
+    [self.ninjaOpenEyes runAction:self.blinkAction];
 }
 
 -(void)stopBlinking {
@@ -93,14 +117,18 @@
     if (newState == kCharacterStateDown) {
         if (self.isNinjaSenseiMode == NO) {
             self.ninjaOpenEyes.position = self.defaultNinjaEyesDownPosition;
+            self.ninjaStar.position = self.defaultNinjaStarDownPosition;
         } else {
             self.ninjaOpenEyes.position = self.defaultSenseiEyesDownPosition;
+            self.ninjaStar.position = self.defaultSenseiStarDownPosition;
         }
     } else {
         if (self.isNinjaSenseiMode == NO) {
             self.ninjaOpenEyes.position = self.defaultNinjaEyesPosition;
+            self.ninjaStar.position = self.defaultNinjaStarPosition;
         } else {
             self.ninjaOpenEyes.position = self.defaultSenseiEyesPosition;
+            self.ninjaStar.position = self.defaultSenseiStarPosition;
         }
     }
 
@@ -154,7 +182,7 @@
                 CCAnimation *repeatAnimation = [CCAnimation animationWithSpriteFrames:repeatFrames delay:0.08f];
                 repeatAnimation.loops = 1;
                 
-                id moveEyesAction = [CCSequence actions:[CCCallFunc actionWithTarget:self selector:@selector(moveEyesDownRepeat)], [CCDelayTime actionWithDuration:0.08f], [CCCallFunc actionWithTarget:self selector:@selector(moveEyesDown)], nil];
+                id moveEyesAction = [CCSequence actions:[CCCallFunc actionWithTarget:self selector:@selector(moveChildrenDownRepeat)], [CCDelayTime actionWithDuration:0.08f], [CCCallFunc actionWithTarget:self selector:@selector(moveChildrenDown)], nil];
                 action = [CCSpawn actions:moveEyesAction, [CCAnimate actionWithAnimation:repeatAnimation], nil];
             } else {
                 self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:spriteFrameName];
@@ -222,44 +250,103 @@
     }
 }
 
--(void)moveEyesDownRepeat {
+-(void)moveChildrenDownRepeat {    
     if (self.isNinjaSenseiMode == YES) {
-        self.ninjaOpenEyes.position = ccp(self.boundingBox.size.width * 0.50f, self.boundingBox.size.height * 0.63f);
+        self.ninjaOpenEyes.position = self.defaultSenseiEyesDownRepeatPosition;
+        self.ninjaStar.position = self.defaultSenseiStarDownRepeatPosition;
     } else {
-        self.ninjaOpenEyes.position = ccp(self.boundingBox.size.width * 0.455f, self.boundingBox.size.height * 0.6f);
+        self.ninjaOpenEyes.position = self.defaultNinjaEyesDownRepeatPosition;
+        self.ninjaStar.position = self.defaultNinjaStarDownRepeatPosition;
     }
 }
 
--(void)moveEyesDown {
+-(void)moveChildrenDown {
     if (self.isNinjaSenseiMode == YES) {
         self.ninjaOpenEyes.position = self.defaultSenseiEyesDownPosition;
+        self.ninjaStar.position = self.defaultSenseiStarDownPosition;
     } else {
         self.ninjaOpenEyes.position = self.defaultNinjaEyesDownPosition;
+        self.ninjaStar.position = self.defaultNinjaStarDownPosition;
     }
 }
 
 -(void)removeBlinkingEyes {
-    [self removeAllChildrenWithCleanup:YES];
+    [self stopAction:self.blinkAction];
+    [self.ninjaOpenEyes removeFromParentAndCleanup:YES];
 }
 
--(void)switchToSensei {
-    CCLOG(@"sensei bounding box size: %@", NSStringFromCGSize(self.boundingBox.size));
+-(void)addNinjaStarWithDirection:(DirectionTypes)direction {
+    self.ninjaStar = [CCSprite spriteWithSpriteFrameName:@"game_upgrades_ninjastar2.png"];
+    if (direction == kDirectionTypeDown) {
+        if (self.isNinjaSenseiMode == YES) {
+            self.ninjaStar.position = self.defaultSenseiStarDownPosition;
+        } else {
+            self.ninjaStar.position = self.defaultNinjaStarDownPosition;
+        }
+    } else {
+        if (self.isNinjaSenseiMode == YES) {
+            self.ninjaStar.position = self.defaultSenseiStarPosition;
+        } else {
+            self.ninjaStar.position = self.defaultNinjaStarPosition;
+        }
+    }
+    
+    [self addChild:self.ninjaStar];
+}
+
+-(void)showNinjaStar {
+    self.ninjaStar.visible = YES;
+}
+
+-(void)hideNinjaStar {
+    self.ninjaStar.visible = NO;
+}
+
+-(void)switchToSenseiWithDirection:(DirectionTypes)direction {
     self.isNinjaSenseiMode = YES;
-    self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_up_repeat.png"];
-    // recalculate position for eyes with new sensei bounding box
-    _defaultSenseiEyesPosition = ccp(self.boundingBox.size.width * 0.50f, self.boundingBox.size.height * 0.65f);
-    _defaultSenseiEyesDownPosition = ccp(self.boundingBox.size.width * 0.50f, self.boundingBox.size.height * 0.61f);
     self.ninjaOpenEyes.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_eyes_1.png"];
-    self.ninjaOpenEyes.position = self.defaultSenseiEyesPosition;
+    
+    if (direction == kDirectionTypeDown) {
+        self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_down.png"];
+        self.ninjaOpenEyes.position = self.defaultSenseiEyesDownPosition;
+        self.ninjaStar.position = self.defaultSenseiStarDownPosition;
+    } else {
+        self.ninjaOpenEyes.position = self.defaultSenseiEyesPosition;
+        self.ninjaStar.position = self.defaultSenseiStarPosition;
+        if (direction == kDirectionTypeLeft) {
+            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_left.png"];
+        } else if (direction == kDirectionTypeRight) {
+            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_right.png"];
+        } else if (direction == kDirectionTypeUp) {
+            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_up.png"];
+        } else {
+            CCLOG(@"Invalid direction in Ninja->switchToSenseiWithDirection:");
+            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_up_repeat.png"];
+        }
+    }
 }
 
--(void)switchToNinja {
-    CCLOG(@"ninja bounding box size: %@", NSStringFromCGSize(self.boundingBox.size));
+-(void)switchToNinjaWithDirection:(DirectionTypes)direction {
     self.isNinjaSenseiMode = NO;
-    self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_up_repeat.png"];
-    // reset eyes to ninja position
-    self.ninjaOpenEyes.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_eyes_1.png"];
-    self.ninjaOpenEyes.position = self.defaultNinjaEyesPosition;
+    
+    if (direction == kDirectionTypeDown) {
+        self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_down.png"];
+        self.ninjaOpenEyes.position = self.defaultNinjaEyesDownPosition;
+        self.ninjaStar.position = self.defaultNinjaStarDownPosition;
+    } else {
+        self.ninjaOpenEyes.position = self.defaultNinjaEyesPosition;
+        self.ninjaStar.position = self.defaultNinjaStarPosition;
+        if (direction == kDirectionTypeLeft) {
+            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_left.png"];
+        } else if (direction == kDirectionTypeRight) {
+            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_right.png"];
+        } else if (direction == kDirectionTypeUp) {
+            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_up.png"];
+        } else {
+            CCLOG(@"Invalid direction in Ninja->switchToNinjaWithDirection:");
+            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_up_repeat.png"];
+        }
+    }
 }
 
 -(void)updateStateWithDeltaTime:(ccTime)deltaTime andListOfGameObjects:(CCArray *)listOfGameObjects {
