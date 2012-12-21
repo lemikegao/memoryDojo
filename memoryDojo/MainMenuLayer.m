@@ -9,14 +9,14 @@
 #import "MainMenuLayer.h"
 #import "Constants.h"
 #import "GameManager.h"
-#import "MainMenuNinja.h"
-#import "MainMenuNinjaStar.h"
+#import "Ninja.h"
+#import "NinjaStar.h"
 #import "Flurry.h"
 
 @interface MainMenuLayer()
 
 // game objects
-@property (nonatomic, strong) MainMenuNinja *ninja;
+@property (nonatomic, strong) Ninja *ninja;
 @property (nonatomic, strong) CCArray *ninjaStars;
 
 // game state
@@ -77,7 +77,7 @@
         highScoreLabel.position = ccp(screenSize.width * 0.05f, screenSize.height * 0.84f);
         [self addChild:highScoreLabel];
         
-        self.ninja = [[MainMenuNinja alloc] init];
+        self.ninja = [[Ninja alloc] initFromScene:kSceneTypeMainMenu];
         self.ninja.position = ccp(screenSize.width * 0.76f, screenSize.height * 0.50f);
         [self addChild:self.ninja z:100];
         
@@ -133,7 +133,7 @@
         [self.ninja changeState:kCharacterStateLeft];
         if ([GameManager sharedGameManager].ninjaLevel >= 3) {
             // throw ninja star
-            MainMenuNinjaStar *ninjaStar = (MainMenuNinjaStar*)[self.ninjaStars objectAtIndex:self.nextInactiveNinjaStar];
+            NinjaStar *ninjaStar = (NinjaStar*)[self.ninjaStars objectAtIndex:self.nextInactiveNinjaStar];
             [ninjaStar shootNinjaStarFromNinja:self.ninja withDirection:kDirectionTypeLeft];
             self.nextInactiveNinjaStar++;
             if (self.nextInactiveNinjaStar >= [self.ninjaStars count]) {
@@ -148,7 +148,7 @@
         [self.ninja changeState:kCharacterStateDown];
         if ([GameManager sharedGameManager].ninjaLevel >= 3) {
             // throw ninja star
-            MainMenuNinjaStar *ninjaStar = (MainMenuNinjaStar*)[self.ninjaStars objectAtIndex:self.nextInactiveNinjaStar];
+            NinjaStar *ninjaStar = (NinjaStar*)[self.ninjaStars objectAtIndex:self.nextInactiveNinjaStar];
             [ninjaStar shootNinjaStarFromNinja:self.ninja withDirection:kDirectionTypeDown];
             self.nextInactiveNinjaStar++;
             if (self.nextInactiveNinjaStar >= [self.ninjaStars count]) {
@@ -163,7 +163,7 @@
         [self.ninja changeState:kCharacterStateRight];
         if ([GameManager sharedGameManager].ninjaLevel >= 3) {
             // throw ninja star
-            MainMenuNinjaStar *ninjaStar = (MainMenuNinjaStar*)[self.ninjaStars objectAtIndex:self.nextInactiveNinjaStar];
+            NinjaStar *ninjaStar = (NinjaStar*)[self.ninjaStars objectAtIndex:self.nextInactiveNinjaStar];
             [ninjaStar shootNinjaStarFromNinja:self.ninja withDirection:kDirectionTypeRight];
             self.nextInactiveNinjaStar++;
             if (self.nextInactiveNinjaStar >= [self.ninjaStars count]) {
@@ -178,7 +178,7 @@
         [self.ninja changeState:kCharacterStateUp];
         if ([GameManager sharedGameManager].ninjaLevel >= 3) {
             // throw ninja star
-            MainMenuNinjaStar *ninjaStar = (MainMenuNinjaStar*)[self.ninjaStars objectAtIndex:self.nextInactiveNinjaStar];
+            NinjaStar *ninjaStar = (NinjaStar*)[self.ninjaStars objectAtIndex:self.nextInactiveNinjaStar];
             [ninjaStar shootNinjaStarFromNinja:self.ninja withDirection:kDirectionTypeUp];
             self.nextInactiveNinjaStar++;
             if (self.nextInactiveNinjaStar >= [self.ninjaStars count]) {
@@ -298,6 +298,7 @@
         }
         if (newLevel >= 6) {
             // placeholder for level 6 upgrade
+            
         }
     }
 }
@@ -309,7 +310,7 @@
     
     // Create a max of 8 throwing ninja stars on screen at one time
     for (int i=0; i<8; i++) {
-        MainMenuNinjaStar *ninjaStar = [[MainMenuNinjaStar alloc] init];
+        NinjaStar *ninjaStar = [[NinjaStar alloc] initFromScene:kSceneTypeMainMenu];
         [ninjaStarBatchNode addChild:ninjaStar];
     }
     

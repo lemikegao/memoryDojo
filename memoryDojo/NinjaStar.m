@@ -8,16 +8,35 @@
 
 #import "NinjaStar.h"
 
+@interface NinjaStar ()
+
+@property (nonatomic, strong) NSString *scenePrefix;
+
+@end
+
 @implementation NinjaStar
 
 -(id)init {
     self = [super init];
     if (self != nil) {
-        self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_upgrades_ninjastar2.png"];
+        self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@_upgrades_ninjastar2.png", self.scenePrefix]];
         self.gameObjectType = kGameObjectTypeNinjaStar;
         self.visible = NO;
     }
     
+    return self;
+}
+
+-(id)initFromScene:(SceneTypes)scene {
+    if (scene == kSceneTypeMainMenu) {
+        self.scenePrefix = @"mainmenu";
+    } else if (scene == kSceneTypeGame) {
+        self.scenePrefix = @"game";
+    } else {
+        CCLOG(@"NinjaStar->initFromScene: Unknown scene type: %i", scene);
+    }
+    
+    self = [self init];
     return self;
 }
 

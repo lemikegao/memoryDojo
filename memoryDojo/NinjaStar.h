@@ -12,6 +12,7 @@
 
 @interface NinjaStar : GameObject
 
+-(id)initFromScene:(SceneTypes)scene;
 -(void)shootNinjaStarFromNinja:(Ninja*)ninja withDirection:(DirectionTypes)direction;
 
 @end

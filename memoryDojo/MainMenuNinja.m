@@ -11,10 +11,24 @@
 @interface MainMenuNinja ()
 
 @property (nonatomic, strong) CCSprite *ninjaOpenEyes;
-@property (nonatomic) BOOL isNinjaBlinking;
+@property (nonatomic, strong) CCSprite *ninjaStar;
+@property (nonatomic) CGPoint defaultNinjaEyesPosition;
+@property (nonatomic) CGPoint defaultNinjaEyesDownPosition;
+@property (nonatomic) CGPoint defaultNinjaEyesDownRepeatPosition;
+@property (nonatomic) CGPoint defaultSenseiEyesPosition;
+@property (nonatomic) CGPoint defaultSenseiEyesDownPosition;
+@property (nonatomic) CGPoint defaultSenseiEyesDownRepeatPosition;
+@property (nonatomic) CGPoint defaultNinjaStarPosition;
+@property (nonatomic) CGPoint defaultNinjaStarDownPosition;
+@property (nonatomic) CGPoint defaultNinjaStarDownRepeatPosition;
+@property (nonatomic) CGPoint defaultSenseiStarPosition;
+@property (nonatomic) CGPoint defaultSenseiStarDownPosition;
+@property (nonatomic) CGPoint defaultSenseiStarDownRepeatPosition;
 @property (nonatomic, strong) CCAnimation *blinkingAnim;
+@property (nonatomic, strong) CCAction *blinkAction;
 @property (nonatomic) float secondsStayingIdle;
--(void)initAnimations;
+@property (nonatomic) BOOL isNinjaBlinking;
+@property (nonatomic) BOOL isNinjaSenseiMode;
 
 @end
 
@@ -140,6 +154,26 @@
 
 -(void)stopBlinking {
     self.isNinjaBlinking = NO;
+}
+
+-(void)addNinjaStarWithDirection:(DirectionTypes)direction {
+    
+}
+
+-(void)showNinjaStar {
+    
+}
+
+-(void)hideNinjaStar {
+    
+}
+
+-(void)switchToSenseiWithDirection:(DirectionTypes)direction {
+    
+}
+
+-(void)switchToNinjaWithDirection:(DirectionTypes)direction {
+    
 }
 
 -(void)updateStateWithDeltaTime:(ccTime)deltaTime andListOfGameObjects:(CCArray *)listOfGameObjects {

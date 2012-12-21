@@ -184,7 +184,7 @@
     [self addChild:self.sensei z:1];
     
     // initialize ninja
-    self.ninja = [[Ninja alloc] init];
+    self.ninja = [[Ninja alloc] initFromScene:kSceneTypeGame];
     self.ninja.anchorPoint = ccp(0.5, 0);
     self.ninja.position = ccp(screenSize.width/2, screenSize.height * 0.10f);
     [self addChild:self.ninja z:4];
@@ -1040,7 +1040,7 @@
     
     // Create a max of 8 throwing ninja stars on screen at one time
     for (int i=0; i<8; i++) {
-        NinjaStar *ninjaStar = [[NinjaStar alloc] init];
+        NinjaStar *ninjaStar = [[NinjaStar alloc] initFromScene:kSceneTypeGame];
         [ninjaStarBatchNode addChild:ninjaStar];
     }
     

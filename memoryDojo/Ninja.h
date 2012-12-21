@@ -11,6 +11,7 @@
 
 @interface Ninja : GameObject
 
+-(id)initFromScene:(SceneTypes)scene;
 -(void)removeBlinkingEyes;
 -(void)addNinjaStarWithDirection:(DirectionTypes)direction;
 -(void)showNinjaStar;

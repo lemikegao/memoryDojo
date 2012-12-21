@@ -30,6 +30,7 @@
 @property (nonatomic) float secondsStayingIdle;
 @property (nonatomic) BOOL isNinjaBlinking;
 @property (nonatomic) BOOL isNinjaSenseiMode;
+@property (nonatomic, strong) NSString *scenePrefix;
 
 
 @end
@@ -39,18 +40,18 @@
 -(id)init {
     if ([GameManager sharedGameManager].ninjaLevel == 6) {
         self.isNinjaSenseiMode = YES;
-        self = [super initWithSpriteFrameName:@"game_sensei_up_repeat.png"];
+        self = [super initWithSpriteFrameName:[NSString stringWithFormat:@"%@_sensei_up_repeat.png", self.scenePrefix]];
     } else {
         self.isNinjaSenseiMode = NO;
-        self = [super initWithSpriteFrameName:@"game_ninja_up_repeat.png"];
+        self = [super initWithSpriteFrameName:[NSString stringWithFormat:@"%@_ninja_up_repeat.png", self.scenePrefix]];
     }
     if (self != nil) {
         [self initAnimations];
         self.gameObjectType = kGameObjectTypeNinja;
         self.characterState = kCharacterStateIdle;
         
-        CCSprite *ninjaSprite = [CCSprite spriteWithSpriteFrameName:@"game_ninja_up_repeat.png"];
-        CCSprite *senseiSprite = [CCSprite spriteWithSpriteFrameName:@"game_sensei_up_repeat.png"];
+        CCSprite *ninjaSprite = [CCSprite spriteWithSpriteFrameName:[NSString stringWithFormat:@"%@_ninja_up_repeat.png", self.scenePrefix]];
+        CCSprite *senseiSprite = [CCSprite spriteWithSpriteFrameName:[NSString stringWithFormat:@"%@_sensei_up_repeat.png", self.scenePrefix]];
         
         self.defaultNinjaEyesPosition = ccp(ninjaSprite.boundingBox.size.width * 0.455f, ninjaSprite.boundingBox.size.height * 0.63f);
         self.defaultNinjaEyesDownPosition = ccp(ninjaSprite.boundingBox.size.width * 0.455f, ninjaSprite.boundingBox.size.height * 0.574f);
@@ -73,16 +74,29 @@
         self.isNinjaBlinking = NO;
         if (self.isNinjaSenseiMode == YES) {
             // add eyes
-            self.ninjaOpenEyes = [CCSprite spriteWithSpriteFrameName:@"game_sensei_eyes_1.png"];
+            self.ninjaOpenEyes = [CCSprite spriteWithSpriteFrameName:[NSString stringWithFormat:@"%@_sensei_eyes_1.png", self.scenePrefix]];
             self.ninjaOpenEyes.position = self.defaultSenseiEyesPosition;
             [self addChild:self.ninjaOpenEyes z:100];
         } else {
             // add eyes
-            self.ninjaOpenEyes = [CCSprite spriteWithSpriteFrameName:@"game_ninja_eyes_1.png"];
+            self.ninjaOpenEyes = [CCSprite spriteWithSpriteFrameName:[NSString stringWithFormat:@"%@_ninja_eyes_1.png", self.scenePrefix]];
             self.ninjaOpenEyes.position = self.defaultNinjaEyesPosition;
             [self addChild:self.ninjaOpenEyes z:100];
         }
     }
+    
+    return self;
+}
+
+-(id)initFromScene:(SceneTypes)scene {
+    if (scene == kSceneTypeMainMenu) {
+        self.scenePrefix = @"mainmenu";
+    } else if (scene == kSceneTypeGame) {
+        self.scenePrefix = @"game";
+    } else {
+        CCLOG(@"Ninja->initFromScene: Unknown scene type: %i", scene);
+    }
+    self = [self init];
     
     return self;
 }
@@ -135,9 +149,9 @@
     switch (newState) {
         case kCharacterStateIdle:
             if (self.isNinjaSenseiMode == NO) {
-                self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_up_repeat.png"];
+                self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@_ninja_up_repeat.png", self.scenePrefix]];
             } else {
-                self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_up_repeat.png"];
+                self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@_sensei_up_repeat.png", self.scenePrefix]];
             }
             break;
             
@@ -147,11 +161,11 @@
             NSString *spriteFrameName;
             NSString *repeatSpriteFrameName;
             if (self.isNinjaSenseiMode == NO) {
-                spriteFrameName = @"game_ninja_left.png";
-                repeatSpriteFrameName = @"game_ninja_left_repeat.png";
+                spriteFrameName = [NSString stringWithFormat:@"%@_ninja_left.png", self.scenePrefix];
+                repeatSpriteFrameName = [NSString stringWithFormat:@"%@_ninja_left_repeat.png", self.scenePrefix];
             } else {
-                spriteFrameName = @"game_sensei_left.png";
-                repeatSpriteFrameName = @"game_sensei_left_repeat.png";
+                spriteFrameName = [NSString stringWithFormat:@"%@_sensei_left.png", self.scenePrefix];
+                repeatSpriteFrameName = [NSString stringWithFormat:@"%@_sensei_left_repeat.png", self.scenePrefix];
             }
             if (oldState == newState) {
                 NSArray *repeatFrames = [NSArray arrayWithObjects:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:repeatSpriteFrameName], [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:spriteFrameName], nil];
@@ -171,11 +185,11 @@
             NSString *spriteFrameName;
             NSString *repeatSpriteFrameName;
             if (self.isNinjaSenseiMode == NO) {
-                spriteFrameName = @"game_ninja_down.png";
-                repeatSpriteFrameName = @"game_ninja_down_repeat.png";
+                spriteFrameName = [NSString stringWithFormat:@"%@_ninja_down.png", self.scenePrefix];
+                repeatSpriteFrameName = [NSString stringWithFormat:@"%@_ninja_down_repeat.png", self.scenePrefix];
             } else {
-                spriteFrameName = @"game_sensei_down.png";
-                repeatSpriteFrameName = @"game_sensei_down_repeat.png";
+                spriteFrameName = [NSString stringWithFormat:@"%@_sensei_down.png", self.scenePrefix];
+                repeatSpriteFrameName = [NSString stringWithFormat:@"%@_sensei_down_repeat.png", self.scenePrefix];
             }
             if (oldState == newState) {
                 NSArray *repeatFrames = [NSArray arrayWithObjects:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:repeatSpriteFrameName], [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:spriteFrameName], nil];
@@ -196,11 +210,11 @@
             NSString *spriteFrameName;
             NSString *repeatSpriteFrameName;
             if (self.isNinjaSenseiMode == NO) {
-                spriteFrameName = @"game_ninja_right.png";
-                repeatSpriteFrameName = @"game_ninja_right_repeat.png";
+                spriteFrameName = [NSString stringWithFormat:@"%@_ninja_right.png", self.scenePrefix];
+                repeatSpriteFrameName = [NSString stringWithFormat:@"%@_ninja_right_repeat.png", self.scenePrefix];
             } else {
-                spriteFrameName = @"game_sensei_right.png";
-                repeatSpriteFrameName = @"game_sensei_right_repeat.png";
+                spriteFrameName = [NSString stringWithFormat:@"%@_sensei_right.png", self.scenePrefix];
+                repeatSpriteFrameName = [NSString stringWithFormat:@"%@_sensei_right_repeat.png", self.scenePrefix];
             }
             if (oldState == newState) {
                 NSArray *repeatFrames = [NSArray arrayWithObjects:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:repeatSpriteFrameName], [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:spriteFrameName], nil];
@@ -219,11 +233,11 @@
             NSString *spriteFrameName;
             NSString *repeatSpriteFrameName;
             if (self.isNinjaSenseiMode == NO) {
-                spriteFrameName = @"game_ninja_up.png";
-                repeatSpriteFrameName = @"game_ninja_up_repeat.png";
+                spriteFrameName = [NSString stringWithFormat:@"%@_ninja_up.png", self.scenePrefix];
+                repeatSpriteFrameName = [NSString stringWithFormat:@"%@_ninja_up_repeat.png", self.scenePrefix];
             } else {
-                spriteFrameName = @"game_sensei_up.png";
-                repeatSpriteFrameName = @"game_sensei_up_repeat.png";
+                spriteFrameName = [NSString stringWithFormat:@"%@_sensei_up.png", self.scenePrefix];
+                repeatSpriteFrameName = [NSString stringWithFormat:@"%@_sensei_up_repeat.png", self.scenePrefix];
             }
             // perform repeat action
             if (oldState == newState) {
@@ -276,7 +290,7 @@
 }
 
 -(void)addNinjaStarWithDirection:(DirectionTypes)direction {
-    self.ninjaStar = [CCSprite spriteWithSpriteFrameName:@"game_upgrades_ninjastar2.png"];
+    self.ninjaStar = [CCSprite spriteWithSpriteFrameName:[NSString stringWithFormat:@"%@_upgrades_ninjastar2.png", self.scenePrefix]];
     if (direction == kDirectionTypeDown) {
         if (self.isNinjaSenseiMode == YES) {
             self.ninjaStar.position = self.defaultSenseiStarDownPosition;
@@ -304,24 +318,24 @@
 
 -(void)switchToSenseiWithDirection:(DirectionTypes)direction {
     self.isNinjaSenseiMode = YES;
-    self.ninjaOpenEyes.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_eyes_1.png"];
+    self.ninjaOpenEyes.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@_sensei_eyes_1.png", self.scenePrefix]];
     
     if (direction == kDirectionTypeDown) {
-        self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_down.png"];
+        self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@_sensei_down.png", self.scenePrefix]];
         self.ninjaOpenEyes.position = self.defaultSenseiEyesDownPosition;
         self.ninjaStar.position = self.defaultSenseiStarDownPosition;
     } else {
         self.ninjaOpenEyes.position = self.defaultSenseiEyesPosition;
         self.ninjaStar.position = self.defaultSenseiStarPosition;
         if (direction == kDirectionTypeLeft) {
-            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_left.png"];
+            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@_sensei_left.png", self.scenePrefix]];
         } else if (direction == kDirectionTypeRight) {
-            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_right.png"];
+            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@_sensei_right.png", self.scenePrefix]];
         } else if (direction == kDirectionTypeUp) {
-            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_up.png"];
+            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@_sensei_up.png", self.scenePrefix]];
         } else {
             CCLOG(@"Invalid direction in Ninja->switchToSenseiWithDirection:");
-            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_sensei_up_repeat.png"];
+            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@_sensei_up_repeat.png", self.scenePrefix]];
         }
     }
 }
@@ -330,21 +344,21 @@
     self.isNinjaSenseiMode = NO;
     
     if (direction == kDirectionTypeDown) {
-        self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_down.png"];
+        self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@_ninja_down.png", self.scenePrefix]];
         self.ninjaOpenEyes.position = self.defaultNinjaEyesDownPosition;
         self.ninjaStar.position = self.defaultNinjaStarDownPosition;
     } else {
         self.ninjaOpenEyes.position = self.defaultNinjaEyesPosition;
         self.ninjaStar.position = self.defaultNinjaStarPosition;
         if (direction == kDirectionTypeLeft) {
-            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_left.png"];
+            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@_ninja_left.png", self.scenePrefix]];
         } else if (direction == kDirectionTypeRight) {
-            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_right.png"];
+            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@_ninja_right.png", self.scenePrefix]];
         } else if (direction == kDirectionTypeUp) {
-            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_up.png"];
+            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@_ninja_up.png", self.scenePrefix]];
         } else {
             CCLOG(@"Invalid direction in Ninja->switchToNinjaWithDirection:");
-            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"game_ninja_up_repeat.png"];
+            self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@_ninja_up_repeat.png", self.scenePrefix]];
         }
     }
 }
