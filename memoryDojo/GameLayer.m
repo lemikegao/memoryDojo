@@ -86,8 +86,8 @@
     self.currentDisplaySequencePosition = 0;
     self.sequence = [[NSMutableArray alloc] initWithCapacity:100];
     for (int i=0; i<4; i++) {
-//        self.sequence[i] = [NSNumber numberWithInt:arc4random_uniform(4) + 1];
-        self.sequence[i] = [NSNumber numberWithInt:kDirectionTypeUp];
+        self.sequence[i] = [NSNumber numberWithInt:arc4random_uniform(4) + 1];
+//        self.sequence[i] = [NSNumber numberWithInt:kDirectionTypeUp];
         NSLog(@"sequence at %i: %@", i, self.sequence[i]);
     }
     
@@ -681,33 +681,63 @@
             [self.ninja removeBlinkingEyes];
             
             // add spinny eyes
-            CCSprite *rightSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
-            rightSpinnyEyes.position = ccp(self.ninja.position.x * 0.55f, self.ninja.position.y * 2.25f);
+            CCSprite *rightSpinnyEyes;
+            CCSprite *leftSpinnyEyes;
+            
+            if ([GameManager sharedGameManager].ninjaLevel < 6) {
+                // add ninja spinny eyes
+                rightSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
+                rightSpinnyEyes.position = ccp(self.ninja.position.x * 0.55f, self.ninja.position.y * 2.25f);
+                
+                
+                leftSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
+                leftSpinnyEyes.position = ccp(rightSpinnyEyes.position.x * 0.72f, rightSpinnyEyes.position.y);
+            } else {
+                // add sensei spinny eyes
+                rightSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_sensei_trip_eyes.png"];
+                rightSpinnyEyes.position = ccp(self.ninja.position.x * 0.42f, self.ninja.position.y * 1.85f);
+                
+                
+                leftSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_sensei_trip_eyes.png"];
+                leftSpinnyEyes.position = ccp(rightSpinnyEyes.position.x * 0.80f, rightSpinnyEyes.position.y);
+            }
+            
             [self.ninja addChild:rightSpinnyEyes];
-            
-            CCSprite *leftSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
-            leftSpinnyEyes.position = ccp(rightSpinnyEyes.position.x * 0.72f, rightSpinnyEyes.position.y);
             [self.ninja addChild:leftSpinnyEyes];
-            
             // spin eyes
             id spinEyes = [CCRotateBy actionWithDuration:2.0f angle:-900];
             [rightSpinnyEyes runAction:spinEyes];
             [leftSpinnyEyes runAction:[spinEyes copy]];
-            
         }], nil];
     } else if (direction == kDirectionTypeDown) {
         // need to move eyes lower
-        tripAnimation = [CCSequence actions:[CCRotateBy actionWithDuration:0.15f angle:-10], [CCRotateBy actionWithDuration:0.15f angle:20], [CCRotateBy actionWithDuration:0.15f angle:-75], [CCCallBlock actionWithBlock:^{
+        tripAnimation = [CCSequence actions:[CCRotateBy actionWithDuration:0.15f angle:-10], [CCRotateBy actionWithDuration:0.15f angle:20], [CCRotateBy actionWithDuration:0.15f angle:75], [CCCallBlock actionWithBlock:^{
             // remove blinking eyes
             [self.ninja removeBlinkingEyes];
             
             // add spinny eyes
-            CCSprite *rightSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
-            rightSpinnyEyes.position = ccp(self.ninja.position.x * 0.55f, self.ninja.position.y * 2.10f);
-            [self.ninja addChild:rightSpinnyEyes];
+            CCSprite *rightSpinnyEyes;
+            CCSprite *leftSpinnyEyes;
             
-            CCSprite *leftSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
-            leftSpinnyEyes.position = ccp(rightSpinnyEyes.position.x * 0.72f, rightSpinnyEyes.position.y);
+            if ([GameManager sharedGameManager].ninjaLevel < 6) {
+                // add ninja spinny eyes
+                rightSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
+                rightSpinnyEyes.position = ccp(self.ninja.position.x * 0.55f, self.ninja.position.y * 2.10f);
+                
+                
+                leftSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
+                leftSpinnyEyes.position = ccp(rightSpinnyEyes.position.x * 0.72f, rightSpinnyEyes.position.y);
+            } else {
+                // add sensei spinny eyes
+                rightSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_sensei_trip_eyes.png"];
+                rightSpinnyEyes.position = ccp(self.ninja.position.x * 0.42f, self.ninja.position.y * 1.73f);
+                
+                
+                leftSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_sensei_trip_eyes.png"];
+                leftSpinnyEyes.position = ccp(rightSpinnyEyes.position.x * 0.80f, rightSpinnyEyes.position.y);
+            }
+            
+            [self.ninja addChild:rightSpinnyEyes];
             [self.ninja addChild:leftSpinnyEyes];
             
             // spin eyes
@@ -721,12 +751,28 @@
             [self.ninja removeBlinkingEyes];
             
             // add spinny eyes
-            CCSprite *rightSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
-            rightSpinnyEyes.position = ccp(self.ninja.position.x * 0.55f, self.ninja.position.y * 2.25f);
-            [self.ninja addChild:rightSpinnyEyes];
+            CCSprite *rightSpinnyEyes;
+            CCSprite *leftSpinnyEyes;
             
-            CCSprite *leftSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
-            leftSpinnyEyes.position = ccp(rightSpinnyEyes.position.x * 0.72f, rightSpinnyEyes.position.y);
+            if ([GameManager sharedGameManager].ninjaLevel < 6) {
+                // add ninja spinny eyes
+                rightSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
+                rightSpinnyEyes.position = ccp(self.ninja.position.x * 0.55f, self.ninja.position.y * 2.25f);
+                
+                
+                leftSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
+                leftSpinnyEyes.position = ccp(rightSpinnyEyes.position.x * 0.72f, rightSpinnyEyes.position.y);
+            } else {
+                // add sensei spinny eyes
+                rightSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_sensei_trip_eyes.png"];
+                rightSpinnyEyes.position = ccp(self.ninja.position.x * 0.42f, self.ninja.position.y * 1.85f);
+                
+                
+                leftSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_sensei_trip_eyes.png"];
+                leftSpinnyEyes.position = ccp(rightSpinnyEyes.position.x * 0.80f, rightSpinnyEyes.position.y);
+            }
+            
+            [self.ninja addChild:rightSpinnyEyes];
             [self.ninja addChild:leftSpinnyEyes];
             
             // spin eyes
