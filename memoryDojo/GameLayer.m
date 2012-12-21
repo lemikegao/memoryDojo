@@ -610,7 +610,7 @@
         
         if ((self.didBeatHighScore == NO) && (score > [GameManager sharedGameManager].highScore)) {
             self.didBeatHighScore = YES;
-#warning - change color of scoreLabel here!
+            self.scoreLabel.color = ccc3(255, 213, 110);
         }
         self.scoreLabel.string = [NSString stringWithFormat:@"%i", score];
         

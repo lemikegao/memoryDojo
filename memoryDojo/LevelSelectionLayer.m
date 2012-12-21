@@ -52,8 +52,7 @@
             levelMenuItem.normalImage = [CCSprite spriteWithSpriteFrameName:@"mainmenu_level_select_box_pressed.png"];
         }
         
-#warning - remove (i<6) statement when given level 6 avatar
-        if (i<=highLevel && i<6) {
+        if (i<=highLevel) {
             CCSprite *levelAvatar = [CCSprite spriteWithSpriteFrameName:[NSString stringWithFormat:@"mainmenu_level_select%i.png", i]];
             levelAvatar.position = ccp(self.levelMenuItemSize.width/2, self.levelMenuItemSize.height/2);
             [levelMenuItem addChild:levelAvatar z:10];
