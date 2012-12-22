@@ -308,6 +308,10 @@
     [self addChild:self.ninjaStar];
 }
 
+-(void)removeNinjaStar {
+    [self.ninjaStar removeFromParentAndCleanup:YES];
+}
+
 -(void)showNinjaStar {
     self.ninjaStar.visible = YES;
 }

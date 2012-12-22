@@ -22,10 +22,10 @@
 // game state
 @property (nonatomic) BOOL enableGestures;
 @property (nonatomic) int nextInactiveNinjaStar;
+@property (nonatomic) DirectionTypes lastDirection;
 
 // upgrades
 @property (nonatomic, strong) CCParticleSystem *auraEmitter;
-@property (nonatomic, strong) CCSprite *ninjaStar;
 @property (nonatomic, strong) CCSprite *smallCat;
 @property (nonatomic, strong) CCSprite *bigCat;
 
@@ -46,6 +46,7 @@
         int ninjaLevel = [GameManager sharedGameManager].ninjaLevel;
         self.enableGestures = YES;
         self.nextInactiveNinjaStar = 0;
+        self.lastDirection = kDirectionTypeNone;
         
         // record duration of staying on main menu
         NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%i", ninjaLevel], @"Level", nil];
@@ -83,8 +84,6 @@
         [self addChild:self.ninja z:100];
         
         // initialize upgrades (minus the aura, which has to be reinitialized in showUpgradesForLevel:)
-        self.ninjaStar = [CCSprite spriteWithSpriteFrameName:@"mainmenu_upgrades_ninjastar2.png"];
-        self.ninjaStar.position = ccp(self.ninja.boundingBox.size.width * 0.33f, self.ninja.boundingBox.size.height * 0.285f);
         self.smallCat = [CCSprite spriteWithSpriteFrameName:@"mainmenu_upgrades_catsmall.png"];
         self.smallCat.anchorPoint = ccp(0.5, 0);
         self.smallCat.position = ccp(self.ninja.position.x * 0.50f, self.ninja.position.y * 1.05f);
@@ -134,6 +133,7 @@
 -(void)handleLeftSwipe {
     if (self.enableGestures) {
         [self.ninja changeState:kCharacterStateLeft];
+        self.lastDirection = kDirectionTypeLeft;
         if ([GameManager sharedGameManager].ninjaLevel >= 3) {
             // throw ninja star
             NinjaStar *ninjaStar = (NinjaStar*)[self.ninjaStars objectAtIndex:self.nextInactiveNinjaStar];
@@ -149,6 +149,7 @@
 -(void)handleDownSwipe {
     if (self.enableGestures) {
         [self.ninja changeState:kCharacterStateDown];
+        self.lastDirection = kDirectionTypeDown;
         if ([GameManager sharedGameManager].ninjaLevel >= 3) {
             // throw ninja star
             NinjaStar *ninjaStar = (NinjaStar*)[self.ninjaStars objectAtIndex:self.nextInactiveNinjaStar];
@@ -164,6 +165,7 @@
 -(void)handleRightSwipe {
     if (self.enableGestures) {
         [self.ninja changeState:kCharacterStateRight];
+        self.lastDirection = kDirectionTypeRight;
         if ([GameManager sharedGameManager].ninjaLevel >= 3) {
             // throw ninja star
             NinjaStar *ninjaStar = (NinjaStar*)[self.ninjaStars objectAtIndex:self.nextInactiveNinjaStar];
@@ -179,6 +181,7 @@
 -(void)handleUpSwipe {
     if (self.enableGestures) {
         [self.ninja changeState:kCharacterStateUp];
+        self.lastDirection = kDirectionTypeUp;
         if ([GameManager sharedGameManager].ninjaLevel >= 3) {
             // throw ninja star
             NinjaStar *ninjaStar = (NinjaStar*)[self.ninjaStars objectAtIndex:self.nextInactiveNinjaStar];
@@ -251,7 +254,8 @@
                 }
                 
                 // remove ninja star
-                [self.ninja removeChild:self.ninjaStar cleanup:YES];
+                [self.ninja removeNinjaStar];
+                
                 break;
             case 1:
                 // remove appropriate cat
@@ -263,7 +267,7 @@
                 
                 // remove ninja star if appropriate
                 if (oldLevel >=3 ) {
-                    [self.ninja removeChild:self.ninjaStar cleanup:YES];
+                    [self.ninja removeNinjaStar];
                 }
                 
                 // remove aura
@@ -283,7 +287,7 @@
         }
         if (oldLevel < 3 && newLevel >= 3) {
             // add ninja star
-            [self.ninja addChild:self.ninjaStar];
+            [self.ninja addNinjaStarWithDirection:self.lastDirection];
             [self addNinjaStarsUpgrade];
         }
         if (oldLevel < 4 && newLevel == 4) {

@@ -14,6 +14,7 @@
 -(id)initFromScene:(SceneTypes)scene;
 -(void)removeBlinkingEyes;
 -(void)addNinjaStarWithDirection:(DirectionTypes)direction;
+-(void)removeNinjaStar;
 -(void)showNinjaStar;
 -(void)hideNinjaStar;
 -(void)switchToSenseiWithDirection:(DirectionTypes)direction;
