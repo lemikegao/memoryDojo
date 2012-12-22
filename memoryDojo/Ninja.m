@@ -102,11 +102,15 @@
 }
 
 -(void)initAnimations {
+    self.blinkingAnim = [CCAnimation animation];
+    
     if (self.isNinjaSenseiMode == YES) {
-        self.blinkingAnim = [self loadPlistForAnimationWithName:@"blinkingAnim" andClassName:@"Sensei"];
+        [self.blinkingAnim addSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@_sensei_eyes_2.png", self.scenePrefix]]];
     } else {
-        self.blinkingAnim = [self loadPlistForAnimationWithName:@"blinkingAnim" andClassName:NSStringFromClass([self class])];
+        [self.blinkingAnim addSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@_ninja_eyes_2.png", self.scenePrefix]]];
     }
+    
+    self.blinkingAnim.delayPerUnit = 0.25f;
     self.blinkingAnim.restoreOriginalFrame = YES;
 }
 
