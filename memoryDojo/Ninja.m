@@ -110,7 +110,7 @@
         [self.blinkingAnim addSpriteFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@_ninja_eyes_2.png", self.scenePrefix]]];
     }
     
-    self.blinkingAnim.delayPerUnit = 0.25f;
+    self.blinkingAnim.delayPerUnit = 0.20f;
     self.blinkingAnim.restoreOriginalFrame = YES;
 }
 
@@ -325,6 +325,9 @@
 }
 
 -(void)switchToSenseiWithDirection:(DirectionTypes)direction {
+    [self stopAction:self.blinkAction];
+    self.secondsStayingIdle = 0;
+    self.isNinjaBlinking = NO;
     self.isNinjaSenseiMode = YES;
     self.ninjaOpenEyes.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@_sensei_eyes_1.png", self.scenePrefix]];
     
@@ -349,7 +352,11 @@
 }
 
 -(void)switchToNinjaWithDirection:(DirectionTypes)direction {
+    [self stopAction:self.blinkAction];
+    self.secondsStayingIdle = 0;
+    self.isNinjaBlinking = NO;
     self.isNinjaSenseiMode = NO;
+    self.ninjaOpenEyes.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@_ninja_eyes_1.png", self.scenePrefix]];
     
     if (direction == kDirectionTypeDown) {
         self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@_ninja_down.png", self.scenePrefix]];

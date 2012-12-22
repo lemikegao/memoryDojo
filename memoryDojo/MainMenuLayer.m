@@ -227,6 +227,10 @@
 
 -(void)showUpgradesForLevel:(int)newLevel fromLevel:(int)oldLevel {
     if (oldLevel > newLevel) {
+        if (oldLevel == 6) {
+            // switch back to ninja
+            [self.ninja switchToNinjaWithDirection:self.lastDirection];
+        }
         // remove upgrades
         switch (newLevel) {
             case 5:
@@ -305,7 +309,7 @@
         }
         if (newLevel >= 6) {
             // placeholder for level 6 upgrade
-            
+            [self.ninja switchToSenseiWithDirection:self.lastDirection];
         }
     }
 }

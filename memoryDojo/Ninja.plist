@@ -7,7 +7,7 @@
 		<key>filenamePrefix</key>
 		<string>game_ninja_eyes_</string>
 		<key>delay</key>
-		<string>0.25</string>
+		<string>0.20</string>
 		<key>animationFrames</key>
 		<string>2</string>
 	</dict>
