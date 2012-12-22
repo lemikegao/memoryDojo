@@ -78,16 +78,19 @@
         [self addChild:highScoreLabel];
         
         self.ninja = [[Ninja alloc] initFromScene:kSceneTypeMainMenu];
-        self.ninja.position = ccp(screenSize.width * 0.76f, screenSize.height * 0.50f);
+        self.ninja.anchorPoint = ccp(0.5, 0);
+        self.ninja.position = ccp(screenSize.width * 0.76f, screenSize.height * 0.25f);
         [self addChild:self.ninja z:100];
         
         // initialize upgrades (minus the aura, which has to be reinitialized in showUpgradesForLevel:)
         self.ninjaStar = [CCSprite spriteWithSpriteFrameName:@"mainmenu_upgrades_ninjastar2.png"];
         self.ninjaStar.position = ccp(self.ninja.boundingBox.size.width * 0.33f, self.ninja.boundingBox.size.height * 0.285f);
         self.smallCat = [CCSprite spriteWithSpriteFrameName:@"mainmenu_upgrades_catsmall.png"];
-        self.smallCat.position = ccp(self.ninja.position.x * 0.50f, self.ninja.position.y * 0.78f);
+        self.smallCat.anchorPoint = ccp(0.5, 0);
+        self.smallCat.position = ccp(self.ninja.position.x * 0.50f, self.ninja.position.y * 1.05f);
         self.bigCat = [CCSprite spriteWithSpriteFrameName:@"mainmenu_upgrades_catbig.png"];
-        self.bigCat.position = ccp(self.ninja.position.x * 0.48f, self.ninja.position.y * 0.83f);
+        self.bigCat.anchorPoint = ccp(0.5, 0);
+        self.bigCat.position = ccp(self.ninja.position.x * 0.48f, self.ninja.position.y * 1.10f);
         
         [self showUpgradesForLevel:ninjaLevel fromLevel:1];
         
@@ -275,7 +278,7 @@
         if (oldLevel < 2 && newLevel >= 2) {
             // add aura behind ninja
             self.auraEmitter = [CCParticleSystemQuad particleWithFile:@"aura1.plist"];
-            self.auraEmitter.position = ccp(self.ninja.position.x + self.ninja.boundingBox.size.width/8, self.ninja.position.y);
+            self.auraEmitter.position = ccp(self.ninja.position.x + self.ninja.boundingBox.size.width/8, self.ninja.position.y + self.ninja.boundingBox.size.height/2);
             [self addChild:self.auraEmitter z:10];
         }
         if (oldLevel < 3 && newLevel >= 3) {
