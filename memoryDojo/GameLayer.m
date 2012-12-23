@@ -32,6 +32,7 @@
 @property (nonatomic) BOOL didBeatHighScore;
 @property (nonatomic) CGFloat secondsIdle;
 @property (nonatomic) DirectionTypes directionForLevelUp;
+@property (nonatomic) BOOL isShowingFingerTutorial;
 
 // gameplay
 @property (nonatomic, strong) NSMutableArray *sequence;
@@ -57,6 +58,7 @@
 @property (nonatomic, strong) CCSprite *smallCat;
 @property (nonatomic, strong) CCLayerColor *dimLayer;
 @property (nonatomic, strong) CCLayerColor *waitDimLayer;
+@property (nonatomic, strong) CCSprite *finger;
 
 @end
 
@@ -87,7 +89,7 @@
     self.sequence = [[NSMutableArray alloc] initWithCapacity:100];
     for (int i=0; i<4; i++) {
         self.sequence[i] = [NSNumber numberWithInt:arc4random_uniform(4) + 1];
-//        self.sequence[i] = [NSNumber numberWithInt:kDirectionTypeUp];
+//        self.sequence[i] = [NSNumber numberWithInt:kDirectionTypeDown];
         NSLog(@"sequence at %i: %@", i, self.sequence[i]);
     }
     
@@ -103,6 +105,7 @@
     
     // game is not paused
     self.isGamePaused = NO;
+    self.isShowingFingerTutorial = NO;
     
     self.didBeatHighScore = NO;
     
@@ -534,6 +537,12 @@
 
 -(void)handleLeftSwipe {
     if (self.enableGestures && !self.isGamePaused) {
+        if (self.isShowingFingerTutorial == YES) {
+            // remove finger tutorial
+            [self.finger stopAllActions];
+            [self.finger removeFromParentAndCleanup:YES];
+            self.isShowingFingerTutorial = NO;
+        }
         self.secondsIdle = 0;
         [self.ninja changeState:kCharacterStateLeft];
         if ([GameManager sharedGameManager].ninjaLevel >= 3) {
@@ -551,6 +560,12 @@
 
 -(void)handleDownSwipe {
     if (self.enableGestures && !self.isGamePaused) {
+        if (self.isShowingFingerTutorial == YES) {
+            // remove finger tutorial
+            [self.finger stopAllActions];
+            [self.finger removeFromParentAndCleanup:YES];
+            self.isShowingFingerTutorial = NO;
+        }
         self.secondsIdle = 0;
         [self.ninja changeState:kCharacterStateDown];
         if ([GameManager sharedGameManager].ninjaLevel >= 3) {
@@ -568,6 +583,12 @@
 
 -(void)handleRightSwipe {
     if (self.enableGestures && !self.isGamePaused) {
+        if (self.isShowingFingerTutorial == YES) {
+            // remove finger tutorial
+            [self.finger stopAllActions];
+            [self.finger removeFromParentAndCleanup:YES];
+            self.isShowingFingerTutorial = NO;
+        }
         self.secondsIdle = 0;
         [self.ninja changeState:kCharacterStateRight];
         if ([GameManager sharedGameManager].ninjaLevel >= 3) {
@@ -585,6 +606,12 @@
 
 -(void)handleUpSwipe {
     if (self.enableGestures && !self.isGamePaused) {
+        if (self.isShowingFingerTutorial == YES) {
+            // remove finger tutorial
+            [self.finger stopAllActions];
+            [self.finger removeFromParentAndCleanup:YES];
+            self.isShowingFingerTutorial = NO;
+        }
         self.secondsIdle = 0;
         [self.ninja changeState:kCharacterStateUp];
         if ([GameManager sharedGameManager].ninjaLevel >= 3) {
@@ -667,6 +694,55 @@
             [self startNewRound];
         }
     }
+}
+
+-(void)showFingerTutorial {
+    DirectionTypes currentDirection = [self.sequence[self.currentSequencePosition] intValue];
+    self.finger = [CCSprite spriteWithSpriteFrameName:@"game_hand.png"];
+    id moveFingerAction;
+    switch (currentDirection) {
+        case kDirectionTypeLeft: {
+            // rotate 270 degrees
+            self.finger.rotation = 270;
+            self.finger.position = ccp(self.screenSize.width * 0.75f, self.screenSize.height/2);
+            moveFingerAction = [CCMoveBy actionWithDuration:0.75f position:ccp(-1*self.screenSize.width/2, 0)];
+            break;
+        }
+        case kDirectionTypeDown: {
+            // rotate 180 degrees
+            self.finger.rotation = 180;
+            self.finger.position = ccp(self.screenSize.width * 0.80f, self.screenSize.height * 0.65f);
+            moveFingerAction = [CCMoveBy actionWithDuration:0.75f position:ccp(0, -1*self.screenSize.height/3)];
+            break;
+        }
+        case kDirectionTypeRight: {
+            // rotate 90 degrees
+            self.finger.rotation = 90;
+            self.finger.position = ccp(self.screenSize.width * 0.25f, self.screenSize.height/2);
+            moveFingerAction = [CCMoveBy actionWithDuration:0.75f position:ccp(self.screenSize.width/2, 0)];
+            break;
+        }
+        case kDirectionTypeUp: {
+            // don't rotate
+            self.finger.position = ccp(self.screenSize.width * 0.80f, self.screenSize.height/4);
+            moveFingerAction = [CCMoveBy actionWithDuration:0.75f position:ccp(0, self.screenSize.height/3)];
+            break;
+        }
+        default: {
+            CCLOG(@"GameLayer.m->showFingerTutorial: Undefined direction: %i", currentDirection);
+            break;
+        }
+    }
+    
+    // add finger to layer and run movement action
+    self.finger.opacity = 0;
+    [self addChild:self.finger z:50];
+    [self.finger runAction:[CCSequence actions:[CCFadeIn actionWithDuration:0.50f], moveFingerAction, [CCFadeOut actionWithDuration:0.50f], [CCCallBlock actionWithBlock:^{
+        self.secondsIdle = 1;
+        self.isShowingFingerTutorial = NO;
+        [self.finger removeFromParentAndCleanup:YES];
+    }], nil]];
+    CCLOG(@"show finger tutorial. current direction: %i", currentDirection);
 }
 
 -(void)playerLosesWithDirection:(DirectionTypes)direction {
@@ -1419,6 +1495,14 @@
     }
     
     switch ([GameManager sharedGameManager].ninjaLevel) {
+        case 1: {
+            // if player is idle for >= 2 sec, show finger tutorial
+            if (self.secondsIdle >= 2 && self.isShowingFingerTutorial == NO) {
+                self.isShowingFingerTutorial = YES;
+                [self showFingerTutorial];
+            }
+            break;
+        }
         case 2: {
             // level 2 - arrows appear after 1 second, waits 2 sec, then disappears
             if (self.timeArrowsHidden >= 1) {
