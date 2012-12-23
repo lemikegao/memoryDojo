@@ -18,6 +18,7 @@
 // game objects
 @property (nonatomic, strong) Ninja *ninja;
 @property (nonatomic, strong) CCArray *ninjaStars;
+@property (nonatomic, strong) CCMenu *mainMenu;
 
 // game state
 @property (nonatomic) BOOL enableGestures;
@@ -217,12 +218,12 @@
     CCMenuItemImage *settingsButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"mainmenu_button_settings.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"mainmenu_button_settings_pressed.png"] target:self selector:@selector(showSettings)];
     settingsButton.position = ccp(screenSize.width * 0.87f, screenSize.height * 0.13f);
     
-    CCMenu *mainMenu = [CCMenu menuWithItems:playGameButton, settingsButton, nil];
+    self.mainMenu = [CCMenu menuWithItems:playGameButton, settingsButton, nil];
 
     // set menu position at 0,0 so menu items can be set with a normal offset
-    mainMenu.position = CGPointZero;
+    self.mainMenu.position = CGPointZero;
     
-    [self addChild:mainMenu];
+    [self addChild:self.mainMenu];
 }
 
 -(void)showUpgradesForLevel:(int)newLevel fromLevel:(int)oldLevel {
@@ -312,6 +313,14 @@
             [self.ninja switchToSenseiWithDirection:self.lastDirection];
         }
     }
+}
+
+-(void)disableTouch {
+    self.mainMenu.isTouchEnabled = NO;
+}
+
+-(void)enableTouch {
+    self.mainMenu.isTouchEnabled = YES;
 }
 
 -(void)addNinjaStarsUpgrade {

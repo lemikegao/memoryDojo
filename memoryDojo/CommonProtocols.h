@@ -25,6 +25,8 @@ typedef enum {
 @protocol MainMenuLayerDelegate
 
 -(void) showUpgradesForLevel:(int)newLevel fromLevel:(int)oldLevel;
+-(void) disableTouch;
+-(void) enableTouch;
 
 @end
 

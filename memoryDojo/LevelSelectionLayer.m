@@ -15,6 +15,10 @@
 @property (nonatomic) BOOL isLevelMenuExtended;
 @property (nonatomic, strong) CCArray *levelMenuItems;
 @property (nonatomic, strong) CCLabelBMFont *levelLabel;
+@property (nonatomic, strong) CCLayerColor *dimLayer;
+@property (nonatomic, strong) CCMenu *levelSelectionMenu;
+@property (nonatomic, strong) CCMenu *selectLevelButtonMenu;
+@property (nonatomic) BOOL isScreenDimmed;
 
 @end
 
@@ -23,11 +27,27 @@
 -(id)init {
     self = [super init];
     if (self != nil) {
+        self.isTouchEnabled = YES;  // for dimmed screen
         self.isLevelMenuExtended = NO;
+        self.isScreenDimmed = NO;
         [self addLevelSelectionMenu];
     }
     
     return self;
+}
+
+-(void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    if (self.isScreenDimmed == YES) {
+        // remove dimmed screen
+        [self.dimLayer removeAllChildrenWithCleanup:YES];
+        [self.dimLayer removeFromParentAndCleanup:YES];
+        self.isScreenDimmed = NO;
+        
+        // enable menus
+        [self.delegate enableTouch];
+        self.levelSelectionMenu.isTouchEnabled = YES;
+        self.selectLevelButtonMenu.isTouchEnabled = YES;
+    }
 }
 
 -(void)addLevelSelectionMenu {
@@ -73,16 +93,16 @@
     }
     
     // add menu offscreen
-    CCMenu *levelSelectionMenu = [CCMenu menuWithArray:[self.levelMenuItems getNSArray]];
-    levelSelectionMenu.position = ccp(-1 * self.levelMenuItemSize.width/2, screenSize.height * 0.49f);
-    [levelSelectionMenu alignItemsVerticallyWithPadding:levelSelectionMenuSeparator.boundingBox.size.height];
+    self.levelSelectionMenu = [CCMenu menuWithArray:[self.levelMenuItems getNSArray]];
+    self.levelSelectionMenu.position = ccp(-1 * self.levelMenuItemSize.width/2, screenSize.height * 0.49f);
+    [self.levelSelectionMenu alignItemsVerticallyWithPadding:levelSelectionMenuSeparator.boundingBox.size.height];
     
     // add level selection separators
     for (int i=1; i<numberOfLevels; i++) {
         CCLayerColor *separator = [CCLayerColor layerWithColor:ccc4(30, 30, 30, 255) width:157.5f height:5.1f];
         separator.ignoreAnchorPointForPosition = NO;
         separator.anchorPoint = ccp(0.5, 1);
-        separator.position = ccp(-1 * self.levelMenuItemSize.width/2, [(CCMenuItem*)[self.levelMenuItems objectAtIndex:i-1] position].y + levelSelectionMenu.position.y - self.levelMenuItemSize.height /2);
+        separator.position = ccp(-1 * self.levelMenuItemSize.width/2, [(CCMenuItem*)[self.levelMenuItems objectAtIndex:i-1] position].y + self.levelSelectionMenu.position.y - self.levelMenuItemSize.height /2);
         [self addChild:separator z:100];
     }
     
@@ -107,11 +127,11 @@
     self.levelLabel.position = ccp(levelCopyLabel.boundingBox.size.width + levelCopyLabel.position.x + selectLevelButtonSize.width * 0.09f, levelCopyLabel.position.y);
     [selectLevelButton addChild:self.levelLabel];
     
-    CCMenu *selectLevelButtonMenu = [CCMenu menuWithItems:selectLevelButton, nil];
-    selectLevelButtonMenu.position = CGPointZero;
+    self.selectLevelButtonMenu = [CCMenu menuWithItems:selectLevelButton, nil];
+    self.selectLevelButtonMenu.position = CGPointZero;
     
-    [self addChild:levelSelectionMenu];
-    [self addChild:selectLevelButtonMenu];
+    [self addChild:self.levelSelectionMenu];
+    [self addChild:self.selectLevelButtonMenu];
 }
 
 -(void)moveSelectLevelMenu {
@@ -135,6 +155,50 @@
     
     if (level > highLevel) {
         CCLOG(@"level is not unlocked yet -- add some message to the player");
+        // disable menu
+        self.levelSelectionMenu.isTouchEnabled = NO;
+        self.selectLevelButtonMenu.isTouchEnabled = NO;
+        [self.delegate disableTouch];
+        
+        CGSize screenSize = [CCDirector sharedDirector].winSize;
+        // dim background
+        self.dimLayer = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 200) width:screenSize.width*2 height:screenSize.height];
+        self.dimLayer.position = ccp(-1*screenSize.width, 0);
+        [self addChild:self.dimLayer z:500];
+        
+        self.isScreenDimmed = YES;
+        
+        // add message to player
+        CCSprite *messageBg = [CCSprite spriteWithSpriteFrameName:@"game_transition_message_bg.png"];
+        messageBg.position = ccp(self.dimLayer.boundingBox.size.width/2, screenSize.height/2);
+        [self.dimLayer addChild:messageBg];
+        
+        CCLabelBMFont *message = [CCLabelBMFont labelWithString:@"" fntFile:@"grobold_25px_nostroke.fnt" width:messageBg.boundingBox.size.width * 0.70f alignment:kCCTextAlignmentCenter];
+        switch (level) {
+            case 2:
+                message.string = [NSString stringWithFormat:@"REACH ROUND %i IN LEVEL 1 TO UNLOCK!", kGameLevel2Round];
+                break;
+            case 3:
+                message.string = [NSString stringWithFormat:@"REACH ROUND %i IN LEVEL 2 TO UNLOCK!", kGameLevel3Round];
+                break;
+            case 4:
+                message.string = [NSString stringWithFormat:@"REACH ROUND %i IN LEVEL 3 TO UNLOCK!", kGameLevel4Round];
+                break;
+            case 5:
+                message.string = [NSString stringWithFormat:@"REACH ROUND %i IN LEVEL 4 TO UNLOCK!", kGameLevel5Round];
+                break;
+            case 6:
+                message.string = [NSString stringWithFormat:@"REACH ROUND %i IN LEVEL 5 TO UNLOCK!", kGameLevel6Round];
+                break;
+            default:
+                CCLOG(@"LevelSelectionLayer.m->selectLevel: Unknown level %i", level);
+                break;
+        }
+        
+        message.color = ccc3(153, 136, 94);
+        message.position = ccp(messageBg.boundingBox.size.width/2, messageBg.boundingBox.size.height/2);
+        [messageBg addChild:message];
+        
     } else {
         if (currentLevel == level) {
             // if player selects the same level, do nothing
