@@ -54,9 +54,9 @@
 -(void)showSettings {
     if (self.isSettingsDisplayed == NO) {
         self.isSettingsDisplayed = YES;
-        self.mainMenuLayer.isTouchEnabled = NO;
         self.mainMenuLayer.enableGestures = NO;
-        self.levelSelectionLayer.isTouchEnabled = NO;
+        [self.mainMenuLayer disableAllMenus];
+        [self.levelSelectionLayer disableAllMenus];
         [self.settingsLayer runAction:[CCMoveTo actionWithDuration:0.25f position:ccp(0, [CCDirector sharedDirector].winSize.height)]];
     }
 }
@@ -64,9 +64,9 @@
 -(void)hideSettings {
     if (self.isSettingsDisplayed == YES) {
         self.isSettingsDisplayed = NO;
-        self.mainMenuLayer.isTouchEnabled = YES;
         self.mainMenuLayer.enableGestures = YES;
-        self.levelSelectionLayer.isTouchEnabled = YES;
+        [self.mainMenuLayer enableAllMenus];
+        [self.levelSelectionLayer enableAllMenus];
         [self.settingsLayer runAction:[CCMoveTo actionWithDuration:0.25f position:ccp(0, -1*[CCDirector sharedDirector].winSize.height)]];
     }
 }

@@ -13,5 +13,7 @@
 
 @property (nonatomic, weak) id<MainMenuSceneDelegate> mainMenuSceneDelegate;
 @property (nonatomic) BOOL enableGestures;
+-(void)disableAllMenus;
+-(void)enableAllMenus;
 
 @end

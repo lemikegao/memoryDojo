@@ -84,12 +84,22 @@
         self.SFXOffItem = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"settings_button_sfx_off.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"settings_button_sfx_off.png"]];
         CCMenuItemToggle *SFXMenuItemToggle = [CCMenuItemToggle itemWithTarget:self selector:@selector(sfxButtonTapped:) items:self.SFXOnItem, self.SFXOffItem, nil];
         SFXMenuItemToggle.position = ccp(menuBgSize.width * 0.20f, menuBgSize.height/2);
+        if ([GameManager sharedGameManager].isSoundEffectsOn == YES) {
+            SFXMenuItemToggle.selectedIndex = 0;
+        } else {
+            SFXMenuItemToggle.selectedIndex = 1;
+        }
         
         // add music toggle
         self.musicOnItem = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"settings_button_music_on.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"settings_button_music_on.png"]];
         self.musicOffItem = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"settings_button_music_off.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"settings_button_music_off.png"]];
         CCMenuItemToggle *musicMenuItemToggle = [CCMenuItemToggle itemWithTarget:self selector:@selector(musicButtonTapped:) items:self.musicOnItem, self.musicOffItem, nil];
         musicMenuItemToggle.position = ccp(menuBgSize.width * 0.47f, menuBgSize.height/2);
+        if ([GameManager sharedGameManager].isMusicOn == YES) {
+            musicMenuItemToggle.selectedIndex = 0;
+        } else {
+            musicMenuItemToggle.selectedIndex = 1;
+        }
         
         CCMenu *menuBottom = [CCMenu menuWithItems:SFXMenuItemToggle, musicMenuItemToggle, nil];
         menuBottom.position = ccp(0, 0);

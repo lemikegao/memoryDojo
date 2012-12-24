@@ -149,6 +149,16 @@
     [self runAction:moveSelectLevelMenuAction];
 }
 
+-(void)disableAllMenus {
+    self.levelSelectionMenu.isTouchEnabled = NO;
+    self.selectLevelButtonMenu.isTouchEnabled = NO;
+}
+
+-(void)enableAllMenus {
+    self.levelSelectionMenu.isTouchEnabled = YES;
+    self.selectLevelButtonMenu.isTouchEnabled = YES;
+}
+
 -(void)selectLevel:(int)level {
     int currentLevel = [GameManager sharedGameManager].ninjaLevel;
     int highLevel = [GameManager sharedGameManager].highNinjaLevel;

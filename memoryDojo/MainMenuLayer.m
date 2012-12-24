@@ -230,6 +230,14 @@
     [self addChild:self.mainMenu];
 }
 
+-(void)disableAllMenus {
+    self.mainMenu.isTouchEnabled = NO;
+}
+
+-(void)enableAllMenus {
+    self.mainMenu.isTouchEnabled = YES;
+}
+
 -(void)showUpgradesForLevel:(int)newLevel fromLevel:(int)oldLevel {
     if (oldLevel > newLevel) {
         if (oldLevel == 6) {
