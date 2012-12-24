@@ -16,6 +16,7 @@
 @property (nonatomic, strong) MainMenuLayer *mainMenuLayer;
 @property (nonatomic, strong) LevelSelectionLayer *levelSelectionLayer;
 @property (nonatomic, strong) SettingsLayer *settingsLayer;
+@property (nonatomic) BOOL isSettingsDisplayed;
 
 @end
 
@@ -27,6 +28,7 @@
         // load texture atlas
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"mainmenu_art.plist"];
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"mainmenu_art_bg.plist"];
+        self.isSettingsDisplayed = NO;
         
         self.mainMenuLayer = [MainMenuLayer node];
         [self addChild:self.mainMenuLayer z:1];
@@ -40,7 +42,8 @@
         self.settingsLayer = [SettingsLayer node];
         self.settingsLayer.ignoreAnchorPointForPosition = NO;
         self.settingsLayer.anchorPoint = ccp(0, 1);
-        self.settingsLayer.position = ccp(0, 0);
+#warning -- fix for iphone 5 & 4
+        self.settingsLayer.position = ccp(0, -44);
         [self addChild:self.settingsLayer z:10];
         self.settingsLayer.mainMenuSceneDelegate = self;
     }
@@ -49,13 +52,23 @@
 }
 
 -(void)showSettings {
-    self.mainMenuLayer.enableGestures = NO;
-    [self.settingsLayer runAction:[CCMoveBy actionWithDuration:0.25f position:ccp(0, [CCDirector sharedDirector].winSize.height)]];
+    if (self.isSettingsDisplayed == NO) {
+        self.isSettingsDisplayed = YES;
+        self.mainMenuLayer.isTouchEnabled = NO;
+        self.mainMenuLayer.enableGestures = NO;
+        self.levelSelectionLayer.isTouchEnabled = NO;
+        [self.settingsLayer runAction:[CCMoveTo actionWithDuration:0.25f position:ccp(0, [CCDirector sharedDirector].winSize.height)]];
+    }
 }
 
 -(void)hideSettings {
-    self.mainMenuLayer.enableGestures = YES;
-    [self.settingsLayer runAction:[CCMoveBy actionWithDuration:0.25f position:ccp(0, -1*[CCDirector sharedDirector].winSize.height)]];
+    if (self.isSettingsDisplayed == YES) {
+        self.isSettingsDisplayed = NO;
+        self.mainMenuLayer.isTouchEnabled = YES;
+        self.mainMenuLayer.enableGestures = YES;
+        self.levelSelectionLayer.isTouchEnabled = YES;
+        [self.settingsLayer runAction:[CCMoveTo actionWithDuration:0.25f position:ccp(0, -1*[CCDirector sharedDirector].winSize.height)]];
+    }
 }
 
 @end
