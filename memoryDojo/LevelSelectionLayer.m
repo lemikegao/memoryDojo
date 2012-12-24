@@ -154,7 +154,6 @@
     int highLevel = [GameManager sharedGameManager].highNinjaLevel;
     
     if (level > highLevel) {
-        CCLOG(@"level is not unlocked yet -- add some message to the player");
         // disable menu
         self.levelSelectionMenu.isTouchEnabled = NO;
         self.selectLevelButtonMenu.isTouchEnabled = NO;

@@ -44,6 +44,7 @@ typedef enum {
     kGameStateLevelUpGiftScreen,
     kGameStateLevelUpSmallCatScreen,
     kGameStateLevelUpScreen2,
+    kGameStateTweetForGiftScreen,
     kGameStatePause
 } GameStates;
 

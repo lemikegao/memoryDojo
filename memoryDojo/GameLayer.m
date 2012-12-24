@@ -13,6 +13,7 @@
 #import "Sensei.h"
 #import "NinjaStar.h"
 #import "Flurry.h"
+#import <Social/Social.h>
 
 @interface GameLayer()
 
@@ -331,11 +332,49 @@
             [self showNinjaLevelUpScreen2FromCatScreen];
         }
         else if (self.currentGameState == kGameStateLevelUpScreen2) {
+            // if player is now level 6, display tweet message
+            if ([GameManager sharedGameManager].ninjaLevel == 6) {
+                [self showTweetForGiftMessage];
+            } else {
+                [self dismissLevelUpScreen];
+        //        [self startNewRound];
+                [self resetSequenceAfterLevelUp];
+            }
+        }
+        else if (self.currentGameState == kGameStateTweetForGiftScreen) {
             [self dismissLevelUpScreen];
-    //        [self startNewRound];
             [self resetSequenceAfterLevelUp];
         }
     }
+}
+
+-(void)showTweetForGiftMessage {
+    self.currentGameState = kGameStateTweetForGiftScreen;
+    
+    // remove old messages
+    [self.levelUpMessageBg removeAllChildrenWithCleanup:YES];
+    
+    // add tweet copy
+    CCLabelBMFont *tweetCopy = [CCLabelBMFont labelWithString:@"BE THE FIRST TO TWEET US AND WIN A GIFT!" fntFile:@"grobold_21px_nostroke.fnt" width:self.levelUpMessageBg.boundingBox.size.width*0.65f alignment:kCCTextAlignmentCenter];
+    tweetCopy.position = ccp(self.levelUpMessageBg.boundingBox.size.width/2, self.levelUpMessageBg.boundingBox.size.height * 0.60f);
+    tweetCopy.color = ccc3(153, 136, 94);
+    [self.levelUpMessageBg addChild:tweetCopy];
+    
+    // add tweet button
+    CCMenuItemLabel *sendTweetButton = [CCMenuItemLabel itemWithLabel:[CCLabelBMFont labelWithString:@"SEND TWEET" fntFile:@"grobold_21px_nostroke.fnt"] block:^(id sender) {
+        if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
+        {
+            SLComposeViewController *tweetSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+            [tweetSheet setInitialText:@"@ChinAndCheeks I've mastered Memory Dojo!"];
+            [[CCDirector sharedDirector].navigationController presentViewController:tweetSheet animated:YES completion:nil];
+        } else {
+            CCLOG(@"send tweet button failed");
+        }
+    }];
+    
+    CCMenu *tweetMenu = [CCMenu menuWithItems:sendTweetButton, nil];
+    tweetMenu.position = ccp(self.levelUpMessageBg.boundingBox.size.width/2, self.levelUpMessageBg.boundingBox.size.height * 0.30f);
+    [self.levelUpMessageBg addChild:tweetMenu];
 }
 
 -(void)removeInstructions {
