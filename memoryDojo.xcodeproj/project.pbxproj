@@ -11,6 +11,7 @@
 		C4154BDA165EDD87006B6CF5 /* gameover_art-hd.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = C4154BD6165EDD87006B6CF5 /* gameover_art-hd.pvr.ccz */; };
 		C4154BF2165F413C006B6CF5 /* mainmenu_upgrades_ninjastar2.png in Resources */ = {isa = PBXBuildFile; fileRef = C4154BF1165F413C006B6CF5 /* mainmenu_upgrades_ninjastar2.png */; };
 		C4154BF6165F4174006B6CF5 /* mainmenu_upgrades_catsmall.png in Resources */ = {isa = PBXBuildFile; fileRef = C4154BF5165F4174006B6CF5 /* mainmenu_upgrades_catsmall.png */; };
+		C417011116881AEF0098AE33 /* SettingsLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C417011016881AEF0098AE33 /* SettingsLayer.m */; };
 		C42113DF167191E8005A3221 /* game_wait_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = C42113DE167191E8005A3221 /* game_wait_arrow.png */; };
 		C42113ED1671CC15005A3221 /* grobold_50px_GO-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = C42113E91671CC15005A3221 /* grobold_50px_GO-hd.fnt */; };
 		C42113EE1671CC15005A3221 /* grobold_50px_GO-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C42113EA1671CC15005A3221 /* grobold_50px_GO-hd.png */; };
@@ -425,6 +426,8 @@
 		C4154BD6165EDD87006B6CF5 /* gameover_art-hd.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "gameover_art-hd.pvr.ccz"; sourceTree = "<group>"; };
 		C4154BF1165F413C006B6CF5 /* mainmenu_upgrades_ninjastar2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainmenu_upgrades_ninjastar2.png; sourceTree = "<group>"; };
 		C4154BF5165F4174006B6CF5 /* mainmenu_upgrades_catsmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mainmenu_upgrades_catsmall.png; sourceTree = "<group>"; };
+		C417010F16881AEE0098AE33 /* SettingsLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsLayer.h; sourceTree = "<group>"; };
+		C417011016881AEF0098AE33 /* SettingsLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsLayer.m; sourceTree = "<group>"; };
 		C42113DE167191E8005A3221 /* game_wait_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_wait_arrow.png; sourceTree = "<group>"; };
 		C42113E91671CC15005A3221 /* grobold_50px_GO-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "grobold_50px_GO-hd.fnt"; sourceTree = "<group>"; };
 		C42113EA1671CC15005A3221 /* grobold_50px_GO-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grobold_50px_GO-hd.png"; sourceTree = "<group>"; };
@@ -1189,6 +1192,8 @@
 				C4F6B59116311913007C5C63 /* MainMenuLayer.m */,
 				C49801441676D6BD00354373 /* LevelSelectionLayer.h */,
 				C49801451676D6BD00354373 /* LevelSelectionLayer.m */,
+				C417010F16881AEE0098AE33 /* SettingsLayer.h */,
+				C417011016881AEF0098AE33 /* SettingsLayer.m */,
 			);
 			name = MainMenu;
 			sourceTree = "<group>";
@@ -2040,6 +2045,7 @@
 				C4F94D35165A089800EBB65B /* NinjaStar.m in Sources */,
 				C49801461676D6BD00354373 /* LevelSelectionLayer.m in Sources */,
 				C4AD21401678266F0068F429 /* MainMenuNinjaStar.m in Sources */,
+				C417011116881AEF0098AE33 /* SettingsLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

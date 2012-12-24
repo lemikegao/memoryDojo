@@ -7,7 +7,8 @@
 //
 
 #import "CCScene.h"
+#import "CommonProtocols.h"
 
-@interface MainMenuScene : CCScene
+@interface MainMenuScene : CCScene <MainMenuSceneDelegate>
 
 @end

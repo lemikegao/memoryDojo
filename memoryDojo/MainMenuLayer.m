@@ -21,7 +21,6 @@
 @property (nonatomic, strong) CCMenu *mainMenu;
 
 // game state
-@property (nonatomic) BOOL enableGestures;
 @property (nonatomic) int nextInactiveNinjaStar;
 @property (nonatomic) DirectionTypes lastDirection;
 
@@ -133,6 +132,7 @@
 
 -(void)handleLeftSwipe {
     if (self.enableGestures) {
+        CCLOG(@"left swipe detected");
         [self.ninja changeState:kCharacterStateLeft];
         self.lastDirection = kDirectionTypeLeft;
         if ([GameManager sharedGameManager].ninjaLevel >= 3) {
@@ -149,6 +149,7 @@
 
 -(void)handleDownSwipe {
     if (self.enableGestures) {
+        CCLOG(@"down swipe detected");
         [self.ninja changeState:kCharacterStateDown];
         self.lastDirection = kDirectionTypeDown;
         if ([GameManager sharedGameManager].ninjaLevel >= 3) {
@@ -165,6 +166,7 @@
 
 -(void)handleRightSwipe {
     if (self.enableGestures) {
+        CCLOG(@"right swipe detected");
         [self.ninja changeState:kCharacterStateRight];
         self.lastDirection = kDirectionTypeRight;
         if ([GameManager sharedGameManager].ninjaLevel >= 3) {
@@ -181,6 +183,7 @@
 
 -(void)handleUpSwipe {
     if (self.enableGestures) {
+        CCLOG(@"up swipe detected");
         [self.ninja changeState:kCharacterStateUp];
         self.lastDirection = kDirectionTypeUp;
         if ([GameManager sharedGameManager].ninjaLevel >= 3) {
@@ -207,6 +210,7 @@
     [Flurry logEvent:@"Clicked_Settings" withParameters:flurryParams];
     // placeholder
     CCLOG(@"settings button was pressed");
+    [self.mainMenuSceneDelegate showSettings];
 }
 
 -(void)displayMainMenu {

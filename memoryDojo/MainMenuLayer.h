@@ -11,4 +11,7 @@
 
 @interface MainMenuLayer : CCLayer <MainMenuLayerDelegate>
 
+@property (nonatomic, weak) id<MainMenuSceneDelegate> mainMenuSceneDelegate;
+@property (nonatomic) BOOL enableGestures;
+
 @end

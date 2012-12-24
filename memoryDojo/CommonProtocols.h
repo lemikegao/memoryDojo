@@ -22,6 +22,13 @@ typedef enum {
 
 @end
 
+@protocol MainMenuSceneDelegate
+
+-(void)showSettings;
+-(void)hideSettings;
+
+@end
+
 @protocol MainMenuLayerDelegate
 
 -(void) showUpgradesForLevel:(int)newLevel fromLevel:(int)oldLevel;
