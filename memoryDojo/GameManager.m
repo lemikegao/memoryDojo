@@ -96,18 +96,14 @@ static GameManager *_sharedGameManager = nil;   // singleton
             [defaults setInteger:1 forKey:@"highNinjaLevel"];
         }
         
-        #warning -- reset level
         // if no currentLevel exists locally, then set to 1
         if ([defaults integerForKey:@"currentLevel"] == 0) {
-            [defaults setInteger:4 forKey:@"currentLevel"];
+            [defaults setInteger:1 forKey:@"currentLevel"];
         }
         
         _highScore = [defaults integerForKey:@"highScore"];
         _highNinjaLevel = [defaults integerForKey:@"highNinjaLevel"];
-//        _ninjaLevel = [defaults integerForKey:@"currentLevel"];
-        _highScore = 5;
-        _ninjaLevel = 5;
-        _highNinjaLevel = 5;
+        _ninjaLevel = [defaults integerForKey:@"currentLevel"];
     }
     
     return self;
