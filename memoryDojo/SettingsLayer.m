@@ -65,7 +65,8 @@
         menuBgBottom.anchorPoint = ccp(0, 0);
         menuBgBottom.position = ccp(0, 44);
         [background addChild:menuBgBottom z:100];
-        
+
+/*
         // add labels for bottom menu
         CCLabelBMFont *SFXLabel = [CCLabelBMFont labelWithString:@"SFX" fntFile:@"settings_label.fnt"];
         SFXLabel.anchorPoint = ccp(0, 0.5);
@@ -100,6 +101,7 @@
         } else {
             musicMenuItemToggle.selectedIndex = 1;
         }
+ */
         
         // add back button
         CCMenuItemImage *backButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"settings_button_back.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"settings_button_back_pressed.png"] block:^(id sender) {
@@ -108,7 +110,7 @@
         }];
         backButton.position = ccp(menuBgSize.width * 0.80f, menuBgSize.height/2);
         
-        CCMenu *menuBottom = [CCMenu menuWithItems:SFXMenuItemToggle, musicMenuItemToggle, backButton, nil];
+        CCMenu *menuBottom = [CCMenu menuWithItems:backButton, nil];
         menuBottom.position = ccp(0, 0);
         [menuBgBottom addChild:menuBottom];
         
@@ -153,6 +155,13 @@
         CCSprite *ninjaEyes = [CCSprite spriteWithSpriteFrameName:@"mainmenu_ninja_eyes_1.png"];
         ninjaEyes.position = ccp(ninja.boundingBox.size.width * 0.455f, ninja.boundingBox.size.height * 0.63f);
         [ninja addChild:ninjaEyes];
+        
+        // add copyright
+        CCLabelTTF *copyright = [CCLabelTTF labelWithString:@"\u00A9 2012 by Chin and Cheeks LLC" dimensions:CGSizeMake(screenSize.width * 0.65f, screenSize.height * 0.05f) hAlignment:kCCTextAlignmentRight fontName:@"Helvetica" fontSize:10];
+        copyright.color = ccc3(91, 81, 64);
+        copyright.anchorPoint = ccp(1, 0.5);
+        copyright.position = ccp(screenSize.width * 0.95f, screenSize.height * 0.20f);
+        [background addChild:copyright];
     }
     
     return self;
