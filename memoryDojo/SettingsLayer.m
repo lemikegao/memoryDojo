@@ -35,7 +35,7 @@
         menuBgTop.ignoreAnchorPointForPosition = NO;
         menuBgTop.anchorPoint = ccp(0, 1);
         menuBgTop.position = ccp(0, screenSize.height-44);
-        [background addChild:menuBgTop];
+        [background addChild:menuBgTop z:100];
         
         // add logo
         CCSprite *logo = [CCSprite spriteWithSpriteFrameName:@"settings_logo.png"];
@@ -64,7 +64,7 @@
         menuBgBottom.ignoreAnchorPointForPosition = NO;
         menuBgBottom.anchorPoint = ccp(0, 0);
         menuBgBottom.position = ccp(0, 44);
-        [background addChild:menuBgBottom];
+        [background addChild:menuBgBottom z:100];
         
         // add labels for bottom menu
         CCLabelBMFont *SFXLabel = [CCLabelBMFont labelWithString:@"SFX" fntFile:@"settings_label.fnt"];
@@ -144,6 +144,15 @@
         bottomCopy.color = ccc3(165, 149, 109);
         bottomCopy.position = ccp(copyBgSize.width/2, copyBgSize.height * 0.24f);
         [copyBg addChild:bottomCopy];
+        
+        // add ninja
+        CCSprite *ninja = [CCSprite spriteWithSpriteFrameName:@"mainmenu_ninja_up_repeat.png"];
+        ninja.position = ccp(screenSize.width * 0.25f, screenSize.height * 0.20f);
+        [background addChild:ninja z:50];
+        
+        CCSprite *ninjaEyes = [CCSprite spriteWithSpriteFrameName:@"mainmenu_ninja_eyes_1.png"];
+        ninjaEyes.position = ccp(ninja.boundingBox.size.width * 0.455f, ninja.boundingBox.size.height * 0.63f);
+        [ninja addChild:ninjaEyes];
     }
     
     return self;
