@@ -45,12 +45,30 @@
         
         // add social media chiclets
         CCMenuItemImage *facebook = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"settings_chiclet_fb.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"settings_chiclet_fb_pressed.png"] block:^(id sender) {
-            CCLOG(@"facebook chiclet pressed");
+            NSURL *urlSafari = [NSURL URLWithString:@"http://facebook.com/ChinAndCheeks"];
+            NSURL *urlApp = [NSURL URLWithString:@"fb://profile/132298090255663"];
+            
+            if ([[UIApplication sharedApplication] canOpenURL:urlApp]){
+                [[UIApplication sharedApplication] openURL:urlApp];
+            } else {
+                [[UIApplication sharedApplication] openURL:urlSafari];
+            }
         }];
         
 
         CCMenuItemImage *twitter = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"settings_chiclet_tw.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"settings_chiclet_tw_pressed.png"] block:^(id sender) {
-            CCLOG(@"twitter chiclet pressed");
+            // redirect to twitter app if installed. if not, open safari
+            NSURL *urlSafari = [NSURL URLWithString:@"http://twitter.com/ChinAndCheeks"];
+            NSURL *urlApp = [NSURL URLWithString:@"twitter:///user?screen_name=ChinAndCheeks"];
+            NSURL *urlTweetbot = [NSURL URLWithString:@"tweetbot:///user_profile/ChinAndCheeks"];
+            
+            if ([[UIApplication sharedApplication] canOpenURL:urlTweetbot]){
+                [[UIApplication sharedApplication] openURL:urlTweetbot];
+            } else if ([[UIApplication sharedApplication] canOpenURL:urlApp]) {
+                [[UIApplication sharedApplication] openURL:urlApp];
+            } else {
+                [[UIApplication sharedApplication] openURL:urlSafari];
+            }
         }];
 
         CCMenu *socialChicletsMenu = [CCMenu menuWithItems:facebook, twitter, nil];
