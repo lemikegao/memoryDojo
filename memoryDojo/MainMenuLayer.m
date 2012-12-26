@@ -327,14 +327,6 @@
     }
 }
 
--(void)disableTouch {
-    self.mainMenu.isTouchEnabled = NO;
-}
-
--(void)enableTouch {
-    self.mainMenu.isTouchEnabled = YES;
-}
-
 -(void)addNinjaStarsUpgrade {
     // init throwing ninja stars
     CCSpriteBatchNode *ninjaStarBatchNode = [CCSpriteBatchNode batchNodeWithFile:@"mainmenu_art.pvr.ccz" capacity:8];

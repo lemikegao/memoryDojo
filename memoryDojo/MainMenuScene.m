@@ -38,6 +38,7 @@
         [self addChild:self.levelSelectionLayer z:2];
         
         self.levelSelectionLayer.delegate = self.mainMenuLayer;
+        self.levelSelectionLayer.mainMenuSceneDelegate = self;
         
         self.settingsLayer = [SettingsLayer node];
         self.settingsLayer.ignoreAnchorPointForPosition = NO;
@@ -55,8 +56,7 @@
     if (self.isSettingsDisplayed == NO) {
         self.isSettingsDisplayed = YES;
         self.mainMenuLayer.enableGestures = NO;
-        [self.mainMenuLayer disableAllMenus];
-        [self.levelSelectionLayer disableAllMenus];
+        [self disableAllMenus];
         [self.settingsLayer runAction:[CCMoveTo actionWithDuration:0.25f position:ccp(0, [CCDirector sharedDirector].winSize.height)]];
     }
 }
@@ -65,10 +65,19 @@
     if (self.isSettingsDisplayed == YES) {
         self.isSettingsDisplayed = NO;
         self.mainMenuLayer.enableGestures = YES;
-        [self.mainMenuLayer enableAllMenus];
-        [self.levelSelectionLayer enableAllMenus];
+        [self enableAllMenus];
         [self.settingsLayer runAction:[CCMoveTo actionWithDuration:0.25f position:ccp(0, -1*[CCDirector sharedDirector].winSize.height)]];
     }
+}
+
+-(void)disableAllMenus {
+    [self.mainMenuLayer disableAllMenus];
+    [self.levelSelectionLayer disableAllMenus];
+}
+
+-(void)enableAllMenus {
+    [self.mainMenuLayer enableAllMenus];
+    [self.levelSelectionLayer enableAllMenus];
 }
 
 @end

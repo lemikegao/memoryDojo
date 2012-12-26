@@ -12,6 +12,7 @@
 @interface LevelSelectionLayer : CCLayer
 
 @property (nonatomic, weak) id<MainMenuLayerDelegate> delegate;
+@property (nonatomic, weak) id<MainMenuSceneDelegate> mainMenuSceneDelegate;
 -(void)disableAllMenus;
 -(void)enableAllMenus;
 

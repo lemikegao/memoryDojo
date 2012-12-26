@@ -44,9 +44,7 @@
         self.isScreenDimmed = NO;
         
         // enable menus
-        [self.delegate enableTouch];
-        self.levelSelectionMenu.isTouchEnabled = YES;
-        self.selectLevelButtonMenu.isTouchEnabled = YES;
+        [self.mainMenuSceneDelegate enableAllMenus];
     }
 }
 
@@ -165,9 +163,7 @@
     
     if (level > highLevel) {
         // disable menu
-        self.levelSelectionMenu.isTouchEnabled = NO;
-        self.selectLevelButtonMenu.isTouchEnabled = NO;
-        [self.delegate disableTouch];
+        [self.mainMenuSceneDelegate disableAllMenus];
         
         CGSize screenSize = [CCDirector sharedDirector].winSize;
         // dim background
@@ -182,7 +178,7 @@
         messageBg.position = ccp(self.dimLayer.boundingBox.size.width/2, screenSize.height/2);
         [self.dimLayer addChild:messageBg];
         
-        CCLabelBMFont *message = [CCLabelBMFont labelWithString:@"" fntFile:@"grobold_25px_nostroke.fnt" width:messageBg.boundingBox.size.width * 0.70f alignment:kCCTextAlignmentCenter];
+        CCLabelBMFont *message = [CCLabelBMFont labelWithString:@"REACH ROUND XX IN LEVEL Y TO UNLOCK!" fntFile:@"grobold_25px_nostroke.fnt" width:messageBg.boundingBox.size.width * 0.70f alignment:kCCTextAlignmentCenter];
         switch (level) {
             case 2:
                 message.string = [NSString stringWithFormat:@"REACH ROUND %i IN LEVEL 1 TO UNLOCK!", kGameLevel2Round];

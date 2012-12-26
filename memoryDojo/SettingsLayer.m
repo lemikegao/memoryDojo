@@ -101,25 +101,49 @@
             musicMenuItemToggle.selectedIndex = 1;
         }
         
-        CCMenu *menuBottom = [CCMenu menuWithItems:SFXMenuItemToggle, musicMenuItemToggle, nil];
-        menuBottom.position = ccp(0, 0);
-        [menuBgBottom addChild:menuBottom];
-        
-        CCLabelBMFont *placeholder = [CCLabelBMFont labelWithString:@"SETTINGS LAYER" fntFile:@"grobold_30px_nostroke.fnt"];
-        placeholder.position = ccp(screenSize.width/2, screenSize.height/2);
-        [background addChild:placeholder];
-        
         // add back button
-        CCMenuItemLabel *backButton = [CCMenuItemLabel itemWithLabel:[CCLabelBMFont labelWithString:@"BACK" fntFile:@"grobold_21px_nostroke.fnt"] block:^(id sender) {
+        CCMenuItemImage *backButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"settings_button_back.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"settings_button_back_pressed.png"] block:^(id sender) {
             // move the settings layer back down
             [self.mainMenuSceneDelegate hideSettings];
         }];
-        backButton.anchorPoint = ccp(0, 1);
-        backButton.position = ccp(screenSize.width * 0.05f, screenSize.height * 0.95f);
+        backButton.position = ccp(menuBgSize.width * 0.80f, menuBgSize.height/2);
         
-        CCMenu *settingsMenu = [CCMenu menuWithItems:backButton, nil];
-        settingsMenu.position = CGPointZero;
-        [background addChild:settingsMenu];
+        CCMenu *menuBottom = [CCMenu menuWithItems:SFXMenuItemToggle, musicMenuItemToggle, backButton, nil];
+        menuBottom.position = ccp(0, 0);
+        [menuBgBottom addChild:menuBottom];
+        
+        // add copy bg
+        CCSprite *copyBg = [CCSprite spriteWithSpriteFrameName:@"game_transition_message_bg.png"];
+        copyBg.position = ccp(screenSize.width/2, screenSize.height * 0.55f);
+        [background addChild:copyBg];
+        
+        CGSize copyBgSize = copyBg.boundingBox.size;
+        
+        // add copy
+        CCLabelTTF *topCopy1 = [CCLabelTTF labelWithString:@"Hope you've enjoyed our first game! As a special" dimensions:CGSizeMake(copyBg.boundingBox.size.width * 0.80f, copyBg.boundingBox.size.height * 0.20f) hAlignment:kCCTextAlignmentCenter fontName:@"Helvetica" fontSize:18];
+        topCopy1.color = ccc3(165, 149, 109);
+        topCopy1.position = ccp(copyBgSize.width/2, copyBg.boundingBox.size.height * 0.75f);
+        [copyBg addChild:topCopy1];
+        
+        CCLabelTTF *topCopy2 = [CCLabelTTF labelWithString:@"thanks, " dimensions:CGSizeMake(copyBg.boundingBox.size.width * 0.25f, copyBg.boundingBox.size.height * 0.10f) hAlignment:kCCTextAlignmentCenter fontName:@"Helvetica" fontSize:18];
+        topCopy2.color = ccc3(165, 149, 109);
+        topCopy2.position = ccp(copyBgSize.width * 0.268f, copyBgSize.height * 0.651f);
+        [copyBg addChild:topCopy2];
+        
+        CCLabelTTF *topCopy3 = [CCLabelTTF labelWithString:@"we'll be sending" dimensions:CGSizeMake(copyBg.boundingBox.size.width * 0.75f, copyBg.boundingBox.size.height * 0.10f) hAlignment:kCCTextAlignmentCenter fontName:@"Helvetica" fontSize:18];
+        topCopy3.color = ccc3(229, 214, 172);
+        topCopy3.position = ccp(copyBgSize.width * 0.608f, topCopy2.position.y);
+        [copyBg addChild:topCopy3];
+        
+        CCLabelTTF *topCopy4 = [CCLabelTTF labelWithString:@"a gift to whoever reaches level 6 first!" dimensions:CGSizeMake(copyBg.boundingBox.size.width * 0.70f, copyBg.boundingBox.size.height * 0.20f) hAlignment:kCCTextAlignmentCenter fontName:@"Helvetica" fontSize:18];
+        topCopy4.color = ccc3(229, 214, 172);
+        topCopy4.position = ccp(copyBgSize.width/2, copyBgSize.height * 0.527f);
+        [copyBg addChild:topCopy4];
+        
+        CCLabelTTF *bottomCopy = [CCLabelTTF labelWithString:@"We'd like to thank our friends and family, cocos2d, and Guy Buhry (Grobold font)" dimensions:CGSizeMake(copyBg.boundingBox.size.width * 0.80f, copyBgSize.height * 0.30f) hAlignment:kCCTextAlignmentCenter fontName:@"Helvetica" fontSize:14];
+        bottomCopy.color = ccc3(165, 149, 109);
+        bottomCopy.position = ccp(copyBgSize.width/2, copyBgSize.height * 0.24f);
+        [copyBg addChild:bottomCopy];
     }
     
     return self;

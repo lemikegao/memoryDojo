@@ -26,14 +26,14 @@ typedef enum {
 
 -(void)showSettings;
 -(void)hideSettings;
+-(void)disableAllMenus;
+-(void)enableAllMenus;
 
 @end
 
 @protocol MainMenuLayerDelegate
 
 -(void) showUpgradesForLevel:(int)newLevel fromLevel:(int)oldLevel;
--(void) disableTouch;
--(void) enableTouch;
 
 @end
 
