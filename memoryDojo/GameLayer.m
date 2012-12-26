@@ -60,6 +60,10 @@
 @property (nonatomic, strong) CCLayerColor *dimLayer;
 @property (nonatomic, strong) CCLayerColor *waitDimLayer;
 @property (nonatomic, strong) CCSprite *finger;
+@property (nonatomic, strong) CCLabelBMFont *tapToContinueLabel;
+
+// actions
+@property (nonatomic, strong) CCAction *showTapToContinueAction;
 
 @end
 
@@ -79,6 +83,13 @@
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"game_art.plist"];
         self.sequenceArrowsBatch = [CCSpriteBatchNode batchNodeWithFile:@"game_art.pvr.ccz"];
         [self initializeGame];
+        
+        // initialize labels
+        self.tapToContinueLabel = [CCLabelBMFont labelWithString:@"TAP TO CONTINUE" fntFile:@"grobold_21px_nostroke.fnt"];
+        self.tapToContinueLabel.position = ccp(self.screenSize.width/2, self.screenSize.height * 0.85f);
+        
+        // initialize actions
+        self.showTapToContinueAction = [CCSequence actions:[CCDelayTime actionWithDuration:3.0f], [CCFadeIn actionWithDuration:0.5f], [CCCallFunc actionWithTarget:self selector:@selector(animateTapToContinue)], nil];
     }
     
     return self;
@@ -169,7 +180,7 @@
     // add pause button to top bar
     CCMenuItemImage *pauseGameButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_top_button_pause.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"game_top_button_pause_pressed.png"] target:self selector:@selector(pauseGame)];
     pauseGameButton.anchorPoint = ccp(1, 0.5);
-    pauseGameButton.position = ccp(topBarWidth * 0.95f, topBarHeight * 0.50f);
+    pauseGameButton.position = ccp(topBarWidth * 0.98f, topBarHeight * 0.50f);
     
     CCMenu *pauseMenu = [CCMenu menuWithItems:pauseGameButton, nil];
     pauseMenu.anchorPoint = ccp(0, 0);
@@ -317,6 +328,7 @@
         }
         // if game is displaying level up screen 1, transition to next level up screen
         else if (self.currentGameState == kGameStateLevelUpScreen1) {
+            [self removeTapToContinue];
             if ([GameManager sharedGameManager].ninjaLevel == 4) {
                 // no upgrade animation -- show sensei gift screen
                 [self showSenseiGiftScreen];
@@ -326,24 +338,22 @@
         }
         else if (self.currentGameState == kGameStateLevelUpGiftScreen) {
             // show small cat
+            [self removeTapToContinue];
             [self showSmallCatScreen];
         }
         else if (self.currentGameState == kGameStateLevelUpSmallCatScreen) {
+            [self removeTapToContinue];
             [self showNinjaLevelUpScreen2FromCatScreen];
         }
         else if (self.currentGameState == kGameStateLevelUpScreen2) {
             // if player is now level 6, display tweet message
+            [self removeTapToContinue];
             if ([GameManager sharedGameManager].ninjaLevel == 6) {
                 [self showTweetForGiftMessage];
             } else {
                 [self dismissLevelUpScreen];
-        //        [self startNewRound];
                 [self resetSequenceAfterLevelUp];
             }
-        }
-        else if (self.currentGameState == kGameStateTweetForGiftScreen) {
-            [self dismissLevelUpScreen];
-            [self resetSequenceAfterLevelUp];
         }
     }
 }
@@ -355,7 +365,7 @@
     [self.levelUpMessageBg removeAllChildrenWithCleanup:YES];
     
     // add tweet copy
-    CCLabelBMFont *tweetCopy = [CCLabelBMFont labelWithString:@"BE THE FIRST TO TWEET US AND WIN A GIFT!" fntFile:@"grobold_21px_nostroke.fnt" width:self.levelUpMessageBg.boundingBox.size.width*0.65f alignment:kCCTextAlignmentCenter];
+    CCLabelBMFont *tweetCopy = [CCLabelBMFont labelWithString:@"BE THE FIRST TO TWEET US AND RECEIVE A GIFT!" fntFile:@"grobold_21px_nostroke.fnt" width:self.levelUpMessageBg.boundingBox.size.width*0.70f alignment:kCCTextAlignmentCenter];
     tweetCopy.position = ccp(self.levelUpMessageBg.boundingBox.size.width/2, self.levelUpMessageBg.boundingBox.size.height * 0.60f);
     tweetCopy.color = ccc3(153, 136, 94);
     [self.levelUpMessageBg addChild:tweetCopy];
@@ -372,8 +382,14 @@
         }
     }];
     
-    CCMenu *tweetMenu = [CCMenu menuWithItems:sendTweetButton, nil];
+    CCMenuItemLabel *noThanksButton = [CCMenuItemLabel itemWithLabel:[CCLabelBMFont labelWithString:@"NO THANKS" fntFile:@"grobold_21px_nostroke.fnt"] block:^(id sender) {
+        [self dismissLevelUpScreen];
+        [self resetSequenceAfterLevelUp];
+    }];
+    
+    CCMenu *tweetMenu = [CCMenu menuWithItems:sendTweetButton, noThanksButton, nil];
     tweetMenu.position = ccp(self.levelUpMessageBg.boundingBox.size.width/2, self.levelUpMessageBg.boundingBox.size.height * 0.30f);
+    [tweetMenu alignItemsVerticallyWithPadding:self.levelUpMessageBg.boundingBox.size.height * 0.08f];
     [self.levelUpMessageBg addChild:tweetMenu];
 }
 
@@ -929,12 +945,30 @@
     levelUpMessageHeader.position = ccp(levelUpMessageBgSize.width/2, levelUpMessageBgSize.height * 0.70f);
     [self.levelUpMessageBg addChild:levelUpMessageHeader];
     
-    CCLabelBMFont *levelUpMessageBody = [CCLabelBMFont labelWithString:@"SOMETHING SEEMS TO BE HAPPENING!" fntFile:@"grobold_21px.fnt" width:levelUpMessageBgSize.width * 0.60 alignment:kCCTextAlignmentCenter];
+    CCLabelBMFont *levelUpMessageBody = [CCLabelBMFont labelWithString:@"SOMETHING SEEMS TO BE HAPPENING!" fntFile:@"grobold_21px_nostroke.fnt" width:levelUpMessageBgSize.width * 0.60 alignment:kCCTextAlignmentCenter];
     levelUpMessageBody.color = ccc3(153, 136, 94);
     levelUpMessageBody.position = ccp(levelUpMessageBgSize.width/2, levelUpMessageBgSize.height * 0.40f);
     [self.levelUpMessageBg addChild:levelUpMessageBody];
     
     self.currentGameState = kGameStateLevelUpScreen1;
+    
+    [self showTapToContinue];
+}
+
+-(void)showTapToContinue {
+    self.tapToContinueLabel.opacity = 0;
+    [self addChild:self.tapToContinueLabel z:5000];
+    [self.tapToContinueLabel runAction:self.showTapToContinueAction];
+}
+
+-(void)removeTapToContinue {
+    [self.tapToContinueLabel stopAllActions];
+    [self.tapToContinueLabel removeFromParentAndCleanup:YES];
+}
+
+-(void)animateTapToContinue {
+    id action = [CCRepeatForever actionWithAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.25f], [CCScaleTo actionWithDuration:0.3f scale:1.25f], [CCScaleTo actionWithDuration:0.3f scale:1], nil]];
+    [self.tapToContinueLabel runAction:action];
 }
 
 -(void)showLevelUpAnimation {
@@ -1025,7 +1059,7 @@
     
     // add new message
     CGSize levelUpMessageBgSize = self.levelUpMessageBg.boundingBox.size;
-    CCLabelBMFont *giftMessageBody = [CCLabelBMFont labelWithString:@"YOU'RE DOING SO WELL. HERE'S A LITTLE GIFT!" fntFile:@"grobold_21px.fnt" width:levelUpMessageBgSize.width * 0.65f alignment:kCCTextAlignmentCenter];
+    CCLabelBMFont *giftMessageBody = [CCLabelBMFont labelWithString:@"YOU'RE DOING SO WELL. HERE'S A LITTLE GIFT!" fntFile:@"grobold_21px_nostroke.fnt" width:levelUpMessageBgSize.width * 0.65f alignment:kCCTextAlignmentCenter];
     giftMessageBody.color = ccc3(153, 136, 94);
     giftMessageBody.position = ccp(levelUpMessageBgSize.width/2, levelUpMessageBgSize.height * 0.75f);
     [self.levelUpMessageBg addChild:giftMessageBody];
@@ -1035,6 +1069,8 @@
     senseiGift.anchorPoint = ccp(0.5, 0);
     senseiGift.position = ccp(levelUpMessageBgSize.width * 0.55f, 0);
     [self.levelUpMessageBg addChild:senseiGift];
+    
+    [self showTapToContinue];
 }
 
 -(void)showSmallCatScreen {
@@ -1051,7 +1087,7 @@
     // fade in cat after old messages fade out
     id catFadeIn = [CCSequence actions:[CCDelayTime actionWithDuration:1.0f], [CCFadeIn actionWithDuration:1.0f], [CCCallBlock actionWithBlock:^{
         self.isTouchEnabled = YES;
-    }], nil];
+    }], [CCCallFunc actionWithTarget:self selector:@selector(showTapToContinue)], nil];
     CCSprite *smallCatTransition = [CCSprite spriteWithSpriteFrameName:@"game_transition_cat.png"];
     smallCatTransition.opacity = 0;
     smallCatTransition.position = ccp(self.levelUpMessageBg.boundingBox.size.width/2, self.levelUpMessageBg.boundingBox.size.height/2);
@@ -1083,6 +1119,8 @@
     [self.levelUpBg addChild:self.confettiEmitter z:3];
     
     self.currentGameState = kGameStateLevelUpScreen2;
+    
+    [self showTapToContinue];
 }
 
 -(void)showNinjaLevelUpScreen2FromCatScreen {
@@ -1104,6 +1142,8 @@
     [self.levelUpBg addChild:self.confettiEmitter z:3];
     
     self.currentGameState = kGameStateLevelUpScreen2;
+    
+    [self showTapToContinue];
 }
 
 -(void)setUpLevelUpScreen {

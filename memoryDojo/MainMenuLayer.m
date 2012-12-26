@@ -217,9 +217,9 @@
     CGSize screenSize = [CCDirector sharedDirector].winSize;
 
     CCMenuItemImage *playGameButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"mainmenu_button_start.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"mainmenu_button_start_pressed.png"] target:self selector:@selector(playGameScene)];
-    playGameButton.position = ccp(screenSize.width * 0.44f, screenSize.height * 0.13f);
+    playGameButton.position = ccp(screenSize.width * 0.47f, screenSize.height * 0.13f);
     
-    CCMenuItemImage *settingsButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"mainmenu_button_settings.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"mainmenu_button_settings_pressed.png"] target:self selector:@selector(showSettings)];
+    CCMenuItemImage *settingsButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"mainmenu_info.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"mainmenu_info_pressed.png"] target:self selector:@selector(showSettings)];
     settingsButton.position = ccp(screenSize.width * 0.87f, screenSize.height * 0.13f);
     
     self.mainMenu = [CCMenu menuWithItems:playGameButton, settingsButton, nil];

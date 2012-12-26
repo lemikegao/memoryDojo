@@ -72,8 +72,8 @@
         }];
 
         CCMenu *socialChicletsMenu = [CCMenu menuWithItems:facebook, twitter, nil];
-        [socialChicletsMenu alignItemsHorizontallyWithPadding:screenSize.width * 0.05f];
-        socialChicletsMenu.position = ccp(menuBgSize.width * 0.825f, menuBgSize.height/2);
+        [socialChicletsMenu alignItemsHorizontallyWithPadding:screenSize.width * 0.03f];
+        socialChicletsMenu.position = ccp(menuBgSize.width * 0.815f, menuBgSize.height/2);
         [menuBgTop addChild:socialChicletsMenu];
         
         
@@ -178,7 +178,7 @@
         CCLabelTTF *copyright = [CCLabelTTF labelWithString:@"\u00A9 2012 by Chin and Cheeks LLC" dimensions:CGSizeMake(screenSize.width * 0.65f, screenSize.height * 0.05f) hAlignment:kCCTextAlignmentRight fontName:@"Helvetica" fontSize:10];
         copyright.color = ccc3(91, 81, 64);
         copyright.anchorPoint = ccp(1, 0.5);
-        copyright.position = ccp(screenSize.width * 0.95f, screenSize.height * 0.20f);
+        copyright.position = ccp(screenSize.width * 0.95f, screenSize.height * 0.19f);
         [background addChild:copyright];
     }
     
