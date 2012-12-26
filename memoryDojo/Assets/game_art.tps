@@ -38,7 +38,7 @@
         <key>dataFormat</key>
         <string>cocos2d</string>
         <key>textureFileName</key>
-        <filename>../SpriteSheets/game_art-hd.pvr.ccz</filename>
+        <filename>../Resource/SpriteSheets/game_art-hd.pvr.ccz</filename>
         <key>flipPVR</key>
         <false/>
         <key>ditherType</key>
@@ -127,7 +127,7 @@
             <enum type="AndEngine::MagFilter">MagLinear</enum>
         </struct>
         <key>dataFileName</key>
-        <filename>../SpriteSheets/game_art-hd.plist</filename>
+        <filename>../Resources/SpriteSheets/game_art-hd.plist</filename>
         <key>mainExtension</key>
         <string>-hd.</string>
         <key>forceIdenticalLayout</key>
