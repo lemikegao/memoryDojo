@@ -92,22 +92,22 @@
     
     // add menu offscreen
     self.levelSelectionMenu = [CCMenu menuWithArray:[self.levelMenuItems getNSArray]];
-    self.levelSelectionMenu.position = ccp(-1 * self.levelMenuItemSize.width/2, screenSize.height * 0.49f);
+    self.levelSelectionMenu.position = ccp(-1 * self.levelMenuItemSize.width/2, screenSize.height * 0.488f);
     [self.levelSelectionMenu alignItemsVerticallyWithPadding:levelSelectionMenuSeparator.boundingBox.size.height];
     
     // add level selection separators
     for (int i=1; i<numberOfLevels; i++) {
-        CCLayerColor *separator = [CCLayerColor layerWithColor:ccc4(30, 30, 30, 255) width:157.5f height:5.1f];
+        CCLayerColor *separator = [CCLayerColor layerWithColor:ccc4(30, 30, 30, 255) width:157.5f height:5.2f];
         separator.ignoreAnchorPointForPosition = NO;
         separator.anchorPoint = ccp(0.5, 1);
-        separator.position = ccp(-1 * self.levelMenuItemSize.width/2, [(CCMenuItem*)[self.levelMenuItems objectAtIndex:i-1] position].y + self.levelSelectionMenu.position.y - self.levelMenuItemSize.height /2);
+        separator.position = ccp(-1 * self.levelMenuItemSize.width/2, [(CCMenuItem*)[self.levelMenuItems objectAtIndex:i-1] position].y + self.levelSelectionMenu.position.y - self.levelMenuItemSize.height/2 + 0.1f);
         [self addChild:separator z:100];
     }
     
     // level select button
     CCMenuItemImage *selectLevelButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"mainmenu_level_select_tab.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"mainmenu_level_select_tab_pressed.png"] target:self selector:@selector(moveSelectLevelMenu)];
     selectLevelButton.anchorPoint = ccp(0, 0);
-    selectLevelButton.position = ccp(0, screenSize.height * 0.197f);
+    selectLevelButton.position = ccp(0, self.levelSelectionMenu.position.y + [(CCMenuItem*)[self.levelMenuItems objectAtIndex:numberOfLevels-1] position].y - self.levelMenuItemSize.height * 0.34f);
     
     CGSize selectLevelButtonSize = selectLevelButton.boundingBox.size;
     

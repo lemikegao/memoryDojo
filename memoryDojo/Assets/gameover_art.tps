@@ -38,7 +38,7 @@
         <key>dataFormat</key>
         <string>cocos2d</string>
         <key>textureFileName</key>
-        <filename>../Resources/SpriteSheets/mainmenu_art-hd.pvr.ccz</filename>
+        <filename>../Resources/SpriteSheets/gameover_art-hd.pvr.ccz</filename>
         <key>flipPVR</key>
         <false/>
         <key>ditherType</key>
@@ -115,7 +115,7 @@
             <key>packageName</key>
             <string>Texture</string>
             <key>javaFileName</key>
-            <filename>../SpriteSheets/mainmenu_art-hd.java</filename>
+            <filename>../SpriteSheets/gameover_art-hd.java</filename>
             <key>wrap</key>
             <struct type="AndEngineWrap">
                 <key>s</key>
@@ -127,7 +127,7 @@
             <enum type="AndEngine::MagFilter">MagLinear</enum>
         </struct>
         <key>dataFileName</key>
-        <filename>../Resources/SpriteSheets/mainmenu_art-hd.plist</filename>
+        <filename>../Resources/SpriteSheets/gameover_art-hd.plist</filename>
         <key>mainExtension</key>
         <string>-hd.</string>
         <key>forceIdenticalLayout</key>
@@ -157,7 +157,7 @@
         </struct>
         <key>fileList</key>
         <array>
-            <filename>mainmenu_art</filename>
+            <filename>gameover_art</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

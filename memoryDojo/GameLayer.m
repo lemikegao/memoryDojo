@@ -986,7 +986,6 @@
             [self addChild:self.level2AuraEmitter z:3];
             
             [self.level2AuraEmitter runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.5f], [CCBlink actionWithDuration:1 blinks:5], [CCDelayTime actionWithDuration:1.5f], [CCCallFunc actionWithTarget:self selector:@selector(showNinjaLevelUpScreen2)], nil]];
-            
             break;
         }
             

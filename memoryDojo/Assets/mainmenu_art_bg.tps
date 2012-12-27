@@ -8,23 +8,7 @@
         <key>verbose</key>
         <false/>
         <key>autoSDSettings</key>
-        <array>
-            <struct type="AutoSDSettings">
-                <key>scale</key>
-                <double>0.5</double>
-                <key>extension</key>
-                <string>.</string>
-                <key>acceptFractionalValues</key>
-                <false/>
-                <key>maxTextureSize</key>
-                <QSize>
-                    <key>width</key>
-                    <int>2048</int>
-                    <key>height</key>
-                    <int>2048</int>
-                </QSize>
-            </struct>
-        </array>
+        <array/>
         <key>allowRotation</key>
         <true/>
         <key>quiet</key>
@@ -38,7 +22,7 @@
         <key>dataFormat</key>
         <string>cocos2d</string>
         <key>textureFileName</key>
-        <filename>../Resources/SpriteSheets/mainmenu_art-hd.pvr.ccz</filename>
+        <filename>../Resources/SpriteSheets/mainmenu_art_bg-hd.pvr.ccz</filename>
         <key>flipPVR</key>
         <false/>
         <key>ditherType</key>
@@ -115,7 +99,7 @@
             <key>packageName</key>
             <string>Texture</string>
             <key>javaFileName</key>
-            <filename>../SpriteSheets/mainmenu_art-hd.java</filename>
+            <filename>../SpriteSheets/mainmenu_art_bg-hd.java</filename>
             <key>wrap</key>
             <struct type="AndEngineWrap">
                 <key>s</key>
@@ -127,9 +111,9 @@
             <enum type="AndEngine::MagFilter">MagLinear</enum>
         </struct>
         <key>dataFileName</key>
-        <filename>../Resources/SpriteSheets/mainmenu_art-hd.plist</filename>
+        <filename>../Resources/SpriteSheets/mainmenu_art_bg-hd.plist</filename>
         <key>mainExtension</key>
-        <string>-hd.</string>
+        <string></string>
         <key>forceIdenticalLayout</key>
         <false/>
         <key>outputFormat</key>
@@ -157,7 +141,7 @@
         </struct>
         <key>fileList</key>
         <array>
-            <filename>mainmenu_art</filename>
+            <filename>mainmenu_art_bg</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

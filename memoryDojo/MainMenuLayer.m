@@ -58,24 +58,23 @@
         background.position = ccp(screenSize.width/2, screenSize.height/2);
         [self addChild:background z:-1];
         
-        // add menu background (black bar)
-#warning - modify position for iphone 4 and 5
-        CCLayerColor *menuBg = [CCLayerColor layerWithColor:ccc4(30, 30, 30, 255) width:screenSize.width height:60];
-        menuBg.anchorPoint = ccp(0, 0);
-        menuBg.position = ccp(0, 44);
-        [self addChild:menuBg z:0];
-        
         // add Memory Dojo title
         CCSprite *gameTitle = [CCSprite spriteWithSpriteFrameName:@"mainmenu_game_title.png"];
         gameTitle.anchorPoint = ccp(1, 1);
-        gameTitle.position = ccp(screenSize.width * 0.95f, screenSize.height * 0.90f);
+        gameTitle.position = ccp(screenSize.width * 0.95f, screenSize.height * 0.97f);
         [self addChild:gameTitle];
         
         // add high score
+        CCLabelBMFont *highScoreCopy = [CCLabelBMFont labelWithString:@"HIGH SCORE" fntFile:@"grobold_14px_nostroke.fnt"];
+        highScoreCopy.color = ccc3(104, 95, 82);
+        highScoreCopy.anchorPoint = ccp(0, 1);
+        highScoreCopy.position = ccp(screenSize.width * 0.05f, screenSize.height * 0.95f);
+        [self addChild:highScoreCopy];
+        
         CCLabelBMFont *highScoreLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].highScore] fntFile:@"grobold_25px_nostroke.fnt"];
         highScoreLabel.color = ccc3(229, 214, 172);
-        highScoreLabel.anchorPoint = ccp(0, 0.5);
-        highScoreLabel.position = ccp(screenSize.width * 0.05f, screenSize.height * 0.84f);
+        highScoreLabel.anchorPoint = ccp(0, 1);
+        highScoreLabel.position = ccp(highScoreCopy.position.x, highScoreCopy.position.y - highScoreCopy.boundingBox.size.height * 1.1f);
         [self addChild:highScoreLabel];
         
         self.ninja = [[Ninja alloc] initFromScene:kSceneTypeMainMenu];
@@ -215,19 +214,25 @@
 
 -(void)displayMainMenu {
     CGSize screenSize = [CCDirector sharedDirector].winSize;
+    
+    // add menu background (black bar)
+    CCLayerColor *menuBg = [CCLayerColor layerWithColor:ccc4(30, 30, 30, 255) width:screenSize.width height:60];
+    menuBg.anchorPoint = ccp(0, 0);
+    menuBg.position = ccp(0, 0);
+    [self addChild:menuBg z:0];
 
     CCMenuItemImage *playGameButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"mainmenu_button_start.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"mainmenu_button_start_pressed.png"] target:self selector:@selector(playGameScene)];
-    playGameButton.position = ccp(screenSize.width * 0.47f, screenSize.height * 0.13f);
+    playGameButton.position = ccp(screenSize.width * 0.47f, menuBg.boundingBox.size.height/2);
     
     CCMenuItemImage *settingsButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"mainmenu_info.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"mainmenu_info_pressed.png"] target:self selector:@selector(showSettings)];
-    settingsButton.position = ccp(screenSize.width * 0.87f, screenSize.height * 0.13f);
+    settingsButton.position = ccp(screenSize.width * 0.87f, playGameButton.position.y);
     
     self.mainMenu = [CCMenu menuWithItems:playGameButton, settingsButton, nil];
 
     // set menu position at 0,0 so menu items can be set with a normal offset
     self.mainMenu.position = CGPointZero;
     
-    [self addChild:self.mainMenu];
+    [menuBg addChild:self.mainMenu];
 }
 
 -(void)disableAllMenus {

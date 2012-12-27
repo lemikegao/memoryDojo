@@ -38,7 +38,7 @@
         <key>dataFormat</key>
         <string>cocos2d</string>
         <key>textureFileName</key>
-        <filename>../Resource/SpriteSheets/game_art-hd.pvr.ccz</filename>
+        <filename>../Resources/SpriteSheets/game_art-hd.pvr.ccz</filename>
         <key>flipPVR</key>
         <false/>
         <key>ditherType</key>
