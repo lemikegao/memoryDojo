@@ -144,8 +144,8 @@
     [self addChild:backgroundTop z:-1];
     
     // add top bar on top of background half
-    topBar.anchorPoint = ccp(0, 0);
-    topBar.position = ccp(0, screenSeparator.position.y + screenSeparator.boundingBox.size.height/2 + backgroundTop.boundingBox.size.height);
+    topBar.anchorPoint = ccp(0, 1);
+    topBar.position = ccp(0, screenSize.height);
     [self addChild:topBar z:5];
     
     // add score to top bar
@@ -201,7 +201,7 @@
     // initialize ninja
     self.ninja = [[Ninja alloc] initFromScene:kSceneTypeGame];
     self.ninja.anchorPoint = ccp(0.5, 0);
-    self.ninja.position = ccp(screenSize.width/2, screenSize.height * 0.10f);
+    self.ninja.position = ccp(screenSize.width/2, screenSize.height * 0.02f);
     [self addChild:self.ninja z:4];
     
     // add appropriate level upgrades
@@ -235,7 +235,9 @@
     [self initializeSequence];
     
     // add WATCH SENSEI message bg
-    self.waitDimLayer = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 220) width:self.screenSize.width height:self.screenSize.height * 0.46f];
+    self.waitDimLayer = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 220) width:self.screenSize.width height:self.screenSize.height * 0.458f];
+    self.waitDimLayer.anchorPoint = ccp(0, 0);
+    self.waitDimLayer.position = ccp(0, 0);
     [self addChild:self.waitDimLayer z:90];
     
     [self addWatchSenseiMessage];
@@ -252,7 +254,7 @@
     [self.sequenceArrowsBatch runAction:[CCMoveTo actionWithDuration:0.1f position:CGPointZero]];
     
     // display sequence after label disappears
-    id moveGameInstructionsDown = [CCMoveTo actionWithDuration:0.5f position:ccp(screenSize.width/2, screenSize.height * 0.60f)];
+    id moveGameInstructionsDown = [CCMoveBy actionWithDuration:0.5f position:ccp(0, -1 * (self.gameInstructions.boundingBox.size.height * 0.95f + topBar.boundingBox.size.height))];
     id setGameStateToInstructions = [CCCallBlock actionWithBlock:^{
         self.currentGameState = kGameStateInstructions;
     }];
@@ -517,7 +519,7 @@
         {
             CCSprite *arrow = [CCSprite spriteWithSpriteFrameName:@"game_arrow_left.png"];
             arrow.anchorPoint = ccp(0, 0.5);
-            arrow.position = ccp(self.screenSize.width/7.0f * self.currentDisplaySequencePosition + self.screenSize.width * 0.03f, self.screenSize.height * .808f);
+            arrow.position = ccp(self.screenSize.width/7.0f * self.currentDisplaySequencePosition + self.screenSize.width * 0.03f, self.screenSize.height * .85f);
             [self.sequenceArrowsBatch addChild:arrow];
             [self.sensei changeState:kCharacterStateLeft];
             break;
@@ -526,7 +528,7 @@
         {
             CCSprite *arrow = [CCSprite spriteWithSpriteFrameName:@"game_arrow_down.png"];
             arrow.anchorPoint = ccp(0, 0.5);
-            arrow.position = ccp(self.screenSize.width/7.0f * self.currentDisplaySequencePosition + self.screenSize.width * 0.03f, self.screenSize.height * .808f);
+            arrow.position = ccp(self.screenSize.width/7.0f * self.currentDisplaySequencePosition + self.screenSize.width * 0.03f, self.screenSize.height * .85f);
             [self.sequenceArrowsBatch addChild:arrow];
             [self.sensei changeState:kCharacterStateDown];
             break;
@@ -535,7 +537,7 @@
         {
             CCSprite *arrow = [CCSprite spriteWithSpriteFrameName:@"game_arrow_right.png"];
             arrow.anchorPoint = ccp(0, 0.5);
-            arrow.position = ccp(self.screenSize.width/7.0f * self.currentDisplaySequencePosition + self.screenSize.width * 0.03f, self.screenSize.height * .808f);
+            arrow.position = ccp(self.screenSize.width/7.0f * self.currentDisplaySequencePosition + self.screenSize.width * 0.03f, self.screenSize.height * .85f);
             [self.sequenceArrowsBatch addChild:arrow];
             [self.sensei changeState:kCharacterStateRight];
             break;
@@ -544,7 +546,7 @@
         {
             CCSprite *arrow = [CCSprite spriteWithSpriteFrameName:@"game_arrow_up.png"];
             arrow.anchorPoint = ccp(0, 0.5);
-            arrow.position = ccp(self.screenSize.width/7.0f * self.currentDisplaySequencePosition + self.screenSize.width * 0.03f, self.screenSize.height * .808f);
+            arrow.position = ccp(self.screenSize.width/7.0f * self.currentDisplaySequencePosition + self.screenSize.width * 0.03f, self.screenSize.height * .85f);
             [self.sequenceArrowsBatch addChild:arrow];
             [self.sensei changeState:kCharacterStateUp];
             break;
@@ -585,7 +587,7 @@
             self.enableGestures = YES;
             // reset idle timer
             self.secondsIdle = 0;
-            [self scheduleUpdate];
+//            [self scheduleUpdate];
         }], nil]];
     }
 }
@@ -818,7 +820,7 @@
             if ([GameManager sharedGameManager].ninjaLevel < 6) {
                 // add ninja spinny eyes
                 rightSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
-                rightSpinnyEyes.position = ccp(self.ninja.position.x * 0.55f, self.ninja.position.y * 2.25f);
+                rightSpinnyEyes.position = ccp(self.ninja.boundingBox.size.width * 0.34f, self.ninja.boundingBox.size.height * 0.55f);
                 
                 
                 leftSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
@@ -826,7 +828,7 @@
             } else {
                 // add sensei spinny eyes
                 rightSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_sensei_trip_eyes.png"];
-                rightSpinnyEyes.position = ccp(self.ninja.position.x * 0.42f, self.ninja.position.y * 1.85f);
+                rightSpinnyEyes.position = ccp(self.ninja.boundingBox.size.width * 0.34f, self.ninja.boundingBox.size.height * 0.60f);
                 
                 
                 leftSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_sensei_trip_eyes.png"];
@@ -842,7 +844,7 @@
         }], nil];
     } else if (direction == kDirectionTypeDown) {
         // need to move eyes lower
-        tripAnimation = [CCSequence actions:[CCRotateBy actionWithDuration:0.15f angle:-10], [CCRotateBy actionWithDuration:0.15f angle:20], [CCRotateBy actionWithDuration:0.15f angle:75], [CCCallBlock actionWithBlock:^{
+        tripAnimation = [CCSequence actions:[CCRotateBy actionWithDuration:0.15f angle:-10], [CCRotateBy actionWithDuration:0.15f angle:20], [CCRotateBy actionWithDuration:0.15f angle:-75], [CCCallBlock actionWithBlock:^{
             // remove blinking eyes
             [self.ninja removeBlinkingEyes];
             
@@ -853,7 +855,7 @@
             if ([GameManager sharedGameManager].ninjaLevel < 6) {
                 // add ninja spinny eyes
                 rightSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
-                rightSpinnyEyes.position = ccp(self.ninja.position.x * 0.55f, self.ninja.position.y * 2.10f);
+                rightSpinnyEyes.position = ccp(self.ninja.boundingBox.size.width * 0.34f, self.ninja.boundingBox.size.height * 0.50f);
                 
                 
                 leftSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
@@ -861,7 +863,7 @@
             } else {
                 // add sensei spinny eyes
                 rightSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_sensei_trip_eyes.png"];
-                rightSpinnyEyes.position = ccp(self.ninja.position.x * 0.42f, self.ninja.position.y * 1.73f);
+                rightSpinnyEyes.position = ccp(self.ninja.boundingBox.size.width * 0.34f, self.ninja.boundingBox.size.height * 0.56f);
                 
                 
                 leftSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_sensei_trip_eyes.png"];
@@ -888,7 +890,7 @@
             if ([GameManager sharedGameManager].ninjaLevel < 6) {
                 // add ninja spinny eyes
                 rightSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
-                rightSpinnyEyes.position = ccp(self.ninja.position.x * 0.55f, self.ninja.position.y * 2.25f);
+                rightSpinnyEyes.position = ccp(self.ninja.boundingBox.size.width * 0.34f, self.ninja.boundingBox.size.height * 0.55f);
                 
                 
                 leftSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
@@ -896,7 +898,7 @@
             } else {
                 // add sensei spinny eyes
                 rightSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_sensei_trip_eyes.png"];
-                rightSpinnyEyes.position = ccp(self.ninja.position.x * 0.42f, self.ninja.position.y * 1.85f);
+                rightSpinnyEyes.position = ccp(self.ninja.boundingBox.size.width * 0.34f, self.ninja.boundingBox.size.height * 0.60f);
                 
                 
                 leftSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_sensei_trip_eyes.png"];

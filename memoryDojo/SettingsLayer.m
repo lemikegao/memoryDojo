@@ -34,7 +34,7 @@
         CGSize menuBgSize = menuBgTop.boundingBox.size;
         menuBgTop.ignoreAnchorPointForPosition = NO;
         menuBgTop.anchorPoint = ccp(0, 1);
-        menuBgTop.position = ccp(0, screenSize.height-44);
+        menuBgTop.position = ccp(0, screenSize.height);
         [background addChild:menuBgTop z:100];
         
         // add logo
@@ -81,7 +81,7 @@
         CCLayerColor *menuBgBottom = [CCLayerColor layerWithColor:ccc4(30, 30, 30, 255) width:screenSize.width height:60];
         menuBgBottom.ignoreAnchorPointForPosition = NO;
         menuBgBottom.anchorPoint = ccp(0, 0);
-        menuBgBottom.position = ccp(0, 44);
+        menuBgBottom.position = ccp(0, 0);
         [background addChild:menuBgBottom z:100];
 
 /*
@@ -134,7 +134,7 @@
         
         // add copy bg
         CCSprite *copyBg = [CCSprite spriteWithSpriteFrameName:@"game_transition_message_bg.png"];
-        copyBg.position = ccp(screenSize.width/2, screenSize.height * 0.55f);
+        copyBg.position = ccp(screenSize.width/2, screenSize.height * 0.57f);
         [background addChild:copyBg];
         
         CGSize copyBgSize = copyBg.boundingBox.size;
@@ -167,7 +167,7 @@
         
         // add ninja
         CCSprite *ninja = [CCSprite spriteWithSpriteFrameName:@"mainmenu_ninja_up_repeat.png"];
-        ninja.position = ccp(screenSize.width * 0.25f, screenSize.height * 0.20f);
+        ninja.position = ccp(screenSize.width * 0.25f, copyBg.position.y - copyBg.boundingBox.size.height * 0.74);
         [background addChild:ninja z:50];
         
         CCSprite *ninjaEyes = [CCSprite spriteWithSpriteFrameName:@"mainmenu_ninja_eyes_1.png"];
@@ -177,8 +177,8 @@
         // add copyright
         CCLabelTTF *copyright = [CCLabelTTF labelWithString:@"\u00A9 2012 by Chin and Cheeks LLC" dimensions:CGSizeMake(screenSize.width * 0.65f, screenSize.height * 0.05f) hAlignment:kCCTextAlignmentRight fontName:@"Helvetica" fontSize:10];
         copyright.color = ccc3(91, 81, 64);
-        copyright.anchorPoint = ccp(1, 0.5);
-        copyright.position = ccp(screenSize.width * 0.95f, screenSize.height * 0.19f);
+        copyright.anchorPoint = ccp(1, 0);
+        copyright.position = ccp(screenSize.width * 0.97f, menuBgBottom.position.y + menuBgBottom.boundingBox.size.height * 0.90f);
         [background addChild:copyright];
     }
     
