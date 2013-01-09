@@ -97,7 +97,7 @@
     
     // add level selection separators
     for (int i=1; i<numberOfLevels; i++) {
-        CCLayerColor *separator = [CCLayerColor layerWithColor:ccc4(30, 30, 30, 255) width:157.5f height:5.2f];
+        CCLayerColor *separator = [CCLayerColor layerWithColor:ccc4(30, 30, 30, 255) width:self.levelMenuItemSize.width height:5.2f];
         separator.ignoreAnchorPointForPosition = NO;
         separator.anchorPoint = ccp(0.5, 1);
         separator.position = ccp(-1 * self.levelMenuItemSize.width/2, [(CCMenuItem*)[self.levelMenuItems objectAtIndex:i-1] position].y + self.levelSelectionMenu.position.y - self.levelMenuItemSize.height/2 + 0.1f);
@@ -167,15 +167,15 @@
         
         CGSize screenSize = [CCDirector sharedDirector].winSize;
         // dim background
-        self.dimLayer = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 200) width:screenSize.width*2 height:screenSize.height];
-        self.dimLayer.position = ccp(-1*screenSize.width, 0);
+        self.dimLayer = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 200) width:screenSize.width height:screenSize.height];
+        self.dimLayer.position = ccp(-1*self.levelMenuItemSize.width, 0);
         [self addChild:self.dimLayer z:500];
         
         self.isScreenDimmed = YES;
         
         // add message to player
         CCSprite *messageBg = [CCSprite spriteWithSpriteFrameName:@"game_transition_message_bg.png"];
-        messageBg.position = ccp(self.dimLayer.boundingBox.size.width/2, screenSize.height/2);
+        messageBg.position = ccp(self.dimLayer.boundingBox.size.width*0.5, screenSize.height/2);
         [self.dimLayer addChild:messageBg];
         
         CCLabelBMFont *message = [CCLabelBMFont labelWithString:@"REACH ROUND XX IN LEVEL Y TO UNLOCK!" fntFile:@"grobold_25px.fnt" width:messageBg.boundingBox.size.width * 0.70f alignment:kCCTextAlignmentCenter];

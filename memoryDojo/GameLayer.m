@@ -75,19 +75,19 @@
         // record duration of staying on main menu
         NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].ninjaLevel], @"Level", nil];
         [Flurry logEvent:@"Playing_Game" withParameters:flurryParams timed:YES];
-        
+
         self.screenSize = [CCDirector sharedDirector].winSize;
-        
+
         // load texture atlas
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"game_art_bg.plist"];
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"game_art.plist"];
         self.sequenceArrowsBatch = [CCSpriteBatchNode batchNodeWithFile:@"game_art.pvr.ccz"];
         [self initializeGame];
-        
+
         // initialize labels
         self.tapToContinueLabel = [CCLabelBMFont labelWithString:@"TAP TO CONTINUE" fntFile:@"grobold_21px.fnt"];
         self.tapToContinueLabel.position = ccp(self.screenSize.width/2, self.screenSize.height * 0.85f);
-        
+
         // initialize actions
         self.showTapToContinueAction = [CCSequence actions:[CCDelayTime actionWithDuration:3.0f], [CCFadeIn actionWithDuration:0.5f], [CCCallFunc actionWithTarget:self selector:@selector(animateTapToContinue)], nil];
     }
@@ -130,14 +130,18 @@
     CCMenuItemImage *pauseGameButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_top_button_pause.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"game_top_button_pause_pressed.png"] target:self selector:@selector(pauseGame)];
     CCLayerColor *topBar = [CCLayerColor layerWithColor:ccc4(30, 30, 30, 255) width:screenSize.width height:pauseGameButton.boundingBox.size.height * 0.80f];
     topBar.ignoreAnchorPointForPosition = NO;
-//    CCSprite *topBar = [CCSprite spriteWithSpriteFrameName:@"game_top_bar.png"];
     // save topBar width and height
     CGFloat topBarWidth = topBar.boundingBox.size.width;
     CGFloat topBarHeight = topBar.boundingBox.size.height;
     
     // add game screen separator
-    CCSprite *screenSeparator = [CCSprite spriteWithSpriteFrameName:@"game_screen_separator.png"];
-    screenSeparator.position = ccp(screenSize.width/2, (screenSize.height - topBar.boundingBox.size.height)/2);
+    CCLayerColor *screenSeparator = [CCLayerColor layerWithColor:ccc4(229, 214, 172, 255) width:screenSize.width height:5];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        screenSeparator.contentSize = CGSizeMake(screenSize.width, 10);
+    }
+    screenSeparator.anchorPoint = ccp(0, 0.5);
+    screenSeparator.ignoreAnchorPointForPosition = NO;
+    screenSeparator.position = ccp(0, (screenSize.height - topBar.boundingBox.size.height)/2);
     [self addChild:screenSeparator z:1];
     
     // add top background half
@@ -152,7 +156,8 @@
     [self addChild:topBar z:5];
     
     // add score to top bar
-    CCSprite *scoreText = [CCSprite spriteWithSpriteFrameName:@"game_top_score.png"];
+    CCLabelBMFont *scoreText = [CCLabelBMFont labelWithString:@"SCORE" fntFile:@"grobold_9px.fnt"];
+    scoreText.color = ccc3(104, 95, 82);
     scoreText.anchorPoint = ccp(0, 1);
     scoreText.position = ccp(topBarWidth * 0.05f, topBarHeight * 0.90f);
     [topBar addChild:scoreText z:10];
@@ -166,9 +171,14 @@
     [topBar addChild:self.scoreLabel z:10];
     
     // add time to top bar
-    CCSprite *timeLabel = [CCSprite spriteWithSpriteFrameName:@"game_top_time.png"];
+    CCLabelBMFont *timeLabel = [CCLabelBMFont labelWithString:@"TIME" fntFile:@"grobold_9px.fnt"];
+    timeLabel.color = ccc3(104, 95, 82);
     timeLabel.anchorPoint = ccp(0, 1);
-    timeLabel.position = ccp(topBarWidth * 0.30f, topBarHeight * 0.90f);
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        timeLabel.position = ccp(topBarWidth * 0.25f, topBarHeight * 0.90f);
+    } else {
+        timeLabel.position = ccp(topBarWidth * 0.30f, topBarHeight * 0.90f);
+    }
     [topBar addChild:timeLabel z:10];
     
     self.timer = [CCProgressTimer progressWithSprite:[CCSprite spriteWithSpriteFrameName:@"game_top_time_active.png"]];
@@ -177,7 +187,11 @@
     self.timer.midpoint = ccp(0, 0.5f);
     self.timer.barChangeRate = ccp(1, 0);
     self.timer.percentage = 100;
-    self.timer.position = ccp(topBarWidth * 0.30f, topBarHeight * 0.58f);
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        self.timer.position = ccp(topBarWidth * 0.25f, topBarHeight * 0.58f);
+    } else {
+        self.timer.position = ccp(topBarWidth * 0.30f, topBarHeight * 0.58f);
+    }
     [topBar addChild:self.timer z:10];
     
     // add pause button to top bar
@@ -197,7 +211,11 @@
     
     // initialize sensei
     self.sensei = [[Sensei alloc] init];
-    self.sensei.position = ccp(screenSize.width/2, screenSize.height * 0.63f);
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        self.sensei.position = ccp(screenSize.width/2, screenSize.height * 0.64f);
+    } else {
+        self.sensei.position = ccp(screenSize.width/2, screenSize.height * 0.63f);
+    }
     [self addChild:self.sensei z:1];
     
     // initialize ninja
@@ -239,7 +257,7 @@
     [self initializeSequence];
     
     // add WATCH SENSEI message bg
-    self.waitDimLayer = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 220) width:self.screenSize.width height:self.screenSize.height * 0.458f];
+    self.waitDimLayer = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 220) width:self.screenSize.width height:screenSeparator.position.y - screenSeparator.boundingBox.size.height/2];
     self.waitDimLayer.anchorPoint = ccp(0, 0);
     self.waitDimLayer.position = ccp(0, 0);
     [self addChild:self.waitDimLayer z:90];
@@ -385,6 +403,8 @@
             [[CCDirector sharedDirector].navigationController presentViewController:tweetSheet animated:YES completion:nil];
         } else {
             CCLOG(@"send tweet button failed");
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Twitter account not linked" message:@"Send a tweet to @ChinAndCheeks with the message: \"I've mastered Memory Dojo!\"" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+            [alertView show];
         }
     }];
     
@@ -727,16 +747,16 @@
                 break;
                 
             case kGameLevel4Round:
-                if (ninjaLevel == 3) {
+                if (ninjaLevel == 3 || ninjaLevel == 4) {
                     shouldLevelUp = YES;
                 }
                 break;
                 
-            case kGameLevel5Round:
-                if (ninjaLevel == 4) {
-                    shouldLevelUp = YES;
-                }
-                break;
+//            case kGameLevel5Round:
+//                if (ninjaLevel == 4) {
+//                    shouldLevelUp = YES;
+//                }
+//                break;
                 
             case kGameLevel6Round:
                 if (ninjaLevel == 5) {
@@ -824,7 +844,11 @@
             if ([GameManager sharedGameManager].ninjaLevel < 6) {
                 // add ninja spinny eyes
                 rightSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
-                rightSpinnyEyes.position = ccp(self.ninja.boundingBox.size.width * 0.34f, self.ninja.boundingBox.size.height * 0.55f);
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                    rightSpinnyEyes.position = ccp(self.ninja.boundingBox.size.width * 0.34f, self.ninja.boundingBox.size.height * 0.57f);
+                } else {
+                    rightSpinnyEyes.position = ccp(self.ninja.boundingBox.size.width * 0.34f, self.ninja.boundingBox.size.height * 0.55f);
+                }
                 
                 
                 leftSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
@@ -832,7 +856,11 @@
             } else {
                 // add sensei spinny eyes
                 rightSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_sensei_trip_eyes.png"];
-                rightSpinnyEyes.position = ccp(self.ninja.boundingBox.size.width * 0.34f, self.ninja.boundingBox.size.height * 0.60f);
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                    rightSpinnyEyes.position = ccp(self.ninja.boundingBox.size.width * 0.34f, self.ninja.boundingBox.size.height * 0.585f);
+                } else {
+                    rightSpinnyEyes.position = ccp(self.ninja.boundingBox.size.width * 0.34f, self.ninja.boundingBox.size.height * 0.60f);
+                }
                 
                 
                 leftSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_sensei_trip_eyes.png"];
@@ -859,7 +887,11 @@
             if ([GameManager sharedGameManager].ninjaLevel < 6) {
                 // add ninja spinny eyes
                 rightSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
-                rightSpinnyEyes.position = ccp(self.ninja.boundingBox.size.width * 0.34f, self.ninja.boundingBox.size.height * 0.50f);
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                    rightSpinnyEyes.position = ccp(self.ninja.boundingBox.size.width * 0.34f, self.ninja.boundingBox.size.height * 0.52f);
+                } else {
+                    rightSpinnyEyes.position = ccp(self.ninja.boundingBox.size.width * 0.34f, self.ninja.boundingBox.size.height * 0.50f);
+                }
                 
                 
                 leftSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
@@ -867,7 +899,11 @@
             } else {
                 // add sensei spinny eyes
                 rightSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_sensei_trip_eyes.png"];
-                rightSpinnyEyes.position = ccp(self.ninja.boundingBox.size.width * 0.34f, self.ninja.boundingBox.size.height * 0.56f);
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                    rightSpinnyEyes.position = ccp(self.ninja.boundingBox.size.width * 0.34f, self.ninja.boundingBox.size.height * 0.545f);
+                } else {
+                    rightSpinnyEyes.position = ccp(self.ninja.boundingBox.size.width * 0.34f, self.ninja.boundingBox.size.height * 0.56f);
+                }
                 
                 
                 leftSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_sensei_trip_eyes.png"];
@@ -894,7 +930,11 @@
             if ([GameManager sharedGameManager].ninjaLevel < 6) {
                 // add ninja spinny eyes
                 rightSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
-                rightSpinnyEyes.position = ccp(self.ninja.boundingBox.size.width * 0.34f, self.ninja.boundingBox.size.height * 0.55f);
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                    rightSpinnyEyes.position = ccp(self.ninja.boundingBox.size.width * 0.34f, self.ninja.boundingBox.size.height * 0.57f);
+                } else {
+                    rightSpinnyEyes.position = ccp(self.ninja.boundingBox.size.width * 0.34f, self.ninja.boundingBox.size.height * 0.55f);
+                }
                 
                 
                 leftSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_ninja_trip_eyes.png"];
@@ -902,8 +942,11 @@
             } else {
                 // add sensei spinny eyes
                 rightSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_sensei_trip_eyes.png"];
-                rightSpinnyEyes.position = ccp(self.ninja.boundingBox.size.width * 0.34f, self.ninja.boundingBox.size.height * 0.60f);
-                
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                    rightSpinnyEyes.position = ccp(self.ninja.boundingBox.size.width * 0.34f, self.ninja.boundingBox.size.height * 0.585f);
+                } else {
+                    rightSpinnyEyes.position = ccp(self.ninja.boundingBox.size.width * 0.34f, self.ninja.boundingBox.size.height * 0.60f);
+                }
                 
                 leftSpinnyEyes = [CCSprite spriteWithSpriteFrameName:@"game_transition_sensei_trip_eyes.png"];
                 leftSpinnyEyes.position = ccp(rightSpinnyEyes.position.x * 0.80f, rightSpinnyEyes.position.y);
@@ -1018,6 +1061,7 @@
         {
             // evolve little cat to big cat
             CCSprite *bigCat = [CCSprite spriteWithSpriteFrameName:@"game_upgrades_cat_big.png"];
+            bigCat.anchorPoint = ccp(0.5, 0);
             bigCat.position = ccp(self.ninja.position.x * 0.297f, self.ninja.position.y * 2.40f);
             bigCat.visible = NO;
             [self addChild:bigCat z:3];
@@ -1072,6 +1116,9 @@
     CCSprite *senseiGift = [CCSprite spriteWithSpriteFrameName:@"game_transition_sensei.png"];
     senseiGift.anchorPoint = ccp(0.5, 0);
     senseiGift.position = ccp(levelUpMessageBgSize.width * 0.55f, 0);
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        senseiGift.position = ccp(senseiGift.position.x, levelUpMessageBgSize.height * 0.05f);
+    }
     [self.levelUpMessageBg addChild:senseiGift];
     
     [self showTapToContinue];
@@ -1435,12 +1482,7 @@
     CCSprite *pausedText = [CCSprite spriteWithSpriteFrameName:@"game_paused_text.png"];
     pausedText.position = ccp(pausedBgWidth * 0.48f, pausedBgHeight * 0.84f);
     [self.gamePausedBg addChild:pausedText];
-    
-    // add game paused separator
-    CCSprite *pausedSeparator = [CCSprite spriteWithSpriteFrameName:@"game_paused_line.png"];
-    pausedSeparator.position = ccp(pausedBgWidth * 0.53f, pausedBgHeight * 0.75f);
-    [self.gamePausedBg addChild:pausedSeparator];
-    
+
     // create game paused resume button
     CCMenuItemImage *pausedResumeButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_resume.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_resume_pressed.png"] target:self selector:@selector(resumeGame)];
     pausedResumeButton.anchorPoint = ccp(0, 0.5f);
@@ -1453,9 +1495,13 @@
     pausedQuitButton.anchorPoint = ccp(0, 0.5f);
     
     CCMenu *pausedMenu = [CCMenu menuWithItems:pausedResumeButton, pausedRestartButton, pausedQuitButton, nil];
-    [pausedMenu alignItemsVerticallyWithPadding:pausedBgHeight * 0.085f];
     pausedMenu.anchorPoint = ccp(0, 0.5);
     pausedMenu.position = ccp(pausedBgWidth * 0.23f, pausedBgHeight * 0.44f);
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [pausedMenu alignItemsVerticallyWithPadding:pausedBgHeight * 0.040f];
+    } else {
+        [pausedMenu alignItemsVerticallyWithPadding:pausedBgHeight * 0.085f];
+    }
     [self.gamePausedBg addChild:pausedMenu z:10];
 }
 
@@ -1650,11 +1696,11 @@
             
         case 6: {
             // level 5 - arrows appear after player is idle for 1sec
-            if (self.secondsIdle >= 1 && self.sequenceArrowsBatch.visible == NO) {
-                self.sequenceArrowsBatch.visible = YES;
-            } else if (self.secondsIdle < 1 && self.sequenceArrowsBatch.visible == YES) {
-                self.sequenceArrowsBatch.visible = NO;
-            }
+//            if (self.secondsIdle >= 1 && self.sequenceArrowsBatch.visible == NO) {
+//                self.sequenceArrowsBatch.visible = YES;
+//            } else if (self.secondsIdle < 1 && self.sequenceArrowsBatch.visible == YES) {
+//                self.sequenceArrowsBatch.visible = NO;
+//            }
             break;
         }
             

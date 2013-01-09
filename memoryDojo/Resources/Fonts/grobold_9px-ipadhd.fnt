@@ -1,0 +1,13 @@
+info face="GROBOLD" size=38 bold=0 italic=0 charset="" unicode=0 stretchH=100 smooth=1 aa=1 padding=0,0,0,0 spacing=2,2
+common lineHeight=38 base=30 scaleW=128 scaleH=128 pages=1 packed=0
+page id=0 file="grobold_9px-ipadhd.png"
+chars count=9
+char id=32     x=122   y=41    width=0     height=0     xoffset=0     yoffset=30    xadvance=11    page=0 chnl=0 letter="space"
+char id=67     x=78    y=2     width=31    height=35    xoffset=-1    yoffset=-4    xadvance=28    page=0 chnl=0 letter="C"
+char id=69     x=83    y=41    width=22    height=33    xoffset=1     yoffset=-3    xadvance=22    page=0 chnl=0 letter="E"
+char id=73     x=107   y=41    width=13    height=33    xoffset=1     yoffset=-2    xadvance=14    page=0 chnl=0 letter="I"
+char id=77     x=2     y=2     width=39    height=37    xoffset=-2    yoffset=-4    xadvance=34    page=0 chnl=0 letter="M"
+char id=79     x=43    y=2     width=33    height=35    xoffset=-1    yoffset=-4    xadvance=29    page=0 chnl=0 letter="O"
+char id=82     x=2     y=41    width=27    height=34    xoffset=1     yoffset=-3    xadvance=25    page=0 chnl=0 letter="R"
+char id=83     x=31    y=41    width=26    height=34    xoffset=-1    yoffset=-3    xadvance=22    page=0 chnl=0 letter="S"
+char id=84     x=59    y=41    width=22    height=34    xoffset=-0    yoffset=-3    xadvance=20    page=0 chnl=0 letter="T"

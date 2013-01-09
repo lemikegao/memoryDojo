@@ -79,16 +79,24 @@
         
         self.ninja = [[Ninja alloc] initFromScene:kSceneTypeMainMenu];
         self.ninja.anchorPoint = ccp(0.5, 0);
-        self.ninja.position = ccp(screenSize.width * 0.76f, screenSize.height * 0.25f);
+        self.ninja.position = ccp(screenSize.width * 0.76f, screenSize.height * 0.20f);
         [self addChild:self.ninja z:100];
         
         // initialize upgrades (minus the aura, which has to be reinitialized in showUpgradesForLevel:)
         self.smallCat = [CCSprite spriteWithSpriteFrameName:@"mainmenu_upgrades_catsmall.png"];
         self.smallCat.anchorPoint = ccp(0.5, 0);
-        self.smallCat.position = ccp(self.ninja.position.x * 0.50f, self.ninja.position.y * 1.05f);
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            self.smallCat.position = ccp(self.ninja.position.x * 0.58f, self.ninja.position.y * 1.05f);
+        } else {
+            self.smallCat.position = ccp(self.ninja.position.x * 0.50f, self.ninja.position.y * 1.05f);
+        }
         self.bigCat = [CCSprite spriteWithSpriteFrameName:@"mainmenu_upgrades_catbig.png"];
         self.bigCat.anchorPoint = ccp(0.5, 0);
-        self.bigCat.position = ccp(self.ninja.position.x * 0.48f, self.ninja.position.y * 1.10f);
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            self.bigCat.position = ccp(self.ninja.position.x * 0.54f, self.ninja.position.y * 1.10f);
+        } else {
+            self.bigCat.position = ccp(self.ninja.position.x * 0.48f, self.ninja.position.y * 1.10f);
+        }
         
         [self showUpgradesForLevel:ninjaLevel fromLevel:1];
         

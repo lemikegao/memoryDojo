@@ -1,0 +1,13 @@
+info face="GROBOLD" size=18 bold=0 italic=0 charset="" unicode=0 stretchH=100 smooth=1 aa=1 padding=0,0,0,0 spacing=2,2
+common lineHeight=18 base=14 scaleW=64 scaleH=64 pages=1 packed=0
+page id=0 file="grobold_9px-hd.png"
+chars count=9
+char id=32     x=15    y=41    width=0     height=0     xoffset=0     yoffset=14    xadvance=5     page=0 chnl=0 letter="space"
+char id=67     x=42    y=2     width=15    height=17    xoffset=-0    yoffset=-2    xadvance=13    page=0 chnl=0 letter="C"
+char id=69     x=2     y=41    width=11    height=16    xoffset=1     yoffset=-2    xadvance=11    page=0 chnl=0 letter="E"
+char id=73     x=45    y=22    width=7     height=17    xoffset=1     yoffset=-3    xadvance=7     page=0 chnl=0 letter="I"
+char id=77     x=2     y=2     width=19    height=18    xoffset=-1    yoffset=-3    xadvance=16    page=0 chnl=0 letter="M"
+char id=79     x=23    y=2     width=17    height=17    xoffset=-1    yoffset=-2    xadvance=14    page=0 chnl=0 letter="O"
+char id=82     x=2     y=22    width=13    height=17    xoffset=1     yoffset=-2    xadvance=12    page=0 chnl=0 letter="R"
+char id=83     x=17    y=22    width=13    height=17    xoffset=-0    yoffset=-3    xadvance=11    page=0 chnl=0 letter="S"
+char id=84     x=32    y=22    width=11    height=17    xoffset=-0    yoffset=-3    xadvance=9     page=0 chnl=0 letter="T"

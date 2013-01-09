@@ -76,8 +76,8 @@ static GameManager *_sharedGameManager = nil;   // singleton
     self = [super init];
     if (self) {
         CCLOG(@"Game Manager singleton->init");
-        _isMusicOn = YES;
-        _isSoundEffectsOn = YES;
+        _isMusicOn = NO;
+        _isSoundEffectsOn = NO;
         _hasPlayerDied = NO;
         _currentScene = kSceneTypeNone;
         _score = 0;
@@ -105,7 +105,7 @@ static GameManager *_sharedGameManager = nil;   // singleton
         _highNinjaLevel = [defaults integerForKey:@"highNinjaLevel"];
         _ninjaLevel = [defaults integerForKey:@"currentLevel"];
         
-        _ninjaLevel = 5;
+//        _ninjaLevel = 5;
         _highNinjaLevel = 6;
     }
     
@@ -367,15 +367,15 @@ static GameManager *_sharedGameManager = nil;   // singleton
     }
     
     // load audio for new scene based on sceneID
-    [self performSelectorInBackground:@selector(loadAudioForSceneWithID:) withObject:[NSNumber numberWithInt:self.currentScene]];
-    
+//    [self performSelectorInBackground:@selector(loadAudioForSceneWithID:) withObject:[NSNumber numberWithInt:self.currentScene]];
+//    
     if ([[CCDirector sharedDirector] runningScene] == nil) {
         [[CCDirector sharedDirector] pushScene:sceneToRun];
     } else {
         [[CCDirector sharedDirector] replaceScene:sceneToRun];
     }
-    
-    [self performSelectorInBackground:@selector(unloadAudioForSceneWithID:) withObject:[NSNumber numberWithInt:oldScene]];
+//
+//    [self performSelectorInBackground:@selector(unloadAudioForSceneWithID:) withObject:[NSNumber numberWithInt:oldScene]];
     
     self.currentScene = sceneID;
 }

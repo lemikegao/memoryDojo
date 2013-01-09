@@ -8,23 +8,7 @@
         <key>verbose</key>
         <false/>
         <key>autoSDSettings</key>
-        <array>
-            <struct type="AutoSDSettings">
-                <key>scale</key>
-                <double>0.5</double>
-                <key>extension</key>
-                <string>.</string>
-                <key>acceptFractionalValues</key>
-                <false/>
-                <key>maxTextureSize</key>
-                <QSize>
-                    <key>width</key>
-                    <int>2048</int>
-                    <key>height</key>
-                    <int>2048</int>
-                </QSize>
-            </struct>
-        </array>
+        <array/>
         <key>allowRotation</key>
         <true/>
         <key>quiet</key>
@@ -129,7 +113,7 @@
         <key>dataFileName</key>
         <filename>../Resources/SpriteSheets/game_art-hd.plist</filename>
         <key>mainExtension</key>
-        <string>-hd.</string>
+        <string>-hd</string>
         <key>forceIdenticalLayout</key>
         <false/>
         <key>outputFormat</key>

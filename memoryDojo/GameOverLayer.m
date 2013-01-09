@@ -85,7 +85,11 @@
         CCMenuItemImage *quitButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_quit.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"game_paused_button_quit_pressed.png"] target:self selector:@selector(quit)];
         
         CCMenu *gameOverMenu = [CCMenu menuWithItems:playAgainButton, quitButton, nil];
-        [gameOverMenu alignItemsVerticallyWithPadding:gameOverMenuBgSize.height * 0.10f];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            [gameOverMenu alignItemsVerticallyWithPadding:gameOverMenuBgSize.height * 0.05f];
+        } else {
+            [gameOverMenu alignItemsVerticallyWithPadding:gameOverMenuBgSize.height * 0.10f];
+        }
         gameOverMenu.position = ccp(gameOverMenuBgSize.width * 0.50f, gameOverMenuBgSize.height * 0.43f);
         [gameOverMenuBg addChild:gameOverMenu z:5];
     }

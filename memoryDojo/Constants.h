@@ -13,8 +13,8 @@
 #define kGameLevel2Round 3
 #define kGameLevel3Round 8
 #define kGameLevel4Round 15
-#define kGameLevel5Round 30
-#define kGameLevel6Round 1
+#define kGameLevel5Round 15     // duplicate case statements: line 735 in GameLayer.m
+#define kGameLevel6Round 30
 //#define kGameLevel2Round 3
 //#define kGameLevel3Round 8
 //#define kGameLevel4Round 15
