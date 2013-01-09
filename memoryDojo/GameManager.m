@@ -105,7 +105,7 @@ static GameManager *_sharedGameManager = nil;   // singleton
         _highNinjaLevel = [defaults integerForKey:@"highNinjaLevel"];
         _ninjaLevel = [defaults integerForKey:@"currentLevel"];
         
-        _ninjaLevel = 1;
+        _ninjaLevel = 5;
         _highNinjaLevel = 6;
     }
     
@@ -378,10 +378,6 @@ static GameManager *_sharedGameManager = nil;   // singleton
     [self performSelectorInBackground:@selector(unloadAudioForSceneWithID:) withObject:[NSNumber numberWithInt:oldScene]];
     
     self.currentScene = sceneID;
-}
-
--(void)openSiteWithLinkType:(LinkTypes)linkTypeToOpen {
-    // place holder to open Twitter
 }
 
 

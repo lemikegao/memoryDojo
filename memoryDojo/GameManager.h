@@ -25,7 +25,6 @@
 
 +(GameManager*)sharedGameManager;
 -(void)runSceneWithID:(SceneTypes)sceneID;
--(void)openSiteWithLinkType:(LinkTypes)linkTypeToOpen;
 -(void)setupAudioEngine;
 -(ALuint)playSoundEffect:(NSString*)soundEffectKey;
 -(void)stopSoundEffect:(ALuint)soundEffectID;

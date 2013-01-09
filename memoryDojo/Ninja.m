@@ -330,7 +330,7 @@
     self.isNinjaBlinking = NO;
     self.isNinjaSenseiMode = YES;
     self.ninjaOpenEyes.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@_sensei_eyes_1.png", self.scenePrefix]];
-    
+    self.position = ccp(self.position.x * 0.95f, self.position.y);
     if (direction == kDirectionTypeDown) {
         self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@_sensei_down.png", self.scenePrefix]];
         self.ninjaOpenEyes.position = self.defaultSenseiEyesDownPosition;
@@ -357,6 +357,7 @@
     self.isNinjaBlinking = NO;
     self.isNinjaSenseiMode = NO;
     self.ninjaOpenEyes.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@_ninja_eyes_1.png", self.scenePrefix]];
+    self.position = ccp(self.position.x * 100/95, self.position.y);
     
     if (direction == kDirectionTypeDown) {
         self.displayFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@_ninja_down.png", self.scenePrefix]];

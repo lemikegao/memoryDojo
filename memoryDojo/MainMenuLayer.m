@@ -65,13 +65,13 @@
         [self addChild:gameTitle];
         
         // add high score
-        CCLabelBMFont *highScoreCopy = [CCLabelBMFont labelWithString:@"HIGH SCORE" fntFile:@"grobold_14px_nostroke.fnt"];
+        CCLabelBMFont *highScoreCopy = [CCLabelBMFont labelWithString:@"HIGH SCORE" fntFile:@"grobold_14px.fnt"];
         highScoreCopy.color = ccc3(104, 95, 82);
         highScoreCopy.anchorPoint = ccp(0, 1);
         highScoreCopy.position = ccp(screenSize.width * 0.05f, screenSize.height * 0.95f);
         [self addChild:highScoreCopy];
         
-        CCLabelBMFont *highScoreLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].highScore] fntFile:@"grobold_25px_nostroke.fnt"];
+        CCLabelBMFont *highScoreLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].highScore] fntFile:@"grobold_25px.fnt"];
         highScoreLabel.color = ccc3(229, 214, 172);
         highScoreLabel.anchorPoint = ccp(0, 1);
         highScoreLabel.position = ccp(highScoreCopy.position.x, highScoreCopy.position.y - highScoreCopy.boundingBox.size.height * 1.1f);
@@ -215,13 +215,17 @@
 -(void)displayMainMenu {
     CGSize screenSize = [CCDirector sharedDirector].winSize;
     
+    CCMenuItemImage *playGameButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"mainmenu_button_start.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"mainmenu_button_start_pressed.png"] target:self selector:@selector(playGameScene)];
+    
     // add menu background (black bar)
-    CCLayerColor *menuBg = [CCLayerColor layerWithColor:ccc4(30, 30, 30, 255) width:screenSize.width height:60];
+    CCLayerColor *menuBg = [CCLayerColor layerWithColor:ccc4(30, 30, 30, 255) width:screenSize.width height:playGameButton.boundingBox.size.height * 1.50f];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        menuBg.contentSize = CGSizeMake(screenSize.width, playGameButton.boundingBox.size.height * 1.13f);
+    }
     menuBg.anchorPoint = ccp(0, 0);
     menuBg.position = ccp(0, 0);
     [self addChild:menuBg z:0];
 
-    CCMenuItemImage *playGameButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"mainmenu_button_start.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"mainmenu_button_start_pressed.png"] target:self selector:@selector(playGameScene)];
     playGameButton.position = ccp(screenSize.width * 0.47f, menuBg.boundingBox.size.height/2);
     
     CCMenuItemImage *settingsButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"mainmenu_info.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"mainmenu_info_pressed.png"] target:self selector:@selector(showSettings)];
@@ -303,9 +307,10 @@
         // add upgrades
         if (oldLevel < 2 && newLevel >= 2) {
             // add aura behind ninja
-            self.auraEmitter = [CCParticleSystemQuad particleWithFile:@"aura1.plist"];
-            self.auraEmitter.position = ccp(self.ninja.position.x + self.ninja.boundingBox.size.width/8, self.ninja.position.y + self.ninja.boundingBox.size.height/2);
+            self.auraEmitter = [CCParticleSystemQuad particleWithFile:@"aura3_mainmenu.plist"];
+            self.auraEmitter.position = ccp(self.ninja.position.x * 0.95f, self.ninja.position.y + self.ninja.boundingBox.size.height/2);
             [self addChild:self.auraEmitter z:10];
+            // z:10
         }
         if (oldLevel < 3 && newLevel >= 3) {
             // add ninja star

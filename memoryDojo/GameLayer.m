@@ -85,7 +85,7 @@
         [self initializeGame];
         
         // initialize labels
-        self.tapToContinueLabel = [CCLabelBMFont labelWithString:@"TAP TO CONTINUE" fntFile:@"grobold_21px_nostroke.fnt"];
+        self.tapToContinueLabel = [CCLabelBMFont labelWithString:@"TAP TO CONTINUE" fntFile:@"grobold_21px.fnt"];
         self.tapToContinueLabel.position = ccp(self.screenSize.width/2, self.screenSize.height * 0.85f);
         
         // initialize actions
@@ -127,7 +127,10 @@
     CGSize screenSize = [CCDirector sharedDirector].winSize;
     
     // create topBar sprite for height; position screen separator in the middle below the top bar
-    CCSprite *topBar = [CCSprite spriteWithSpriteFrameName:@"game_top_bar.png"];
+    CCMenuItemImage *pauseGameButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_top_button_pause.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"game_top_button_pause_pressed.png"] target:self selector:@selector(pauseGame)];
+    CCLayerColor *topBar = [CCLayerColor layerWithColor:ccc4(30, 30, 30, 255) width:screenSize.width height:pauseGameButton.boundingBox.size.height * 0.80f];
+    topBar.ignoreAnchorPointForPosition = NO;
+//    CCSprite *topBar = [CCSprite spriteWithSpriteFrameName:@"game_top_bar.png"];
     // save topBar width and height
     CGFloat topBarWidth = topBar.boundingBox.size.width;
     CGFloat topBarHeight = topBar.boundingBox.size.height;
@@ -178,7 +181,6 @@
     [topBar addChild:self.timer z:10];
     
     // add pause button to top bar
-    CCMenuItemImage *pauseGameButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_top_button_pause.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"game_top_button_pause_pressed.png"] target:self selector:@selector(pauseGame)];
     pauseGameButton.anchorPoint = ccp(1, 0.5);
     pauseGameButton.position = ccp(topBarWidth * 0.98f, topBarHeight * 0.50f);
     
@@ -209,8 +211,8 @@
     
     if (ninjaLevel >= 2) {
         // add aura behind ninja
-        self.level2AuraEmitter = [CCParticleSystemQuad particleWithFile:@"aura1_game.plist"];
-        self.level2AuraEmitter.position = ccp(self.ninja.position.x + self.ninja.boundingBox.size.width/8, self.ninja.position.y + self.ninja.boundingBox.size.height/2);
+        self.level2AuraEmitter = [CCParticleSystemQuad particleWithFile:@"aura3.plist"];
+        self.level2AuraEmitter.position = ccp(self.ninja.position.x * 0.95f, self.ninja.position.y + self.ninja.boundingBox.size.height/2);
         [self addChild:self.level2AuraEmitter z:2];
     }
     if (ninjaLevel >= 3) {
@@ -221,12 +223,14 @@
     if (ninjaLevel == 4) {
         // add small cat
         self.smallCat = [CCSprite spriteWithSpriteFrameName:@"game_upgrades_cat_small.png"];
+        self.smallCat.anchorPoint = ccp(0.5, 0);
         self.smallCat.position = ccp(self.ninja.position.x * 0.33f, self.ninja.position.y * 2.20f);
         [self addChild:self.smallCat z:3];
     }
     if (ninjaLevel >= 5) {
         // add big cat
         CCSprite *bigCat = [CCSprite spriteWithSpriteFrameName:@"game_upgrades_cat_big.png"];
+        bigCat.anchorPoint = ccp(0.5, 0);
         bigCat.position = ccp(self.ninja.position.x * 0.297f, self.ninja.position.y * 2.40f);
         [self addChild:bigCat z:3];
     }
@@ -367,13 +371,13 @@
     [self.levelUpMessageBg removeAllChildrenWithCleanup:YES];
     
     // add tweet copy
-    CCLabelBMFont *tweetCopy = [CCLabelBMFont labelWithString:@"BE THE FIRST TO TWEET US AND RECEIVE A GIFT!" fntFile:@"grobold_21px_nostroke.fnt" width:self.levelUpMessageBg.boundingBox.size.width*0.70f alignment:kCCTextAlignmentCenter];
-    tweetCopy.position = ccp(self.levelUpMessageBg.boundingBox.size.width/2, self.levelUpMessageBg.boundingBox.size.height * 0.60f);
+    CCLabelBMFont *tweetCopy = [CCLabelBMFont labelWithString:@"BE THE FIRST TO TWEET US AND RECEIVE A GIFT!" fntFile:@"grobold_21px.fnt" width:self.levelUpMessageBg.boundingBox.size.width*0.70f alignment:kCCTextAlignmentCenter];
+    tweetCopy.position = ccp(self.levelUpMessageBg.boundingBox.size.width/2, self.levelUpMessageBg.boundingBox.size.height * 0.70f);
     tweetCopy.color = ccc3(153, 136, 94);
     [self.levelUpMessageBg addChild:tweetCopy];
     
     // add tweet button
-    CCMenuItemLabel *sendTweetButton = [CCMenuItemLabel itemWithLabel:[CCLabelBMFont labelWithString:@"SEND TWEET" fntFile:@"grobold_21px_nostroke.fnt"] block:^(id sender) {
+    CCMenuItemImage *sendTweetButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_transition_button_sendtweet.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"game_transition_button_sendtweet_pressed.png"] block:^(id sender) {
         if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
         {
             SLComposeViewController *tweetSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
@@ -384,14 +388,14 @@
         }
     }];
     
-    CCMenuItemLabel *noThanksButton = [CCMenuItemLabel itemWithLabel:[CCLabelBMFont labelWithString:@"NO THANKS" fntFile:@"grobold_21px_nostroke.fnt"] block:^(id sender) {
+    CCMenuItemImage *noThanksButton = [CCMenuItemImage itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"game_transition_button_nothanks.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"game_transition_button_nothanks_pressed.png"] block:^(id sender) {
         [self dismissLevelUpScreen];
         [self resetSequenceAfterLevelUp];
     }];
     
     CCMenu *tweetMenu = [CCMenu menuWithItems:sendTweetButton, noThanksButton, nil];
-    tweetMenu.position = ccp(self.levelUpMessageBg.boundingBox.size.width/2, self.levelUpMessageBg.boundingBox.size.height * 0.30f);
-    [tweetMenu alignItemsVerticallyWithPadding:self.levelUpMessageBg.boundingBox.size.height * 0.08f];
+    tweetMenu.position = ccp(self.levelUpMessageBg.boundingBox.size.width/2, self.levelUpMessageBg.boundingBox.size.height * 0.35f);
+    [tweetMenu alignItemsVerticallyWithPadding:self.levelUpMessageBg.boundingBox.size.height * 0.05f];
     [self.levelUpMessageBg addChild:tweetMenu];
 }
 
@@ -451,7 +455,7 @@
 
 -(void)addWatchSenseiMessage {
     // add WATCH SENSEI message
-    CCLabelBMFont *waitLabel = [CCLabelBMFont labelWithString:@"WATCH SENSEI" fntFile:@"grobold_25px_nostroke.fnt"];
+    CCLabelBMFont *waitLabel = [CCLabelBMFont labelWithString:@"WATCH SENSEI" fntFile:@"grobold_25px.fnt"];
     waitLabel.color = ccc3(229, 214, 172);
     waitLabel.position = ccp(self.waitDimLayer.boundingBox.size.width/2, self.waitDimLayer.boundingBox.size.height * 0.60f);
     [self.waitDimLayer addChild:waitLabel];
@@ -571,7 +575,7 @@
             [self.waitDimLayer removeAllChildrenWithCleanup:YES];
             
             // show GO! message
-            CCLabelBMFont *goLabel = [CCLabelBMFont labelWithString:@"GO!" fntFile:@"grobold_50px_GO.fnt"];
+            CCLabelBMFont *goLabel = [CCLabelBMFont labelWithString:@"GO!" fntFile:@"grobold_50px.fnt"];
             goLabel.color = ccc3(229, 214, 172);
             goLabel.position = ccp(self.waitDimLayer.boundingBox.size.width/2, self.waitDimLayer.boundingBox.size.height * 0.60f);
             [self.waitDimLayer addChild:goLabel];
@@ -587,7 +591,7 @@
             self.enableGestures = YES;
             // reset idle timer
             self.secondsIdle = 0;
-//            [self scheduleUpdate];
+            [self scheduleUpdate];
         }], nil]];
     }
 }
@@ -942,12 +946,12 @@
     CGSize levelUpMessageBgSize = self.levelUpMessageBg.boundingBox.size;
     
     // add level up message header
-    CCLabelBMFont *levelUpMessageHeader = [CCLabelBMFont labelWithString:@"HEY LOOK!" fntFile:@"grobold_30px_nostroke.fnt"];
+    CCLabelBMFont *levelUpMessageHeader = [CCLabelBMFont labelWithString:@"HEY LOOK!" fntFile:@"grobold_30px.fnt"];
     levelUpMessageHeader.color = ccc3(153, 136, 94);
     levelUpMessageHeader.position = ccp(levelUpMessageBgSize.width/2, levelUpMessageBgSize.height * 0.70f);
     [self.levelUpMessageBg addChild:levelUpMessageHeader];
     
-    CCLabelBMFont *levelUpMessageBody = [CCLabelBMFont labelWithString:@"SOMETHING SEEMS TO BE HAPPENING!" fntFile:@"grobold_21px_nostroke.fnt" width:levelUpMessageBgSize.width * 0.60 alignment:kCCTextAlignmentCenter];
+    CCLabelBMFont *levelUpMessageBody = [CCLabelBMFont labelWithString:@"SOMETHING SEEMS TO BE HAPPENING!" fntFile:@"grobold_21px.fnt" width:levelUpMessageBgSize.width * 0.60 alignment:kCCTextAlignmentCenter];
     levelUpMessageBody.color = ccc3(153, 136, 94);
     levelUpMessageBody.position = ccp(levelUpMessageBgSize.width/2, levelUpMessageBgSize.height * 0.40f);
     [self.levelUpMessageBg addChild:levelUpMessageBody];
@@ -982,11 +986,10 @@
         case 2:
         {
             // add aura
-            self.level2AuraEmitter = [CCParticleSystemQuad particleWithFile:@"aura1_game.plist"];
-            self.level2AuraEmitter.position = ccp(self.ninja.position.x + self.ninja.boundingBox.size.width/8, self.ninja.position.y + self.ninja.boundingBox.size.height/2);
+            self.level2AuraEmitter = [CCParticleSystemQuad particleWithFile:@"aura3.plist"];
+            self.level2AuraEmitter.position = ccp(self.ninja.position.x * 0.95, self.ninja.position.y + self.ninja.boundingBox.size.height/2);
             self.level2AuraEmitter.visible = NO;
             [self addChild:self.level2AuraEmitter z:3];
-            
             [self.level2AuraEmitter runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.5f], [CCBlink actionWithDuration:1 blinks:5], [CCDelayTime actionWithDuration:1.5f], [CCCallFunc actionWithTarget:self selector:@selector(showNinjaLevelUpScreen2)], nil]];
             break;
         }
@@ -1060,7 +1063,7 @@
     
     // add new message
     CGSize levelUpMessageBgSize = self.levelUpMessageBg.boundingBox.size;
-    CCLabelBMFont *giftMessageBody = [CCLabelBMFont labelWithString:@"YOU'RE DOING SO WELL. HERE'S A LITTLE GIFT!" fntFile:@"grobold_21px_nostroke.fnt" width:levelUpMessageBgSize.width * 0.65f alignment:kCCTextAlignmentCenter];
+    CCLabelBMFont *giftMessageBody = [CCLabelBMFont labelWithString:@"YOU'RE DOING SO WELL. HERE'S A LITTLE GIFT!" fntFile:@"grobold_21px.fnt" width:levelUpMessageBgSize.width * 0.65f alignment:kCCTextAlignmentCenter];
     giftMessageBody.color = ccc3(153, 136, 94);
     giftMessageBody.position = ccp(levelUpMessageBgSize.width/2, levelUpMessageBgSize.height * 0.75f);
     [self.levelUpMessageBg addChild:giftMessageBody];
@@ -1098,6 +1101,7 @@
     
     // add small cat to gameplay
     self.smallCat = [CCSprite spriteWithSpriteFrameName:@"game_upgrades_cat_small.png"];
+    self.smallCat.anchorPoint = ccp(0.5, 0);
     self.smallCat.position = ccp(self.ninja.position.x * 0.33f, self.ninja.position.y * 2.20f);
     [self addChild:self.smallCat z:4];
 }
@@ -1109,13 +1113,13 @@
     CGSize levelUpMessageBgSize = self.levelUpMessageBg.boundingBox.size;
     
     // add new level up messages
-    CCLabelBMFont *levelUpMessageBody = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"YOU ARE NOW SUPER NINJA LEVEL %i!", [GameManager sharedGameManager].ninjaLevel] fntFile:@"grobold_30px_nostroke.fnt" width:levelUpMessageBgSize.width * 0.70f alignment:kCCTextAlignmentCenter];
+    CCLabelBMFont *levelUpMessageBody = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"YOU ARE NOW SUPER NINJA LEVEL %i!", [GameManager sharedGameManager].ninjaLevel] fntFile:@"grobold_30px.fnt" width:levelUpMessageBgSize.width * 0.70f alignment:kCCTextAlignmentCenter];
     levelUpMessageBody.color = ccc3(153, 136, 94);
     levelUpMessageBody.position = ccp(levelUpMessageBgSize.width/2, levelUpMessageBgSize.height/2);
     [self.levelUpMessageBg addChild:levelUpMessageBody];
     
     // add confetti
-    self.confettiEmitter = [CCParticleSystemQuad particleWithFile:@"confetti.plist"];
+    self.confettiEmitter = [CCParticleSystemQuad particleWithFile:@"confetti2.plist"];
     self.confettiEmitter.position = ccp(screenSize.width/2, screenSize.height/2);
     [self.levelUpBg addChild:self.confettiEmitter z:3];
     
@@ -1132,13 +1136,13 @@
     CGSize levelUpMessageBgSize = self.levelUpMessageBg.boundingBox.size;
     
     // add new level up messages
-    CCLabelBMFont *levelUpMessageBody = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"YOU ARE NOW SUPER NINJA LEVEL %i!", [GameManager sharedGameManager].ninjaLevel] fntFile:@"grobold_30px_nostroke.fnt" width:levelUpMessageBgSize.width * 0.70f alignment:kCCTextAlignmentCenter];
+    CCLabelBMFont *levelUpMessageBody = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"YOU ARE NOW SUPER NINJA LEVEL %i!", [GameManager sharedGameManager].ninjaLevel] fntFile:@"grobold_30px.fnt" width:levelUpMessageBgSize.width * 0.70f alignment:kCCTextAlignmentCenter];
     levelUpMessageBody.color = ccc3(153, 136, 94);
     levelUpMessageBody.position = ccp(levelUpMessageBgSize.width/2, levelUpMessageBgSize.height/2);
     [self.levelUpMessageBg addChild:levelUpMessageBody];
     
     // add confetti
-    self.confettiEmitter = [CCParticleSystemQuad particleWithFile:@"confetti.plist"];
+    self.confettiEmitter = [CCParticleSystemQuad particleWithFile:@"confetti2.plist"];
     self.confettiEmitter.position = ccp(screenSize.width/2, screenSize.height/2);
     [self.levelUpBg addChild:self.confettiEmitter z:3];
     
@@ -1147,7 +1151,20 @@
     [self showTapToContinue];
 }
 
+-(void)hideAllChildren {
+    for (CCNode *child in [self children]) {
+        child.visible = NO;
+    }
+}
+
+-(void)showAllChildren {
+    for (CCNode *child in [self children]) {
+        child.visible = YES;
+    }
+}
+
 -(void)setUpLevelUpScreen {
+    [self hideAllChildren];
     // add background color layer first
     CGSize screenSize = [CCDirector sharedDirector].winSize;
     self.levelUpBg = [CCLayerColor layerWithColor:ccc4(30, 30, 30, 255) width:screenSize.width height:screenSize.height];
@@ -1183,6 +1200,8 @@
 }
 
 -(void)dismissLevelUpScreen {
+    [self showAllChildren];
+    
     [self.levelUpBg removeAllChildrenWithCleanup:YES];
     [self.levelUpBg removeFromParentAndCleanup:YES];
 }
@@ -1251,7 +1270,7 @@
         [niceLabel runAction:niceLabelAction];
     } else {
         self.roundNumber++;
-        CCLabelBMFont *newRoundLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"ROUND %i", self.roundNumber] fntFile:@"grobold_30px_nostroke.fnt"];
+        CCLabelBMFont *newRoundLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"ROUND %i", self.roundNumber] fntFile:@"grobold_30px.fnt"];
         newRoundLabel.color = ccc3(153, 136, 94);
         newRoundLabel.position = ccp(self.gameRoundBg.boundingBox.size.width/2, self.gameRoundBg.boundingBox.size.height * 0.60f);
         [self.gameRoundBg addChild:newRoundLabel];
@@ -1315,7 +1334,7 @@
     // remove nice message
     [self.gameRoundBg removeAllChildrenWithCleanup:YES];
     
-    CCLabelBMFont *newRoundLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"ROUND %i", self.roundNumber] fntFile:@"grobold_30px_nostroke.fnt"];
+    CCLabelBMFont *newRoundLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"ROUND %i", self.roundNumber] fntFile:@"grobold_30px.fnt"];
     newRoundLabel.color = ccc3(153, 136, 94);
     newRoundLabel.position = ccp(self.gameRoundBg.boundingBox.size.width/2, self.gameRoundBg.boundingBox.size.height * 0.60f);
     [self.gameRoundBg addChild:newRoundLabel];

@@ -76,13 +76,13 @@
             [levelMenuItem addChild:levelAvatar z:10];
         } else {
             // show question mark in place of avatar
-            CCLabelBMFont *missingLevelAvatar = [CCLabelBMFont labelWithString:@"???" fntFile:@"grobold_25px_nostroke.fnt"];
+            CCLabelBMFont *missingLevelAvatar = [CCLabelBMFont labelWithString:@"???" fntFile:@"grobold_25px.fnt"];
             missingLevelAvatar.color = ccc3(25, 25, 25);
             missingLevelAvatar.position = ccp(self.levelMenuItemSize.width * 0.40f, self.levelMenuItemSize.height * 0.44f);
             [levelMenuItem addChild:missingLevelAvatar z:10];
         }
         
-        CCLabelBMFont *levelLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i", i] fntFile:@"grobold_30px_nostroke.fnt"];
+        CCLabelBMFont *levelLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i", i] fntFile:@"grobold_30px.fnt"];
         levelLabel.color = levelLabelColor;
         levelLabel.position = ccp(self.levelMenuItemSize.width * 0.85f, self.levelMenuItemSize.height * 0.45f);
         [levelMenuItem addChild:levelLabel z:10];
@@ -112,14 +112,14 @@
     CGSize selectLevelButtonSize = selectLevelButton.boundingBox.size;
     
     // add level copy to level select button
-    CCLabelBMFont *levelCopyLabel = [CCLabelBMFont labelWithString:@"LEVEL" fntFile:@"grobold_21px_nostroke.fnt"];
+    CCLabelBMFont *levelCopyLabel = [CCLabelBMFont labelWithString:@"LEVEL" fntFile:@"grobold_21px.fnt"];
     levelCopyLabel.color = ccc3(165, 149, 109);
     levelCopyLabel.anchorPoint = ccp(0, 0.5);
     levelCopyLabel.position = ccp(selectLevelButtonSize.width * 0.09f, selectLevelButtonSize.height * 0.45f);
     [selectLevelButton addChild:levelCopyLabel];
     
     // add level to level select button
-    self.levelLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].ninjaLevel] fntFile:@"grobold_25px_nostroke.fnt"];
+    self.levelLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%i", [GameManager sharedGameManager].ninjaLevel] fntFile:@"grobold_25px.fnt"];
     self.levelLabel.color = ccc3(229, 214, 172);
     self.levelLabel.anchorPoint = ccp(0, 0.5);
     self.levelLabel.position = ccp(levelCopyLabel.boundingBox.size.width + levelCopyLabel.position.x + selectLevelButtonSize.width * 0.09f, levelCopyLabel.position.y);
@@ -178,7 +178,7 @@
         messageBg.position = ccp(self.dimLayer.boundingBox.size.width/2, screenSize.height/2);
         [self.dimLayer addChild:messageBg];
         
-        CCLabelBMFont *message = [CCLabelBMFont labelWithString:@"REACH ROUND XX IN LEVEL Y TO UNLOCK!" fntFile:@"grobold_25px_nostroke.fnt" width:messageBg.boundingBox.size.width * 0.70f alignment:kCCTextAlignmentCenter];
+        CCLabelBMFont *message = [CCLabelBMFont labelWithString:@"REACH ROUND XX IN LEVEL Y TO UNLOCK!" fntFile:@"grobold_25px.fnt" width:messageBg.boundingBox.size.width * 0.70f alignment:kCCTextAlignmentCenter];
         switch (level) {
             case 2:
                 message.string = [NSString stringWithFormat:@"REACH ROUND %i IN LEVEL 1 TO UNLOCK!", kGameLevel2Round];
